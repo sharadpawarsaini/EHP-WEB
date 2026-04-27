@@ -198,7 +198,7 @@ const VitalsTab = () => {
             <form onSubmit={addVital} className="space-y-4">
               <div>
                 <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Vital Type</label>
-                <select value={type} onChange={e => setType(e.target.value)} className="w-full p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900">
+                <select value={type} onChange={e => setType(e.target.value)} className="w-full p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white">
                   <option value="Blood Pressure">Blood Pressure</option>
                   <option value="Blood Glucose">Blood Glucose</option>
                   <option value="Heart Rate">Heart Rate</option>
@@ -212,7 +212,7 @@ const VitalsTab = () => {
                   placeholder={type === 'Blood Pressure' ? '120/80' : 'Value'}
                   value={value} 
                   onChange={e => setValue(e.target.value)} 
-                  className="w-full p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900" 
+                  className="w-full p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white" 
                 />
                 {type === 'Blood Pressure' && <p className="text-[10px] text-gray-500 mt-1 flex items-center gap-1"><Info className="h-3 w-3" /> Enter as Systolic/Diastolic</p>}
               </div>
@@ -223,7 +223,7 @@ const VitalsTab = () => {
                   required 
                   value={date} 
                   onChange={e => setDate(e.target.value)} 
-                  className="w-full p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900" 
+                  className="w-full p-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white" 
                 />
               </div>
               <div className="flex gap-4 pt-4">
