@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { MapPin, Phone, ExternalLink, Navigation, Search, Hospital } from 'lucide-react';
+import { useState } from 'react';
+import { MapPin, Phone, Navigation, Search, Hospital } from 'lucide-react';
 
 const HospitalFinderTab = () => {
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -63,7 +63,8 @@ const HospitalFinderTab = () => {
         setLocation({ lat: latitude, lng: longitude });
         findNearbyHospitals(latitude, longitude);
       },
-      (err) => {
+      (error) => {
+        console.error('Location Error:', error);
         setError('Permission denied. Please enable location access to find hospitals.');
         setLoading(false);
       }

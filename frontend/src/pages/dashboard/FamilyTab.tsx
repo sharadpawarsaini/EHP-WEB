@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { useProfileContext } from '../../context/ProfileContext';
-import { UserPlus, UserCircle, Trash2, SwitchCamera, CheckCircle2 } from 'lucide-react';
+import { UserPlus, UserCircle, Trash2, CheckCircle2 } from 'lucide-react';
 
 const FamilyTab = () => {
   const [members, setMembers] = useState<any[]>([]);

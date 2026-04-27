@@ -86,7 +86,6 @@ const EmergencyPage = () => {
   }
 
   const profile = data.profile || {};
-  const medical = data.medical || {};
 
   const displayData = fullData || data;
   const isFullAccess = !!fullData;
