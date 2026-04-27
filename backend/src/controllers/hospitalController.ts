@@ -10,20 +10,27 @@ export const getNearbyFacilities = async (req: Request, res: Response): Promise<
       return;
     }
 
-    // Map internal types to OpenStreetMap tags
-    let osmFilter = 'node["amenity"="hospital"]';
-    if (type === 'pharmacy') {
-      osmFilter = 'node["amenity"="pharmacy"]';
+    // Define tags to search for based on type
+    let tags: string[] = [];
+    if (type === 'hospital') {
+      tags = ['"amenity"="hospital"'];
+    } else if (type === 'pharmacy') {
+      tags = ['"amenity"="pharmacy"'];
     } else if (type === 'lab') {
-      osmFilter = '(node["healthcare"="laboratory"]; node["amenity"="clinic"]; node["healthcare"="diagnostic_centre"])';
+      tags = ['"healthcare"="laboratory"', '"amenity"="clinic"', '"healthcare"="diagnostic_centre"'];
     }
+
+    // Build the Overpass query union
+    const queryParts = tags.map(tag => `
+      node[${tag}](around:10000, ${lat}, ${lng});
+      way[${tag}](around:10000, ${lat}, ${lng});
+      relation[${tag}](around:10000, ${lat}, ${lng});
+    `).join('');
 
     const query = `
       [out:json][timeout:25];
       (
-        ${osmFilter}(around:10000, ${lat}, ${lng});
-        ${osmFilter.replace(/node/g, 'way')}(around:10000, ${lat}, ${lng});
-        ${osmFilter.replace(/node/g, 'relation')}(around:10000, ${lat}, ${lng});
+        ${queryParts}
       );
       out center;
     `;
@@ -50,7 +57,7 @@ export const getNearbyFacilities = async (req: Request, res: Response): Promise<
       return {
         id: el.id,
         name: el.tags.name || `Unnamed ${type}`,
-        address: el.tags['addr:street'] || el.tags['addr:full'] || el.tags['addr:city'] || 'Address not available',
+        address: el.tags['addr:street'] || el.tags['addr:full'] || el.tags['addr:city'] || el.tags['addr:district'] || 'Address not available',
         phone: el.tags.phone || el.tags['contact:phone'] || 'N/A',
         lat: latVal,
         lng: lngVal,
@@ -61,6 +68,9 @@ export const getNearbyFacilities = async (req: Request, res: Response): Promise<
     res.json(results);
   } catch (error: any) {
     console.error('Overpass API Error:', error.response?.data || error.message);
-    res.status(500).json({ message: 'Failed to fetch facility data' });
+    res.status(500).json({ 
+      message: 'Failed to fetch facility data',
+      error: error.message 
+    });
   }
 };
