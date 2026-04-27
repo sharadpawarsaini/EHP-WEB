@@ -28,7 +28,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: t('nav_hospitals'), path: '/dashboard/hospitals', icon: Hospital },
     { name: t('nav_vitals'), path: '/dashboard/vitals', icon: Activity },
     { name: t('nav_family'), path: '/dashboard/family', icon: Users },
-    { name: 'Feedback', path: 'https://forms.gle/your-form-link', icon: MessageSquareHeart, isExternal: true },
+    { name: 'Feedback', path: '/dashboard/feedback', icon: MessageSquareHeart },
   ];
 
   const { managedMemberName } = useProfileContext();
@@ -58,13 +58,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             return (
               <Link 
                 key={item.name} 
-                to={item.isExternal ? '#' : item.path} 
-                onClick={(e) => {
-                  if (item.isExternal) {
-                    e.preventDefault();
-                    window.open('mailto:sharadpawarsaini@gmail.com?subject=EHP Feedback&body=Hello Sharad, I have some feedback for the EHP app...', '_blank');
-                  }
-                }}
+                to={item.path} 
                 className={`flex items-center px-4 py-3 rounded-xl transition-all ${
                   isActive 
                     ? 'bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 font-semibold border border-blue-100 dark:border-blue-800/50' 
