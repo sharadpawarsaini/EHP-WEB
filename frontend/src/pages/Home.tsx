@@ -13,82 +13,85 @@ const Home = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 blur-[100px] rounded-full mix-blend-multiply"></div>
       </div>
 
-      <nav className="relative z-10 flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
+      <nav className="relative z-10 flex justify-between items-center px-4 sm:px-8 py-4 sm:py-6 max-w-7xl mx-auto">
         <div className="flex items-center space-x-2">
           <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-2 rounded-xl shadow-lg shadow-blue-500/30">
-            <Activity className="h-6 w-6 text-white" />
+            <Activity className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
           </div>
-          <span className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">EHP</span>
+          <span className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">EHP</span>
         </div>
         <div className="hidden md:flex items-center space-x-8">
           <Link to="/about" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">About</Link>
           <Link to="/faq" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">FAQ</Link>
           <Link to="/contact" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">Contact</Link>
         </div>
-        <div className="space-x-4 flex items-center">
-          <div className="flex bg-gray-100 dark:bg-slate-800 p-1 rounded-full border border-gray-200 dark:border-slate-700">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="hidden sm:flex bg-gray-100 dark:bg-slate-800 p-1 rounded-full border border-gray-200 dark:border-slate-700">
             {['en', 'hi', 'es'].map((lang) => (
-              <button 
+              <button
                 key={lang}
                 onClick={() => i18n.changeLanguage(lang)}
-                className={`px-3 py-1 rounded-full text-[10px] font-bold transition-all uppercase ${i18n.language.startsWith(lang) ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+                className={`px-2 py-1 rounded-full text-[9px] font-bold transition-all uppercase ${i18n.language.startsWith(lang) ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
               >
                 {lang}
               </button>
             ))}
           </div>
           <ThemeToggle />
-          <Link to="/login" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium transition-colors">{t('nav_login', 'Log in')}</Link>
-          <Link to="/register" className="bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-gray-900 px-6 py-2.5 rounded-full font-medium transition-colors shadow-lg">
+          <Link to="/login" className="hidden sm:block text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-sm font-medium transition-colors">{t('nav_login', 'Log in')}</Link>
+          <Link to="/register" className="bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-gray-900 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-sm font-medium transition-colors shadow-lg">
             {t('nav_get_started', 'Get Started')}
           </Link>
         </div>
       </nav>
 
-      <main className="relative z-10 max-w-7xl mx-auto px-8 pt-24 pb-20">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-24 pb-20">
         <div className="text-center max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center space-x-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-md border border-gray-200/50 dark:border-slate-700/50 px-4 py-2 rounded-full mb-8 shadow-sm"
+            className="inline-flex items-center space-x-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-md border border-gray-200/50 dark:border-slate-700/50 px-4 py-2 rounded-full mb-6 shadow-sm"
           >
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">EHP 2.0 is now live</span>
+            <span className="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">EHP 2.0 is now live</span>
           </motion.div>
 
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6 leading-tight"
+            className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-5 leading-tight"
           >
             {t('home_hero_line1', 'Your life-saving data,')} <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400">{t('home_hero_line2', 'instantly accessible.')}</span>
           </motion.h1>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed"
+            className="text-base sm:text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed px-2"
           >
             {t('home_hero_desc', 'The Emergency Health Passport gives first responders instant access to your critical medical history via a secure, beautifully designed QR code system.')}
           </motion.p>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="flex justify-center gap-4"
+            className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4"
           >
-            <Link to="/register" className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/40 hover:-translate-y-1">
+            <Link to="/register" className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-full font-semibold text-base sm:text-lg transition-all shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/40 hover:-translate-y-1">
               {t('home_cta_create', 'Create Free Profile')}
+            </Link>
+            <Link to="/login" className="sm:hidden bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-gray-200 px-8 py-4 rounded-full font-semibold text-base transition-all shadow-md hover:-translate-y-1">
+              Log In
             </Link>
           </motion.div>
         </div>
 
-        <div className="mt-32 grid md:grid-cols-3 gap-8">
+        <div className="mt-20 sm:mt-32 grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
           <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-8 rounded-[2rem] shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700 hover:-translate-y-2 transition-all duration-300">
             <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-inner">
               <QrCode className="h-8 w-8 text-blue-600 dark:text-blue-400" />
@@ -193,11 +196,11 @@ const Home = () => {
 
         {/* Meet the Founder Section */}
         <div className="mt-32 pt-20 border-t border-gray-200/50 dark:border-slate-800">
-          <div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-3xl rounded-[4rem] p-8 md:p-16 border border-white/50 dark:border-slate-700/50 shadow-2xl relative overflow-hidden">
+          <div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-3xl rounded-[2rem] sm:rounded-[4rem] p-6 sm:p-10 md:p-16 border border-white/50 dark:border-slate-700/50 shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 blur-[120px] rounded-full"></div>
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/10 blur-[120px] rounded-full"></div>
             
-            <div className="grid lg:grid-cols-5 gap-12 items-center relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 sm:gap-12 items-center relative z-10">
               <div className="lg:col-span-2">
                 <div className="relative group">
                   <div className="absolute -inset-4 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-[3rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
@@ -222,7 +225,7 @@ const Home = () => {
                 <div className="inline-block px-4 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-xs font-black uppercase tracking-widest">
                   Meet the Visionary
                 </div>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white leading-tight">
+                <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white leading-tight">
                   Driving Innovation in <br/>
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">Emergency Healthcare.</span>
                 </h2>
@@ -260,8 +263,8 @@ const Home = () => {
           <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-blue-600 to-indigo-600 blur-[100px] opacity-40"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-rose-500 to-purple-600 blur-[100px] opacity-40"></div>
           
-          <div className="relative z-10 px-8 py-20 md:py-28 text-center max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">
+          <div className="relative z-10 px-6 sm:px-8 py-14 sm:py-20 md:py-28 text-center max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-5">
               Ready to protect yourself?
             </h2>
             <p className="text-xl text-gray-300 mb-10 leading-relaxed">
@@ -277,9 +280,9 @@ const Home = () => {
 
       {/* Footer */}
       <footer className="border-t border-gray-200/50 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-lg">
-        <div className="max-w-7xl mx-auto px-8 py-12">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div className="col-span-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10 sm:py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-8">
+            <div className="col-span-2 md:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
                 <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-1.5 rounded-lg">
                   <Activity className="h-5 w-5 text-white" />
