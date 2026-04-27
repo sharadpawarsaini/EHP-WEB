@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
-import { Upload, FileText, Trash2, Download, Plus, X } from 'lucide-react';
+import { Upload, FileText, Trash2, Download, Plus, X, BrainCircuit, Loader2, Info } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ReportsTab = () => {
   const [reports, setReports] = useState<any[]>([]);
@@ -9,6 +10,11 @@ const ReportsTab = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [title, setTitle] = useState('');
   const [file, setFile] = useState<File | null>(null);
+  
+  // AI Analysis States
+  const [analyzingId, setAnalyzingId] = useState<string | null>(null);
+  const [analysisResult, setAnalysisResult] = useState<{ id: string, text: string } | null>(null);
+  const [showAnalysisModal, setShowAnalysisModal] = useState(false);
 
   useEffect(() => {
     fetchReports();
@@ -61,7 +67,20 @@ const ReportsTab = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  const analyzeReport = async (id: string) => {
+    setAnalyzingId(id);
+    try {
+      const { data } = await api.post(`/reports/${id}/analyze`);
+      setAnalysisResult({ id, text: data.analysis });
+      setShowAnalysisModal(true);
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Failed to analyze report. Please make sure GEMINI_API_KEY is configured in backend.');
+    } finally {
+      setAnalyzingId(null);
+    }
+  };
+
+  if (loading) return <div className="text-gray-500">Loading reports...</div>;
 
   return (
     <div className="space-y-8">
@@ -98,12 +117,22 @@ const ReportsTab = () => {
                 <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-2xl">
                   <FileText className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                 </div>
-                <button
-                  onClick={() => handleDelete(report._id)}
-                  className="p-2 text-gray-400 hover:text-red-500 transition-colors"
-                >
-                  <Trash2 className="h-5 w-5" />
-                </button>
+                <div className="flex gap-1">
+                  <button
+                    onClick={() => analyzeReport(report._id)}
+                    disabled={analyzingId === report._id}
+                    className={`p-2 rounded-lg transition-colors ${analyzingId === report._id ? 'text-blue-600 animate-pulse' : 'text-gray-400 hover:text-blue-600 hover:bg-blue-50'}`}
+                    title="Explain with AI"
+                  >
+                    {analyzingId === report._id ? <Loader2 className="h-5 w-5 animate-spin" /> : <BrainCircuit className="h-5 w-5" />}
+                  </button>
+                  <button
+                    onClick={() => handleDelete(report._id)}
+                    className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                  >
+                    <Trash2 className="h-5 w-5" />
+                  </button>
+                </div>
               </div>
               <h4 className="font-bold text-gray-900 dark:text-white mb-1 truncate">{report.title}</h4>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
@@ -113,14 +142,76 @@ const ReportsTab = () => {
                 href={`${import.meta.env.VITE_API_URL.replace('/api', '')}${report.fileUrl}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gray-50 dark:bg-slate-700/50 hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200 font-semibold transition-colors"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gray-50 dark:bg-slate-700/50 hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200 font-semibold transition-colors mb-2"
               >
-                <Download className="h-4 w-4" /> View / Download
+                <Download className="h-4 w-4" /> View
               </a>
+              <button
+                onClick={() => analyzeReport(report._id)}
+                disabled={analyzingId === report._id}
+                className="w-full flex items-center justify-center gap-2 py-2 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold text-xs transition-all hover:bg-blue-100"
+              >
+                {analyzingId === report._id ? 'AI Analyzing...' : 'Explain with AI'}
+              </button>
             </div>
           ))}
         </div>
       )}
+
+      {/* AI Analysis Modal */}
+      <AnimatePresence>
+        {showAnalysisModal && analysisResult && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }} 
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
+              onClick={() => setShowAnalysisModal(false)} 
+            />
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: 20 }} 
+              className="bg-white dark:bg-slate-800 rounded-[2rem] p-8 max-w-lg w-full relative z-10 shadow-2xl border border-white dark:border-slate-700"
+            >
+              <div className="flex justify-between items-center mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-600 rounded-xl">
+                    <BrainCircuit className="h-6 w-6 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">AI Health Insight</h3>
+                </div>
+                <button onClick={() => setShowAnalysisModal(false)} className="text-gray-400 hover:text-gray-600">
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6 border border-blue-100 dark:border-blue-800/30 mb-6">
+                <div className="prose dark:prose-invert max-w-none">
+                  <p className="text-gray-800 dark:text-blue-100 leading-relaxed whitespace-pre-wrap">
+                    {analysisResult.text}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 bg-amber-50 dark:bg-amber-900/10 p-4 rounded-xl border border-amber-100 dark:border-amber-900/30">
+                <Info className="h-5 w-5 text-amber-600 dark:text-amber-500 flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-amber-800 dark:text-amber-400 leading-relaxed">
+                  <strong>Medical Disclaimer:</strong> This analysis is generated by AI for informational purposes only. It is not a clinical diagnosis. Always consult with a qualified medical professional before making any health decisions.
+                </p>
+              </div>
+
+              <button
+                onClick={() => setShowAnalysisModal(false)}
+                className="w-full mt-8 bg-gray-900 dark:bg-slate-700 text-white font-bold py-4 rounded-xl hover:bg-black transition-all"
+              >
+                Close Analysis
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Upload Modal */}
       {showUploadModal && (

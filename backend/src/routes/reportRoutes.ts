@@ -3,7 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { protect } from '../middleware/authMiddleware';
-import { uploadReport, getReports, deleteReport } from '../controllers/reportController';
+import { uploadReport, getReports, deleteReport, analyzeReport } from '../controllers/reportController';
 
 const router = express.Router();
 
@@ -41,5 +41,6 @@ const upload = multer({
 router.post('/', protect, upload.single('report'), uploadReport);
 router.get('/', protect, getReports);
 router.delete('/:id', protect, deleteReport);
+router.post('/:id/analyze', protect, analyzeReport);
 
 export default router;

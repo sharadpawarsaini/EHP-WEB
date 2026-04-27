@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
-import { Copy, Download, Link as LinkIcon, Printer, Lock, Unlock, ShieldAlert, CreditCard } from 'lucide-react';
+import { Copy, Download, Link as LinkIcon, Printer, Lock, Unlock, CreditCard } from 'lucide-react';
 import jsPDF from 'jspdf';
 
 const EmergencyTab = () => {

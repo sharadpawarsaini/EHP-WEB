@@ -26,6 +26,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: t('nav_emergency'), path: '/dashboard/emergency', icon: QrCode },
     { name: t('nav_logs'), path: '/dashboard/logs', icon: History },
     { name: t('nav_hospitals'), path: '/dashboard/hospitals', icon: Hospital },
+    { name: t('nav_vitals'), path: '/dashboard/vitals', icon: Activity },
     { name: t('nav_family'), path: '/dashboard/family', icon: Users },
   ];
 

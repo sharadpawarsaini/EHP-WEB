@@ -13,6 +13,7 @@ const resources = {
       "nav_emergency": "Emergency Link",
       "nav_logs": "Access Logs",
       "nav_hospitals": "Hospital Finder",
+      "nav_vitals": "Health Trends",
       "nav_family": "Family",
       "nav_logout": "Log out",
       
@@ -45,6 +46,7 @@ const resources = {
       "nav_emergency": "आपातकालीन लिंक",
       "nav_logs": "एक्सेस लॉग",
       "nav_hospitals": "अस्पताल खोजें",
+      "nav_vitals": "स्वास्थ्य रुझान",
       "nav_family": "परिवार",
       "nav_logout": "लॉग आउट",
 
@@ -77,6 +79,7 @@ const resources = {
       "nav_emergency": "Enlace de Emergencia",
       "nav_logs": "Registros de Acceso",
       "nav_hospitals": "Buscador de Hospitales",
+      "nav_vitals": "Tendencias de Salud",
       "nav_family": "Familia",
       "nav_logout": "Cerrar sesión",
 
