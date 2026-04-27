@@ -30,7 +30,9 @@ export const generateEmergencyLink = async (req: AuthRequest, res: Response): Pr
       });
     }
 
-    const qrDataUrl = await QRCode.toDataURL(`${process.env.FRONTEND_URL}/e/${link.publicSlug}`);
+    const frontendUrl = process.env.FRONTEND_URL || 'https://ehp-tan-eight.vercel.app';
+    const qrDataUrl = await QRCode.toDataURL(`${frontendUrl}/e/${link.publicSlug}`);
+
 
     res.status(201).json({
       link,
@@ -45,7 +47,9 @@ export const getEmergencyLink = async (req: AuthRequest, res: Response): Promise
   try {
     const link = await EmergencyLink.findOne({ userId: req.user.userId });
     if (link) {
-      const qrDataUrl = await QRCode.toDataURL(`${process.env.FRONTEND_URL}/e/${link.publicSlug}`);
+      const frontendUrl = process.env.FRONTEND_URL || 'https://ehp-tan-eight.vercel.app';
+      const qrDataUrl = await QRCode.toDataURL(`${frontendUrl}/e/${link.publicSlug}`);
+
       res.json({ link, qrDataUrl });
     } else {
       res.json(null);
