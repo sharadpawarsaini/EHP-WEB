@@ -3,7 +3,6 @@ import { Shield, Activity, Clock, QrCode, Heart, CheckCircle, ArrowRight, Smartp
 import { motion } from 'framer-motion';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { useTranslation } from 'react-i18next';
-import { Globe } from 'lucide-react';
 
 const Home = () => {
   const { t, i18n } = useTranslation();
