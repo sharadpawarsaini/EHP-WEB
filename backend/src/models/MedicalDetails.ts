@@ -1,0 +1,33 @@
+import mongoose from 'mongoose';
+
+const medicalDetailsSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    unique: true
+  },
+  allergies: [{ type: String }],
+  conditions: [{ type: String }],
+  medications: [{ type: String }],
+  surgeries: [{ type: String }],
+  vaccinations: [{ type: String }],
+  familyHistory: [{ type: String }],
+  lifestyle: {
+    smoking: { type: Boolean, default: false },
+    alcohol: { type: Boolean, default: false },
+    exercise: { type: String, default: 'None' }
+  },
+  insurance: {
+    provider: { type: String, default: '' },
+    policyNumber: { type: String, default: '' }
+  },
+  doctorHistory: [{
+    name: { type: String },
+    specialty: { type: String },
+    lastVisit: { type: Date }
+  }],
+  notes: { type: String, default: '' }
+}, { timestamps: true });
+
+export const MedicalDetails = mongoose.model('MedicalDetails', medicalDetailsSchema);
