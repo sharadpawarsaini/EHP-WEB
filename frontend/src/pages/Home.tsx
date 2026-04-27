@@ -20,6 +20,11 @@ const Home = () => {
           </div>
           <span className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">EHP</span>
         </div>
+        <div className="hidden md:flex items-center space-x-8">
+          <Link to="/about" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">About</Link>
+          <Link to="/faq" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">FAQ</Link>
+          <Link to="/contact" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">Contact</Link>
+        </div>
         <div className="space-x-4 flex items-center">
           <div className="flex bg-gray-100 dark:bg-slate-800 p-1 rounded-full border border-gray-200 dark:border-slate-700">
             {['en', 'hi', 'es'].map((lang) => (

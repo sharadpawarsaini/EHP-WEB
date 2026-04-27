@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogOut, User, Activity, ShieldAlert, FileText, QrCode, Home as HomeIcon, ClipboardList, History, Hospital, Users } from 'lucide-react';
+import { LogOut, User, Activity, ShieldAlert, FileText, QrCode, Home as HomeIcon, ClipboardList, History, Hospital, Users, MessageSquareHeart } from 'lucide-react';
 import { useProfileContext } from '../context/ProfileContext';
 import { useAuth } from '../context/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
@@ -28,6 +28,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: t('nav_hospitals'), path: '/dashboard/hospitals', icon: Hospital },
     { name: t('nav_vitals'), path: '/dashboard/vitals', icon: Activity },
     { name: t('nav_family'), path: '/dashboard/family', icon: Users },
+    { name: 'Feedback', path: 'https://forms.gle/your-form-link', icon: MessageSquareHeart, isExternal: true },
   ];
 
   const { managedMemberName } = useProfileContext();
@@ -57,7 +58,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             return (
               <Link 
                 key={item.name} 
-                to={item.path} 
+                to={item.isExternal ? '#' : item.path} 
+                onClick={(e) => {
+                  if (item.isExternal) {
+                    e.preventDefault();
+                    window.open('mailto:sharadpawarsaini@gmail.com?subject=EHP Feedback&body=Hello Sharad, I have some feedback for the EHP app...', '_blank');
+                  }
+                }}
                 className={`flex items-center px-4 py-3 rounded-xl transition-all ${
                   isActive 
                     ? 'bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 font-semibold border border-blue-100 dark:border-blue-800/50' 
