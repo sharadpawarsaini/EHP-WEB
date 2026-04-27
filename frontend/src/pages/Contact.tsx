@@ -1,5 +1,3 @@
-import React from 'react';
-import { motion } from 'framer-motion';
 import { Shield, Mail, MessageSquare, MapPin, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 

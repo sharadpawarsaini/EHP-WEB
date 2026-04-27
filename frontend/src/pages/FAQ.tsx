@@ -1,10 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { Shield, Plus, Minus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const FAQ = () => {
-  const [openIndex, setOpenIndex] = React.useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
     {

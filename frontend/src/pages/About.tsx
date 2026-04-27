@@ -1,6 +1,5 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { Shield, Users, Heart, Award, CheckCircle } from 'lucide-react';
+import { Shield, Users, Heart, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const About = () => {
