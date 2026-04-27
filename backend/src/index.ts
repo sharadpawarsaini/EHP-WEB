@@ -20,7 +20,14 @@ connectDB();
 
 const app = express();
 
-app.use(cors({ origin: process.env.CORS_ORIGIN || 'https://ehp-tan-eight.vercel.app', credentials: true }));
+app.use(cors({ 
+  origin: [
+    'https://ehp-tan-eight.vercel.app',
+    'https://ehp-web.onrender.com',
+    process.env.CORS_ORIGIN
+  ].filter(Boolean) as string[], 
+  credentials: true 
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

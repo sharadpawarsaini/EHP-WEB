@@ -26,7 +26,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (data && data.userId) {
           setUser({ _id: data.userId, email: '' }); 
         }
-      } catch (error) {
+      } catch (error: any) {
+        // Silently handle 401 (not logged in)
+        if (error.response?.status !== 401) {
+          console.error('Auth Check Error:', error);
+        }
         setUser(null);
       } finally {
         setLoading(false);
