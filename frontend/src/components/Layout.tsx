@@ -37,9 +37,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       {/* Sidebar */}
       <aside className="w-64 bg-white dark:bg-slate-800 border-r border-gray-100 dark:border-slate-700 flex flex-col hidden md:flex transition-colors duration-300">
         <div className="p-6">
-          <div className="flex items-center space-x-2">
-            <Activity className="h-8 w-8 text-emergency" />
-            <span className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">EHP</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Activity className="h-8 w-8 text-emergency" />
+              <span className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">EHP</span>
+            </div>
+            <ThemeToggle />
           </div>
           <div className="flex items-center gap-1.5 px-2 py-0.5 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800/50 rounded-full mt-3 w-fit">
             <User className="h-3 w-3 text-blue-600 dark:text-blue-400" />

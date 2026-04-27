@@ -2,8 +2,11 @@ import { Link } from 'react-router-dom';
 import { Shield, Activity, Clock, QrCode, Heart, CheckCircle, ArrowRight, Smartphone, Stethoscope, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { ThemeToggle } from '../components/ThemeToggle';
+import { useTranslation } from 'react-i18next';
+import { Globe } from 'lucide-react';
 
 const Home = () => {
+  const { t, i18n } = useTranslation();
   return (
     <div className="min-h-screen relative font-sans text-gray-900 dark:text-gray-100 overflow-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
       {/* Background Gradients */}
@@ -19,10 +22,21 @@ const Home = () => {
           <span className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">EHP</span>
         </div>
         <div className="space-x-4 flex items-center">
+          <div className="flex bg-gray-100 dark:bg-slate-800 p-1 rounded-full border border-gray-200 dark:border-slate-700">
+            {['en', 'hi', 'es'].map((lang) => (
+              <button 
+                key={lang}
+                onClick={() => i18n.changeLanguage(lang)}
+                className={`px-3 py-1 rounded-full text-[10px] font-bold transition-all uppercase ${i18n.language.startsWith(lang) ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+              >
+                {lang}
+              </button>
+            ))}
+          </div>
           <ThemeToggle />
-          <Link to="/login" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium transition-colors">Log in</Link>
+          <Link to="/login" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium transition-colors">{t('nav_login', 'Log in')}</Link>
           <Link to="/register" className="bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-gray-900 px-6 py-2.5 rounded-full font-medium transition-colors shadow-lg">
-            Get Started
+            {t('nav_get_started', 'Get Started')}
           </Link>
         </div>
       </nav>
@@ -47,8 +61,8 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6 leading-tight"
           >
-            Your life-saving data, <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400">instantly accessible.</span>
+            {t('home_hero_line1', 'Your life-saving data,')} <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400">{t('home_hero_line2', 'instantly accessible.')}</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -56,7 +70,7 @@ const Home = () => {
             transition={{ delay: 0.1 }}
             className="text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed"
           >
-            The Emergency Health Passport gives first responders instant access to your critical medical history via a secure, beautifully designed QR code system.
+            {t('home_hero_desc', 'The Emergency Health Passport gives first responders instant access to your critical medical history via a secure, beautifully designed QR code system.')}
           </motion.p>
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -65,7 +79,7 @@ const Home = () => {
             className="flex justify-center gap-4"
           >
             <Link to="/register" className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/40 hover:-translate-y-1">
-              Create Free Profile
+              {t('home_cta_create', 'Create Free Profile')}
             </Link>
           </motion.div>
         </div>

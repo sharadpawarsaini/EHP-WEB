@@ -10,7 +10,6 @@ export default {
         primary: "#007BFF",
         secondary: "#28A745",
         emergency: "#DC2626",
-        background: "#F8FAFC",
       }
     },
   },

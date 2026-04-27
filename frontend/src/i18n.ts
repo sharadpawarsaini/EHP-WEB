@@ -66,7 +66,11 @@ const resources = {
       "no_medications": "कोई वर्तमान दवा नहीं",
       "call": "कॉल करें",
       "profile_locked": "पहुँच प्रतिबंधित",
-      "locked_msg": "यह प्रोफ़ाइल वर्तमान में गोपनीयता के लिए मालिक द्वारा लॉक की गई है।"
+      "locked_msg": "यह प्रोफ़ाइल वर्तमान में गोपनीयता के लिए मालिक द्वारा लॉक की गई है।",
+      "home_hero_line1": "आपका जीवन-रक्षक डेटा,",
+      "home_hero_line2": "तुरंत उपलब्ध।",
+      "home_hero_desc": "ईएचपी (EHP) आपातकालीन स्वास्थ्य पासपोर्ट प्रथम उत्तरदाताओं को एक सुरक्षित क्यूआर कोड सिस्टम के माध्यम से आपके महत्वपूर्ण चिकित्सा इतिहास तक तुरंत पहुंच प्रदान करता है।",
+      "home_cta_create": "मुफ्त प्रोफाइल बनाएं"
     }
   },
   es: {
@@ -99,7 +103,11 @@ const resources = {
       "no_medications": "Sin medicamentos actuales",
       "call": "Llamar",
       "profile_locked": "Acceso Restringido",
-      "locked_msg": "Este perfil está actualmente bloqueado por el propietario por privacidad."
+      "locked_msg": "Este perfil está actualmente bloqueado por el propietario por privacidad.",
+      "home_hero_line1": "Tus datos vitales,",
+      "home_hero_line2": "accesibles al instante.",
+      "home_hero_desc": "El Pasaporte de Salud de Emergencia EHP brinda a los socorristas acceso instantáneo a su historial médico crítico a través de un sistema de código QR seguro.",
+      "home_cta_create": "Crear Perfil Gratis"
     }
   }
 };

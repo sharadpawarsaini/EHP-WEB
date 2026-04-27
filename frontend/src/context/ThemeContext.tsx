@@ -19,6 +19,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   useEffect(() => {
+    console.log('Switching to theme:', theme);
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {

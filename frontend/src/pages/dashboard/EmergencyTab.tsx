@@ -104,21 +104,13 @@ const EmergencyTab = () => {
     doc.setTextColor(220, 38, 38); // Red-600
     doc.text(profile.bloodGroup || 'UNK', 5, 34);
 
-    // Access Code
-    doc.setFontSize(7);
-    doc.setTextColor(107, 114, 128);
-    doc.text('DOCTOR ACCESS CODE', 5, 42);
-    doc.setFontSize(10);
-    doc.setTextColor(0, 0, 0);
-    doc.text(linkData.link.accessCode, 5, 47);
-
     // QR Code
     // The qrDataUrl is a base64 image
-    doc.addImage(linkData.qrDataUrl, 'PNG', 50, 15, 30, 30);
+    doc.addImage(linkData.qrDataUrl, 'PNG', 45, 15, 30, 30);
     
     doc.setFontSize(6);
     doc.setTextColor(156, 163, 175);
-    doc.text('SCAN TO VIEW PROFILE', 54, 47);
+    doc.text('SCAN TO VIEW PROFILE', 49, 47);
 
     // Footer
     doc.setFillColor(243, 244, 246);
