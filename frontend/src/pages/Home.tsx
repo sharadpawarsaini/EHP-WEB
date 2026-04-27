@@ -151,43 +151,68 @@ const Home = () => {
           </div>
         </div>
 
-        {/* How It Works */}
-        <div className="mt-32 pt-20 border-t border-gray-200/50 dark:border-slate-800 text-center">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-16"
-          >
-            How EHP Works
-          </motion.h2>
-          
-          <div className="grid md:grid-cols-3 gap-12 relative">
-            {/* Connecting line for desktop */}
-            <div className="hidden md:block absolute top-12 left-1/6 right-1/6 h-0.5 bg-gradient-to-r from-blue-200 via-indigo-200 to-purple-200 dark:from-blue-800 dark:via-indigo-800 dark:to-purple-800 z-0"></div>
+          </div>
+        </div>
+
+        {/* Meet the Founder Section */}
+        <div className="mt-32 pt-20 border-t border-gray-200/50 dark:border-slate-800">
+          <div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-3xl rounded-[4rem] p-8 md:p-16 border border-white/50 dark:border-slate-700/50 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 blur-[120px] rounded-full"></div>
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/10 blur-[120px] rounded-full"></div>
             
-            <div className="relative z-10 flex flex-col items-center group">
-              <div className="w-24 h-24 bg-white dark:bg-slate-800 rounded-3xl shadow-xl shadow-blue-500/10 dark:shadow-none border border-blue-50 dark:border-slate-700 flex items-center justify-center mb-6 group-hover:-translate-y-2 transition-transform duration-300">
-                <Smartphone className="h-10 w-10 text-blue-600 dark:text-blue-400" />
+            <div className="grid lg:grid-cols-5 gap-12 items-center relative z-10">
+              <div className="lg:col-span-2">
+                <div className="relative group">
+                  <div className="absolute -inset-4 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-[3rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+                  <div className="relative rounded-[3rem] overflow-hidden border-4 border-white dark:border-slate-700 shadow-2xl transform group-hover:scale-[1.02] transition-transform duration-500">
+                    <img 
+                      src="/assets/founder.jpg" 
+                      alt="Sharad Pawar Saini - Founder of EHP" 
+                      className="w-full h-full object-cover aspect-[4/5]"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800';
+                      }}
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-8 pt-20">
+                      <h4 className="text-2xl font-bold text-white mb-1">Sharad Pawar Saini</h4>
+                      <p className="text-blue-400 font-bold text-sm tracking-widest uppercase">Founder & Lead Architect</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-2xl font-bold mb-3 dark:text-white">1. Build Profile</h3>
-              <p className="text-gray-600 dark:text-gray-400 max-w-xs">Sign up and enter your essential health data, allergies, and emergency contacts.</p>
-            </div>
-            
-            <div className="relative z-10 flex flex-col items-center group">
-              <div className="w-24 h-24 bg-white dark:bg-slate-800 rounded-3xl shadow-xl shadow-indigo-500/10 dark:shadow-none border border-indigo-50 dark:border-slate-700 flex items-center justify-center mb-6 group-hover:-translate-y-2 transition-transform duration-300">
-                <Lock className="h-10 w-10 text-indigo-600 dark:text-indigo-400" />
+              
+              <div className="lg:col-span-3 space-y-8">
+                <div className="inline-block px-4 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-xs font-black uppercase tracking-widest">
+                  Meet the Visionary
+                </div>
+                <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white leading-tight">
+                  Driving Innovation in <br/>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">Emergency Healthcare.</span>
+                </h2>
+                <div className="space-y-6 text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
+                  <p>
+                    Sharad Pawar Saini is a Computer Science undergraduate and the Founder of EHP (Emergency Health Passport), a platform built to bridge the critical gap between patients and life-saving medical information during emergencies. With a clear vision to create real-world impact through technology, he leads the platform’s development, strategy, and long-term direction.
+                  </p>
+                  <p>
+                    Focused on building scalable, secure, and user-centric solutions, he combines strong expertise in full-stack development with a problem-solving mindset to address real-world challenges. He is actively leveraging modern technologies such as AI, web platforms, and secure data systems to redefine how emergency healthcare information is accessed and utilized.
+                  </p>
+                  <p className="italic border-l-4 border-blue-600 pl-6 py-2 bg-blue-50/50 dark:bg-blue-900/10 rounded-r-2xl">
+                    "My mission is to ensure that essential medical data is instantly available when it matters the most, ultimately aiming to build a reliable, globally accessible emergency healthcare support system."
+                  </p>
+                </div>
+                
+                <div className="flex gap-4 pt-4">
+                   <div className="flex flex-col">
+                      <span className="text-3xl font-black text-gray-900 dark:text-white">CS</span>
+                      <span className="text-xs font-bold text-gray-500 uppercase">Undergrad</span>
+                   </div>
+                   <div className="w-px h-12 bg-gray-200 dark:bg-slate-700 mx-4"></div>
+                   <div className="flex flex-col">
+                      <span className="text-3xl font-black text-gray-900 dark:text-white">AI</span>
+                      <span className="text-xs font-bold text-gray-500 uppercase">Focused</span>
+                   </div>
+                </div>
               </div>
-              <h3 className="text-2xl font-bold mb-3 dark:text-white">2. Generate QR</h3>
-              <p className="text-gray-600 dark:text-gray-400 max-w-xs">Get your unique QR code and private Doctor Access Code. Set it as your lock screen.</p>
-            </div>
-            
-            <div className="relative z-10 flex flex-col items-center group">
-              <div className="w-24 h-24 bg-white dark:bg-slate-800 rounded-3xl shadow-xl shadow-purple-500/10 dark:shadow-none border border-purple-50 dark:border-slate-700 flex items-center justify-center mb-6 group-hover:-translate-y-2 transition-transform duration-300">
-                <Stethoscope className="h-10 w-10 text-purple-600 dark:text-purple-400" />
-              </div>
-              <h3 className="text-2xl font-bold mb-3 dark:text-white">3. Instant Access</h3>
-              <p className="text-gray-600 dark:text-gray-400 max-w-xs">First responders scan your code to instantly view life-saving information.</p>
             </div>
           </div>
         </div>
