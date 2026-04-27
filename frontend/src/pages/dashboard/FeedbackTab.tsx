@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Star, Send, CheckCircle, MessageSquareHeart, Smile, Frown, Meh, Languages } from 'lucide-react';
+import { Star, Send, CheckCircle, MessageSquareHeart, Smile, Frown, Meh } from 'lucide-react';
 import api from '../../services/api';
 
 const FeedbackTab = () => {
