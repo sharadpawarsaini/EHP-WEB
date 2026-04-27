@@ -45,7 +45,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-bold dark:text-white">Location</h4>
-                  <p className="text-gray-600 dark:text-gray-400">Global Service Hub</p>
+                  <p className="text-gray-600 dark:text-gray-400">Dehradun, Uttarakhand</p>
                 </div>
               </div>
             </div>
