@@ -74,11 +74,11 @@ const EmergencyTab = () => {
                 <div className="flex bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-200 dark:border-slate-600 overflow-hidden shadow-sm">
                   <input 
                     readOnly
-                    value={`http://localhost:5173/e/${linkData.link.publicSlug}`}
+                    value={`${window.location.origin}/e/${linkData.link.publicSlug}`}
                     className="flex-1 bg-transparent px-4 py-3 outline-none text-gray-900 dark:text-white"
                   />
                   <button 
-                    onClick={() => navigator.clipboard.writeText(`http://localhost:5173/e/${linkData.link.publicSlug}`)}
+                    onClick={() => navigator.clipboard.writeText(`${window.location.origin}/e/${linkData.link.publicSlug}`)}
                     className="px-4 border-l border-gray-200 dark:border-slate-600 hover:bg-gray-100 dark:hover:bg-slate-600 text-gray-600 dark:text-gray-300 transition-colors flex items-center justify-center"
                   >
                     <Copy className="h-5 w-5" />
