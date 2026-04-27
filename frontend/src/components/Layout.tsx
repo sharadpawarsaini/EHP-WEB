@@ -4,9 +4,11 @@ import { LogOut, User, Activity, ShieldAlert, FileText, QrCode, Home as HomeIcon
 import { useProfileContext } from '../context/ProfileContext';
 import { useAuth } from '../context/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
+import { useTranslation } from 'react-i18next';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { logout } = useAuth();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -16,15 +18,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   };
 
   const navItems = [
-    { name: 'Overview', path: '/dashboard', icon: HomeIcon },
-    { name: 'Profile', path: '/dashboard/profile', icon: User },
-    { name: 'Medical Info', path: '/dashboard/medical', icon: ClipboardList },
-    { name: 'Medical Reports', path: '/dashboard/reports', icon: FileText },
-    { name: 'Contacts', path: '/dashboard/contacts', icon: ShieldAlert },
-    { name: 'Emergency Link', path: '/dashboard/emergency', icon: QrCode },
-    { name: 'Access Logs', path: '/dashboard/logs', icon: History },
-    { name: 'Hospital Finder', path: '/dashboard/hospitals', icon: Hospital },
-    { name: 'Family', path: '/dashboard/family', icon: Users },
+    { name: t('nav_overview'), path: '/dashboard', icon: HomeIcon },
+    { name: t('nav_profile'), path: '/dashboard/profile', icon: User },
+    { name: t('nav_medical'), path: '/dashboard/medical', icon: ClipboardList },
+    { name: t('nav_reports'), path: '/dashboard/reports', icon: FileText },
+    { name: t('nav_contacts'), path: '/dashboard/contacts', icon: ShieldAlert },
+    { name: t('nav_emergency'), path: '/dashboard/emergency', icon: QrCode },
+    { name: t('nav_logs'), path: '/dashboard/logs', icon: History },
+    { name: t('nav_hospitals'), path: '/dashboard/hospitals', icon: Hospital },
+    { name: t('nav_family'), path: '/dashboard/family', icon: Users },
   ];
 
   const { managedMemberName } = useProfileContext();
@@ -79,8 +81,20 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             className="flex items-center space-x-3 px-4 py-3 text-gray-500 dark:text-gray-400 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-700/50 font-medium w-full transition-colors"
           >
             <LogOut className="h-5 w-5" />
-            <span>Log out</span>
+            <span>{t('nav_logout')}</span>
           </button>
+
+          <div className="flex bg-gray-50 dark:bg-slate-900/50 p-1 rounded-xl border border-gray-100 dark:border-slate-700 mt-4">
+            {['en', 'hi', 'es'].map((lang) => (
+              <button 
+                key={lang}
+                onClick={() => i18n.changeLanguage(lang)}
+                className={`flex-1 py-1.5 rounded-lg text-[10px] font-bold transition-all uppercase ${i18n.language.startsWith(lang) ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+              >
+                {lang}
+              </button>
+            ))}
+          </div>
         </div>
       </aside>
 
