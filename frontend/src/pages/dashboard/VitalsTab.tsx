@@ -100,8 +100,8 @@ const VitalsTab = () => {
             </h3>
             <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Systolic Trend (mmHg)</span>
           </div>
-          <div className="h-[250px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="h-[300px] w-full">
+            <ResponsiveContainer width="99%" height="100%">
               <LineChart data={getChartData('Blood Pressure')}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                 <XAxis dataKey="date" fontSize={10} tickLine={false} axisLine={false} />
@@ -124,8 +124,8 @@ const VitalsTab = () => {
             </h3>
             <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">mg/dL</span>
           </div>
-          <div className="h-[250px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="h-[300px] w-full">
+            <ResponsiveContainer width="99%" height="100%">
               <LineChart data={getChartData('Blood Glucose')}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                 <XAxis dataKey="date" fontSize={10} tickLine={false} axisLine={false} />

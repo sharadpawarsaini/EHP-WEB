@@ -87,9 +87,18 @@ export const analyzeReport = async (req: AuthRequest, res: Response): Promise<vo
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const filePath = path.join(__dirname, '../../uploads/reports', report.fileName);
+    
+    if (!fs.existsSync(filePath)) {
+      console.error('File not found on disk:', filePath);
+      res.status(404).json({ message: 'Physical file not found on server' });
+      return;
+    }
+
     const fileBuffer = fs.readFileSync(filePath);
     const base64File = fileBuffer.toString('base64');
 
+    console.log('Starting Gemini analysis for report:', report.title);
+    
     const prompt = "You are a helpful medical assistant. Please analyze this medical report and provide a summary in 3-4 simple bullet points for a non-medical person. Highlight any critical findings or things the patient should discuss with their doctor. Keep it concise and easy to understand.";
 
     const result = await model.generateContent([
@@ -103,10 +112,14 @@ export const analyzeReport = async (req: AuthRequest, res: Response): Promise<vo
     ]);
 
     const analysis = result.response.text();
+    console.log('Analysis successful');
     res.json({ analysis });
 
   } catch (error: any) {
-    console.error('AI Analysis Error:', error);
-    res.status(500).json({ message: 'Failed to analyze report', error: error.message });
+    console.error('AI Analysis Critical Error:', error);
+    res.status(500).json({ 
+      message: 'AI analysis failed. This could be due to an invalid API key, file size limit, or rate limiting.',
+      details: error.message 
+    });
   }
 };
