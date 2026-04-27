@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../services/api';
-import { Activity, ShieldAlert, HeartPulse, UserCircle, Phone, Lock, ChevronRight, FileText, Download } from 'lucide-react';
+import { Activity, ShieldAlert, HeartPulse, UserCircle, Phone, Lock, ChevronRight, FileText, Download, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
@@ -16,6 +16,7 @@ const EmergencyPage = () => {
   const [accessCode, setAccessCode] = useState('');
   const [doctorAuthLoading, setDoctorAuthLoading] = useState(false);
   const [doctorAuthError, setDoctorAuthError] = useState('');
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const [fullData, setFullData] = useState<any>(null);
 
   useEffect(() => {
@@ -36,6 +37,26 @@ const EmergencyPage = () => {
     fetchPublicData();
   }, [slug]);
 
+  useEffect(() => {
+    let timer: any;
+    if (fullData && timeLeft === null) {
+      setTimeLeft(300); // 5 minutes
+    }
+    
+    if (timeLeft !== null && timeLeft > 0) {
+      timer = setInterval(() => {
+        setTimeLeft(prev => (prev !== null ? prev - 1 : null));
+      }, 1000);
+    } else if (timeLeft === 0) {
+      setFullData(null);
+      setTimeLeft(null);
+      setAccessCode('');
+      alert('Medical history session expired for security.');
+    }
+
+    return () => clearInterval(timer);
+  }, [fullData, timeLeft]);
+
   const handleDoctorAccess = async (e: React.FormEvent) => {
     e.preventDefault();
     setDoctorAuthLoading(true);
@@ -45,6 +66,7 @@ const EmergencyPage = () => {
         accessCode
       });
       setFullData(response.data);
+      setTimeLeft(300); // Initialize timer
       setShowDoctorModal(false);
     } catch (err) {
       setDoctorAuthError('Invalid Access Code. Please try again.');
@@ -100,6 +122,12 @@ const EmergencyPage = () => {
             <span className="text-xl font-bold tracking-tight">EHP {isFullAccess ? t('doctor_view') : t('emergency_title')}</span>
           </div>
           <div className="flex items-center gap-4">
+            {isFullAccess && timeLeft !== null && (
+              <div className="flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/30 text-xs font-bold animate-pulse">
+                <Clock className="h-4 w-4" />
+                <span>Expires in {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</span>
+              </div>
+            )}
             <div className="flex bg-white/10 p-1 rounded-lg backdrop-blur-md border border-white/20">
               <button 
                 onClick={() => i18n.changeLanguage('en')}

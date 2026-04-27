@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Activity, ShieldAlert, HeartPulse, UserCircle, Zap, ExternalLink, Calendar, CheckCircle2, TrendingUp, FileText, ArrowRight, MapPin, Navigation, Trophy } from 'lucide-react';
+import { Zap, CheckCircle2, TrendingUp, FileText, ArrowRight, MapPin, Navigation, Trophy } from 'lucide-react';
 import api from '../../services/api';
 import { format } from 'date-fns';
 
