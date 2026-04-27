@@ -207,7 +207,7 @@ const Home = () => {
                       alt="Sharad Pawar Saini - Founder of EHP" 
                       className="w-full h-full object-cover aspect-[4/5]"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = './assets/founder.jpg';
+                        (e.target as HTMLImageElement).src = 'https://github.com/sharadpawarsaini/EHP-WEB/issues/1#issue-4338906456';
                       }}
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-8 pt-20">
