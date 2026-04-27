@@ -1,11 +1,13 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, Activity, Clock, QrCode, Heart, CheckCircle, ArrowRight, Smartphone, Stethoscope, Lock } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Shield, Activity, Clock, QrCode, Heart, CheckCircle, ArrowRight, Smartphone, Stethoscope, Lock, Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { useTranslation } from 'react-i18next';
 
 const Home = () => {
   const { t, i18n } = useTranslation();
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div className="min-h-screen relative font-sans text-gray-900 dark:text-gray-100 overflow-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
       {/* Background Gradients */}
@@ -13,36 +15,91 @@ const Home = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 blur-[100px] rounded-full mix-blend-multiply"></div>
       </div>
 
-      <nav className="relative z-10 flex justify-between items-center px-4 sm:px-8 py-4 sm:py-6 max-w-7xl mx-auto">
-        <div className="flex items-center space-x-2">
-          <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-2 rounded-xl shadow-lg shadow-blue-500/30">
-            <Activity className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-          </div>
-          <span className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">EHP</span>
-        </div>
-        <div className="hidden md:flex items-center space-x-8">
-          <Link to="/about" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">About</Link>
-          <Link to="/faq" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">FAQ</Link>
-          <Link to="/contact" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">Contact</Link>
-        </div>
-        <div className="flex items-center gap-2 sm:gap-3">
-          <div className="hidden sm:flex bg-gray-100 dark:bg-slate-800 p-1 rounded-full border border-gray-200 dark:border-slate-700">
-            {['en', 'hi', 'es'].map((lang) => (
-              <button
-                key={lang}
-                onClick={() => i18n.changeLanguage(lang)}
-                className={`px-2 py-1 rounded-full text-[9px] font-bold transition-all uppercase ${i18n.language.startsWith(lang) ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
-              >
-                {lang}
-              </button>
-            ))}
-          </div>
-          <ThemeToggle />
-          <Link to="/login" className="hidden sm:block text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-sm font-medium transition-colors">{t('nav_login', 'Log in')}</Link>
-          <Link to="/register" className="bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-gray-900 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-sm font-medium transition-colors shadow-lg">
-            {t('nav_get_started', 'Get Started')}
+      <nav className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-4 sm:py-5">
+        {/* Top bar */}
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-2 rounded-xl shadow-lg shadow-blue-500/30">
+              <Activity className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+            </div>
+            <span className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">EHP</span>
           </Link>
+
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link to="/about" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">About</Link>
+            <Link to="/faq" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">FAQ</Link>
+            <Link to="/contact" className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">Contact</Link>
+          </div>
+
+          {/* Right controls */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="hidden sm:flex bg-gray-100 dark:bg-slate-800 p-1 rounded-full border border-gray-200 dark:border-slate-700">
+              {['en', 'hi', 'es'].map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => i18n.changeLanguage(lang)}
+                  className={`px-2 py-1 rounded-full text-[9px] font-bold transition-all uppercase ${i18n.language.startsWith(lang) ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+                >
+                  {lang}
+                </button>
+              ))}
+            </div>
+            <ThemeToggle />
+            <Link to="/login" className="hidden sm:block text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-sm font-medium transition-colors">{t('nav_login', 'Log in')}</Link>
+            <Link to="/register" className="hidden sm:block bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-gray-900 px-5 py-2 rounded-full text-sm font-medium transition-colors shadow-lg">
+              {t('nav_get_started', 'Get Started')}
+            </Link>
+            {/* Hamburger — mobile only */}
+            <button
+              onClick={() => setMenuOpen((v) => !v)}
+              className="md:hidden p-2 rounded-xl bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile dropdown menu */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden mt-4 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-gray-100 dark:border-slate-700 rounded-2xl shadow-2xl overflow-hidden"
+            >
+              <div className="flex flex-col p-4 gap-1">
+                <Link to="/about" onClick={() => setMenuOpen(false)} className="flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</Link>
+                <Link to="/faq" onClick={() => setMenuOpen(false)} className="flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">FAQ</Link>
+                <Link to="/contact" onClick={() => setMenuOpen(false)} className="flex items-center px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</Link>
+              </div>
+              <div className="border-t border-gray-100 dark:border-slate-700 p-4 space-y-3">
+                {/* Language switcher */}
+                <div className="flex bg-gray-100 dark:bg-slate-900/50 p-1 rounded-xl">
+                  {['en', 'hi', 'es'].map((lang) => (
+                    <button
+                      key={lang}
+                      onClick={() => { i18n.changeLanguage(lang); }}
+                      className={`flex-1 py-1.5 rounded-lg text-[10px] font-bold transition-all uppercase ${i18n.language.startsWith(lang) ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+                    >
+                      {lang}
+                    </button>
+                  ))}
+                </div>
+                <Link to="/login" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-600 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                  {t('nav_login', 'Log in')}
+                </Link>
+                <Link to="/register" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-bold shadow-lg hover:opacity-90 transition-opacity">
+                  {t('nav_get_started', 'Get Started')}
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-24 pb-20">
