@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { 
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend 
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer 
 } from 'recharts';
-import { Activity, Plus, Trash2, TrendingUp, Calendar, Info } from 'lucide-react';
+import { Activity, Plus, Trash2, TrendingUp, Info } from 'lucide-react';
 import { format } from 'date-fns';
 
 const VitalsTab = () => {
