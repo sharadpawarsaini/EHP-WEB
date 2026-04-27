@@ -151,6 +151,43 @@ const Home = () => {
           </div>
         </div>
 
+        {/* How It Works */}
+        <div className="mt-32 pt-20 border-t border-gray-200/50 dark:border-slate-800 text-center">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-16"
+          >
+            How EHP Works
+          </motion.h2>
+          
+          <div className="grid md:grid-cols-3 gap-12 relative">
+            <div className="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-blue-200 via-indigo-200 to-purple-200 dark:from-blue-800 dark:via-indigo-800 dark:to-purple-800 z-0"></div>
+            
+            <div className="relative z-10 flex flex-col items-center group">
+              <div className="w-24 h-24 bg-white dark:bg-slate-800 rounded-3xl shadow-xl shadow-blue-500/10 dark:shadow-none border border-blue-50 dark:border-slate-700 flex items-center justify-center mb-6 group-hover:-translate-y-2 transition-transform duration-300">
+                <Smartphone className="h-10 w-10 text-blue-600 dark:text-blue-400" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3 dark:text-white">1. Build Profile</h3>
+              <p className="text-gray-600 dark:text-gray-400 max-w-xs">Sign up and enter your essential health data, allergies, and emergency contacts.</p>
+            </div>
+            
+            <div className="relative z-10 flex flex-col items-center group">
+              <div className="w-24 h-24 bg-white dark:bg-slate-800 rounded-3xl shadow-xl shadow-indigo-500/10 dark:shadow-none border border-indigo-50 dark:border-slate-700 flex items-center justify-center mb-6 group-hover:-translate-y-2 transition-transform duration-300">
+                <Lock className="h-10 w-10 text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3 dark:text-white">2. Generate QR</h3>
+              <p className="text-gray-600 dark:text-gray-400 max-w-xs">Get your unique QR code and private Doctor Access Code. Set it as your lock screen.</p>
+            </div>
+            
+            <div className="relative z-10 flex flex-col items-center group">
+              <div className="w-24 h-24 bg-white dark:bg-slate-800 rounded-3xl shadow-xl shadow-purple-500/10 dark:shadow-none border border-purple-50 dark:border-slate-700 flex items-center justify-center mb-6 group-hover:-translate-y-2 transition-transform duration-300">
+                <Stethoscope className="h-10 w-10 text-purple-600 dark:text-purple-400" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3 dark:text-white">3. Instant Access</h3>
+              <p className="text-gray-600 dark:text-gray-400 max-w-xs">First responders scan your code to instantly view life-saving information.</p>
+            </div>
           </div>
         </div>
 
