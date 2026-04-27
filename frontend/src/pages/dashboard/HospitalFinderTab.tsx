@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import api from '../../services/api';
 import { MapPin, Phone, Navigation, Search, Hospital } from 'lucide-react';
 
 const HospitalFinderTab = () => {
@@ -11,27 +12,17 @@ const HospitalFinderTab = () => {
     setLoading(true);
     setError('');
     try {
-      // Using OpenStreetMap's Overpass API (Free, no key needed)
-      const query = `
-        [out:json];
-        node["amenity"="hospital"](around:5000, ${lat}, ${lng});
-        out body;
-      `;
-      const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`);
-      const data = await response.json();
+      // Calling our OWN backend proxy to avoid CORS
+      const { data } = await api.get(`/hospitals/nearby?lat=${lat}&lng=${lng}`);
       
-      const results = data.elements.map((el: any) => ({
-        id: el.id,
-        name: el.tags.name || 'Unnamed Hospital',
-        address: el.tags['addr:street'] || 'Address not available',
-        phone: el.tags.phone || el.tags['contact:phone'] || 'N/A',
-        lat: el.lat,
-        lng: el.lon,
-        distance: calculateDistance(lat, lng, el.lat, el.lon).toFixed(1)
+      const results = data.map((hospital: any) => ({
+        ...hospital,
+        distance: calculateDistance(lat, lng, hospital.lat, hospital.lng).toFixed(1)
       })).sort((a: any, b: any) => a.distance - b.distance);
 
       setHospitals(results);
     } catch (err) {
+      console.error('Hospital Fetch Error:', err);
       setError('Failed to fetch nearby hospitals. Please try again later.');
     } finally {
       setLoading(false);
@@ -98,7 +89,7 @@ const HospitalFinderTab = () => {
         <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-12 text-center border border-dashed border-gray-200 dark:border-slate-700">
           <Hospital className="h-16 w-16 text-gray-300 dark:text-slate-600 mx-auto mb-6" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Ready to Search?</h3>
-          <p className="text-gray-600 dark:text-gray-400 max-w-sm mx-auto mb-8">Click the button above to allow location access and find hospitals within 5km of your current position.</p>
+          <p className="text-gray-600 dark:text-gray-400 max-w-sm mx-auto mb-8">Click the button above to allow location access and find hospitals within 10km of your current position.</p>
         </div>
       )}
 
@@ -138,7 +129,7 @@ const HospitalFinderTab = () => {
       {location && hospitals.length === 0 && !loading && (
         <div className="text-center py-12">
           <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 font-medium">No hospitals found within 5km of your location.</p>
+          <p className="text-gray-500 font-medium">No hospitals found within 10km of your location.</p>
         </div>
       )}
     </div>
