@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogOut, User, Activity, ShieldAlert, FileText, QrCode, Home as HomeIcon } from 'lucide-react';
+import { LogOut, User, Activity, ShieldAlert, FileText, QrCode, Home as HomeIcon, ClipboardList } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -17,7 +17,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const navItems = [
     { name: 'Overview', path: '/dashboard', icon: HomeIcon },
     { name: 'Profile', path: '/dashboard/profile', icon: User },
-    { name: 'Medical Info', path: '/dashboard/medical', icon: FileText },
+    { name: 'Medical Info', path: '/dashboard/medical', icon: ClipboardList },
+    { name: 'Medical Reports', path: '/dashboard/reports', icon: FileText },
     { name: 'Contacts', path: '/dashboard/contacts', icon: ShieldAlert },
     { name: 'Emergency Link', path: '/dashboard/emergency', icon: QrCode },
   ];

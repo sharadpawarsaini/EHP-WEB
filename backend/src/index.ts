@@ -7,6 +7,8 @@ import authRoutes from './routes/authRoutes';
 import profileRoutes from './routes/profileRoutes';
 import medicalRoutes from './routes/medicalRoutes';
 import emergencyRoutes from './routes/emergencyRoutes';
+import reportRoutes from './routes/reportRoutes';
+import path from 'path';
 
 dotenv.config();
 
@@ -23,6 +25,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/medical', medicalRoutes);
 app.use('/api/emergency', emergencyRoutes);
+app.use('/api/reports', reportRoutes);
+
+// Serve static files from uploads folder
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.get('/', (req, res) => {
   res.send('API is running...');
