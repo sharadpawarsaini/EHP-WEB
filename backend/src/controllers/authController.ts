@@ -11,8 +11,8 @@ const generateToken = (res: Response, userId: any) => {
 
   res.cookie('jwt', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV !== 'development',
-    sameSite: 'strict',
+    secure: true, // Always true for cross-site cookies in modern browsers
+    sameSite: 'none',
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 };
@@ -83,6 +83,8 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 export const logoutUser = (req: Request, res: Response): void => {
   res.cookie('jwt', '', {
     httpOnly: true,
+    secure: true,
+    sameSite: 'none',
     expires: new Date(0),
   });
   res.status(200).json({ message: 'Logged out successfully' });

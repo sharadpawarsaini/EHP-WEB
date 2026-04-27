@@ -76,6 +76,19 @@ npm run dev
 
 ---
 
+## 🛠️ Troubleshooting 401 Unauthorized Errors in Production
+
+If you encounter 401 errors in production after logging in:
+
+1. **Verify `VITE_API_URL`**: Ensure it includes the `/api` suffix.
+   - Example: `https://your-backend.onrender.com/api` (NO trailing slash after `api`).
+2. **Verify `CORS_ORIGIN`**: In your Backend deployment settings (Render/Heroku), set `CORS_ORIGIN` to your EXACT frontend URL.
+   - Example: `https://your-app.vercel.app` (NO trailing slash).
+3. **Cookie attributes**: The app is configured to use `SameSite: 'none'` and `Secure: true`, which are required for cross-domain cookies.
+4. **Browser Privacy Settings**: Some browsers (like Safari) or "Incognito" modes may block third-party cookies by default. Try disabling "Prevent Cross-Site Tracking" if issues persist.
+
+---
+
 ## 🔒 Security Note
 - Never commit your `.env` files.
 - Ensure `JWT_SECRET` is unique and strong in production.
