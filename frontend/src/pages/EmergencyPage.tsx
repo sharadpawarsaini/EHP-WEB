@@ -19,7 +19,7 @@ const EmergencyPage = () => {
   useEffect(() => {
     const fetchPublicData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/emergency/public/${slug}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/emergency/public/${slug}`);
         setData(response.data);
       } catch (err) {
         setError('Emergency profile not found or unavailable.');
@@ -35,7 +35,7 @@ const EmergencyPage = () => {
     setDoctorAuthLoading(true);
     setDoctorAuthError('');
     try {
-      const response = await axios.post(`http://localhost:5000/api/emergency/public/${slug}/access`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/emergency/public/${slug}/access`, {
         accessCode
       });
       setFullData(response.data);

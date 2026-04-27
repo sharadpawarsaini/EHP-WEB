@@ -30,7 +30,7 @@ export const generateEmergencyLink = async (req: AuthRequest, res: Response): Pr
       });
     }
 
-    const qrDataUrl = await QRCode.toDataURL(`http://localhost:5173/e/${link.publicSlug}`);
+    const qrDataUrl = await QRCode.toDataURL(`${process.env.FRONTEND_URL}/e/${link.publicSlug}`);
 
     res.status(201).json({
       link,
@@ -45,7 +45,7 @@ export const getEmergencyLink = async (req: AuthRequest, res: Response): Promise
   try {
     const link = await EmergencyLink.findOne({ userId: req.user.userId });
     if (link) {
-      const qrDataUrl = await QRCode.toDataURL(`http://localhost:5173/e/${link.publicSlug}`);
+      const qrDataUrl = await QRCode.toDataURL(`${process.env.FRONTEND_URL}/e/${link.publicSlug}`);
       res.json({ link, qrDataUrl });
     } else {
       res.status(404).json({ message: 'Emergency link not found' });
