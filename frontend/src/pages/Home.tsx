@@ -203,7 +203,7 @@ const Home = () => {
                   <div className="absolute -inset-4 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-[3rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
                   <div className="relative rounded-[3rem] overflow-hidden border-4 border-white dark:border-slate-700 shadow-2xl transform group-hover:scale-[1.02] transition-transform duration-500">
                     <img 
-                      src="/assets/founder.jpg" 
+                      src="/assets/founder.jpeg" 
                       alt="Sharad Pawar Saini - Founder of EHP" 
                       className="w-full h-full object-cover aspect-[4/5]"
                       onError={(e) => {
