@@ -4,6 +4,7 @@ import { EmergencyContact } from '../models/EmergencyContact';
 import { Profile } from '../models/Profile';
 import { MedicalDetails } from '../models/MedicalDetails';
 import { MedicalReport } from '../models/MedicalReport';
+import { AccessLog } from '../models/AccessLog';
 import { AuthRequest } from '../middleware/authMiddleware';
 import QRCode from 'qrcode';
 
@@ -70,6 +71,14 @@ export const getPublicEmergencyData = async (req: Request, res: Response): Promi
       return;
     }
 
+    // Create Access Log
+    await AccessLog.create({
+      userId: link.userId,
+      accessType: 'public',
+      ipAddress: req.ip,
+      userAgent: req.headers['user-agent'],
+    });
+
     const profile = await Profile.findOne({ userId: link.userId });
     const medical = await MedicalDetails.findOne({ userId: link.userId });
     const contacts = await EmergencyContact.find({ userId: link.userId });
@@ -110,6 +119,14 @@ export const verifyDoctorAccess = async (req: Request, res: Response): Promise<v
       return;
     }
 
+    // Create Access Log
+    await AccessLog.create({
+      userId: link.userId,
+      accessType: 'doctor',
+      ipAddress: req.ip,
+      userAgent: req.headers['user-agent'],
+    });
+
     const profile = await Profile.findOne({ userId: link.userId });
     const medical = await MedicalDetails.findOne({ userId: link.userId });
     const contacts = await EmergencyContact.find({ userId: link.userId });
@@ -122,6 +139,15 @@ export const verifyDoctorAccess = async (req: Request, res: Response): Promise<v
       reports,
     });
 
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const getAccessLogs = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const logs = await AccessLog.find({ userId: req.user.userId }).sort({ createdAt: -1 }).limit(20);
+    res.json(logs);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }

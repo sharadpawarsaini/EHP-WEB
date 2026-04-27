@@ -6,7 +6,8 @@ import {
   verifyDoctorAccess,
   getContacts,
   addContact,
-  deleteContact
+  deleteContact,
+  getAccessLogs
 } from '../controllers/emergencyController';
 import { protect } from '../middleware/authMiddleware';
 
@@ -22,6 +23,8 @@ router.route('/contacts')
   
 router.route('/contacts/:id')
   .delete(protect, deleteContact);
+
+router.get('/logs', protect, getAccessLogs);
 
 router.get('/public/:slug', getPublicEmergencyData);
 router.post('/public/:slug/access', verifyDoctorAccess);

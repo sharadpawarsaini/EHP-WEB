@@ -5,6 +5,7 @@ import EmergencyTab from './dashboard/EmergencyTab';
 import ContactsTab from './dashboard/ContactsTab';
 import OverviewTab from './dashboard/OverviewTab';
 import ReportsTab from './dashboard/ReportsTab';
+import AccessLogsTab from './dashboard/AccessLogsTab';
 
 const Dashboard = () => {
   return (
@@ -15,6 +16,7 @@ const Dashboard = () => {
       <Route path="/contacts" element={<ContactsTab />} />
       <Route path="/emergency" element={<EmergencyTab />} />
       <Route path="/reports" element={<ReportsTab />} />
+      <Route path="/logs" element={<AccessLogsTab />} />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );

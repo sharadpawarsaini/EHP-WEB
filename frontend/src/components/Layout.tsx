@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogOut, User, Activity, ShieldAlert, FileText, QrCode, Home as HomeIcon, ClipboardList } from 'lucide-react';
+import { LogOut, User, Activity, ShieldAlert, FileText, QrCode, Home as HomeIcon, ClipboardList, History } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -21,6 +21,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: 'Medical Reports', path: '/dashboard/reports', icon: FileText },
     { name: 'Contacts', path: '/dashboard/contacts', icon: ShieldAlert },
     { name: 'Emergency Link', path: '/dashboard/emergency', icon: QrCode },
+    { name: 'Access Logs', path: '/dashboard/logs', icon: History },
   ];
 
   return (
@@ -53,10 +54,18 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           })}
         </nav>
 
-        <div className="p-4 border-t border-gray-100 dark:border-slate-700">
+        <div className="p-4 space-y-2 border-t border-gray-100 dark:border-slate-700">
+          <button 
+            onClick={() => window.open(`${window.location.origin}/dashboard/emergency`, '_self')}
+            className="flex items-center justify-center space-x-2 px-4 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold w-full shadow-lg shadow-red-500/30 transition-all hover:scale-[1.02]"
+          >
+            <ShieldAlert className="h-5 w-5" />
+            <span>Emergency SOS</span>
+          </button>
+
           <button 
             onClick={handleLogout}
-            className="flex items-center space-x-3 px-4 py-3 text-red-600 dark:text-red-400 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 font-medium w-full transition-colors"
+            className="flex items-center space-x-3 px-4 py-3 text-gray-500 dark:text-gray-400 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-700/50 font-medium w-full transition-colors"
           >
             <LogOut className="h-5 w-5" />
             <span>Log out</span>
