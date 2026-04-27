@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../services/api';
-import { Activity, ShieldAlert, HeartPulse, UserCircle, Phone, Lock, ChevronRight } from 'lucide-react';
+import { Activity, ShieldAlert, HeartPulse, UserCircle, Phone, Lock, ChevronRight, FileText, Download } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const EmergencyPage = () => {
@@ -242,6 +242,35 @@ const EmergencyPage = () => {
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Doctor Notes</h3>
                   <div className="bg-amber-50 dark:bg-amber-900/20 p-5 rounded-xl border border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 text-sm whitespace-pre-wrap leading-relaxed font-medium shadow-inner">
                     {displayData.medical.notes}
+                  </div>
+                </div>
+              )}
+
+              {/* Medical Reports (Doctor Only) */}
+              {displayData.reports?.length > 0 && (
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white dark:border-slate-700">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <FileText className="h-5 w-5 text-blue-500" /> Clinical Reports & Lab Results
+                  </h3>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {displayData.reports.map((report: any) => (
+                      <div key={report._id} className="bg-gray-50/50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-xl p-4 flex flex-col justify-between shadow-sm">
+                        <div>
+                          <h4 className="font-bold text-gray-900 dark:text-white text-sm truncate">{report.title}</h4>
+                          <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 uppercase font-bold tracking-wider">
+                            {new Date(report.createdAt).toLocaleDateString()}
+                          </p>
+                        </div>
+                        <a 
+                          href={`${import.meta.env.VITE_API_URL.replace('/api', '')}${report.fileUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-3 flex items-center justify-center gap-2 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800/50 px-3 py-2 rounded-lg text-blue-800 dark:text-blue-300 text-xs font-bold hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
+                        >
+                          <Download className="h-3.5 w-3.5" /> View Document
+                        </a>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}

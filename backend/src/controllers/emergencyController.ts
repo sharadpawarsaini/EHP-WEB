@@ -3,6 +3,7 @@ import { EmergencyLink } from '../models/EmergencyLink';
 import { EmergencyContact } from '../models/EmergencyContact';
 import { Profile } from '../models/Profile';
 import { MedicalDetails } from '../models/MedicalDetails';
+import { MedicalReport } from '../models/MedicalReport';
 import { AuthRequest } from '../middleware/authMiddleware';
 import QRCode from 'qrcode';
 
@@ -112,11 +113,13 @@ export const verifyDoctorAccess = async (req: Request, res: Response): Promise<v
     const profile = await Profile.findOne({ userId: link.userId });
     const medical = await MedicalDetails.findOne({ userId: link.userId });
     const contacts = await EmergencyContact.find({ userId: link.userId });
+    const reports = await MedicalReport.find({ userId: link.userId });
 
     res.json({
       profile,
       medical,
       contacts,
+      reports,
     });
 
   } catch (error) {
