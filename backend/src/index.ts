@@ -14,15 +14,15 @@ connectDB();
 
 const app = express();
 
-app.use(cors({ origin: process.env.CORS_ORIGIN || 'https://ehp-tan-eight.vercel.app/', credentials: true }));
+app.use(cors({ origin: process.env.CORS_ORIGIN || 'https://ehp-tan-eight.vercel.app', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use('/auth', authRoutes);
-app.use('/profile', profileRoutes);
-app.use('/medical', medicalRoutes);
-app.use('/emergency', emergencyRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/medical', medicalRoutes);
+app.use('/api/emergency', emergencyRoutes);
 
 app.get('/', (req, res) => {
   res.send('API is running...');

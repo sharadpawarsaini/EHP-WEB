@@ -14,9 +14,11 @@ export const protect = (req: AuthRequest, res: Response, next: NextFunction): vo
       req.user = decoded;
       next();
     } catch (error) {
+      console.log('JWT Verification Failed:', error);
       res.status(401).json({ message: 'Not authorized, token failed' });
     }
   } else {
+    console.log('No JWT token found in cookies');
     res.status(401).json({ message: 'Not authorized, no token' });
   }
 };
