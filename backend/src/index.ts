@@ -28,6 +28,12 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
+// 404 Handler for undefined routes
+app.use((req, res) => {
+  console.log(`404 - Not Found: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ message: `Route ${req.originalUrl} not found on this server` });
+});
+
 const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {

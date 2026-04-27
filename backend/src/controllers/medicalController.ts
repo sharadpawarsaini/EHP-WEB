@@ -8,7 +8,7 @@ export const getMedicalDetails = async (req: AuthRequest, res: Response): Promis
     if (details) {
       res.json(details);
     } else {
-      res.status(404).json({ message: 'Medical details not found' });
+      res.json(null);
     }
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
