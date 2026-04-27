@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../services/api';
-import { Activity, ShieldAlert, HeartPulse, UserCircle, Phone, Lock, ChevronRight, FileText, Download, Clock } from 'lucide-react';
+import { Activity, ShieldAlert, HeartPulse, UserCircle, Phone, Lock, ChevronRight, FileText, Download, Clock, WifiOff } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
@@ -11,6 +11,7 @@ const EmergencyPage = () => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
   
   const [showDoctorModal, setShowDoctorModal] = useState(false);
   const [accessCode, setAccessCode] = useState('');
@@ -18,6 +19,17 @@ const EmergencyPage = () => {
   const [doctorAuthError, setDoctorAuthError] = useState('');
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const [fullData, setFullData] = useState<any>(null);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchPublicData = async () => {
@@ -114,6 +126,19 @@ const EmergencyPage = () => {
 
   return (
     <div className={`min-h-screen ${isFullAccess ? 'bg-slate-50 dark:bg-slate-900' : 'bg-gray-900 dark:bg-slate-950'} text-gray-900 dark:text-gray-100 font-sans pb-20 transition-colors duration-300`}>
+      <AnimatePresence>
+        {isOffline && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="bg-amber-500 text-white py-2 px-4 text-center text-xs font-bold flex items-center justify-center gap-2 overflow-hidden"
+          >
+            <WifiOff className="h-3 w-3" />
+            Viewing Cached Offline Version
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* Header */}
       <header className={`${isFullAccess ? 'bg-gradient-to-r from-blue-600 to-indigo-600' : 'bg-gradient-to-r from-red-600 to-rose-600'} text-white py-6 px-4 shadow-md sticky top-0 z-10 transition-colors duration-300`}>
         <div className="max-w-3xl mx-auto flex justify-between items-center">
