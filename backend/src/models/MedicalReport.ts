@@ -6,6 +6,11 @@ const medicalReportSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  memberId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'FamilyMember',
+    default: null,
+  },
   title: {
     type: String,
     required: true,

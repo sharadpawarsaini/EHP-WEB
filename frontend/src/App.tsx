@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { ProfileProvider } from './context/ProfileContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 import Home from './pages/Home';
@@ -14,25 +15,27 @@ function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <Router>
-          <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/e/:slug" element={<EmergencyPage />} />
-          
-          <Route
-            path="/dashboard/*"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <Dashboard />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Router>
+        <ProfileProvider>
+          <Router>
+            <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/e/:slug" element={<EmergencyPage />} />
+            
+            <Route
+              path="/dashboard/*"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Dashboard />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Router>
+      </ProfileProvider>
     </AuthProvider>
     </ThemeProvider>
   );

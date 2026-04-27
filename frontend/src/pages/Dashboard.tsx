@@ -6,6 +6,8 @@ import ContactsTab from './dashboard/ContactsTab';
 import OverviewTab from './dashboard/OverviewTab';
 import ReportsTab from './dashboard/ReportsTab';
 import AccessLogsTab from './dashboard/AccessLogsTab';
+import HospitalFinderTab from './dashboard/HospitalFinderTab';
+import FamilyTab from './dashboard/FamilyTab';
 
 const Dashboard = () => {
   return (
@@ -17,6 +19,8 @@ const Dashboard = () => {
       <Route path="/emergency" element={<EmergencyTab />} />
       <Route path="/reports" element={<ReportsTab />} />
       <Route path="/logs" element={<AccessLogsTab />} />
+      <Route path="/hospitals" element={<HospitalFinderTab />} />
+      <Route path="/family" element={<FamilyTab />} />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );

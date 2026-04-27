@@ -4,8 +4,12 @@ const emergencyLinkSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
-    unique: true
+    required: true
+  },
+  memberId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'FamilyMember',
+    default: null
   },
   publicSlug: {
     type: String,
@@ -15,6 +19,10 @@ const emergencyLinkSchema = new mongoose.Schema({
   accessCode: {
     type: String,
     required: true
+  },
+  isLocked: {
+    type: Boolean,
+    default: false
   }
 }, { timestamps: true });
 

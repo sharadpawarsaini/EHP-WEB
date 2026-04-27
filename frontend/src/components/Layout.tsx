@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogOut, User, Activity, ShieldAlert, FileText, QrCode, Home as HomeIcon, ClipboardList, History } from 'lucide-react';
+import { LogOut, User, Activity, ShieldAlert, FileText, QrCode, Home as HomeIcon, ClipboardList, History, Hospital, Users, Info } from 'lucide-react';
+import { useProfileContext } from '../context/ProfileContext';
 import { useAuth } from '../context/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -22,15 +23,25 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: 'Contacts', path: '/dashboard/contacts', icon: ShieldAlert },
     { name: 'Emergency Link', path: '/dashboard/emergency', icon: QrCode },
     { name: 'Access Logs', path: '/dashboard/logs', icon: History },
+    { name: 'Hospital Finder', path: '/dashboard/hospitals', icon: Hospital },
+    { name: 'Family', path: '/dashboard/family', icon: Users },
   ];
+
+  const { managedMemberName } = useProfileContext();
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300 flex">
       {/* Sidebar */}
       <aside className="w-64 bg-white dark:bg-slate-800 border-r border-gray-100 dark:border-slate-700 flex flex-col hidden md:flex transition-colors duration-300">
-        <div className="p-6 flex items-center space-x-2">
-          <Activity className="h-8 w-8 text-emergency" />
-          <span className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">EHP</span>
+        <div className="p-6">
+          <div className="flex items-center space-x-2">
+            <Activity className="h-8 w-8 text-emergency" />
+            <span className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">EHP</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-2 py-0.5 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800/50 rounded-full mt-3 w-fit">
+            <User className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+            <span className="text-[10px] font-bold text-blue-700 dark:text-blue-300 truncate max-w-[120px]">{managedMemberName}</span>
+          </div>
         </div>
         
         <nav className="flex-1 px-4 space-y-2 mt-4">

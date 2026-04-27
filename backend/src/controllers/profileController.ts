@@ -4,7 +4,10 @@ import { AuthRequest } from '../middleware/authMiddleware';
 
 export const getProfile = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const profile = await Profile.findOne({ userId: req.user.userId });
+    const profile = await Profile.findOne({ 
+      userId: req.user.userId,
+      memberId: req.user.memberId 
+    });
     if (profile) {
       res.json(profile);
     } else {
@@ -17,7 +20,10 @@ export const getProfile = async (req: AuthRequest, res: Response): Promise<void>
 
 export const updateProfile = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    let profile = await Profile.findOne({ userId: req.user.userId });
+    let profile = await Profile.findOne({ 
+      userId: req.user.userId,
+      memberId: req.user.memberId 
+    });
 
     if (profile) {
       profile.fullName = req.body.fullName || profile.fullName;
@@ -31,6 +37,7 @@ export const updateProfile = async (req: AuthRequest, res: Response): Promise<vo
     } else {
       profile = await Profile.create({
         userId: req.user.userId,
+        memberId: req.user.memberId,
         fullName: req.body.fullName,
         dob: req.body.dob,
         gender: req.body.gender,

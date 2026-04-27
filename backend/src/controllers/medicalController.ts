@@ -4,7 +4,10 @@ import { AuthRequest } from '../middleware/authMiddleware';
 
 export const getMedicalDetails = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const details = await MedicalDetails.findOne({ userId: req.user.userId });
+    const details = await MedicalDetails.findOne({ 
+      userId: req.user.userId,
+      memberId: req.user.memberId 
+    });
     if (details) {
       res.json(details);
     } else {
@@ -17,7 +20,10 @@ export const getMedicalDetails = async (req: AuthRequest, res: Response): Promis
 
 export const updateMedicalDetails = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    let details = await MedicalDetails.findOne({ userId: req.user.userId });
+    let details = await MedicalDetails.findOne({ 
+      userId: req.user.userId,
+      memberId: req.user.memberId 
+    });
 
     if (details) {
       Object.assign(details, req.body);
@@ -26,6 +32,7 @@ export const updateMedicalDetails = async (req: AuthRequest, res: Response): Pro
     } else {
       details = await MedicalDetails.create({
         userId: req.user.userId,
+        memberId: req.user.memberId,
         ...req.body,
       });
       res.status(201).json(details);

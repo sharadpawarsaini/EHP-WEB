@@ -18,17 +18,23 @@ export const generateEmergencyLink = async (req: AuthRequest, res: Response): Pr
       return;
     }
 
-    let link = await EmergencyLink.findOne({ userId: req.user.userId });
+    let link = await EmergencyLink.findOne({ 
+      userId: req.user.userId,
+      memberId: req.user.memberId 
+    });
 
     if (link) {
       link.publicSlug = publicSlug || link.publicSlug;
       link.accessCode = accessCode || link.accessCode;
+      link.isLocked = req.body.isLocked !== undefined ? req.body.isLocked : link.isLocked;
       await link.save();
     } else {
       link = await EmergencyLink.create({
         userId: req.user.userId,
+        memberId: req.user.memberId,
         publicSlug,
         accessCode,
+        isLocked: req.body.isLocked || false,
       });
     }
 
@@ -47,7 +53,10 @@ export const generateEmergencyLink = async (req: AuthRequest, res: Response): Pr
 
 export const getEmergencyLink = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const link = await EmergencyLink.findOne({ userId: req.user.userId });
+    const link = await EmergencyLink.findOne({ 
+      userId: req.user.userId,
+      memberId: req.user.memberId 
+    });
     if (link) {
       const frontendUrl = process.env.FRONTEND_URL || 'https://ehp-tan-eight.vercel.app';
       const qrDataUrl = await QRCode.toDataURL(`${frontendUrl}/e/${link.publicSlug}`);
@@ -71,6 +80,15 @@ export const getPublicEmergencyData = async (req: Request, res: Response): Promi
       return;
     }
 
+    if (link.isLocked) {
+      res.status(403).json({ 
+        message: 'This profile is currently locked by the owner.',
+        isLocked: true,
+        fullName: 'Private Profile'
+      });
+      return;
+    }
+
     // Create Access Log
     await AccessLog.create({
       userId: link.userId,
@@ -79,9 +97,18 @@ export const getPublicEmergencyData = async (req: Request, res: Response): Promi
       userAgent: req.headers['user-agent'],
     });
 
-    const profile = await Profile.findOne({ userId: link.userId });
-    const medical = await MedicalDetails.findOne({ userId: link.userId });
-    const contacts = await EmergencyContact.find({ userId: link.userId });
+    const profile = await Profile.findOne({ 
+      userId: link.userId,
+      memberId: link.memberId 
+    });
+    const medical = await MedicalDetails.findOne({ 
+      userId: link.userId,
+      memberId: link.memberId 
+    });
+    const contacts = await EmergencyContact.find({ 
+      userId: link.userId,
+      memberId: link.memberId 
+    });
 
     res.json({
       profile: {
@@ -127,10 +154,22 @@ export const verifyDoctorAccess = async (req: Request, res: Response): Promise<v
       userAgent: req.headers['user-agent'],
     });
 
-    const profile = await Profile.findOne({ userId: link.userId });
-    const medical = await MedicalDetails.findOne({ userId: link.userId });
-    const contacts = await EmergencyContact.find({ userId: link.userId });
-    const reports = await MedicalReport.find({ userId: link.userId });
+    const profile = await Profile.findOne({ 
+      userId: link.userId,
+      memberId: link.memberId 
+    });
+    const medical = await MedicalDetails.findOne({ 
+      userId: link.userId,
+      memberId: link.memberId 
+    });
+    const contacts = await EmergencyContact.find({ 
+      userId: link.userId,
+      memberId: link.memberId 
+    });
+    const reports = await MedicalReport.find({ 
+      userId: link.userId,
+      memberId: link.memberId 
+    });
 
     res.json({
       profile,
@@ -155,7 +194,10 @@ export const getAccessLogs = async (req: AuthRequest, res: Response): Promise<vo
 
 export const getContacts = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const contacts = await EmergencyContact.find({ userId: req.user.userId });
+    const contacts = await EmergencyContact.find({ 
+      userId: req.user.userId,
+      memberId: req.user.memberId 
+    });
     res.json(contacts);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
@@ -164,7 +206,10 @@ export const getContacts = async (req: AuthRequest, res: Response): Promise<void
 
 export const addContact = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const contactsCount = await EmergencyContact.countDocuments({ userId: req.user.userId });
+    const contactsCount = await EmergencyContact.countDocuments({ 
+      userId: req.user.userId,
+      memberId: req.user.memberId 
+    });
     if (contactsCount >= 2) {
       res.status(400).json({ message: 'Maximum 2 emergency contacts allowed' });
       return;
@@ -172,6 +217,7 @@ export const addContact = async (req: AuthRequest, res: Response): Promise<void>
 
     const contact = await EmergencyContact.create({
       userId: req.user.userId,
+      memberId: req.user.memberId,
       ...req.body
     });
     res.status(201).json(contact);
@@ -180,9 +226,31 @@ export const addContact = async (req: AuthRequest, res: Response): Promise<void>
   }
 };
 
+export const togglePrivacy = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const link = await EmergencyLink.findOne({ 
+      userId: req.user.userId,
+      memberId: req.user.memberId 
+    });
+    if (!link) {
+      res.status(404).json({ message: 'Emergency link not found' });
+      return;
+    }
+    link.isLocked = !link.isLocked;
+    await link.save();
+    res.json(link);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 export const deleteContact = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const contact = await EmergencyContact.findOne({ _id: req.params.id, userId: req.user.userId });
+    const contact = await EmergencyContact.findOne({ 
+      _id: req.params.id, 
+      userId: req.user.userId,
+      memberId: req.user.memberId 
+    });
     if (contact) {
       await EmergencyContact.deleteOne({ _id: req.params.id });
       res.json({ message: 'Contact removed' });

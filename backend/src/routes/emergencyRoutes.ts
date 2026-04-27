@@ -7,7 +7,8 @@ import {
   getContacts,
   addContact,
   deleteContact,
-  getAccessLogs
+  getAccessLogs,
+  togglePrivacy
 } from '../controllers/emergencyController';
 import { protect } from '../middleware/authMiddleware';
 
@@ -25,6 +26,7 @@ router.route('/contacts/:id')
   .delete(protect, deleteContact);
 
 router.get('/logs', protect, getAccessLogs);
+router.post('/toggle-privacy', protect, togglePrivacy);
 
 router.get('/public/:slug', getPublicEmergencyData);
 router.post('/public/:slug/access', verifyDoctorAccess);

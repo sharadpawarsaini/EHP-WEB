@@ -4,8 +4,12 @@ const medicalDetailsSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
-    unique: true
+    required: true
+  },
+  memberId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'FamilyMember',
+    default: null
   },
   allergies: [{ type: String }],
   conditions: [{ type: String }],

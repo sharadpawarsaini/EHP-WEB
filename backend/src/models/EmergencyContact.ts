@@ -6,6 +6,11 @@ const emergencyContactSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  memberId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'FamilyMember',
+    default: null
+  },
   name: { type: String, required: true },
   relation: { type: String, required: true },
   phone: { type: String, required: true }

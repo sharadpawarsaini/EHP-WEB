@@ -8,6 +8,7 @@ import profileRoutes from './routes/profileRoutes';
 import medicalRoutes from './routes/medicalRoutes';
 import emergencyRoutes from './routes/emergencyRoutes';
 import reportRoutes from './routes/reportRoutes';
+import familyRoutes from './routes/familyRoutes';
 import path from 'path';
 
 dotenv.config();
@@ -26,6 +27,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/medical', medicalRoutes);
 app.use('/api/emergency', emergencyRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/family', familyRoutes);
 
 // Serve static files from uploads folder
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));

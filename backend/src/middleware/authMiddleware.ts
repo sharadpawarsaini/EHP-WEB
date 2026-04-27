@@ -10,8 +10,17 @@ export const protect = (req: AuthRequest, res: Response, next: NextFunction): vo
 
   if (token) {
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+      const decoded: any = jwt.verify(token, process.env.JWT_SECRET as string);
       req.user = decoded;
+      
+      // Extract managed member ID from headers
+      const managedMemberId = req.headers['x-managed-member-id'];
+      if (managedMemberId) {
+        req.user.memberId = managedMemberId;
+      } else {
+        req.user.memberId = null;
+      }
+      
       next();
     } catch (error) {
       console.log('JWT Verification Failed:', error);

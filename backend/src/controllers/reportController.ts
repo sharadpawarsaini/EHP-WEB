@@ -15,6 +15,7 @@ export const uploadReport = async (req: AuthRequest, res: Response): Promise<voi
     
     const report = await MedicalReport.create({
       userId: req.user.userId,
+      memberId: req.user.memberId,
       title: title || req.file.originalname,
       fileName: req.file.filename,
       fileUrl: `/uploads/reports/${req.file.filename}`,
@@ -30,7 +31,10 @@ export const uploadReport = async (req: AuthRequest, res: Response): Promise<voi
 
 export const getReports = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const reports = await MedicalReport.find({ userId: req.user.userId }).sort({ createdAt: -1 });
+    const reports = await MedicalReport.find({ 
+      userId: req.user.userId,
+      memberId: req.user.memberId 
+    }).sort({ createdAt: -1 });
     res.json(reports);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
@@ -39,7 +43,11 @@ export const getReports = async (req: AuthRequest, res: Response): Promise<void>
 
 export const deleteReport = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const report = await MedicalReport.findOne({ _id: req.params.id, userId: req.user.userId });
+    const report = await MedicalReport.findOne({ 
+      _id: req.params.id, 
+      userId: req.user.userId,
+      memberId: req.user.memberId 
+    });
     
     if (!report) {
       res.status(404).json({ message: 'Report not found' });

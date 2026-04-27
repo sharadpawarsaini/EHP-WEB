@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
-import { Copy, Download, Link as LinkIcon, Printer } from 'lucide-react';
+import { Copy, Download, Link as LinkIcon, Printer, Lock, Unlock, ShieldAlert } from 'lucide-react';
 
 const EmergencyTab = () => {
   const [linkData, setLinkData] = useState<any>(null);
@@ -42,6 +42,15 @@ const EmergencyTab = () => {
       alert('Failed to generate link');
     } finally {
       setGenerating(false);
+    }
+  };
+
+  const togglePrivacy = async () => {
+    try {
+      const { data } = await api.post('/emergency/toggle-privacy');
+      setLinkData({ ...linkData, link: data });
+    } catch (err) {
+      alert('Failed to toggle privacy');
     }
   };
 
@@ -111,7 +120,34 @@ const EmergencyTab = () => {
             </div>
 
             <div className="flex flex-col items-center justify-center p-8 border border-gray-200 dark:border-slate-600 rounded-2xl bg-gray-50/50 dark:bg-slate-700/30">
-              <div className="bg-white p-4 rounded-xl shadow-md mb-8 border border-gray-100">
+              {/* Privacy Toggle Section */}
+              <div className="w-full mb-8 bg-white dark:bg-slate-800 rounded-xl p-4 border border-gray-100 dark:border-slate-700 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2 rounded-lg ${linkData.link.isLocked ? 'bg-red-50 dark:bg-red-900/20' : 'bg-emerald-50 dark:bg-emerald-900/20'}`}>
+                      {linkData.link.isLocked ? <Lock className="h-5 w-5 text-red-600 dark:text-red-400" /> : <Unlock className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />}
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-gray-900 dark:text-white">Privacy Lock</p>
+                      <p className="text-[10px] text-gray-500 font-bold uppercase tracking-tight">{linkData.link.isLocked ? 'Profile Hidden' : 'Profile Public'}</p>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={togglePrivacy}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${linkData.link.isLocked ? 'bg-red-500' : 'bg-emerald-500'}`}
+                  >
+                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${linkData.link.isLocked ? 'translate-x-6' : 'translate-x-1'}`} />
+                  </button>
+                </div>
+                {linkData.link.isLocked && (
+                  <div className="mt-3 flex items-start gap-2 bg-red-50 dark:bg-red-900/10 p-2 rounded-lg border border-red-100 dark:border-red-900/30">
+                    <ShieldAlert className="h-3.5 w-3.5 text-red-500 mt-0.5 flex-shrink-0" />
+                    <p className="text-[10px] text-red-800 dark:text-red-400 font-medium">Your profile is hidden. Emergency responders cannot see your medical details until you unlock it.</p>
+                  </div>
+                )}
+              </div>
+
+              <div className={`bg-white p-4 rounded-xl shadow-md mb-8 border border-gray-100 transition-opacity ${linkData.link.isLocked ? 'opacity-20 grayscale' : 'opacity-100'}`}>
                 <img src={linkData.qrDataUrl} alt="Emergency QR Code" className="w-56 h-56" />
               </div>
               <div className="flex gap-4">
