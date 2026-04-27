@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import { Activity, ShieldAlert, HeartPulse, UserCircle, Phone, Lock, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -19,7 +19,7 @@ const EmergencyPage = () => {
   useEffect(() => {
     const fetchPublicData = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/emergency/public/${slug}`);
+        const response = await api.get(`/emergency/public/${slug}`);
         setData(response.data);
       } catch (err) {
         setError('Emergency profile not found or unavailable.');
@@ -35,7 +35,7 @@ const EmergencyPage = () => {
     setDoctorAuthLoading(true);
     setDoctorAuthError('');
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/emergency/public/${slug}/access`, {
+      const response = await api.post(`/emergency/public/${slug}/access`, {
         accessCode
       });
       setFullData(response.data);
