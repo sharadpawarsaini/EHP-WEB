@@ -27,7 +27,8 @@ import {
   Download,
   AlertTriangle,
   History,
-  Navigation
+  Navigation,
+  Watch
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -173,6 +174,26 @@ const SettingsTab = () => {
                <motion.div animate={{ x: privacyMode ? 24 : 4 }} className="absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm" />
             </button>
           )
+        }
+      ]
+    },
+        }
+      ]
+    },
+    {
+      title: 'Security & Identity',
+      items: [
+        {
+          icon: <Lock className="w-5 h-5 text-indigo-500" />,
+          label: 'Change Neural Key',
+          description: 'Update your secondary encryption password',
+          action: <button onClick={() => setShowPasswordModal(true)} className="text-[10px] font-black text-indigo-600 uppercase tracking-widest bg-indigo-50 px-4 py-2 rounded-xl hover:bg-indigo-600 hover:text-white transition-all">Update Key</button>
+        },
+        {
+          icon: <Trash2 className="w-5 h-5 text-rose-500" />,
+          label: 'Purge Identity',
+          description: 'Permanently delete all clinical data',
+          action: <button onClick={() => setShowDeleteModal(true)} className="text-[10px] font-black text-rose-600 uppercase tracking-widest bg-rose-50 px-4 py-2 rounded-xl hover:bg-rose-600 hover:text-white transition-all">Purge Data</button>
         }
       ]
     },
