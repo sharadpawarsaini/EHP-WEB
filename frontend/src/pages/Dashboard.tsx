@@ -16,6 +16,7 @@ import VaccinationsTab from './dashboard/VaccinationsTab';
 import AppointmentsTab from './dashboard/AppointmentsTab';
 import HospitalVisitDetailsTab from './dashboard/HospitalVisitDetailsTab';
 import HospitalVisitsTab from './dashboard/HospitalVisitsTab';
+import IntegrationsTab from './dashboard/IntegrationsTab';
 
 const Dashboard = () => {
   return (
@@ -24,6 +25,7 @@ const Dashboard = () => {
       <Route path="/profile" element={<ProfileTab />} />
       <Route path="/medical" element={<MedicalTab />} />
       <Route path="/visits" element={<HospitalVisitsTab />} />
+      <Route path="/integrations" element={<IntegrationsTab />} />
       <Route path="/medicines" element={<MedicinesTab />} />
       <Route path="/vaccinations" element={<VaccinationsTab />} />
       <Route path="/appointments" element={<AppointmentsTab />} />

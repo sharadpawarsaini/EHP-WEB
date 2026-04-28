@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer 
 } from 'recharts';
-import { Activity, Plus, Trash2, TrendingUp, Info, Calendar, Clock } from 'lucide-react';
+import { Activity, Plus, Trash2, TrendingUp, Info, Calendar, Clock, RefreshCcw } from 'lucide-react';
 import { format } from 'date-fns';
 
 const VitalsTab = () => {
+  const navigate = useNavigate();
   const [vitals, setVitals] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
@@ -83,12 +85,20 @@ const VitalsTab = () => {
           <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tight">Health Trends</h2>
           <p className="text-gray-500 dark:text-gray-400">Track and visualize your vital signs over time.</p>
         </div>
-        <button 
-          onClick={() => setShowAdd(true)}
-          className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-xl shadow-blue-500/20 transition-all hover:scale-105 active:scale-95"
-        >
-          <Plus className="h-5 w-5" /> Add Vital
-        </button>
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          <button 
+            onClick={() => navigate('/dashboard/integrations')}
+            className="bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-gray-200 dark:hover:bg-slate-600 transition-all active:scale-95 border border-gray-200 dark:border-slate-600"
+          >
+            <RefreshCcw className="h-5 w-5" /> Sync
+          </button>
+          <button 
+            onClick={() => setShowAdd(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-xl shadow-blue-500/20 transition-all hover:scale-105 active:scale-95"
+          >
+            <Plus className="h-5 w-5" /> Add Vital
+          </button>
+        </div>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">

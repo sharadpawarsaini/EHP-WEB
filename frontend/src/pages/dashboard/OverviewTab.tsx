@@ -513,6 +513,29 @@ const OverviewTab = () => {
 
           {/* Activity Feed Mini */}
           <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
+             <div className="flex justify-between items-center mb-6">
+                <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
+                   <Watch className="h-5 w-5 text-blue-600" />
+                   Wearables
+                </h3>
+                <span className="flex items-center gap-1.5 px-2 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 text-[8px] font-black uppercase rounded-lg tracking-widest border border-emerald-100 dark:border-emerald-800/30">
+                   <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                   Active
+                </span>
+             </div>
+             <div className="flex items-center gap-4 p-4 bg-gray-50/50 dark:bg-slate-900/50 rounded-2xl border border-gray-100 dark:border-slate-700 group hover:border-blue-500/30 transition-all cursor-pointer" onClick={() => navigate('/dashboard/integrations')}>
+                <div className="p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
+                   <Activity className="h-5 w-5 text-blue-500" />
+                </div>
+                <div>
+                   <p className="text-sm font-black text-gray-900 dark:text-white leading-none mb-1">Google Fit</p>
+                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Last synced 2m ago</p>
+                </div>
+             </div>
+             <button onClick={() => navigate('/dashboard/integrations')} className="mt-4 w-full py-3 text-blue-600 dark:text-blue-400 font-black text-[10px] uppercase tracking-widest hover:underline">Manage Integrations</button>
+          </div>
+
+          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
              <h3 className="text-lg font-black text-gray-900 dark:text-white mb-6">Recent Activity</h3>
              <div className="space-y-6">
                 {activityFeed.map((act, i) => (

@@ -57,6 +57,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: t('nav_logs'), path: '/dashboard/logs', icon: History },
     { name: t('nav_hospitals'), path: '/dashboard/hospitals', icon: Hospital },
     { name: t('nav_vitals'), path: '/dashboard/vitals', icon: Activity },
+    { name: 'Wearables', path: '/dashboard/integrations', icon: Watch },
     { name: t('nav_family'), path: '/dashboard/family', icon: Users },
     { name: 'Feedback', path: '/dashboard/feedback', icon: MessageSquareHeart },
     { name: 'Settings', path: '/dashboard/settings', icon: Settings },
