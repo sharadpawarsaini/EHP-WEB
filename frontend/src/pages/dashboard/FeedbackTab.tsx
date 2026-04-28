@@ -316,33 +316,35 @@ const FeedbackTab = () => {
                  </p>
               </div>
             </div>
-         </div>
-      <div className="pt-10">
-         <div className="flex items-center gap-4 mb-8">
-            <h3 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Community Wall of Love</h3>
-            <div className="h-px flex-1 bg-gray-100 dark:bg-slate-800"></div>
-         </div>
-         <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { name: 'Sarah J.', text: 'The SOS feature saved my life during a hiking accident. Amazing work!', rate: 5 },
-              { name: 'David M.', text: 'Finally a health app that respects my privacy and connects my watch easily.', rate: 5 },
-              { name: 'Linda K.', text: 'Managing my parents health profile has never been easier. Thank you EHP!', rate: 4 }
-            ].map((wall, i) => (
-              <div key={i} className="p-8 bg-white dark:bg-slate-800 rounded-[2.5rem] border border-gray-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1">
-                 <div className="flex gap-1 mb-4">
-                    {[1, 2, 3, 4, 5].map(s => (
-                       <Star key={s} className={`h-3 w-3 ${s <= wall.rate ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200'}`} />
-                    ))}
-                 </div>
-                 <p className="text-gray-600 dark:text-gray-300 italic font-medium mb-6">"{wall.text}"</p>
-                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-[10px] font-black text-blue-600 uppercase tracking-widest">{wall.name.charAt(0)}</div>
-                    <span className="text-xs font-black text-gray-900 dark:text-white">{wall.name}</span>
-                 </div>
-              </div>
-            ))}
-         </div>
-      </div>
+          </div>
+       </div>
+
+       <div className="pt-10">
+          <div className="flex items-center gap-4 mb-8">
+             <h3 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Community Wall of Love</h3>
+             <div className="h-px flex-1 bg-gray-100 dark:bg-slate-800"></div>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+             {[
+               { name: 'Sarah J.', text: 'The SOS feature saved my life during a hiking accident. Amazing work!', rate: 5 },
+               { name: 'David M.', text: 'Finally a health app that respects my privacy and connects my watch easily.', rate: 5 },
+               { name: 'Linda K.', text: 'Managing my parents health profile has never been easier. Thank you EHP!', rate: 4 }
+             ].map((wall, i) => (
+               <div key={i} className="p-8 bg-white dark:bg-slate-800 rounded-[2.5rem] border border-gray-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1">
+                  <div className="flex gap-1 mb-4">
+                     {[1, 2, 3, 4, 5].map(s => (
+                        <Star key={s} className={`h-3 w-3 ${s <= wall.rate ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200'}`} />
+                     ))}
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-300 italic font-medium mb-6">"{wall.text}"</p>
+                  <div className="flex items-center gap-3">
+                     <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-[10px] font-black text-blue-600 uppercase tracking-widest">{wall.name.charAt(0)}</div>
+                     <span className="text-xs font-black text-gray-900 dark:text-white">{wall.name}</span>
+                  </div>
+               </div>
+             ))}
+          </div>
+       </div>
     </div>
   );
 };
