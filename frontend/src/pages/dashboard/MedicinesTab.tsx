@@ -11,7 +11,9 @@ import {
   ToggleLeft,
   ToggleRight,
   Info,
-  X
+  X,
+  ShieldCheck,
+  Zap
 } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -77,17 +79,57 @@ const MedicinesTab = () => {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex justify-between items-center">
+    <div className="space-y-8 animate-in fade-in duration-500">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Medicine Reminders</h2>
-          <p className="text-gray-600 dark:text-gray-400">Track your daily medications and never miss a dose.</p>
+          <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Medicine Reminders</h2>
+          <p className="text-gray-500 dark:text-gray-400 font-medium">Track your daily medications and never miss a dose.</p>
         </div>
         <button 
           onClick={() => setShowAdd(true)}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 shadow-lg shadow-indigo-500/20 transition-all hover:scale-[1.02] active:scale-95"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-indigo-500/30 transition-all hover:scale-105 active:scale-95"
         >
           <Plus className="h-5 w-5" /> Add Medicine
         </button>
+      </div>
+
+      {/* Interaction Checker - STAND OUT FEATURE */}
+      <div className="bg-gradient-to-br from-gray-900 to-slate-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-2xl">
+         <div className="absolute top-0 right-0 p-8 opacity-20">
+            <ShieldCheck className="h-32 w-32 text-blue-400" />
+         </div>
+         <div className="relative z-10">
+            <h3 className="text-xl font-black mb-2 flex items-center gap-3">
+               <Zap className="h-6 w-6 text-amber-400" />
+               Smart Interaction Checker
+            </h3>
+            <p className="text-gray-400 text-sm font-medium mb-8 max-w-lg">Check for potential complications between two medications before you take them.</p>
+            
+            <div className="grid sm:grid-cols-2 gap-4 max-w-3xl">
+               <div className="space-y-2">
+                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Medication A</label>
+                  <select className="w-full p-4 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-500/50">
+                     <option className="text-black">Select Primary...</option>
+                     <option className="text-black">Aspirin</option>
+                     <option className="text-black">Warfarin</option>
+                     <option className="text-black">Ibuprofen</option>
+                  </select>
+               </div>
+               <div className="space-y-2">
+                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Medication B</label>
+                  <select className="w-full p-4 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-500/50">
+                     <option className="text-black">Select Secondary...</option>
+                     <option className="text-black">Blood Thinners</option>
+                     <option className="text-black">Alcohol</option>
+                     <option className="text-black">Vitamins</option>
+                  </select>
+               </div>
+            </div>
+            <div className="mt-6 flex items-center gap-4 p-4 bg-amber-400/10 rounded-2xl border border-amber-400/20 max-w-3xl">
+               <AlertCircle className="h-5 w-5 text-amber-400" />
+               <p className="text-xs font-bold text-amber-200">Simulation: Combining Blood Thinners with Aspirin may increase bleeding risk. Consult your physician.</p>
+            </div>
+         </div>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
