@@ -18,7 +18,9 @@ import {
   Brain, 
   ShieldCheck,
   ChevronRight,
-  ChevronDown
+  ChevronDown,
+  CheckCircle2,
+  X as XIcon
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -308,7 +310,7 @@ const VitalsTab = () => {
         {showAdd && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-xl flex items-center justify-center p-4">
              <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-white dark:bg-slate-800 rounded-[3rem] p-10 w-full max-w-lg shadow-2xl relative">
-                <button onClick={() => setShowAdd(false)} className="absolute top-8 right-8 p-3 bg-gray-100 dark:bg-slate-900 rounded-full text-gray-500"><X className="h-4 w-4" /></button>
+                <button onClick={() => setShowAdd(false)} className="absolute top-8 right-8 p-3 bg-gray-100 dark:bg-slate-900 rounded-full text-gray-500"><XIcon className="h-4 w-4" /></button>
                 <h3 className="text-3xl font-black text-gray-900 dark:text-white mb-8">Record Bio-Data</h3>
                 <form onSubmit={addVital} className="space-y-6">
                    <div>
@@ -343,13 +345,5 @@ const VitalsTab = () => {
     </div>
   );
 };
-
-// Simple X icon for modal
-const X = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="18" y1="6" x2="6" y2="18"></line>
-    <line x1="6" y1="6" x2="18" y2="18"></line>
-  </svg>
-);
 
 export default VitalsTab;
