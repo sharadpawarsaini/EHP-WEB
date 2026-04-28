@@ -17,7 +17,10 @@ const OverviewTab = () => {
     contactsCount: 0,
     hasLink: false,
     hasReports: false,
-    hasVitals: false
+    hasVitals: false,
+    hasMedicines: false,
+    hasVaccinations: false,
+    hasAppointments: false
   });
 
   const checklistItems = [
@@ -27,6 +30,9 @@ const OverviewTab = () => {
     { id: 'link', label: 'Activate Emergency Link', completed: stats.hasLink, path: '/dashboard/emergency' },
     { id: 'vitals', label: 'Record your first Vital sign', completed: stats.hasVitals, path: '/dashboard/vitals' },
     { id: 'reports', label: 'Upload a Medical Report', completed: stats.hasReports, path: '/dashboard/reports' },
+    { id: 'medicines', label: 'Setup Medicine Reminders', completed: stats.hasMedicines, path: '/dashboard/medicines' },
+    { id: 'vaccinations', label: 'Log Vaccination History', completed: stats.hasVaccinations, path: '/dashboard/vaccinations' },
+    { id: 'appointments', label: 'Schedule a Health Appointment', completed: stats.hasAppointments, path: '/dashboard/appointments' },
   ];
 
   const safetyScore = Math.round((checklistItems.filter(i => i.completed).length / checklistItems.length) * 100);
@@ -34,14 +40,17 @@ const OverviewTab = () => {
   useEffect(() => {
     const fetchOverviewData = async () => {
       try {
-        const [profileRes, medicalRes, contactsRes, linkRes, vitalsRes, reportsRes, visitsRes] = await Promise.all([
+        const [profileRes, medicalRes, contactsRes, linkRes, vitalsRes, reportsRes, visitsRes, medicinesRes, vaccinationsRes, appointmentsRes] = await Promise.all([
           api.get('/profile').catch(() => ({ data: null })),
           api.get('/medical').catch(() => ({ data: null })),
           api.get('/emergency/contacts').catch(() => ({ data: [] })),
           api.get('/emergency/link').catch(() => ({ data: null })),
           api.get('/vitals').catch(() => ({ data: [] })),
           api.get('/reports').catch(() => ({ data: [] })),
-          api.get('/visits').catch(() => ({ data: [] }))
+          api.get('/visits').catch(() => ({ data: [] })),
+          api.get('/medicines').catch(() => ({ data: [] })),
+          api.get('/vaccinations').catch(() => ({ data: [] })),
+          api.get('/appointments').catch(() => ({ data: [] }))
         ]);
 
         setData({
@@ -59,7 +68,10 @@ const OverviewTab = () => {
           contactsCount: contactsRes.data?.length || 0,
           hasLink: !!linkRes.data?.link?.publicSlug,
           hasReports: reportsRes.data?.length > 0,
-          hasVitals: vitalsRes.data?.length > 0
+          hasVitals: vitalsRes.data?.length > 0,
+          hasMedicines: medicinesRes.data?.length > 0,
+          hasVaccinations: vaccinationsRes.data?.length > 0,
+          hasAppointments: appointmentsRes.data?.length > 0
         };
         setStats(s);
 

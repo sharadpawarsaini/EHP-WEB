@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../services/api';
-import { Activity, ShieldAlert, HeartPulse, UserCircle, Phone, Lock, ChevronRight, FileText, Download, Clock, WifiOff } from 'lucide-react';
+import { Activity, ShieldAlert, HeartPulse, UserCircle, Phone, Lock, ChevronRight, FileText, Download, Clock, WifiOff, Pill, Syringe, Calendar, History, Stethoscope } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { format } from 'date-fns';
 
 const EmergencyPage = () => {
   const { slug } = useParams();
@@ -120,7 +121,6 @@ const EmergencyPage = () => {
   }
 
   const profile = data.profile || {};
-
   const displayData = fullData || data;
   const isFullAccess = !!fullData;
 
@@ -154,26 +154,9 @@ const EmergencyPage = () => {
               </div>
             )}
             <div className="flex bg-white/10 p-1 rounded-lg backdrop-blur-md border border-white/20">
-              <button 
-                onClick={() => i18n.changeLanguage('en')}
-                className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${i18n.language.startsWith('en') ? 'bg-white text-gray-900 shadow-sm' : 'text-white hover:bg-white/10'}`}
-              >
-                EN
-              </button>
-              <button 
-                onClick={() => i18n.changeLanguage('hi')}
-                className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${i18n.language === 'hi' ? 'bg-white text-gray-900 shadow-sm' : 'text-white hover:bg-white/10'}`}
-              >
-                हिं
-              </button>
+              <button onClick={() => i18n.changeLanguage('en')} className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${i18n.language.startsWith('en') ? 'bg-white text-gray-900 shadow-sm' : 'text-white hover:bg-white/10'}`}>EN</button>
+              <button onClick={() => i18n.changeLanguage('hi')} className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${i18n.language === 'hi' ? 'bg-white text-gray-900 shadow-sm' : 'text-white hover:bg-white/10'}`}>हिं</button>
             </div>
-            {!isFullAccess && (
-              <div className="hidden sm:flex items-center space-x-2 text-sm font-medium bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm shadow-sm border border-white/10">
-                <span className="animate-ping absolute h-2 w-2 bg-white rounded-full opacity-75"></span>
-                <span className="relative h-2 w-2 bg-white rounded-full"></span>
-                <span>{t('public_view')}</span>
-              </div>
-            )}
           </div>
         </div>
       </header>
@@ -181,7 +164,6 @@ const EmergencyPage = () => {
       <main className="max-w-3xl mx-auto px-4 mt-8 space-y-6">
         <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-[2rem] shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700 overflow-hidden relative">
           <div className={`absolute top-0 left-0 w-full h-2 ${isFullAccess ? 'bg-gradient-to-r from-blue-500 to-indigo-500' : 'bg-gradient-to-r from-red-500 to-rose-500'}`}></div>
-          
           <div className="p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left relative z-10">
             <div className="w-24 h-24 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center flex-shrink-0 border-4 border-white dark:border-slate-600 shadow-sm">
               {profile.photoUrl ? (
@@ -203,45 +185,31 @@ const EmergencyPage = () => {
         </div>
 
         {!isFullAccess && (
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-r from-blue-900/80 to-indigo-900/80 border border-blue-500/30 rounded-3xl p-6 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg shadow-blue-900/20"
-          >
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-gradient-to-r from-blue-900/80 to-indigo-900/80 border border-blue-500/30 rounded-3xl p-6 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg shadow-blue-900/20">
             <div className="flex items-center gap-4 text-white">
-              <div className="p-3 bg-blue-500/20 rounded-2xl">
-                <Lock className="h-8 w-8 text-blue-300 flex-shrink-0" />
-              </div>
+              <div className="p-3 bg-blue-500/20 rounded-2xl"><Lock className="h-8 w-8 text-blue-300 flex-shrink-0" /></div>
               <div>
                 <h3 className="font-semibold text-lg text-white">{t('doctor_access')}</h3>
                 <p className="text-blue-200 text-sm">Unlock full medical history using the Access Code.</p>
               </div>
             </div>
-            <button 
-              onClick={() => setShowDoctorModal(true)}
-              className="w-full sm:w-auto bg-blue-500 hover:bg-blue-400 text-white px-6 py-3 rounded-xl font-bold shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2"
-            >
+            <button onClick={() => setShowDoctorModal(true)} className="w-full sm:w-auto bg-blue-500 hover:bg-blue-400 text-white px-6 py-3 rounded-xl font-bold shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2">
               {t('unlock')} <ChevronRight className="h-4 w-4" />
             </button>
           </motion.div>
         )}
 
         <div className="grid gap-6">
+          {/* Allergies */}
           <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white dark:border-slate-700">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-              <ShieldAlert className="h-5 w-5 text-red-500" /> {t('allergies')}
-            </h3>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><ShieldAlert className="h-5 w-5 text-red-500" /> {t('allergies')}</h3>
             {displayData.medical?.allergies?.length > 0 ? (
               <div className="flex flex-wrap gap-2">
                 {displayData.medical.allergies.map((allergy: string, i: number) => (
-                  <span key={i} className="bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300 px-3 py-1 rounded-lg font-medium text-sm border border-red-100 dark:border-red-800/50 shadow-sm">
-                    {allergy}
-                  </span>
+                  <span key={i} className="bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300 px-3 py-1 rounded-lg font-medium text-sm border border-red-100 dark:border-red-800/50 shadow-sm">{allergy}</span>
                 ))}
               </div>
-            ) : (
-              <p className="text-gray-500 dark:text-gray-400 italic">{t('no_allergies')}</p>
-            )}
+            ) : <p className="text-gray-500 dark:text-gray-400 italic">{t('no_allergies')}</p>}
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -256,9 +224,7 @@ const EmergencyPage = () => {
                     </li>
                   ))}
                 </ul>
-              ) : (
-                <p className="text-gray-500 dark:text-gray-400 italic">{t('no_conditions')}</p>
-              )}
+              ) : <p className="text-gray-500 dark:text-gray-400 italic">{t('no_conditions')}</p>}
             </div>
 
             <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white dark:border-slate-700">
@@ -272,40 +238,99 @@ const EmergencyPage = () => {
                     </li>
                   ))}
                 </ul>
-              ) : (
-                <p className="text-gray-500 dark:text-gray-400 italic">{t('no_medications')}</p>
-              )}
+              ) : <p className="text-gray-500 dark:text-gray-400 italic">{t('no_medications')}</p>}
             </div>
           </div>
 
           {isFullAccess && (
             <div className="space-y-6">
-              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-blue-100 dark:border-blue-900/50">
-                <h3 className="text-lg font-bold text-blue-900 dark:text-blue-400 mb-4">Additional Medical History</h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-blue-50/50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100/50 dark:border-blue-800/30">
-                    <h4 className="font-bold text-gray-900 dark:text-white mb-2">Past Surgeries</h4>
-                    <p className="text-gray-600 dark:text-gray-300 font-medium">{displayData.medical?.surgeries?.join(', ') || 'None reported'}</p>
-                  </div>
-                  <div className="bg-blue-50/50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100/50 dark:border-blue-800/30">
-                    <h4 className="font-bold text-gray-900 dark:text-white mb-2">Vaccinations</h4>
-                    <p className="text-gray-600 dark:text-gray-300 font-medium">{displayData.medical?.vaccinations?.join(', ') || 'None reported'}</p>
+              {/* Active Medicines */}
+              {displayData.medicines?.length > 0 && (
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-indigo-100 dark:border-indigo-900/50">
+                  <h3 className="text-lg font-bold text-indigo-900 dark:text-indigo-400 mb-4 flex items-center gap-2"><Pill className="h-5 w-5" /> Active Medications</h3>
+                  <div className="grid gap-3">
+                    {displayData.medicines.filter((m: any) => m.active).map((m: any) => (
+                      <div key={m._id} className="bg-indigo-50/50 dark:bg-indigo-900/20 p-4 rounded-xl border border-indigo-100/50 dark:border-indigo-800/30">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h4 className="font-bold text-gray-900 dark:text-white">{m.name}</h4>
+                            <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium">{m.dosage} • {m.frequency}</p>
+                          </div>
+                          <span className="text-[10px] font-bold bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">{m.times.join(', ')}</span>
+                        </div>
+                        {m.notes && <p className="mt-2 text-xs text-gray-500 italic">Notes: {m.notes}</p>}
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
+              )}
+
+              {/* Vaccinations */}
+              {displayData.vaccinations?.length > 0 && (
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-emerald-100 dark:border-emerald-900/50">
+                  <h3 className="text-lg font-bold text-emerald-900 dark:text-emerald-400 mb-4 flex items-center gap-2"><Syringe className="h-5 w-5" /> Vaccination History</h3>
+                  <div className="grid gap-3">
+                    {displayData.vaccinations.map((v: any) => (
+                      <div key={v._id} className="bg-emerald-50/50 dark:bg-emerald-900/20 p-4 rounded-xl border border-emerald-100/50 dark:border-emerald-800/30 flex justify-between items-center">
+                        <div>
+                          <h4 className="font-bold text-gray-900 dark:text-white">{v.vaccineName}</h4>
+                          <p className="text-xs text-emerald-600 dark:text-emerald-400">{v.disease}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-xs font-bold text-gray-500">{format(new Date(v.dateAdministered), 'MMM dd, yyyy')}</p>
+                          {v.isBooster && <span className="text-[8px] font-black uppercase text-amber-600">Booster</span>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Upcoming Appointments */}
+              {displayData.appointments?.filter((a: any) => a.status === 'Scheduled').length > 0 && (
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-blue-100 dark:border-blue-900/50">
+                  <h3 className="text-lg font-bold text-blue-900 dark:text-blue-400 mb-4 flex items-center gap-2"><Calendar className="h-5 w-5" /> Upcoming Appointments</h3>
+                  <div className="space-y-3">
+                    {displayData.appointments.filter((a: any) => a.status === 'Scheduled').map((a: any) => (
+                      <div key={a._id} className="bg-blue-50/50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100/50 dark:border-blue-800/30">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="font-bold text-gray-900 dark:text-white">{a.doctorName}</h4>
+                          <span className="text-[10px] font-bold text-blue-600 bg-white px-2 py-1 rounded-lg shadow-sm">{format(new Date(a.appointmentDate), 'MMM dd, HH:mm')}</span>
+                        </div>
+                        <p className="text-xs text-gray-600 dark:text-gray-400"><Stethoscope className="inline h-3 w-3 mr-1" />{a.specialty} • {a.hospitalName}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Hospital Visits */}
+              {displayData.visits?.length > 0 && (
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><History className="h-5 w-5 text-indigo-500" /> Recent Visits</h3>
+                  <div className="space-y-3">
+                    {displayData.visits.slice(0, 5).map((visit: any) => (
+                      <div key={visit._id} className="bg-gray-50 dark:bg-slate-900/50 p-4 rounded-xl border border-gray-100 dark:border-slate-700">
+                        <div className="flex justify-between items-center">
+                          <h4 className="font-bold text-sm text-gray-900 dark:text-white">{visit.hospitalName}</h4>
+                          <span className="text-[10px] text-gray-400">{format(new Date(visit.visitDate), 'MMM dd, yyyy')}</span>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">{visit.reason}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Reports Section */}
               {displayData.reports?.length > 0 && (
                 <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white dark:border-slate-700">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                    <FileText className="h-5 w-5 text-blue-500" /> Clinical Reports
-                  </h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><FileText className="h-5 w-5 text-blue-500" /> Clinical Reports</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
                     {displayData.reports.map((report: any) => (
                       <div key={report._id} className="bg-gray-50/50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-xl p-4 flex flex-col justify-between shadow-sm">
                         <h4 className="font-bold text-gray-900 dark:text-white text-sm truncate">{report.title}</h4>
-                        <a href={`${import.meta.env.VITE_API_URL.replace('/api', '')}${report.fileUrl}`} target="_blank" className="mt-3 flex items-center justify-center gap-2 bg-blue-50 text-blue-600 px-3 py-2 rounded-lg text-xs font-bold">
-                          <Download className="h-3.5 w-3.5" /> View
-                        </a>
+                        <a href={`${import.meta.env.VITE_API_URL.replace('/api', '')}${report.fileUrl}`} target="_blank" className="mt-3 flex items-center justify-center gap-2 bg-blue-50 text-blue-600 px-3 py-2 rounded-lg text-xs font-bold"><Download className="h-3.5 w-3.5" /> View</a>
                       </div>
                     ))}
                   </div>
@@ -314,10 +339,9 @@ const EmergencyPage = () => {
             </div>
           )}
 
+          {/* Emergency Contacts */}
           <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white dark:border-slate-700">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-              <Phone className="h-5 w-5 text-emerald-500" /> {t('contacts')}
-            </h3>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><Phone className="h-5 w-5 text-emerald-500" /> {t('contacts')}</h3>
             {displayData.contacts?.length > 0 ? (
               <div className="grid sm:grid-cols-2 gap-4">
                 {displayData.contacts.map((contact: any, i: number) => (
@@ -326,15 +350,11 @@ const EmergencyPage = () => {
                       <h4 className="font-bold text-gray-900 dark:text-white text-lg">{contact.name}</h4>
                       <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">{contact.relation}</span>
                     </div>
-                    <a href={`tel:${contact.phone}`} className="mt-4 flex items-center justify-center gap-2 bg-emerald-50 text-emerald-800 px-4 py-3 rounded-xl font-bold">
-                      <Phone className="h-5 w-5" /> {t('call')}
-                    </a>
+                    <a href={`tel:${contact.phone}`} className="mt-4 flex items-center justify-center gap-2 bg-emerald-50 text-emerald-800 px-4 py-3 rounded-xl font-bold"><Phone className="h-5 w-5" /> {t('call')}</a>
                   </div>
                 ))}
               </div>
-            ) : (
-              <p className="text-gray-500 dark:text-gray-400 italic">No contacts listed.</p>
-            )}
+            ) : <p className="text-gray-500 dark:text-gray-400 italic">No contacts listed.</p>}
           </div>
         </div>
       </main>
