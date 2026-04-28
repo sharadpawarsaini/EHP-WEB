@@ -26,6 +26,7 @@ import { useProfileContext } from '../context/ProfileContext';
 import { useAuth } from '../context/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
 import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { logout } = useAuth();
