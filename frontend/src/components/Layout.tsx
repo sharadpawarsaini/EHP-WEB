@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogOut, User, Activity, ShieldAlert, FileText, QrCode, Home as HomeIcon, ClipboardList, History, Hospital, Users, MessageSquareHeart, Menu, X, Heart } from 'lucide-react';
+import { LogOut, User, Activity, ShieldAlert, FileText, QrCode, Home as HomeIcon, ClipboardList, History, Hospital, Users, MessageSquareHeart, Menu, X, Heart, Settings, Pill, Syringe, Calendar as CalendarIcon } from 'lucide-react';
 import { useProfileContext } from '../context/ProfileContext';
 import { useAuth } from '../context/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
@@ -21,6 +21,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const navItems = [
     { name: t('nav_overview'), path: '/dashboard', icon: HomeIcon },
     { name: t('nav_profile'), path: '/dashboard/profile', icon: User },
+    { name: 'Medicines', path: '/dashboard/medicines', icon: Pill },
+    { name: 'Vaccinations', path: '/dashboard/vaccinations', icon: Syringe },
+    { name: 'Appointments', path: '/dashboard/appointments', icon: CalendarIcon },
     { name: t('nav_medical'), path: '/dashboard/medical', icon: ClipboardList },
     { name: t('nav_reports'), path: '/dashboard/reports', icon: FileText },
     { name: t('nav_contacts'), path: '/dashboard/contacts', icon: ShieldAlert },
@@ -30,6 +33,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: t('nav_vitals'), path: '/dashboard/vitals', icon: Activity },
     { name: t('nav_family'), path: '/dashboard/family', icon: Users },
     { name: 'Feedback', path: '/dashboard/feedback', icon: MessageSquareHeart },
+    { name: 'Settings', path: '/dashboard/settings', icon: Settings },
   ];
 
   // Bottom nav items for mobile (most important ones)

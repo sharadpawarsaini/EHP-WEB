@@ -10,6 +10,10 @@ import HospitalFinderTab from './dashboard/HospitalFinderTab';
 import FamilyTab from './dashboard/FamilyTab';
 import VitalsTab from './dashboard/VitalsTab';
 import FeedbackTab from './dashboard/FeedbackTab';
+import SettingsTab from './dashboard/SettingsTab';
+import MedicinesTab from './dashboard/MedicinesTab';
+import VaccinationsTab from './dashboard/VaccinationsTab';
+import AppointmentsTab from './dashboard/AppointmentsTab';
 import HospitalVisitDetailsTab from './dashboard/HospitalVisitDetailsTab';
 
 const Dashboard = () => {
@@ -18,6 +22,9 @@ const Dashboard = () => {
       <Route path="/" element={<OverviewTab />} />
       <Route path="/profile" element={<ProfileTab />} />
       <Route path="/medical" element={<MedicalTab />} />
+      <Route path="/medicines" element={<MedicinesTab />} />
+      <Route path="/vaccinations" element={<VaccinationsTab />} />
+      <Route path="/appointments" element={<AppointmentsTab />} />
       <Route path="/contacts" element={<ContactsTab />} />
       <Route path="/emergency" element={<EmergencyTab />} />
       <Route path="/reports" element={<ReportsTab />} />
@@ -26,6 +33,7 @@ const Dashboard = () => {
       <Route path="/family" element={<FamilyTab />} />
       <Route path="/vitals" element={<VitalsTab />} />
       <Route path="/feedback" element={<FeedbackTab />} />
+      <Route path="/settings" element={<SettingsTab />} />
       <Route path="/visits/:id" element={<HospitalVisitDetailsTab />} />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
