@@ -19,7 +19,14 @@ import {
   CheckCircle2, 
   AlertCircle,
   QrCode as QrIcon,
-  Palette
+  Palette,
+  ArrowLeft,
+  Stethoscope,
+  Droplets,
+  Heart,
+  ChevronRight,
+  ShieldCheck,
+  MoreVertical
 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import { useProfileContext } from '../../context/ProfileContext';
@@ -29,6 +36,7 @@ const EmergencyTab = () => {
   const [linkData, setLinkData] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [contacts, setContacts] = useState<any[]>([]);
+  const [medicalData, setMedicalData] = useState<any>(null);
   const [publicSlug, setPublicSlug] = useState('');
   const [accessCode, setAccessCode] = useState('');
   const [loading, setLoading] = useState(true);
@@ -42,6 +50,7 @@ const EmergencyTab = () => {
     fetchLink();
     fetchProfile();
     fetchContacts();
+    fetchMedical();
   }, []);
 
   const fetchLink = async () => {
@@ -72,6 +81,15 @@ const EmergencyTab = () => {
       setContacts(data);
     } catch (err) {
       console.log('Contacts not found');
+    }
+  };
+
+  const fetchMedical = async () => {
+    try {
+      const { data } = await api.get('/medical');
+      setMedicalData(data);
+    } catch (err) {
+      console.log('Medical data not found');
     }
   };
 
@@ -443,35 +461,126 @@ const EmergencyTab = () => {
 
       <AnimatePresence>
         {showPreview && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-xl flex items-center justify-center p-4">
-             <div className="bg-slate-900 w-full max-w-sm rounded-[3rem] border border-white/10 overflow-hidden relative shadow-2xl">
-                <div className="absolute top-8 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-full z-20"></div>
-                <div className="h-[700px] overflow-y-auto p-8 pt-20 custom-scrollbar">
-                   <div className="bg-rose-600 p-4 rounded-2xl mb-6 flex items-center gap-3">
-                      <ShieldAlert className="h-6 w-6 text-white animate-pulse" />
-                      <span className="text-xs font-black text-white uppercase tracking-widest">Responder View</span>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4">
+             <motion.div 
+               initial={{ scale: 0.9, y: 50 }}
+               animate={{ scale: 1, y: 0 }}
+               exit={{ scale: 0.9, y: 50 }}
+               className="bg-[#0A0A0A] w-full max-w-sm rounded-[3.5rem] border border-white/20 overflow-hidden relative shadow-[0_0_50px_rgba(0,0,0,0.5)] ring-8 ring-slate-800/50"
+             >
+                {/* Notch */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-36 h-7 bg-black rounded-b-3xl z-[110] flex items-center justify-center">
+                   <div className="w-12 h-1 bg-white/10 rounded-full"></div>
+                </div>
+
+                {/* Simulated Header */}
+                <div className="absolute top-0 left-0 right-0 p-8 pt-10 flex justify-between items-center z-[105] bg-gradient-to-b from-black/80 to-transparent">
+                   <button onClick={() => setShowPreview(false)} className="p-2 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-all">
+                      <ArrowLeft className="h-5 w-5" />
+                   </button>
+                   <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">Medical ID</span>
+                   <button className="p-2 bg-white/5 rounded-full text-white/50">
+                      <MoreVertical className="h-5 w-5" />
+                   </button>
+                </div>
+
+                <div className="h-[750px] overflow-y-auto p-8 pt-28 custom-scrollbar space-y-8 pb-32">
+                   
+                   {/* Emergency Banner */}
+                   <div className="bg-rose-600/90 backdrop-blur-md p-5 rounded-[2rem] flex items-center gap-4 border border-rose-500/50">
+                      <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
+                         <ShieldAlert className="h-6 w-6 text-white animate-pulse" />
+                      </div>
+                      <div>
+                         <p className="text-[10px] font-black text-rose-100 uppercase tracking-widest leading-none mb-1">Status</p>
+                         <p className="text-sm font-black text-white">Emergency Responder Access</p>
+                      </div>
                    </div>
-                   <div className="space-y-6 text-white">
-                      <div className="flex items-center gap-4">
-                         <div className="w-16 h-16 rounded-2xl bg-white/10"></div>
-                         <div>
-                            <h5 className="font-black text-xl">{profile?.fullName}</h5>
-                            <p className="text-rose-500 font-black text-sm">{profile?.bloodGroup} POSITIVE</p>
+
+                   {/* Hero Info */}
+                   <div className="text-center space-y-4">
+                      <div className="relative w-32 h-32 mx-auto">
+                         <div className="absolute inset-0 bg-rose-500 rounded-[2.5rem] blur-2xl opacity-20 animate-pulse"></div>
+                         <div className="relative w-full h-full rounded-[2.5rem] bg-white/10 border-2 border-white/20 overflow-hidden">
+                            {getFullPhotoUrl(profile?.photoUrl || photoUrl) ? (
+                              <img src={getFullPhotoUrl(profile?.photoUrl || photoUrl)!} alt="Avatar" className="w-full h-full object-cover" />
+                            ) : (
+                              <User className="w-full h-full p-6 text-white/20" />
+                            )}
                          </div>
                       </div>
-                      <div className="p-6 bg-white/5 rounded-3xl border border-white/10 space-y-4">
-                         <p className="text-[10px] font-black text-gray-500 uppercase">Emergency Contact</p>
-                         <p className="font-bold text-lg">{contacts[0]?.name}</p>
-                         <p className="text-rose-500 font-black text-xl">{contacts[0]?.phone}</p>
-                      </div>
-                      <div className="text-center p-8 bg-white/5 rounded-3xl border border-dashed border-white/10">
-                         <Lock className="h-8 w-8 text-gray-600 mx-auto mb-4" />
-                         <p className="text-xs text-gray-500 font-medium">Full medical history is encrypted. Enter Doctor Key to decrypt.</p>
+                      <div>
+                         <h5 className="font-black text-3xl text-white tracking-tight">{profile?.fullName}</h5>
+                         <p className="text-rose-500 font-black text-lg tracking-widest mt-1">{profile?.bloodGroup || 'UNK'} POSITIVE</p>
                       </div>
                    </div>
+
+                   {/* Critical Grid */}
+                   <div className="grid grid-cols-2 gap-4">
+                      <div className="p-5 bg-white/5 rounded-3xl border border-white/10">
+                         <Droplets className="h-5 w-5 text-rose-500 mb-3" />
+                         <p className="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">Allergies</p>
+                         <p className="text-xs font-bold text-white leading-relaxed">
+                            {medicalData?.allergies?.length > 0 ? medicalData.allergies.join(', ') : 'No known allergies'}
+                         </p>
+                      </div>
+                      <div className="p-5 bg-white/5 rounded-3xl border border-white/10">
+                         <Stethoscope className="h-5 w-5 text-blue-500 mb-3" />
+                         <p className="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">Conditions</p>
+                         <p className="text-xs font-bold text-white leading-relaxed">
+                            {medicalData?.conditions?.length > 0 ? medicalData.conditions.join(', ') : 'No chronic conditions'}
+                         </p>
+                      </div>
+                   </div>
+
+                   {/* Emergency Contact */}
+                   <div className="p-6 bg-white/5 rounded-[2.5rem] border border-white/10 group active:scale-95 transition-all">
+                      <div className="flex justify-between items-start mb-6">
+                         <div>
+                            <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">Emergency Contact</p>
+                            <p className="font-black text-xl text-white">{contacts[0]?.name || 'Not Configured'}</p>
+                            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{contacts[0]?.relation || 'Guardian'}</p>
+                         </div>
+                         <div className="p-4 bg-emerald-500/20 rounded-2xl">
+                            <Phone className="h-6 w-6 text-emerald-500" />
+                         </div>
+                      </div>
+                      <div className="py-4 bg-white/5 rounded-2xl text-center border border-white/5">
+                         <span className="text-2xl font-black text-emerald-500 tracking-wider">{contacts[0]?.phone || '---'}</span>
+                      </div>
+                   </div>
+
+                   {/* Locked History */}
+                   <div className="p-8 bg-gradient-to-b from-white/5 to-transparent rounded-[2.5rem] border border-white/10 text-center">
+                      <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                         <Lock className="h-6 w-6 text-gray-400" />
+                      </div>
+                      <h6 className="text-sm font-black text-white mb-2">Clinical History Locked</h6>
+                      <p className="text-[10px] text-gray-500 font-medium leading-relaxed">
+                         Full medical archive (Surgeries, Medications, Vaccinations) requires Doctor Decryption Key.
+                      </p>
+                      <button className="mt-6 flex items-center gap-2 mx-auto text-[9px] font-black text-blue-400 uppercase tracking-widest hover:text-white transition-all">
+                         Enter Access Key <ChevronRight className="h-3 w-3" />
+                      </button>
+                   </div>
+
                 </div>
-                <button onClick={() => setShowPreview(false)} className="w-full py-6 bg-white text-black font-black uppercase tracking-[0.2em] text-xs">Exit Preview</button>
-             </div>
+
+                {/* Simulated Interaction Bar */}
+                <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black to-transparent pointer-events-none">
+                   <div className="w-32 h-1 bg-white/20 rounded-full mx-auto mb-4 opacity-50"></div>
+                </div>
+
+                {/* Exit Control */}
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[110] pointer-events-auto">
+                   <button 
+                     onClick={() => setShowPreview(false)}
+                     className="px-10 py-4 bg-white text-black font-black uppercase tracking-widest text-[10px] rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all"
+                   >
+                      Exit Preview
+                   </button>
+                </div>
+             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

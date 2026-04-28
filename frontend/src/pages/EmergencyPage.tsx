@@ -21,7 +21,11 @@ import {
   TrendingUp,
   ShieldCheck,
   Briefcase,
-  AlertCircle
+  AlertCircle,
+  X,
+  Droplets,
+  Zap,
+  Info
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -110,33 +114,38 @@ const EmergencyPage = () => {
   };
 
   if (loading) {
-    return <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">Loading...</div>;
+    return (
+      <div className="min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center text-white space-y-6">
+        <div className="w-16 h-16 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
+        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-500">Decrypting Life-Link...</p>
+      </div>
+    );
   }
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gray-900 dark:bg-slate-900 flex items-center justify-center px-4 transition-colors duration-300">
-        <div className="bg-white dark:bg-slate-800 p-8 rounded-[2rem] text-center max-w-md w-full shadow-2xl border border-white dark:border-slate-700">
-          <ShieldAlert className="h-16 w-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Profile Not Found</h2>
-          <p className="text-gray-600 dark:text-gray-400">{error}</p>
-        </div>
+      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4">
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="bg-white/5 backdrop-blur-2xl p-10 rounded-[3rem] text-center max-w-md w-full border border-white/10 shadow-2xl">
+          <ShieldAlert className="h-20 w-20 text-rose-500 mx-auto mb-6" />
+          <h2 className="text-3xl font-black text-white mb-4 tracking-tight">Identity Ghosted</h2>
+          <p className="text-gray-400 font-medium leading-relaxed">{error}</p>
+        </motion.div>
       </div>
     );
   }
 
   if (data.isLocked) {
     return (
-      <div className="min-h-screen bg-gray-900 dark:bg-slate-950 flex items-center justify-center px-4">
-        <div className="bg-white/10 backdrop-blur-xl p-8 rounded-[2rem] text-center max-w-md w-full shadow-2xl border border-white/10">
-          <div className="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/30">
-            <Lock className="h-10 w-10 text-red-500" />
+      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4">
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="bg-white/5 backdrop-blur-2xl p-12 rounded-[3rem] text-center max-w-md w-full border border-white/10 shadow-2xl">
+          <div className="w-24 h-24 bg-rose-500/20 rounded-[2rem] flex items-center justify-center mx-auto mb-8 border border-rose-500/30">
+            <Lock className="h-10 w-10 text-rose-500" />
           </div>
-          <h2 className="text-3xl font-extrabold text-white mb-4">{t('profile_locked')}</h2>
+          <h2 className="text-4xl font-black text-white mb-4 tracking-tighter">{t('profile_locked')}</h2>
           <p className="text-gray-400 leading-relaxed font-medium">
             {t('locked_msg')}
           </p>
-        </div>
+        </motion.div>
       </div>
     );
   }
@@ -157,360 +166,461 @@ const EmergencyPage = () => {
   const getFullPhotoUrl = (url: string | null) => {
     if (!url) return null;
     if (url.startsWith('http')) return url;
-    return `${import.meta.env.VITE_API_URL.replace('/api', '')}${url}`;
+    const base = api.defaults.baseURL?.replace('/api', '') || '';
+    return `${base}${url}`;
   };
 
   return (
-    <div className={`min-h-screen ${isFullAccess ? 'bg-slate-50 dark:bg-slate-900' : 'bg-gray-900 dark:bg-slate-950'} text-gray-900 dark:text-gray-100 font-sans pb-20 transition-colors duration-300`}>
+    <div className={`min-h-screen ${isFullAccess ? 'bg-slate-50 dark:bg-[#0A0A0A]' : 'bg-[#0A0A0A]'} text-gray-900 dark:text-gray-100 font-sans pb-24 selection:bg-blue-500/30`}>
       <AnimatePresence>
         {isOffline && (
           <motion.div 
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="bg-amber-500 text-white py-2 px-4 text-center text-xs font-bold flex items-center justify-center gap-2 overflow-hidden"
+            className="bg-amber-500 text-white py-3 px-4 text-center text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2"
           >
-            <WifiOff className="h-3 w-3" />
-            Viewing Cached Offline Version
+            <WifiOff className="h-4 w-4" /> Offline Cache Active
           </motion.div>
         )}
       </AnimatePresence>
-      {/* Header */}
-      <header className={`${isFullAccess ? 'bg-gradient-to-r from-blue-600 to-indigo-600' : 'bg-gradient-to-r from-red-600 to-rose-600'} text-white py-6 px-4 shadow-md sticky top-0 z-10 transition-colors duration-300`}>
-        <div className="max-w-3xl mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <Activity className="h-8 w-8" />
-            <span className="text-xl font-bold tracking-tight">EHP {isFullAccess ? t('doctor_view') : t('emergency_title')}</span>
+
+      {/* Modern Header */}
+      <header className={`sticky top-0 z-[100] backdrop-blur-2xl border-b transition-all duration-500 ${isFullAccess ? 'bg-blue-600/90 border-blue-500/20' : 'bg-rose-600/90 border-rose-500/20'}`}>
+        <div className="max-w-4xl mx-auto px-6 h-20 flex justify-between items-center text-white">
+          <div className="flex items-center gap-3">
+             <div className="p-2 bg-white/20 rounded-xl">
+                <Activity className="h-6 w-6" />
+             </div>
+             <div>
+                <span className="text-lg font-black tracking-tighter block leading-none">EHP</span>
+                <span className="text-[9px] font-black uppercase tracking-widest opacity-60">Life-Link Protocol</span>
+             </div>
           </div>
+          
           <div className="flex items-center gap-4">
-            {isFullAccess && timeLeft !== null && (
-              <div className="flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/30 text-xs font-bold animate-pulse">
-                <Clock className="h-4 w-4" />
-                <span>Expires in {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</span>
-              </div>
-            )}
-            <div className="flex bg-white/10 p-1 rounded-lg backdrop-blur-md border border-white/20">
-              <button onClick={() => i18n.changeLanguage('en')} className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${i18n.language.startsWith('en') ? 'bg-white text-gray-900 shadow-sm' : 'text-white hover:bg-white/10'}`}>EN</button>
-              <button onClick={() => i18n.changeLanguage('hi')} className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${i18n.language === 'hi' ? 'bg-white text-gray-900 shadow-sm' : 'text-white hover:bg-white/10'}`}>हिं</button>
-            </div>
+             {isFullAccess && timeLeft !== null && (
+               <div className="hidden sm:flex items-center gap-2 bg-white/20 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/20 animate-pulse">
+                 <Clock className="h-4 w-4" />
+                 <span>Expires: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</span>
+               </div>
+             )}
+             <div className="flex bg-white/10 p-1 rounded-xl border border-white/20">
+               <button onClick={() => i18n.changeLanguage('en')} className={`px-4 py-2 rounded-lg text-[10px] font-black tracking-widest transition-all ${i18n.language.startsWith('en') ? 'bg-white text-gray-900 shadow-xl' : 'text-white hover:bg-white/10'}`}>EN</button>
+               <button onClick={() => i18n.changeLanguage('hi')} className={`px-4 py-2 rounded-lg text-[10px] font-black tracking-widest transition-all ${i18n.language === 'hi' ? 'bg-white text-gray-900 shadow-xl' : 'text-white hover:bg-white/10'}`}>हिं</button>
+             </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-4 mt-8 space-y-6">
-        <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-[2rem] shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700 overflow-hidden relative">
-          <div className={`absolute top-0 left-0 w-full h-2 ${isFullAccess ? 'bg-gradient-to-r from-blue-500 to-indigo-500' : 'bg-gradient-to-r from-red-500 to-rose-500'}`}></div>
-          <div className="p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left relative z-10">
-            <div className="w-24 h-24 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center flex-shrink-0 border-4 border-white dark:border-slate-600 shadow-sm overflow-hidden">
-              {profile.photoUrl ? (
-                <img src={getFullPhotoUrl(profile.photoUrl)!} alt="Profile" className="w-full h-full object-cover" />
-              ) : (
-                <UserCircle className="w-16 h-16 text-gray-400 dark:text-gray-500" />
-              )}
+      <main className="max-w-4xl mx-auto px-6 mt-10 space-y-10">
+        
+        {/* Profile Card */}
+        <div className="bg-white/80 dark:bg-slate-800/50 backdrop-blur-3xl rounded-[3rem] shadow-2xl border border-white dark:border-white/10 overflow-hidden relative group">
+          <div className={`absolute top-0 left-0 w-full h-3 transition-all duration-500 ${isFullAccess ? 'bg-blue-600' : 'bg-rose-600'}`}></div>
+          <div className="p-10 md:p-12 flex flex-col md:flex-row items-center md:items-start gap-10 text-center md:text-left relative z-10">
+            <div className="relative">
+               <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+               <div className="w-32 h-32 bg-gray-100 dark:bg-slate-700 rounded-[2.5rem] flex items-center justify-center flex-shrink-0 border-4 border-white dark:border-white/10 shadow-2xl overflow-hidden relative">
+                 {profile.photoUrl ? (
+                   <img src={getFullPhotoUrl(profile.photoUrl)!} alt="Profile" className="w-full h-full object-cover scale-110" />
+                 ) : (
+                   <UserCircle className="w-20 h-20 text-gray-300" />
+                 )}
+               </div>
             </div>
-            <div className="flex-1">
-              <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-1">{profile.fullName || 'Unknown Patient'}</h1>
-              <p className="text-gray-500 dark:text-gray-400 font-medium mb-4">
-                {age !== null ? `${age} Years` : 'Age Not Set'} • {profile.gender || 'Gender Not Set'}
-              </p>
-              <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-4">
-                <div className="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800/50 px-4 py-2 rounded-xl flex items-center gap-2 shadow-sm">
-                  <HeartPulse className="h-5 w-5 text-red-600 dark:text-red-400" />
-                  <span className="font-bold text-red-700 dark:text-red-300">{t('blood_group')}: <span className="text-xl">{profile.bloodGroup || 'Unknown'}</span></span>
+            <div className="flex-1 space-y-4">
+              <div>
+                <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tighter mb-2">{profile.fullName || 'Unknown Patient'}</h1>
+                <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                   <span className="px-4 py-1.5 bg-gray-100 dark:bg-white/5 rounded-full text-xs font-bold text-gray-500 dark:text-gray-400">
+                      {age !== null ? `${age} Years Old` : 'Age Unknown'}
+                   </span>
+                   <span className="px-4 py-1.5 bg-gray-100 dark:bg-white/5 rounded-full text-xs font-bold text-gray-500 dark:text-gray-400">
+                      {profile.gender || 'Unknown Gender'}
+                   </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                <div className={`px-6 py-4 rounded-2xl border flex items-center gap-4 shadow-xl ${isFullAccess ? 'bg-blue-50 border-blue-100 dark:bg-blue-900/20 dark:border-blue-800/30' : 'bg-rose-50 border-rose-100 dark:bg-rose-900/20 dark:border-rose-800/30'}`}>
+                  <HeartPulse className={`h-8 w-8 ${isFullAccess ? 'text-blue-600' : 'text-rose-600'}`} />
+                  <div>
+                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">{t('blood_group')}</p>
+                    <p className={`text-3xl font-black ${isFullAccess ? 'text-blue-700 dark:text-blue-400' : 'text-rose-700 dark:text-rose-400'}`}>{profile.bloodGroup || 'UNK'}</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Doctor Unlock Section */}
         {!isFullAccess && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-gradient-to-r from-blue-900/80 to-indigo-900/80 border border-blue-500/30 rounded-3xl p-6 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg shadow-blue-900/20">
-            <div className="flex items-center gap-4 text-white">
-              <div className="p-3 bg-blue-500/20 rounded-2xl"><Lock className="h-8 w-8 text-blue-300 flex-shrink-0" /></div>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            className="bg-gradient-to-br from-blue-900 to-slate-900 border border-blue-500/30 rounded-[3rem] p-10 backdrop-blur-3xl flex flex-col md:flex-row items-center justify-between gap-8 shadow-3xl shadow-blue-900/30 relative overflow-hidden group"
+          >
+            <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-all duration-700"></div>
+            <div className="flex items-center gap-6 text-white relative z-10">
+              <div className="p-5 bg-white/10 rounded-[2rem] border border-white/10 shadow-inner">
+                 <Lock className="h-10 w-10 text-blue-400" />
+              </div>
               <div>
-                <h3 className="font-semibold text-lg text-white">{t('doctor_access')}</h3>
-                <p className="text-blue-200 text-sm">Unlock full medical history using the Access Code.</p>
+                <h3 className="font-black text-2xl text-white tracking-tight">{t('doctor_access')}</h3>
+                <p className="text-blue-300 font-medium">Decrypt full clinical records using the Medical Key.</p>
               </div>
             </div>
-            <button onClick={() => setShowDoctorModal(true)} className="w-full sm:w-auto bg-blue-500 hover:bg-blue-400 text-white px-6 py-3 rounded-xl font-bold shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2">
-              {t('unlock')} <ChevronRight className="h-4 w-4" />
+            <button 
+              onClick={() => setShowDoctorModal(true)} 
+              className="w-full md:w-auto bg-blue-600 hover:bg-blue-500 text-white px-10 py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl shadow-blue-600/40 transition-all active:scale-95 flex items-center justify-center gap-3 relative z-10"
+            >
+              {t('unlock')} <ChevronRight className="h-5 w-5" />
             </button>
           </motion.div>
         )}
 
-        <div className="grid gap-6">
-          {/* Critical Allergies */}
-          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white dark:border-slate-700">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><ShieldAlert className="h-5 w-5 text-red-500" /> {t('allergies')}</h3>
-            {displayData.medical?.allergies?.length > 0 ? (
-              <div className="flex flex-wrap gap-2">
-                {displayData.medical.allergies.map((allergy: string, i: number) => (
-                  <span key={i} className="bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300 px-3 py-1 rounded-lg font-medium text-sm border border-red-100 dark:border-red-800/50 shadow-sm">{allergy}</span>
-                ))}
-              </div>
-            ) : <p className="text-gray-500 dark:text-gray-400 italic">{t('no_allergies')}</p>}
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white dark:border-slate-700">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">{t('conditions')}</h3>
-              {displayData.medical?.conditions?.length > 0 ? (
-                <ul className="space-y-3">
-                  {displayData.medical.conditions.map((condition: string, i: number) => (
-                    <li key={i} className="flex items-start gap-3 text-gray-700 dark:text-gray-300 bg-gray-50/50 dark:bg-slate-700/50 p-3 rounded-xl border border-gray-100 dark:border-slate-600">
-                      <span className="w-2 h-2 rounded-full bg-blue-500 mt-1.5 flex-shrink-0 shadow-sm shadow-blue-500/50"></span>
-                      <span className="font-medium">{condition}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : <p className="text-gray-500 dark:text-gray-400 italic">{t('no_conditions')}</p>}
-            </div>
-
-            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white dark:border-slate-700">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">{t('medications')}</h3>
-              {displayData.medical?.medications?.length > 0 ? (
-                <ul className="space-y-3">
-                  {displayData.medical.medications.map((medication: string, i: number) => (
-                    <li key={i} className="flex items-start gap-3 text-gray-700 dark:text-gray-300 bg-gray-50/50 dark:bg-slate-700/50 p-3 rounded-xl border border-gray-100 dark:border-slate-600">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0 shadow-sm shadow-emerald-500/50"></span>
-                      <span className="font-medium">{medication}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : <p className="text-gray-500 dark:text-gray-400 italic">{t('no_medications')}</p>}
-            </div>
-          </div>
-
-          {isFullAccess && (
-            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              {/* Recent Vitals Trend */}
-              {displayData.vitals?.length > 0 && (
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-orange-100 dark:border-orange-900/50">
-                  <h3 className="text-lg font-bold text-orange-900 dark:text-orange-400 mb-4 flex items-center gap-2"><TrendingUp className="h-5 w-5" /> Recent Vitals History</h3>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-sm">
-                      <thead className="text-gray-400 border-b border-gray-100 dark:border-slate-700">
-                        <tr>
-                          <th className="pb-3 pr-4 font-bold uppercase tracking-wider text-[10px]">Date</th>
-                          <th className="pb-3 pr-4 font-bold uppercase tracking-wider text-[10px]">Type</th>
-                          <th className="pb-3 font-bold uppercase tracking-wider text-[10px]">Value</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-50 dark:divide-slate-700">
-                        {displayData.vitals.map((v: any) => (
-                          <tr key={v._id}>
-                            <td className="py-3 pr-4 font-medium text-gray-500">{format(new Date(v.date), 'MMM dd, HH:mm')}</td>
-                            <td className="py-3 pr-4 font-bold text-gray-900 dark:text-white">{v.type}</td>
-                            <td className="py-3 font-black text-orange-600 dark:text-orange-400">{v.value} <span className="text-[10px] font-normal text-gray-400">{v.unit}</span></td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+        <div className="grid gap-10">
+          {/* Critical Indicators Grid */}
+          <div className="grid md:grid-cols-2 gap-10">
+             {/* Allergies */}
+             <div className="bg-white/80 dark:bg-slate-800/50 backdrop-blur-3xl rounded-[3rem] p-8 border border-white dark:border-white/10 shadow-xl group">
+                <div className="flex items-center gap-4 mb-8">
+                   <div className="p-3 bg-rose-50 dark:bg-rose-900/30 rounded-2xl group-hover:scale-110 transition-transform">
+                      <ShieldAlert className="h-6 w-6 text-rose-600" />
+                   </div>
+                   <h3 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">{t('allergies')}</h3>
                 </div>
-              )}
-
-              {/* Lifestyle & habits */}
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-slate-200 dark:border-slate-700">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><Activity className="h-5 w-5 text-blue-500" /> Lifestyle & Habits</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-gray-50 dark:bg-slate-900/50 p-3 rounded-xl">
-                      <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Smoking</p>
-                      <p className={`font-bold ${displayData.medical?.lifestyle?.smoking ? 'text-red-500' : 'text-emerald-500'}`}>{displayData.medical?.lifestyle?.smoking ? 'Active Smoker' : 'Non-Smoker'}</p>
-                    </div>
-                    <div className="bg-gray-50 dark:bg-slate-900/50 p-3 rounded-xl">
-                      <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Alcohol</p>
-                      <p className={`font-bold ${displayData.medical?.lifestyle?.alcohol ? 'text-red-500' : 'text-emerald-500'}`}>{displayData.medical?.lifestyle?.alcohol ? 'Consumer' : 'Non-Consumer'}</p>
-                    </div>
-                    <div className="col-span-2 bg-gray-50 dark:bg-slate-900/50 p-3 rounded-xl">
-                      <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Exercise Level</p>
-                      <p className="font-bold text-gray-900 dark:text-white">{displayData.medical?.lifestyle?.exercise || 'Not specified'}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-slate-200 dark:border-slate-700">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><Briefcase className="h-5 w-5 text-indigo-500" /> Insurance Details</h3>
-                  <div className="space-y-3">
-                    <div className="bg-indigo-50/50 dark:bg-indigo-900/20 p-4 rounded-xl border border-indigo-100 dark:border-indigo-800/30">
-                      <p className="text-[10px] font-bold text-indigo-400 uppercase mb-1">Provider</p>
-                      <p className="font-bold text-gray-900 dark:text-white">{displayData.medical?.insurance?.provider || 'None reported'}</p>
-                    </div>
-                    <div className="bg-indigo-50/50 dark:bg-indigo-900/20 p-4 rounded-xl border border-indigo-100 dark:border-indigo-800/30">
-                      <p className="text-[10px] font-bold text-indigo-400 uppercase mb-1">Policy Number</p>
-                      <p className="font-mono font-bold text-gray-900 dark:text-white">{displayData.medical?.insurance?.policyNumber || 'N/A'}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Family Medical History */}
-              {displayData.medical?.familyHistory?.length > 0 && (
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-rose-100 dark:border-rose-900/50">
-                  <h3 className="text-lg font-bold text-rose-900 dark:text-rose-400 mb-4 flex items-center gap-2"><History className="h-5 w-5" /> Family Medical History</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {displayData.medical.familyHistory.map((item: string, i: number) => (
-                      <span key={i} className="bg-rose-50 dark:bg-rose-900/20 text-rose-800 dark:text-rose-300 px-3 py-1 rounded-lg font-medium text-sm border border-rose-100 dark:border-rose-800/50">
-                        {item}
-                      </span>
+                {displayData.medical?.allergies?.length > 0 ? (
+                  <div className="flex flex-wrap gap-3">
+                    {displayData.medical.allergies.map((allergy: string, i: number) => (
+                      <span key={i} className="bg-rose-50/50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300 px-5 py-2.5 rounded-2xl font-black text-[10px] uppercase tracking-widest border border-rose-100 dark:border-rose-800/30 shadow-sm">{allergy}</span>
                     ))}
                   </div>
-                </div>
-              )}
+                ) : (
+                  <div className="p-6 bg-gray-50/50 dark:bg-white/5 rounded-2xl border border-dashed border-gray-200 dark:border-white/10 text-center">
+                     <p className="text-gray-400 font-bold text-xs uppercase tracking-widest italic">{t('no_allergies')}</p>
+                  </div>
+                )}
+             </div>
 
-              {/* Active Medicines */}
-              {displayData.medicines?.length > 0 && (
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-indigo-100 dark:border-indigo-900/50">
-                  <h3 className="text-lg font-bold text-indigo-900 dark:text-indigo-400 mb-4 flex items-center gap-2"><Pill className="h-5 w-5" /> Active Medications</h3>
-                  <div className="grid gap-3">
-                    {displayData.medicines.filter((m: any) => m.active).map((m: any) => (
-                      <div key={m._id} className="bg-indigo-50/50 dark:bg-indigo-900/20 p-4 rounded-xl border border-indigo-100/50 dark:border-indigo-800/30">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h4 className="font-bold text-gray-900 dark:text-white">{m.name}</h4>
-                            <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium">{m.dosage} • {m.frequency}</p>
+             {/* Conditions */}
+             <div className="bg-white/80 dark:bg-slate-800/50 backdrop-blur-3xl rounded-[3rem] p-8 border border-white dark:border-white/10 shadow-xl group">
+                <div className="flex items-center gap-4 mb-8">
+                   <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-2xl group-hover:scale-110 transition-transform">
+                      <Stethoscope className="h-6 w-6 text-blue-600" />
+                   </div>
+                   <h3 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">{t('conditions')}</h3>
+                </div>
+                {displayData.medical?.conditions?.length > 0 ? (
+                  <div className="space-y-4">
+                    {displayData.medical.conditions.map((condition: string, i: number) => (
+                      <div key={i} className="flex items-center gap-4 text-gray-700 dark:text-gray-300 bg-gray-50/50 dark:bg-white/5 p-4 rounded-2xl border border-gray-100 dark:border-white/10">
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+                        <span className="font-bold text-sm">{condition}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-6 bg-gray-50/50 dark:bg-white/5 rounded-2xl border border-dashed border-gray-200 dark:border-white/10 text-center">
+                     <p className="text-gray-400 font-bold text-xs uppercase tracking-widest italic">{t('no_conditions')}</p>
+                  </div>
+                )}
+             </div>
+          </div>
+
+          {/* Locked/Detailed Content */}
+          <AnimatePresence mode="wait">
+             {!isFullAccess ? (
+               <motion.div 
+                 key="locked"
+                 initial={{ opacity: 0 }}
+                 animate={{ opacity: 1 }}
+                 className="p-12 text-center bg-gray-100/50 dark:bg-white/5 backdrop-blur-xl rounded-[3rem] border-2 border-dashed border-gray-200 dark:border-white/10"
+               >
+                  <Lock className="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-6" />
+                  <h4 className="text-xl font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-2">Deep Clinical View Restricted</h4>
+                  <p className="text-xs text-gray-400 font-medium max-w-xs mx-auto italic">Decryption required for Medications, Vitals History, and Lab Reports.</p>
+               </motion.div>
+             ) : (
+               <motion.div 
+                 key="unlocked"
+                 initial={{ opacity: 0, y: 20 }} 
+                 animate={{ opacity: 1, y: 0 }} 
+                 className="space-y-10"
+               >
+                  {/* Vitals Feed */}
+                  {displayData.vitals?.length > 0 && (
+                    <div className="bg-white dark:bg-slate-800/50 backdrop-blur-3xl rounded-[3rem] p-10 border border-white dark:border-white/10 shadow-2xl">
+                      <div className="flex justify-between items-center mb-8">
+                         <h3 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-4">
+                            <div className="p-3 bg-orange-50 dark:bg-orange-900/20 rounded-2xl">
+                               <TrendingUp className="h-6 w-6 text-orange-600" />
+                            </div>
+                            Telemetry History
+                         </h3>
+                         <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-100 dark:bg-white/5 px-3 py-1 rounded-full">Live Audit</span>
+                      </div>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                          <thead>
+                            <tr className="border-b border-gray-100 dark:border-white/5">
+                              <th className="pb-5 pr-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Temporal Point</th>
+                              <th className="pb-5 pr-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Metric</th>
+                              <th className="pb-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Reading</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-50 dark:divide-white/5">
+                            {displayData.vitals.slice(0, 5).map((v: any) => (
+                              <tr key={v._id} className="group">
+                                <td className="py-5 pr-4">
+                                   <p className="text-sm font-bold text-gray-900 dark:text-white">{format(new Date(v.date), 'MMM dd')}</p>
+                                   <p className="text-[10px] text-gray-400 font-bold uppercase">{format(new Date(v.date), 'HH:mm')}</p>
+                                </td>
+                                <td className="py-5 pr-4">
+                                   <span className="text-xs font-black text-gray-500 uppercase tracking-tight">{v.type}</span>
+                                </td>
+                                <td className="py-5">
+                                   <span className="text-xl font-black text-orange-600 dark:text-orange-400">{v.value}</span>
+                                   <span className="ml-1 text-[10px] font-bold text-gray-400 uppercase">{v.unit}</span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Medications & Vaccines */}
+                  <div className="grid md:grid-cols-2 gap-10">
+                    <div className="bg-white dark:bg-slate-800/50 backdrop-blur-3xl rounded-[3rem] p-10 border border-white dark:border-white/10 shadow-2xl">
+                      <h3 className="text-xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
+                         <div className="p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl">
+                            <Pill className="h-6 w-6 text-indigo-600" />
+                         </div>
+                         Active Meds
+                      </h3>
+                      <div className="space-y-6">
+                        {displayData.medicines?.filter((m: any) => m.active).map((m: any) => (
+                          <div key={m._id} className="bg-indigo-50/30 dark:bg-indigo-900/10 p-5 rounded-2xl border border-indigo-100/50 dark:border-indigo-800/30 group">
+                            <div className="flex justify-between items-start mb-2">
+                              <h4 className="font-black text-gray-900 dark:text-white">{m.name}</h4>
+                              <span className="text-[9px] font-black bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-300 px-3 py-1 rounded-full">{m.times.join(', ')}</span>
+                            </div>
+                            <p className="text-xs font-bold text-indigo-600/70 dark:text-indigo-400/70">{m.dosage} • {m.frequency}</p>
                           </div>
-                          <span className="text-[10px] font-bold bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">{m.times.join(', ')}</span>
-                        </div>
-                        {m.notes && <p className="mt-2 text-xs text-gray-500 italic">Notes: {m.notes}</p>}
+                        )) || <p className="text-gray-400 text-xs italic">No active medications reported.</p>}
                       </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Vaccinations */}
-              {displayData.vaccinations?.length > 0 && (
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-emerald-100 dark:border-emerald-900/50">
-                  <h3 className="text-lg font-bold text-emerald-900 dark:text-emerald-400 mb-4 flex items-center gap-2"><Syringe className="h-5 w-5" /> Vaccination History</h3>
-                  <div className="grid gap-3">
-                    {displayData.vaccinations.map((v: any) => (
-                      <div key={v._id} className="bg-emerald-50/50 dark:bg-emerald-900/20 p-4 rounded-xl border border-emerald-100/50 dark:border-emerald-800/30 flex justify-between items-center">
-                        <div>
-                          <h4 className="font-bold text-gray-900 dark:text-white">{v.vaccineName}</h4>
-                          <p className="text-xs text-emerald-600 dark:text-emerald-400">{v.disease}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-xs font-bold text-gray-500">{format(new Date(v.dateAdministered), 'MMM dd, yyyy')}</p>
-                          {v.isBooster && <span className="text-[8px] font-black uppercase text-amber-600">Booster</span>}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Upcoming Appointments */}
-              {displayData.appointments?.filter((a: any) => a.status === 'Scheduled').length > 0 && (
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-blue-100 dark:border-blue-900/50">
-                  <h3 className="text-lg font-bold text-blue-900 dark:text-blue-400 mb-4 flex items-center gap-2"><Calendar className="h-5 w-5" /> Upcoming Appointments</h3>
-                  <div className="space-y-3">
-                    {displayData.appointments.filter((a: any) => a.status === 'Scheduled').map((a: any) => (
-                      <div key={a._id} className="bg-blue-50/50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100/50 dark:border-blue-800/30">
-                        <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-bold text-gray-900 dark:text-white">{a.doctorName}</h4>
-                          <span className="text-[10px] font-bold text-blue-600 bg-white px-2 py-1 rounded-lg shadow-sm">{format(new Date(a.appointmentDate), 'MMM dd, HH:mm')}</span>
-                        </div>
-                        <p className="text-xs text-gray-600 dark:text-gray-400"><Stethoscope className="inline h-3 w-3 mr-1" />{a.specialty} • {a.hospitalName}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Hospital Visits History */}
-              {displayData.visits?.length > 0 && (
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-slate-200 dark:border-slate-700">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><History className="h-5 w-5 text-indigo-500" /> Recent Visits History</h3>
-                  <div className="space-y-3">
-                    {displayData.visits.slice(0, 5).map((visit: any) => (
-                      <div key={visit._id} className="bg-gray-50 dark:bg-slate-900/50 p-4 rounded-xl border border-gray-100 dark:border-slate-700">
-                        <div className="flex justify-between items-center">
-                          <h4 className="font-bold text-sm text-gray-900 dark:text-white">{visit.hospitalName}</h4>
-                          <span className="text-[10px] text-gray-400">{format(new Date(visit.visitDate), 'MMM dd, yyyy')}</span>
-                        </div>
-                        <p className="text-xs text-gray-500 mt-1">{visit.reason}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* General Medical Notes */}
-              {displayData.medical?.notes && (
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-amber-100 dark:border-amber-900/50">
-                  <h3 className="text-lg font-bold text-amber-900 dark:text-amber-400 mb-4 flex items-center gap-2"><AlertCircle className="h-5 w-5" /> Patient Medical Notes</h3>
-                  <div className="p-4 bg-amber-50/50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/30 rounded-xl text-sm text-amber-900 dark:text-amber-200 leading-relaxed italic">
-                    "{displayData.medical.notes}"
-                  </div>
-                </div>
-              )}
-
-              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-blue-100 dark:border-blue-900/50">
-                <h3 className="text-lg font-bold text-blue-900 dark:text-blue-400 mb-4">Additional Clinical Details</h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-blue-50/50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100/50 dark:border-blue-800/30">
-                    <h4 className="font-bold text-gray-900 dark:text-white mb-2">Past Surgeries</h4>
-                    <p className="text-gray-600 dark:text-gray-300 font-medium">{displayData.medical?.surgeries?.join(', ') || 'None reported'}</p>
-                  </div>
-                  <div className="bg-blue-50/50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100/50 dark:border-blue-800/30">
-                    <h4 className="font-bold text-gray-900 dark:text-white mb-2">Primary Physician</h4>
-                    <p className="text-gray-600 dark:text-gray-300 font-medium">{profile.primaryPhysician || 'Not specified'}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Reports Section */}
-              {displayData.reports?.length > 0 && (
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white dark:border-slate-700">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><FileText className="h-5 w-5 text-blue-500" /> Digital Lab Reports</h3>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {displayData.reports.map((report: any) => (
-                      <div key={report._id} className="bg-gray-50/50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-xl p-4 flex flex-col justify-between shadow-sm">
-                        <h4 className="font-bold text-gray-900 dark:text-white text-sm truncate">{report.title}</h4>
-                        <a href={`${import.meta.env.VITE_API_URL.replace('/api', '')}${report.fileUrl}`} target="_blank" className="mt-3 flex items-center justify-center gap-2 bg-blue-50 text-blue-600 px-3 py-2 rounded-lg text-xs font-bold"><Download className="h-3.5 w-3.5" /> View Report</a>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Emergency Contacts */}
-          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white dark:border-slate-700">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><Phone className="h-5 w-5 text-emerald-500" /> {t('contacts')}</h3>
-            {displayData.contacts?.length > 0 ? (
-              <div className="grid sm:grid-cols-2 gap-4">
-                {displayData.contacts.map((contact: any, i: number) => (
-                  <div key={i} className="bg-gray-50/50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-xl p-5 flex flex-col justify-between shadow-sm">
-                    <div>
-                      <h4 className="font-bold text-gray-900 dark:text-white text-lg">{contact.name}</h4>
-                      <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">{contact.relation}</span>
                     </div>
-                    <a href={`tel:${contact.phone}`} className="mt-4 flex items-center justify-center gap-2 bg-emerald-50 text-emerald-800 px-4 py-3 rounded-xl font-bold"><Phone className="h-5 w-5" /> {t('call')}</a>
+
+                    <div className="bg-white dark:bg-slate-800/50 backdrop-blur-3xl rounded-[3rem] p-10 border border-white dark:border-white/10 shadow-2xl">
+                      <h3 className="text-xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
+                         <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl">
+                            <Syringe className="h-6 w-6 text-emerald-600" />
+                         </div>
+                         Immunization
+                      </h3>
+                      <div className="space-y-4">
+                        {displayData.vaccinations?.slice(0, 3).map((v: any) => (
+                          <div key={v._id} className="bg-emerald-50/30 dark:bg-emerald-900/10 p-5 rounded-2xl border border-emerald-100/50 dark:border-emerald-800/30 flex justify-between items-center">
+                            <div>
+                              <h4 className="font-black text-gray-900 dark:text-white text-sm">{v.vaccineName}</h4>
+                              <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">{v.disease}</p>
+                            </div>
+                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{format(new Date(v.dateAdministered), 'MMM yyyy')}</p>
+                          </div>
+                        )) || <p className="text-gray-400 text-xs italic">No immunization history synced.</p>}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Lifestyle & Insurance */}
+                  <div className="grid md:grid-cols-3 gap-10">
+                     <div className="md:col-span-2 bg-white dark:bg-slate-800/50 backdrop-blur-3xl rounded-[3rem] p-10 border border-white dark:border-white/10 shadow-2xl">
+                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
+                           <div className="p-3 bg-slate-100 dark:bg-white/5 rounded-2xl">
+                              <UserCircle className="h-6 w-6 text-gray-600" />
+                           </div>
+                           Bio-Demographics
+                        </h3>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
+                           {[
+                             { label: 'Smoking', val: displayData.medical?.lifestyle?.smoking ? 'Active' : 'Non-Smoker', color: displayData.medical?.lifestyle?.smoking ? 'text-rose-500' : 'text-emerald-500' },
+                             { label: 'Alcohol', val: displayData.medical?.lifestyle?.alcohol ? 'User' : 'Free', color: displayData.medical?.lifestyle?.alcohol ? 'text-amber-500' : 'text-emerald-500' },
+                             { label: 'Exercise', val: displayData.medical?.lifestyle?.exercise || 'None', color: 'text-blue-500' }
+                           ].map((item, i) => (
+                             <div key={i} className="p-4 bg-gray-50/50 dark:bg-white/5 rounded-2xl border border-gray-100 dark:border-white/10 text-center">
+                                <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2">{item.label}</p>
+                                <p className={`text-sm font-black ${item.color}`}>{item.val}</p>
+                             </div>
+                           ))}
+                        </div>
+                     </div>
+                     <div className="bg-indigo-600 rounded-[3rem] p-8 text-white relative overflow-hidden shadow-2xl">
+                        <div className="absolute top-0 right-0 p-8 opacity-10">
+                           <ShieldCheck className="h-32 w-32" />
+                        </div>
+                        <h3 className="text-lg font-black mb-6 flex items-center gap-3">
+                           <Briefcase className="h-5 w-5 text-indigo-300" />
+                           Insurance
+                        </h3>
+                        <div className="space-y-4 relative z-10">
+                           <div>
+                              <p className="text-[10px] font-black text-indigo-300 uppercase tracking-widest mb-1">Provider</p>
+                              <p className="font-black text-sm">{displayData.medical?.insurance?.provider || 'UNSPECIFIED'}</p>
+                           </div>
+                           <div className="pt-4 border-t border-white/10">
+                              <p className="text-[10px] font-black text-indigo-300 uppercase tracking-widest mb-1">Policy Node</p>
+                              <p className="font-mono text-xs font-black">{displayData.medical?.insurance?.policyNumber || 'N/A'}</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  {/* Clinical Reports */}
+                  {displayData.reports?.length > 0 && (
+                    <div className="bg-white dark:bg-slate-800/50 backdrop-blur-3xl rounded-[3rem] p-10 border border-white dark:border-white/10 shadow-2xl">
+                      <h3 className="text-xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-4">
+                         <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-2xl">
+                            <FileText className="h-6 w-6 text-blue-600" />
+                         </div>
+                         Lab Reports Vault
+                      </h3>
+                      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {displayData.reports.map((report: any) => (
+                          <div key={report._id} className="bg-gray-50/50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-[2rem] p-6 flex flex-col justify-between group hover:border-blue-500/30 transition-all">
+                            <div>
+                               <h4 className="font-black text-gray-900 dark:text-white text-sm mb-4 leading-tight">{report.title}</h4>
+                               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6">{format(new Date(report.createdAt), 'MMM yyyy')}</p>
+                            </div>
+                            <a 
+                              href={`${api.defaults.baseURL?.replace('/api', '')}${report.fileUrl}`} 
+                              target="_blank" 
+                              className="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-800 text-blue-600 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all"
+                            >
+                               <Download className="h-4 w-4" /> Open
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+               </motion.div>
+             )}
+          </AnimatePresence>
+
+          {/* Emergency Contacts - Always Public */}
+          <div className="bg-white/80 dark:bg-slate-800/50 backdrop-blur-3xl rounded-[3rem] p-10 border border-white dark:border-white/10 shadow-2xl">
+            <h3 className="text-xl font-black text-gray-900 dark:text-white mb-10 flex items-center gap-4">
+               <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl">
+                  <Phone className="h-6 w-6 text-emerald-600" />
+               </div>
+               {t('contacts')}
+            </h3>
+            {displayData.contacts?.length > 0 ? (
+              <div className="grid sm:grid-cols-2 gap-8">
+                {displayData.contacts.map((contact: any, i: number) => (
+                  <div key={i} className="bg-gray-50/50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-[2.5rem] p-8 flex flex-col justify-between group hover:border-emerald-500/20 transition-all shadow-sm">
+                    <div className="mb-8">
+                       <h4 className="font-black text-gray-900 dark:text-white text-2xl tracking-tighter mb-1">{contact.name}</h4>
+                       <span className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em] bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-100">{contact.relation}</span>
+                    </div>
+                    <a 
+                      href={`tel:${contact.phone}`} 
+                      className="w-full flex items-center justify-center gap-4 bg-emerald-600 text-white py-5 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all"
+                    >
+                       <Phone className="h-5 w-5" /> {t('call')}
+                    </a>
                   </div>
                 ))}
               </div>
-            ) : <p className="text-gray-500 dark:text-gray-400 italic">No contacts listed.</p>}
+            ) : (
+               <div className="p-10 text-center bg-gray-50 dark:bg-white/5 rounded-3xl border-2 border-dashed border-gray-200 dark:border-white/10">
+                  <AlertCircle className="h-10 w-10 text-gray-300 mx-auto mb-4" />
+                  <p className="text-gray-400 font-bold text-xs uppercase tracking-widest italic">No emergency nodes configured.</p>
+               </div>
+            )}
           </div>
+        </div>
+
+        {/* Global Footer Notes */}
+        <div className="text-center space-y-6 pt-10">
+           {displayData.medical?.notes && (
+             <div className="p-8 bg-amber-50/50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-800/30 rounded-[2.5rem] text-center max-w-2xl mx-auto">
+                <Info className="h-8 w-8 text-amber-600 mx-auto mb-4" />
+                <p className="text-sm text-amber-900 dark:text-amber-200 font-bold leading-relaxed italic">
+                   " {displayData.medical.notes} "
+                </p>
+             </div>
+           )}
+           <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.4em]">EHP GLOBAL • SECURED NODE • {slug?.toUpperCase()}</p>
         </div>
       </main>
 
       <AnimatePresence>
         {showDoctorModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowDoctorModal(false)} />
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-white dark:bg-slate-800 rounded-[2rem] p-8 max-w-md w-full shadow-2xl relative z-10">
-              <h2 className="text-2xl font-bold mb-4">{t('doctor_access')}</h2>
-              <form onSubmit={handleDoctorAccess} className="space-y-4">
-                {doctorAuthError && <div className="p-3 bg-red-50 text-red-600 rounded-xl text-center font-bold">{doctorAuthError}</div>}
-                <input type="text" required placeholder={t('access_code_prompt')} value={accessCode} onChange={(e) => setAccessCode(e.target.value.toUpperCase())} className="w-full text-center text-2xl font-mono p-4 bg-gray-50 dark:bg-slate-900 border rounded-xl" />
-                <button type="submit" disabled={doctorAuthLoading} className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg">{doctorAuthLoading ? 'Verifying...' : t('unlock')}</button>
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/80 backdrop-blur-2xl"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 50 }} 
+              animate={{ scale: 1, y: 0 }} 
+              exit={{ scale: 0.9, y: 50 }} 
+              className="bg-white dark:bg-slate-900 rounded-[3.5rem] p-12 max-w-md w-full shadow-3xl relative z-[210] border border-white dark:border-white/10"
+            >
+              <button 
+                onClick={() => setShowDoctorModal(false)}
+                className="absolute top-8 right-8 p-3 bg-gray-100 dark:bg-white/5 rounded-full text-gray-500 hover:text-gray-900 transition-all"
+              >
+                 <X className="h-5 w-5" />
+              </button>
+              
+              <div className="text-center mb-10">
+                 <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/20 rounded-[2rem] flex items-center justify-center mx-auto mb-6">
+                    <Lock className="h-10 w-10 text-blue-600" />
+                 </div>
+                 <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{t('doctor_access')}</h2>
+                 <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 font-medium">Verification required for clinical history access.</p>
+              </div>
+
+              <form onSubmit={handleDoctorAccess} className="space-y-8">
+                {doctorAuthError && (
+                  <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-4 bg-rose-50 text-rose-600 rounded-2xl text-center text-[10px] font-black uppercase tracking-widest border border-rose-100">
+                    {doctorAuthError}
+                  </motion.div>
+                )}
+                <div className="space-y-2">
+                   <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Medical Passphrase</label>
+                   <input 
+                     type="text" 
+                     required 
+                     placeholder="XXXX-XXXX" 
+                     value={accessCode} 
+                     onChange={(e) => setAccessCode(e.target.value.toUpperCase())} 
+                     className="w-full text-center text-4xl font-black font-mono py-8 bg-gray-50 dark:bg-[#050505] border border-gray-100 dark:border-white/10 rounded-[2.5rem] text-gray-900 dark:text-white outline-none focus:ring-8 focus:ring-blue-500/10 transition-all" 
+                   />
+                </div>
+                <button 
+                  type="submit" 
+                  disabled={doctorAuthLoading} 
+                  className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-6 rounded-[2rem] shadow-2xl shadow-blue-600/30 text-[10px] uppercase tracking-[0.3em] transition-all active:scale-95 disabled:opacity-50"
+                >
+                  {doctorAuthLoading ? (
+                    <div className="flex items-center justify-center gap-3">
+                       <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                       Validating Node...
+                    </div>
+                  ) : (
+                    <>Establish Connection</>
+                  )}
+                </button>
               </form>
             </motion.div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
