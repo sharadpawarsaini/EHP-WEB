@@ -10,6 +10,7 @@ import { Medicine } from '../models/Medicine';
 import { Vaccination } from '../models/Vaccination';
 import { Appointment } from '../models/Appointment';
 import { HospitalVisit } from '../models/HospitalVisit';
+import { Vitals } from '../models/Vitals';
 import QRCode from 'qrcode';
 
 export const generateEmergencyLink = async (req: AuthRequest, res: Response): Promise<void> => {
@@ -190,6 +191,10 @@ export const verifyDoctorAccess = async (req: Request, res: Response): Promise<v
       userId: link.userId,
       memberId: link.memberId
     }).sort({ visitDate: -1 });
+    const vitals = await Vitals.find({
+      userId: link.userId,
+      memberId: link.memberId
+    }).sort({ date: -1 }).limit(10);
 
     res.json({
       profile,
@@ -199,7 +204,8 @@ export const verifyDoctorAccess = async (req: Request, res: Response): Promise<v
       medicines,
       vaccinations,
       appointments,
-      visits
+      visits,
+      vitals
     });
 
   } catch (error) {

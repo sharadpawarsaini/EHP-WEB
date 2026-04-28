@@ -1,10 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../services/api';
-import { Activity, ShieldAlert, HeartPulse, UserCircle, Phone, Lock, ChevronRight, FileText, Download, Clock, WifiOff, Pill, Syringe, Calendar, History, Stethoscope } from 'lucide-react';
+import { 
+  Activity, 
+  ShieldAlert, 
+  HeartPulse, 
+  UserCircle, 
+  Phone, 
+  Lock, 
+  ChevronRight, 
+  FileText, 
+  Download, 
+  Clock, 
+  WifiOff, 
+  Pill, 
+  Syringe, 
+  Calendar, 
+  History, 
+  Stethoscope,
+  TrendingUp,
+  ShieldCheck,
+  Briefcase,
+  AlertCircle
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { format } from 'date-fns';
+import { format, differenceInYears } from 'date-fns';
 
 const EmergencyPage = () => {
   const { slug } = useParams();
@@ -124,6 +145,8 @@ const EmergencyPage = () => {
   const displayData = fullData || data;
   const isFullAccess = !!fullData;
 
+  const age = profile.dob ? differenceInYears(new Date(), new Date(profile.dob)) : null;
+
   return (
     <div className={`min-h-screen ${isFullAccess ? 'bg-slate-50 dark:bg-slate-900' : 'bg-gray-900 dark:bg-slate-950'} text-gray-900 dark:text-gray-100 font-sans pb-20 transition-colors duration-300`}>
       <AnimatePresence>
@@ -165,15 +188,16 @@ const EmergencyPage = () => {
         <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-[2rem] shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700 overflow-hidden relative">
           <div className={`absolute top-0 left-0 w-full h-2 ${isFullAccess ? 'bg-gradient-to-r from-blue-500 to-indigo-500' : 'bg-gradient-to-r from-red-500 to-rose-500'}`}></div>
           <div className="p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left relative z-10">
-            <div className="w-24 h-24 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center flex-shrink-0 border-4 border-white dark:border-slate-600 shadow-sm">
+            <div className="w-24 h-24 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center flex-shrink-0 border-4 border-white dark:border-slate-600 shadow-sm overflow-hidden">
               {profile.photoUrl ? (
-                <img src={profile.photoUrl} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                <img src={profile.photoUrl} alt="Profile" className="w-full h-full object-cover" />
               ) : (
                 <UserCircle className="w-16 h-16 text-gray-400 dark:text-gray-500" />
               )}
             </div>
             <div className="flex-1">
-              <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-2">{profile.fullName || 'Unknown Patient'}</h1>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-1">{profile.fullName || 'Unknown Patient'}</h1>
+              <p className="text-gray-500 dark:text-gray-400 font-medium mb-4">{age} Years • {profile.gender}</p>
               <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-4">
                 <div className="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800/50 px-4 py-2 rounded-xl flex items-center gap-2 shadow-sm">
                   <HeartPulse className="h-5 w-5 text-red-600 dark:text-red-400" />
@@ -200,7 +224,7 @@ const EmergencyPage = () => {
         )}
 
         <div className="grid gap-6">
-          {/* Allergies */}
+          {/* Critical Allergies */}
           <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white dark:border-slate-700">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><ShieldAlert className="h-5 w-5 text-red-500" /> {t('allergies')}</h3>
             {displayData.medical?.allergies?.length > 0 ? (
@@ -243,7 +267,83 @@ const EmergencyPage = () => {
           </div>
 
           {isFullAccess && (
-            <div className="space-y-6">
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              {/* Recent Vitals Trend */}
+              {displayData.vitals?.length > 0 && (
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-orange-100 dark:border-orange-900/50">
+                  <h3 className="text-lg font-bold text-orange-900 dark:text-orange-400 mb-4 flex items-center gap-2"><TrendingUp className="h-5 w-5" /> Recent Vitals History</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-sm">
+                      <thead className="text-gray-400 border-b border-gray-100 dark:border-slate-700">
+                        <tr>
+                          <th className="pb-3 pr-4 font-bold uppercase tracking-wider text-[10px]">Date</th>
+                          <th className="pb-3 pr-4 font-bold uppercase tracking-wider text-[10px]">Type</th>
+                          <th className="pb-3 font-bold uppercase tracking-wider text-[10px]">Value</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-50 dark:divide-slate-700">
+                        {displayData.vitals.map((v: any) => (
+                          <tr key={v._id}>
+                            <td className="py-3 pr-4 font-medium text-gray-500">{format(new Date(v.date), 'MMM dd, HH:mm')}</td>
+                            <td className="py-3 pr-4 font-bold text-gray-900 dark:text-white">{v.type}</td>
+                            <td className="py-3 font-black text-orange-600 dark:text-orange-400">{v.value} <span className="text-[10px] font-normal text-gray-400">{v.unit}</span></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* Lifestyle & habits */}
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><Activity className="h-5 w-5 text-blue-500" /> Lifestyle & Habits</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-gray-50 dark:bg-slate-900/50 p-3 rounded-xl">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Smoking</p>
+                      <p className={`font-bold ${displayData.medical?.lifestyle?.smoking ? 'text-red-500' : 'text-emerald-500'}`}>{displayData.medical?.lifestyle?.smoking ? 'Active Smoker' : 'Non-Smoker'}</p>
+                    </div>
+                    <div className="bg-gray-50 dark:bg-slate-900/50 p-3 rounded-xl">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Alcohol</p>
+                      <p className={`font-bold ${displayData.medical?.lifestyle?.alcohol ? 'text-red-500' : 'text-emerald-500'}`}>{displayData.medical?.lifestyle?.alcohol ? 'Consumer' : 'Non-Consumer'}</p>
+                    </div>
+                    <div className="col-span-2 bg-gray-50 dark:bg-slate-900/50 p-3 rounded-xl">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Exercise Level</p>
+                      <p className="font-bold text-gray-900 dark:text-white">{displayData.medical?.lifestyle?.exercise || 'Not specified'}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><Briefcase className="h-5 w-5 text-indigo-500" /> Insurance Details</h3>
+                  <div className="space-y-3">
+                    <div className="bg-indigo-50/50 dark:bg-indigo-900/20 p-4 rounded-xl border border-indigo-100 dark:border-indigo-800/30">
+                      <p className="text-[10px] font-bold text-indigo-400 uppercase mb-1">Provider</p>
+                      <p className="font-bold text-gray-900 dark:text-white">{displayData.medical?.insurance?.provider || 'None reported'}</p>
+                    </div>
+                    <div className="bg-indigo-50/50 dark:bg-indigo-900/20 p-4 rounded-xl border border-indigo-100 dark:border-indigo-800/30">
+                      <p className="text-[10px] font-bold text-indigo-400 uppercase mb-1">Policy Number</p>
+                      <p className="font-mono font-bold text-gray-900 dark:text-white">{displayData.medical?.insurance?.policyNumber || 'N/A'}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Family Medical History */}
+              {displayData.medical?.familyHistory?.length > 0 && (
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-rose-100 dark:border-rose-900/50">
+                  <h3 className="text-lg font-bold text-rose-900 dark:text-rose-400 mb-4 flex items-center gap-2"><History className="h-5 w-5" /> Family Medical History</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {displayData.medical.familyHistory.map((item: string, i: number) => (
+                      <span key={i} className="bg-rose-50 dark:bg-rose-900/20 text-rose-800 dark:text-rose-300 px-3 py-1 rounded-lg font-medium text-sm border border-rose-100 dark:border-rose-800/50">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Active Medicines */}
               {displayData.medicines?.length > 0 && (
                 <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-indigo-100 dark:border-indigo-900/50">
@@ -304,10 +404,10 @@ const EmergencyPage = () => {
                 </div>
               )}
 
-              {/* Hospital Visits */}
+              {/* Hospital Visits History */}
               {displayData.visits?.length > 0 && (
                 <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-slate-200 dark:border-slate-700">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><History className="h-5 w-5 text-indigo-500" /> Recent Visits</h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><History className="h-5 w-5 text-indigo-500" /> Recent Visits History</h3>
                   <div className="space-y-3">
                     {displayData.visits.slice(0, 5).map((visit: any) => (
                       <div key={visit._id} className="bg-gray-50 dark:bg-slate-900/50 p-4 rounded-xl border border-gray-100 dark:border-slate-700">
@@ -322,15 +422,39 @@ const EmergencyPage = () => {
                 </div>
               )}
 
+              {/* General Medical Notes */}
+              {displayData.medical?.notes && (
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-amber-100 dark:border-amber-900/50">
+                  <h3 className="text-lg font-bold text-amber-900 dark:text-amber-400 mb-4 flex items-center gap-2"><AlertCircle className="h-5 w-5" /> Patient Medical Notes</h3>
+                  <div className="p-4 bg-amber-50/50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/30 rounded-xl text-sm text-amber-900 dark:text-amber-200 leading-relaxed italic">
+                    "{displayData.medical.notes}"
+                  </div>
+                </div>
+              )}
+
+              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-blue-100 dark:border-blue-900/50">
+                <h3 className="text-lg font-bold text-blue-900 dark:text-blue-400 mb-4">Additional Clinical Details</h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-blue-50/50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100/50 dark:border-blue-800/30">
+                    <h4 className="font-bold text-gray-900 dark:text-white mb-2">Past Surgeries</h4>
+                    <p className="text-gray-600 dark:text-gray-300 font-medium">{displayData.medical?.surgeries?.join(', ') || 'None reported'}</p>
+                  </div>
+                  <div className="bg-blue-50/50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100/50 dark:border-blue-800/30">
+                    <h4 className="font-bold text-gray-900 dark:text-white mb-2">Primary Physician</h4>
+                    <p className="text-gray-600 dark:text-gray-300 font-medium">{profile.primaryPhysician || 'Not specified'}</p>
+                  </div>
+                </div>
+              </div>
+
               {/* Reports Section */}
               {displayData.reports?.length > 0 && (
                 <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white dark:border-slate-700">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><FileText className="h-5 w-5 text-blue-500" /> Clinical Reports</h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2"><FileText className="h-5 w-5 text-blue-500" /> Digital Lab Reports</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
                     {displayData.reports.map((report: any) => (
                       <div key={report._id} className="bg-gray-50/50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-xl p-4 flex flex-col justify-between shadow-sm">
                         <h4 className="font-bold text-gray-900 dark:text-white text-sm truncate">{report.title}</h4>
-                        <a href={`${import.meta.env.VITE_API_URL.replace('/api', '')}${report.fileUrl}`} target="_blank" className="mt-3 flex items-center justify-center gap-2 bg-blue-50 text-blue-600 px-3 py-2 rounded-lg text-xs font-bold"><Download className="h-3.5 w-3.5" /> View</a>
+                        <a href={`${import.meta.env.VITE_API_URL.replace('/api', '')}${report.fileUrl}`} target="_blank" className="mt-3 flex items-center justify-center gap-2 bg-blue-50 text-blue-600 px-3 py-2 rounded-lg text-xs font-bold"><Download className="h-3.5 w-3.5" /> View Report</a>
                       </div>
                     ))}
                   </div>
