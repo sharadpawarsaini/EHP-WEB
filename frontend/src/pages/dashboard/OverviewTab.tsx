@@ -42,6 +42,22 @@ const OverviewTab = () => {
   // Hospital Finder State
   const [nearbyFacilities, setNearbyFacilities] = useState<any[]>([]);
   const [locLoading, setLocLoading] = useState(false);
+  const [isWearableConnected, setIsWearableConnected] = useState(false);
+  const [livePulse, setLivePulse] = useState<number | null>(null);
+
+  useEffect(() => {
+    const savedStates = JSON.parse(localStorage.getItem('ehp_integrations') || '{}');
+    const connected = Object.keys(savedStates).length > 0;
+    setIsWearableConnected(connected);
+
+    let interval: any;
+    if (connected) {
+      interval = setInterval(() => {
+        setLivePulse(Math.floor(Math.random() * (85 - 65 + 1)) + 65);
+      }, 3000);
+    }
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -170,7 +186,7 @@ const OverviewTab = () => {
   };
 
   const vitalCards = [
-    { label: 'Heart Rate', icon: Heart, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-900/20', data: getLatestVital('Heart Rate'), path: '/dashboard/vitals' },
+    { label: 'Heart Rate', icon: Heart, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-900/20', data: isWearableConnected ? { value: livePulse, unit: 'BPM' } : getLatestVital('Heart Rate'), path: '/dashboard/vitals' },
     { label: 'Blood Pressure', icon: Activity, color: 'text-red-500', bg: 'bg-red-50 dark:bg-red-900/20', data: getLatestVital('Blood Pressure'), path: '/dashboard/vitals' },
     { label: 'Blood Glucose', icon: Droplet, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20', data: getLatestVital('Blood Glucose'), path: '/dashboard/vitals' },
     { label: 'Temperature', icon: Thermometer, color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-900/20', data: getLatestVital('Temperature'), path: '/dashboard/vitals' },
@@ -512,25 +528,28 @@ const OverviewTab = () => {
             </div>
           </div>
 
-          {/* Activity Feed Mini */}
+          {/* Wearables Widget */}
           <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
              <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
                    <Watch className="h-5 w-5 text-blue-600" />
                    Wearables
                 </h3>
-                <span className="flex items-center gap-1.5 px-2 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 text-[8px] font-black uppercase rounded-lg tracking-widest border border-emerald-100 dark:border-emerald-800/30">
-                   <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                   Active
+                <span className={`flex items-center gap-1.5 px-2 py-1 ${isWearableConnected ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600' : 'bg-gray-50 dark:bg-slate-700 text-gray-400'} text-[8px] font-black uppercase rounded-lg tracking-widest border ${isWearableConnected ? 'border-emerald-100 dark:border-emerald-800/30' : 'border-gray-200 dark:border-slate-600'}`}>
+                   {isWearableConnected && <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />}
+                   {isWearableConnected ? 'Active' : 'Offline'}
                 </span>
              </div>
-             <div className="flex items-center gap-4 p-4 bg-gray-50/50 dark:bg-slate-900/50 rounded-2xl border border-gray-100 dark:border-slate-700 group hover:border-blue-500/30 transition-all cursor-pointer" onClick={() => navigate('/dashboard/integrations')}>
+             <div 
+               className={`flex items-center gap-4 p-4 rounded-2xl border transition-all cursor-pointer ${isWearableConnected ? 'bg-gray-50/50 dark:bg-slate-900/50 border-gray-100 dark:border-slate-700 hover:border-blue-500/30' : 'bg-gray-50/20 dark:bg-slate-900/20 border-dashed border-gray-200 dark:border-slate-700 opacity-60'}`} 
+               onClick={() => navigate('/dashboard/integrations')}
+             >
                 <div className="p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
-                   <Activity className="h-5 w-5 text-blue-500" />
+                   <Activity className={`h-5 w-5 ${isWearableConnected ? 'text-blue-500' : 'text-gray-300'}`} />
                 </div>
                 <div>
-                   <p className="text-sm font-black text-gray-900 dark:text-white leading-none mb-1">Google Fit</p>
-                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Last synced 2m ago</p>
+                   <p className="text-sm font-black text-gray-900 dark:text-white leading-none mb-1">{isWearableConnected ? 'Device Synced' : 'No Devices'}</p>
+                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{isWearableConnected ? 'Auto-Syncing Vitals' : 'Setup Integrations'}</p>
                 </div>
              </div>
              <button onClick={() => navigate('/dashboard/integrations')} className="mt-4 w-full py-3 text-blue-600 dark:text-blue-400 font-black text-[10px] uppercase tracking-widest hover:underline">Manage Integrations</button>

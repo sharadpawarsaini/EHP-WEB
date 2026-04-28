@@ -20,10 +20,8 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
     try {
       const { data } = await api.get('/profile');
       if (data) {
-        if (!managedMemberId) {
-           setManagedMemberName(data.fullName || 'Me');
-           setPhotoUrl(data.photoUrl || null);
-        }
+        setManagedMemberName(data.fullName || 'Me');
+        setPhotoUrl(data.photoUrl || null);
       }
     } catch (err) {
       console.error("Failed to fetch profile in context", err);

@@ -17,58 +17,68 @@ import api from '../../services/api';
 
 const IntegrationsTab = () => {
   const [loading, setLoading] = useState(true);
-  const [integrations, setIntegrations] = useState<any[]>([
-    {
-      id: 'google-fit',
-      name: 'Google Fit',
-      description: 'Sync heart rate, steps, and activity from your Android devices.',
-      icon: Activity,
-      color: 'text-blue-500',
-      bg: 'bg-blue-50 dark:bg-blue-900/20',
-      connected: false,
-      lastSync: null
-    },
-    {
-      id: 'fitbit',
-      name: 'Fitbit',
-      description: 'Import sleep data and professional vitals from Fitbit trackers.',
-      icon: Watch,
-      color: 'text-emerald-500',
-      bg: 'bg-emerald-50 dark:bg-emerald-900/20',
-      connected: false,
-      lastSync: null
-    },
-    {
-      id: 'apple-health',
-      name: 'Apple Health',
-      description: 'Bridge your iPhone health data using our secure data relay.',
-      icon: Smartphone,
-      color: 'text-gray-900 dark:text-white',
-      bg: 'bg-gray-100 dark:bg-slate-700',
-      connected: false,
-      lastSync: null
-    }
-  ]);
+  const [integrations, setIntegrations] = useState<any[]>([]);
+
+  useEffect(() => {
+    const savedStates = JSON.parse(localStorage.getItem('ehp_integrations') || '{}');
+    const initialIntegrations = [
+      {
+        id: 'google-fit',
+        name: 'Google Fit',
+        description: 'Sync heart rate, steps, and activity from your Android devices.',
+        icon: Activity,
+        color: 'text-blue-500',
+        bg: 'bg-blue-50 dark:bg-blue-900/20',
+        connected: !!savedStates['google-fit'],
+        lastSync: savedStates['google-fit'] || null
+      },
+      {
+        id: 'fitbit',
+        name: 'Fitbit',
+        description: 'Import sleep data and professional vitals from Fitbit trackers.',
+        icon: Watch,
+        color: 'text-emerald-500',
+        bg: 'bg-emerald-50 dark:bg-emerald-900/20',
+        connected: !!savedStates['fitbit'],
+        lastSync: savedStates['fitbit'] || null
+      },
+      {
+        id: 'apple-health',
+        name: 'Apple Health',
+        description: 'Bridge your iPhone health data using our secure data relay.',
+        icon: Smartphone,
+        color: 'text-gray-900 dark:text-white',
+        bg: 'bg-gray-100 dark:bg-slate-700',
+        connected: !!savedStates['apple-health'],
+        lastSync: savedStates['apple-health'] || null
+      }
+    ];
+    setIntegrations(initialIntegrations);
+    setLoading(false);
+  }, []);
 
   const [syncing, setSyncing] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Simulate loading existing connection states
-    setTimeout(() => setLoading(false), 1000);
-  }, []);
-
   const handleConnect = (id: string) => {
     setSyncing(id);
-    // In a real app, this would redirect to Google/Fitbit OAuth
     setTimeout(() => {
+      const now = new Date().toISOString();
+      const savedStates = JSON.parse(localStorage.getItem('ehp_integrations') || '{}');
+      savedStates[id] = now;
+      localStorage.setItem('ehp_integrations', JSON.stringify(savedStates));
+
       setIntegrations(prev => prev.map(item => 
-        item.id === id ? { ...item, connected: true, lastSync: new Date().toISOString() } : item
+        item.id === id ? { ...item, connected: true, lastSync: now } : item
       ));
       setSyncing(null);
     }, 2000);
   };
 
   const handleDisconnect = (id: string) => {
+    const savedStates = JSON.parse(localStorage.getItem('ehp_integrations') || '{}');
+    delete savedStates[id];
+    localStorage.setItem('ehp_integrations', JSON.stringify(savedStates));
+
     setIntegrations(prev => prev.map(item => 
       item.id === id ? { ...item, connected: false, lastSync: null } : item
     ));

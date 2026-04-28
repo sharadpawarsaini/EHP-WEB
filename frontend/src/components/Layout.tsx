@@ -29,6 +29,7 @@ import { useAuth } from '../context/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
+import api from '../services/api';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { logout } = useAuth();
@@ -75,7 +76,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const getFullPhotoUrl = (url: string | null) => {
     if (!url) return null;
     if (url.startsWith('http')) return url;
-    return `${import.meta.env.VITE_API_URL.replace('/api', '')}${url}`;
+    const base = api.defaults.baseURL?.replace('/api', '') || '';
+    return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
   };
 
   const ProfileAvatar = ({ className = "h-8 w-8" }: { className?: string }) => (
