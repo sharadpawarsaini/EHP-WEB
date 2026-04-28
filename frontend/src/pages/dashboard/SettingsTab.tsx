@@ -177,9 +177,6 @@ const SettingsTab = () => {
         }
       ]
     },
-        }
-      ]
-    },
     {
       title: 'Security & Identity',
       items: [
