@@ -37,6 +37,20 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showResults, setShowResults] = useState(false);
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const { managedMemberName, photoUrl } = useProfileContext();
 
@@ -253,14 +267,71 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             </button>
             
             {/* Desktop Search Bar */}
-            <div className="hidden md:flex items-center bg-gray-100/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl px-4 py-2 w-96 group focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
-               <Search className="h-4 w-4 text-gray-400 mr-3" />
-               <input 
-                 type="text" 
-                 placeholder="Search medical records, vitals, hospitals..." 
-                 className="bg-transparent border-none focus:ring-0 text-sm w-full text-gray-900 dark:text-white placeholder-gray-400 font-medium"
-               />
-               <kbd className="hidden lg:inline-flex items-center gap-1 px-1.5 py-0.5 rounded border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-[10px] font-black text-gray-400 shadow-sm">⌘ K</kbd>
+            <div className="hidden md:block relative">
+               <div className="flex items-center bg-gray-100/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl px-4 py-2 w-96 group focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+                  <Search className="h-4 w-4 text-gray-400 mr-3" />
+                  <input 
+                    ref={searchInputRef}
+                    type="text" 
+                    placeholder="Search medical records, vitals, SOS..." 
+                    value={searchQuery}
+                    onChange={(e) => {
+                       setSearchQuery(e.target.value);
+                       setShowResults(true);
+                    }}
+                    onFocus={() => setShowResults(true)}
+                    className="bg-transparent border-none focus:ring-0 text-sm w-full text-gray-900 dark:text-white placeholder-gray-400 font-medium"
+                  />
+                  <kbd className="hidden lg:inline-flex items-center gap-1 px-1.5 py-0.5 rounded border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-[10px] font-black text-gray-400 shadow-sm">⌘ K</kbd>
+               </div>
+
+               {/* Global Search Results Panel */}
+               <AnimatePresence>
+                  {showResults && searchQuery.length > 0 && (
+                    <>
+                      <div className="fixed inset-0 z-10" onClick={() => setShowResults(false)}></div>
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="absolute top-full left-0 right-0 mt-3 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border border-gray-100 dark:border-slate-700 rounded-[1.5rem] shadow-2xl z-50 max-h-96 overflow-y-auto overflow-x-hidden custom-scrollbar divide-y divide-gray-100 dark:divide-slate-700"
+                      >
+                         <div className="p-4 bg-gray-50/50 dark:bg-slate-900/50">
+                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Quick Results</p>
+                         </div>
+                         
+                         {navItems.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase())).length > 0 ? (
+                           navItems.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase())).map((item) => {
+                             const Icon = item.icon;
+                             return (
+                               <button 
+                                 key={item.name}
+                                 onClick={() => {
+                                    navigate(item.path);
+                                    setShowResults(false);
+                                    setSearchQuery('');
+                                 }}
+                                 className="w-full flex items-center p-4 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-left group transition-all"
+                               >
+                                  <div className="p-2 bg-gray-100 dark:bg-slate-900 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-all mr-4">
+                                     <Icon className="h-4 w-4" />
+                                  </div>
+                                  <div>
+                                     <p className="text-sm font-bold text-gray-900 dark:text-white">{item.name}</p>
+                                     <p className="text-[10px] text-gray-400 font-medium tracking-tight">Navigate to {item.name} module</p>
+                                  </div>
+                               </button>
+                             );
+                           })
+                         ) : (
+                           <div className="p-10 text-center">
+                              <p className="text-sm font-medium text-gray-400 italic">No matching modules found</p>
+                           </div>
+                         )}
+                      </motion.div>
+                    </>
+                  )}
+               </AnimatePresence>
             </div>
 
             {/* Mobile Logo (Visible only on mobile header) */}
