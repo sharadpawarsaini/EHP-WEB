@@ -20,7 +20,8 @@ import {
   Pill, 
   Syringe, 
   Calendar as CalendarIcon,
-  UserCircle
+  UserCircle,
+  Search
 } from 'lucide-react';
 import { useProfileContext } from '../context/ProfileContext';
 import { useAuth } from '../context/AuthContext';
