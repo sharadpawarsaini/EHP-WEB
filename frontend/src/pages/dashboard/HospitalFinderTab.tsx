@@ -78,7 +78,7 @@ const HospitalFinderTab = () => {
         setLocation({ lat: latitude, lng: longitude });
         findNearby(latitude, longitude, typeToSearch);
       },
-      (error) => {
+      () => {
         setError('Location link denied. Enable GPS to continue.');
         setLoading(false);
       }
