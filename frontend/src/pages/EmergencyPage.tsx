@@ -343,13 +343,34 @@ const EmergencyPage = () => {
                   <p className="text-xs text-gray-400 font-medium max-w-xs mx-auto italic">Decryption required for Medications, Vitals History, and Lab Reports.</p>
                </motion.div>
              ) : (
-               <motion.div 
-                 key="unlocked"
-                 initial={{ opacity: 0, y: 20 }} 
-                 animate={{ opacity: 1, y: 0 }} 
-                 className="space-y-10"
-               >
-                  {/* Vitals Feed */}
+                <motion.div 
+                  key="unlocked"
+                  initial={{ opacity: 0, y: 20 }} 
+                  animate={{ opacity: 1, y: 0 }} 
+                  className="space-y-12 animate-in fade-in slide-in-from-bottom-10 duration-700"
+                >
+                   {/* Biometric Dashboard */}
+                   <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                      {[
+                        { label: 'Height', val: displayData.medical?.height ? `${displayData.medical.height} cm` : 'N/A', icon: TrendingUp, color: 'text-blue-500' },
+                        { label: 'Weight', val: displayData.medical?.weight ? `${displayData.medical.weight} kg` : 'N/A', icon: Activity, color: 'text-emerald-500' },
+                        { label: 'BMI', val: displayData.medical?.bmi || 'N/A', icon: Zap, color: 'text-purple-500' },
+                        { label: 'Blood Type', val: profile.bloodGroup || 'UNK', icon: Droplets, color: 'text-rose-500' }
+                      ].map((item, i) => {
+                        const Icon = item.icon;
+                        return (
+                          <div key={i} className="bg-white/80 dark:bg-slate-800/50 backdrop-blur-3xl p-6 rounded-[2.5rem] border border-white dark:border-white/10 shadow-xl text-center group hover:scale-105 transition-all">
+                             <div className={`w-10 h-10 mx-auto mb-3 rounded-xl bg-gray-50 dark:bg-white/5 flex items-center justify-center ${item.color}`}>
+                                <Icon className="h-5 w-5" />
+                             </div>
+                             <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">{item.label}</p>
+                             <p className="text-xl font-black text-gray-900 dark:text-white">{item.val}</p>
+                          </div>
+                        );
+                      })}
+                   </div>
+
+                   {/* Vitals Feed */}
                   {displayData.vitals?.length > 0 && (
                     <div className="bg-white dark:bg-slate-800/50 backdrop-blur-3xl rounded-[3rem] p-10 border border-white dark:border-white/10 shadow-2xl">
                       <div className="flex justify-between items-center mb-8">
@@ -389,6 +410,54 @@ const EmergencyPage = () => {
                           </tbody>
                         </table>
                       </div>
+                    </div>
+                  )}
+
+                  {/* Clinical Visit Timeline */}
+                  {displayData.visits?.length > 0 && (
+                    <div className="bg-white dark:bg-slate-800/50 backdrop-blur-3xl rounded-[3rem] p-10 border border-white dark:border-white/10 shadow-2xl">
+                       <div className="flex justify-between items-center mb-10">
+                          <h3 className="text-2xl font-black text-gray-900 dark:text-white flex items-center gap-4">
+                             <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-2xl">
+                                <History className="h-7 w-7 text-purple-600" />
+                             </div>
+                             Visitor History Timeline
+                          </h3>
+                       </div>
+                       <div className="space-y-8 relative">
+                          <div className="absolute left-8 top-10 bottom-10 w-px bg-gray-100 dark:bg-white/5"></div>
+                          {displayData.visits.map((visit: any) => (
+                            <div key={visit._id} className="relative pl-20 group">
+                               <div className="absolute left-6 top-2 w-4 h-4 rounded-full bg-white dark:bg-slate-800 border-4 border-purple-600 z-10 group-hover:scale-150 transition-transform"></div>
+                               <div className="bg-gray-50/50 dark:bg-white/5 rounded-[2.5rem] p-8 border border-gray-100 dark:border-white/10 group-hover:border-purple-500/30 transition-all shadow-sm">
+                                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                                     <div>
+                                        <p className="text-[10px] font-black text-purple-600 uppercase tracking-[0.2em] mb-1">{format(new Date(visit.date), 'MMMM dd, yyyy')}</p>
+                                        <h4 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">{visit.hospitalName || 'Clinical Node Access'}</h4>
+                                     </div>
+                                     <div className="px-4 py-2 bg-purple-50 dark:bg-purple-900/20 rounded-xl text-[10px] font-black text-purple-600 uppercase tracking-widest border border-purple-100 dark:border-purple-800/30">
+                                        {visit.visitType || 'Standard Visit'}
+                                     </div>
+                                  </div>
+                                  <div className="grid sm:grid-cols-2 gap-6 mb-6">
+                                     <div>
+                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Primary Diagnosis</p>
+                                        <p className="text-sm font-bold text-gray-700 dark:text-gray-300">{visit.diagnosis || 'Standard Observation'}</p>
+                                     </div>
+                                     <div>
+                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Attending Clinician</p>
+                                        <p className="text-sm font-bold text-gray-700 dark:text-gray-300">{visit.doctorName || 'Verification Pending'}</p>
+                                     </div>
+                                  </div>
+                                  {visit.notes && (
+                                    <div className="p-4 bg-white dark:bg-slate-900/50 rounded-2xl border border-gray-100 dark:border-white/10 italic text-xs text-gray-500 leading-relaxed font-medium">
+                                       " {visit.notes} "
+                                    </div>
+                                  )}
+                               </div>
+                            </div>
+                          ))}
+                       </div>
                     </div>
                   )}
 

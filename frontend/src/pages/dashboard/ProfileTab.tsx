@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import api from '../../services/api';
+import { useProfileContext } from '../../context/ProfileContext';
 import { 
   Camera, 
   UserCircle, 
@@ -29,6 +30,7 @@ import { differenceInYears, format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ProfileTab = () => {
+  const { refreshProfile } = useProfileContext();
   const [profile, setProfile] = useState({
     fullName: '',
     dob: '',
@@ -79,6 +81,7 @@ const ProfileTab = () => {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setProfile({ ...profile, photoUrl: data.photoUrl });
+      await refreshProfile();
       setMessage('Biometric identification updated');
       setTimeout(() => setMessage(''), 3000);
     } catch (err) {
@@ -93,6 +96,7 @@ const ProfileTab = () => {
     setSaving(true);
     try {
       await api.post('/profile', profile);
+      await refreshProfile();
       setMessage('Clinical identity synchronized');
       setTimeout(() => setMessage(''), 3000);
     } catch (err) {

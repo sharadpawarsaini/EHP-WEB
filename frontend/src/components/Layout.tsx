@@ -22,7 +22,7 @@ import {
   Calendar as CalendarIcon,
   UserCircle,
   Search,
-  Watch,
+  Watch as WatchIcon,
   ChevronRight,
   ShieldCheck,
   Bell,
@@ -89,7 +89,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         { name: t('nav_contacts'), path: '/dashboard/contacts', icon: ShieldAlert },
         { name: t('nav_family'), path: '/dashboard/family', icon: Users },
         { name: t('nav_hospitals'), path: '/dashboard/hospitals', icon: Hospital },
-        { name: 'Wearables', path: '/dashboard/integrations', icon: Watch },
+        { name: 'Wearables', path: '/dashboard/integrations', icon: WatchIcon },
       ]
     },
     {
@@ -128,7 +128,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   );
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] transition-colors duration-500 flex font-sans selection:bg-blue-500/30">
+    <div className="min-h-screen bg-white dark:bg-[#050505] transition-colors duration-500 flex font-sans selection:bg-blue-500/30 relative">
+      
+      {/* Premium Theme Background Overlays */}
+      <div className="fixed inset-0 pointer-events-none z-0 hidden dark:block">
+         <div className="absolute top-0 left-0 w-full h-full bg-[#050505]"></div>
+         <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-blue-600/5 blur-[120px] rounded-full"></div>
+         <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-indigo-600/5 blur-[120px] rounded-full"></div>
+      </div>
 
       {/* ── HIGH-FIDELITY SIDEBAR ── */}
       <aside className="w-72 bg-gray-50/50 dark:bg-[#0A0A0A] border-r border-gray-100 dark:border-white/5 flex-col hidden md:flex transition-all duration-500 flex-shrink-0 sticky top-0 h-screen overflow-hidden">

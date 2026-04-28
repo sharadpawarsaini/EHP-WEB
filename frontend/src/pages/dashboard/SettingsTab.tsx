@@ -28,7 +28,7 @@ import {
   AlertTriangle,
   History,
   Navigation,
-  Watch
+  Watch as WatchIcon
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -445,7 +445,7 @@ const SettingsTab = () => {
                      <div key={i} className="p-6 bg-gray-50 dark:bg-slate-900/50 rounded-[1.8rem] border border-gray-100 dark:border-slate-700 flex justify-between items-center group hover:border-blue-500/20 transition-all">
                         <div className="flex items-center gap-4">
                            <div className="p-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
-                              {node.name.includes('Watch') ? <Watch className="h-5 w-5 text-indigo-500" /> : <Smartphone className="h-5 w-5 text-blue-500" />}
+                              {node.name.includes('Watch') ? <WatchIcon className="h-5 w-5 text-indigo-500" /> : <Smartphone className="h-5 w-5 text-blue-500" />}
                            </div>
                            <div>
                               <p className="text-sm font-black text-gray-900 dark:text-white">{node.name}</p>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useProfileContext } from '../../context/ProfileContext';
 import { useNavigate } from 'react-router-dom';
 import { 
   Zap, 
@@ -28,13 +29,14 @@ import {
   Shield,
   Activity as PulseIcon,
   UserCircle,
-  Watch
+  Watch as WatchIcon
 } from 'lucide-react';
 import api from '../../services/api';
 import { format, differenceInYears } from 'date-fns';
 
 const OverviewTab = () => {
   const navigate = useNavigate();
+  const { photoUrl } = useProfileContext();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any>(null);
   const [safetyScore, setSafetyScore] = useState(0);
@@ -170,6 +172,13 @@ const OverviewTab = () => {
 
   const age = calculateAge(data?.profile?.dob);
 
+  const getFullPhotoUrl = (url: string | null) => {
+    if (!url) return null;
+    if (url.startsWith('http')) return url;
+    const base = api.defaults.baseURL?.replace('/api', '') || '';
+    return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
+  };
+
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
       <div className="w-12 h-12 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
@@ -208,9 +217,18 @@ const OverviewTab = () => {
              <PulseIcon className="h-64 w-64" />
           </div>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative z-10">
-            <div>
-              <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">Welcome, {data?.profile?.fullName?.split(' ')[0] || 'User'}</h1>
-              <p className="text-gray-500 dark:text-gray-400 font-medium">Passport readiness at {safetyScore}%. {age !== null && `Age: ${age}.`}</p>
+            <div className="flex items-center gap-6">
+              <div className="w-20 h-20 bg-gray-100 dark:bg-slate-700 rounded-[2rem] flex items-center justify-center flex-shrink-0 border-4 border-white dark:border-white/10 shadow-xl overflow-hidden">
+                 {photoUrl ? (
+                   <img src={getFullPhotoUrl(photoUrl)!} alt="Profile" className="w-full h-full object-cover scale-110" />
+                 ) : (
+                   <UserCircle className="w-12 h-12 text-gray-400" />
+                 )}
+              </div>
+              <div>
+                <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">Welcome, {data?.profile?.fullName?.split(' ')[0] || 'User'}</h1>
+                <p className="text-gray-500 dark:text-gray-400 font-medium">Passport readiness at {safetyScore}%. {age !== null && `Age: ${age}.`}</p>
+              </div>
             </div>
             <div className="flex items-center space-x-4 bg-gray-900 dark:bg-white p-5 rounded-[2rem] shadow-xl hover:scale-105 transition-transform cursor-pointer" onClick={() => navigate('/dashboard/profile')}>
                <div className="w-12 h-12 bg-white/10 dark:bg-gray-900/10 rounded-2xl flex items-center justify-center border border-white/10">
@@ -532,7 +550,7 @@ const OverviewTab = () => {
           <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
              <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
-                   <Watch className="h-5 w-5 text-blue-600" />
+                   <WatchIcon className="h-5 w-5 text-blue-600" />
                    Wearables
                 </h3>
                 <span className={`flex items-center gap-1.5 px-2 py-1 ${isWearableConnected ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600' : 'bg-gray-50 dark:bg-slate-700 text-gray-400'} text-[8px] font-black uppercase rounded-lg tracking-widest border ${isWearableConnected ? 'border-emerald-100 dark:border-emerald-800/30' : 'border-gray-200 dark:border-slate-600'}`}>
