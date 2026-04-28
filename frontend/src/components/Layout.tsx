@@ -100,12 +100,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <ThemeToggle />
           </div>
 
-          <div className="flex items-center gap-3 p-3 bg-gray-50/50 dark:bg-slate-900/50 rounded-2xl border border-gray-100 dark:border-slate-700 mb-6">
+          <div className="flex items-center gap-3 p-3 bg-gray-50/50 dark:bg-slate-900/50 rounded-2xl border border-gray-100 dark:border-slate-700 mb-2">
             <ProfileAvatar className="h-10 w-10 flex-shrink-0 ring-2 ring-white dark:ring-slate-800" />
             <div className="min-w-0">
               <p className="text-xs font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Health ID</p>
               <p className="text-sm font-bold text-gray-900 dark:text-white truncate" title={managedMemberName}>{managedMemberName}</p>
             </div>
+          </div>
+          <div className="flex items-center px-4 py-2 space-x-2 mb-4">
+             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+             <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Cloud Synced</span>
           </div>
         </div>
 
@@ -232,23 +236,54 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
       {/* ── MAIN CONTENT ── */}
       <main className="flex-1 flex flex-col min-w-0">
-        {/* Mobile top header */}
-        <header className="md:hidden bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-gray-100 dark:border-slate-700 px-4 py-3 flex justify-between items-center sticky top-0 z-40 transition-colors duration-300 shadow-sm">
+        {/* Mobile top header & Desktop top header info */}
+        <header className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-gray-100 dark:border-slate-700 px-4 md:px-10 py-3 flex justify-between items-center sticky top-0 z-40 transition-colors duration-300 shadow-sm">
           <div className="flex items-center space-x-3">
             <button
               onClick={() => setMobileNavOpen(true)}
-              className="p-2.5 rounded-xl bg-gray-50 dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors"
+              className="md:hidden p-2.5 rounded-xl bg-gray-50 dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors"
             >
               <Menu className="h-5 w-5" />
             </button>
-            <div className="flex items-center space-x-1.5">
+            
+            {/* Desktop Search Bar */}
+            <div className="hidden md:flex items-center bg-gray-100/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl px-4 py-2 w-96 group focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+               <Search className="h-4 w-4 text-gray-400 mr-3" />
+               <input 
+                 type="text" 
+                 placeholder="Search medical records, vitals, hospitals..." 
+                 className="bg-transparent border-none focus:ring-0 text-sm w-full text-gray-900 dark:text-white placeholder-gray-400 font-medium"
+               />
+               <kbd className="hidden lg:inline-flex items-center gap-1 px-1.5 py-0.5 rounded border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-[10px] font-black text-gray-400 shadow-sm">⌘ K</kbd>
+            </div>
+
+            {/* Mobile Logo (Visible only on mobile header) */}
+            <div className="md:hidden flex items-center space-x-1.5">
               <Activity className="h-7 w-7 text-blue-600" />
               <span className="text-xl font-black tracking-tight text-gray-900 dark:text-white">EHP</span>
             </div>
           </div>
-          <div className="flex items-center space-x-3">
+
+          <div className="flex items-center space-x-2 md:space-x-4">
+            <button 
+              onClick={() => navigate('/dashboard/emergency')}
+              className="p-2.5 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600 hover:bg-red-100 transition-colors relative group"
+              title="Quick SOS"
+            >
+               <Heart className="h-5 w-5 fill-red-600" />
+               <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-600 rounded-full animate-ping"></span>
+            </button>
             <ThemeToggle />
-            <Link to="/dashboard/profile">
+            <div className="h-8 w-px bg-gray-100 dark:bg-slate-700 hidden md:block mx-2"></div>
+            <Link to="/dashboard/profile" className="hidden md:flex items-center gap-3 group">
+               <div className="text-right hidden lg:block">
+                  <p className="text-xs font-black text-gray-900 dark:text-white leading-none mb-1 group-hover:text-blue-600 transition-colors">{managedMemberName}</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Verified ID</p>
+               </div>
+               <ProfileAvatar className="h-10 w-10 ring-2 ring-white dark:ring-slate-700 shadow-md group-hover:scale-105 transition-transform" />
+            </Link>
+            {/* Mobile Profile Link */}
+            <Link to="/dashboard/profile" className="md:hidden">
               <ProfileAvatar className="h-10 w-10 ring-2 ring-white dark:ring-slate-700 shadow-md" />
             </Link>
           </div>
