@@ -343,13 +343,13 @@ const OverviewTab = () => {
                   </div>
                   Recent Hospital Visits
                </h3>
-               <button onClick={() => navigate('/dashboard/medical')} className="text-[10px] font-black text-emerald-600 uppercase tracking-widest hover:underline">Full History</button>
+               <button onClick={() => navigate('/dashboard/visits')} className="text-[10px] font-black text-emerald-600 uppercase tracking-widest hover:underline">Full History</button>
             </div>
 
             <div className="space-y-4">
                {recentVisits && recentVisits.length > 0 ? (
                  recentVisits.map((visit: any) => (
-                   <div key={visit._id} onClick={() => navigate(`/dashboard/medical`)} className="flex items-center justify-between p-6 bg-gray-50/50 dark:bg-slate-900/50 rounded-3xl border border-gray-100 dark:border-slate-700 group hover:bg-white dark:hover:bg-slate-800 transition-all cursor-pointer">
+                   <div key={visit._id} onClick={() => navigate(`/dashboard/visits`)} className="flex items-center justify-between p-6 bg-gray-50/50 dark:bg-slate-900/50 rounded-3xl border border-gray-100 dark:border-slate-700 group hover:bg-white dark:hover:bg-slate-800 transition-all cursor-pointer">
                       <div className="flex items-center gap-5">
                          <div className="w-14 h-14 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm border border-gray-100 dark:border-slate-700">
                             <Hospital className="h-6 w-6 text-gray-400 group-hover:text-emerald-500 transition-colors" />

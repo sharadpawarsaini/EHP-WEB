@@ -50,6 +50,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: 'Vaccinations', path: '/dashboard/vaccinations', icon: Syringe },
     { name: 'Appointments', path: '/dashboard/appointments', icon: CalendarIcon },
     { name: t('nav_medical'), path: '/dashboard/medical', icon: ClipboardList },
+    { name: 'Visit History', path: '/dashboard/visits', icon: History },
     { name: t('nav_reports'), path: '/dashboard/reports', icon: FileText },
     { name: t('nav_contacts'), path: '/dashboard/contacts', icon: ShieldAlert },
     { name: t('nav_emergency'), path: '/dashboard/emergency', icon: QrCode },
