@@ -1,7 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
-import { ClipboardList, Shield, Activity, Plus, FileText, CheckCircle2, Info, AlertCircle, Calendar, Hospital } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { 
+  ClipboardList, 
+  Shield, 
+  Activity, 
+  Plus, 
+  FileText, 
+  CheckCircle2, 
+  Info, 
+  AlertCircle, 
+  Calendar, 
+  Hospital,
+  Heart,
+  Droplet,
+  Trash2,
+  ChevronRight,
+  Stethoscope,
+  Wind,
+  Zap
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const MedicalTab = () => {
   const [details, setDetails] = useState({
@@ -114,132 +132,165 @@ const MedicalTab = () => {
     }
   };
 
-  if (loading) return <div className="text-gray-500 animate-pulse p-8">Loading medical profile...</div>;
+  if (loading) return (
+    <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
+      <div className="w-10 h-10 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
+      <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Constructing Health Profile...</p>
+    </div>
+  );
 
   const InputField = ({ label, value, onChange, placeholder, icon: Icon }: any) => (
     <div className="space-y-2">
-      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-        {Icon && <Icon className="h-3 w-3" />} {label}
+      <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2 ml-1">
+        {Icon && <Icon className="h-3 w-3 text-blue-500" />} {label}
       </label>
       <input
         type="text"
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full px-5 py-4 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500/20 outline-none text-gray-900 dark:text-white transition-all font-medium placeholder:text-gray-300 dark:placeholder:text-gray-600"
+        className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-blue-500/10 outline-none text-gray-900 dark:text-white transition-all font-bold placeholder:text-gray-300 dark:placeholder:text-gray-600"
       />
     </div>
   );
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 max-w-full overflow-hidden">
-      {message && (
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50 text-emerald-800 dark:text-emerald-400 rounded-2xl flex items-center shadow-sm">
-          <CheckCircle2 className="h-5 w-5 mr-3" />
-          <div className="flex-1 font-bold">{message}</div>
-        </motion.div>
-      )}
+    <div className="space-y-10 animate-in fade-in duration-700 max-w-full overflow-hidden">
       
-      <form onSubmit={handleSubmit} className="space-y-8">
-        
-        {/* Clinical Profile */}
-        <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="p-3 bg-blue-600 rounded-2xl shadow-lg shadow-blue-600/20">
-              <ClipboardList className="h-6 w-6 text-white" />
+      {/* Header Widget */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+         <div>
+            <div className="flex items-center gap-2 mb-3">
+               <span className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest rounded-full">Secure EMR</span>
+               <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Synced</span>
             </div>
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tight">Clinical Profile</h2>
-              <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Core medical history for emergencies</p>
-            </div>
-          </div>
+            <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Clinical Passport</h2>
+            <p className="text-gray-500 dark:text-gray-400 font-medium">Global interoperable health history and clinical records</p>
+         </div>
+         <button onClick={handleSubmit} disabled={saving} className="w-full md:w-auto px-10 py-5 bg-blue-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-2xl shadow-blue-600/30 hover:scale-105 active:scale-95 transition-all">
+            {saving ? 'Syncing...' : 'Save Changes'}
+         </button>
+      </div>
 
-          <div className="bg-blue-50/50 dark:bg-blue-900/10 p-4 rounded-2xl border border-blue-100 dark:border-blue-800/30 mb-8 flex items-start gap-3">
-            <Info className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
-            <p className="text-xs text-blue-800 dark:text-blue-300 font-medium leading-relaxed">Separate multiple entries with commas. This information will be available to medical responders during an emergency.</p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
-            <InputField 
-              label="Allergies" 
-              value={details.allergies} 
-              onChange={(e: any) => setDetails({...details, allergies: e.target.value})}
-              placeholder="Peanuts, Penicillin..."
-              icon={AlertCircle}
-            />
-            <InputField 
-              label="Chronic Conditions" 
-              value={details.conditions} 
-              onChange={(e: any) => setDetails({...details, conditions: e.target.value})}
-              placeholder="Asthma, Type 1 Diabetes..."
-              icon={Activity}
-            />
-            <InputField 
-              label="Current Medications" 
-              value={details.medications} 
-              onChange={(e: any) => setDetails({...details, medications: e.target.value})}
-              placeholder="Lisinopril 10mg daily..."
-              icon={FileText}
-            />
-            <InputField 
-              label="Past Surgeries" 
-              value={details.surgeries} 
-              onChange={(e: any) => setDetails({...details, surgeries: e.target.value})}
-              placeholder="Appendectomy (2015)..."
-              icon={Activity}
-            />
-            <InputField 
-              label="Vaccinations" 
-              value={details.vaccinations} 
-              onChange={(e: any) => setDetails({...details, vaccinations: e.target.value})}
-              placeholder="COVID-19 (2023), Flu..."
-              icon={Shield}
-            />
-            <InputField 
-              label="Family History" 
-              value={details.familyHistory} 
-              onChange={(e: any) => setDetails({...details, familyHistory: e.target.value})}
-              placeholder="Heart Disease (Father)..."
-              icon={Activity}
-            />
+      <AnimatePresence>
+        {message && (
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="p-6 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/50 text-emerald-800 dark:text-emerald-400 rounded-3xl flex items-center shadow-lg">
+            <CheckCircle2 className="h-6 w-6 mr-4" />
+            <div className="flex-1 font-black uppercase text-xs tracking-widest">{message}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      <form onSubmit={handleSubmit} className="space-y-10">
+        
+        {/* Core Medical Data */}
+        <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-xl border border-white dark:border-slate-700">
+          <div className="grid lg:grid-cols-2 gap-10">
+             <div className="space-y-8">
+                <h3 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-4">
+                   <div className="p-3 bg-rose-50 dark:bg-rose-900/30 rounded-2xl">
+                      <Heart className="h-6 w-6 text-rose-600" />
+                   </div>
+                   Vital Indicators
+                </h3>
+                <InputField 
+                  label="Allergies" 
+                  value={details.allergies} 
+                  onChange={(e: any) => setDetails({...details, allergies: e.target.value})}
+                  placeholder="Peanuts, Penicillin..."
+                  icon={AlertCircle}
+                />
+                <InputField 
+                  label="Chronic Conditions" 
+                  value={details.conditions} 
+                  onChange={(e: any) => setDetails({...details, conditions: e.target.value})}
+                  placeholder="Asthma, Type 1 Diabetes..."
+                  icon={Activity}
+                />
+                <InputField 
+                  label="Family History" 
+                  value={details.familyHistory} 
+                  onChange={(e: any) => setDetails({...details, familyHistory: e.target.value})}
+                  placeholder="Heart Disease (Father)..."
+                  icon={Activity}
+                />
+             </div>
+
+             <div className="space-y-8">
+                <h3 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-4">
+                   <div className="p-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl">
+                      <Stethoscope className="h-6 w-6 text-indigo-600" />
+                   </div>
+                   Clinical History
+                </h3>
+                <InputField 
+                  label="Current Medications" 
+                  value={details.medications} 
+                  onChange={(e: any) => setDetails({...details, medications: e.target.value})}
+                  placeholder="Lisinopril 10mg daily..."
+                  icon={Zap}
+                />
+                <InputField 
+                  label="Past Surgeries" 
+                  value={details.surgeries} 
+                  onChange={(e: any) => setDetails({...details, surgeries: e.target.value})}
+                  placeholder="Appendectomy (2015)..."
+                  icon={Activity}
+                />
+                <InputField 
+                  label="Vaccination History" 
+                  value={details.vaccinations} 
+                  onChange={(e: any) => setDetails({...details, vaccinations: e.target.value})}
+                  placeholder="COVID-19 (2023), Flu..."
+                  icon={Shield}
+                />
+             </div>
           </div>
         </div>
 
         {/* Lifestyle & Wellness */}
-        <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
-          <h2 className="text-2xl font-black mb-8 text-gray-900 dark:text-white flex items-center gap-3">
-             <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center">
-                <Activity className="h-5 w-5 text-emerald-600" />
+        <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-xl border border-white dark:border-slate-700">
+          <div className="flex items-center gap-4 mb-10">
+             <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl">
+                <Wind className="h-6 w-6 text-emerald-600" />
              </div>
-             Lifestyle & Wellness
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="flex items-center space-x-4 bg-gray-50/50 dark:bg-slate-900/50 p-5 rounded-2xl border border-gray-100 dark:border-slate-700 hover:border-blue-500/20 transition-all cursor-pointer group">
-              <input
-                type="checkbox"
-                id="smoking"
-                checked={details.lifestyle.smoking}
-                onChange={(e) => setDetails({...details, lifestyle: {...details.lifestyle, smoking: e.target.checked}})}
-                className="h-6 w-6 text-blue-600 rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-blue-500 cursor-pointer"
-              />
-              <label htmlFor="smoking" className="font-bold text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Smoker</label>
-            </div>
-            <div className="flex items-center space-x-4 bg-gray-50/50 dark:bg-slate-900/50 p-5 rounded-2xl border border-gray-100 dark:border-slate-700 hover:border-blue-500/20 transition-all cursor-pointer group">
-              <input
-                type="checkbox"
-                id="alcohol"
-                checked={details.lifestyle.alcohol}
-                onChange={(e) => setDetails({...details, lifestyle: {...details.lifestyle, alcohol: e.target.checked}})}
-                className="h-6 w-6 text-blue-600 rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-blue-500 cursor-pointer"
-              />
-              <label htmlFor="alcohol" className="font-bold text-gray-700 dark:text-gray-300 cursor-pointer group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Consumes Alcohol</label>
-            </div>
-            <div>
-              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Exercise Frequency</label>
+             <h3 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Lifestyle & Wellness</h3>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <button
+              type="button"
+              onClick={() => setDetails({...details, lifestyle: {...details.lifestyle, smoking: !details.lifestyle.smoking}})}
+              className={`p-6 rounded-3xl border transition-all flex flex-col gap-4 text-left ${details.lifestyle.smoking ? 'bg-rose-50 border-rose-200' : 'bg-gray-50/50 dark:bg-slate-900/50 border-gray-100 dark:border-slate-700'}`}
+            >
+               <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${details.lifestyle.smoking ? 'bg-rose-600 text-white' : 'bg-gray-200 dark:bg-slate-700 text-gray-400'}`}>
+                  <Droplet className="h-5 w-5" />
+               </div>
+               <div>
+                  <p className="text-xs font-black uppercase tracking-widest text-gray-400">Status</p>
+                  <p className="text-lg font-black text-gray-900 dark:text-white">{details.lifestyle.smoking ? 'Smoker' : 'Non-Smoker'}</p>
+               </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setDetails({...details, lifestyle: {...details.lifestyle, alcohol: !details.lifestyle.alcohol}})}
+              className={`p-6 rounded-3xl border transition-all flex flex-col gap-4 text-left ${details.lifestyle.alcohol ? 'bg-amber-50 border-amber-200' : 'bg-gray-50/50 dark:bg-slate-900/50 border-gray-100 dark:border-slate-700'}`}
+            >
+               <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${details.lifestyle.alcohol ? 'bg-amber-600 text-white' : 'bg-gray-200 dark:bg-slate-700 text-gray-400'}`}>
+                  <Zap className="h-5 w-5" />
+               </div>
+               <div>
+                  <p className="text-xs font-black uppercase tracking-widest text-gray-400">Consumption</p>
+                  <p className="text-lg font-black text-gray-900 dark:text-white">{details.lifestyle.alcohol ? 'Alcohol User' : 'Alcohol Free'}</p>
+               </div>
+            </button>
+
+            <div className="p-6 bg-gray-50/50 dark:bg-slate-900/50 rounded-3xl border border-gray-100 dark:border-slate-700">
+              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-4 ml-1">Exercise Intensity</label>
               <select
                 value={details.lifestyle.exercise}
                 onChange={(e) => setDetails({...details, lifestyle: {...details.lifestyle, exercise: e.target.value}})}
-                className="w-full px-5 py-4 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500/20 outline-none text-gray-900 dark:text-white font-bold transition-all"
+                className="w-full px-5 py-4 bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-blue-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
               >
                 <option value="None">None</option>
                 <option value="Light">Light (1-2 days/wk)</option>
@@ -251,131 +302,132 @@ const MedicalTab = () => {
         </div>
 
         {/* Insurance & Notes */}
-        <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
-          <h2 className="text-2xl font-black mb-8 text-gray-900 dark:text-white flex items-center gap-3">
-             <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center">
-                <Shield className="h-5 w-5 text-indigo-600" />
-             </div>
-             Insurance & Clinical Notes
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
-            <InputField 
-              label="Insurance Provider" 
-              value={details.insurance.provider} 
-              onChange={(e: any) => setDetails({...details, insurance: {...details.insurance, provider: e.target.value}})}
-              placeholder="Blue Cross, Aetna..."
-            />
-            <InputField 
-              label="Policy Number" 
-              value={details.insurance.policyNumber} 
-              onChange={(e: any) => setDetails({...details, insurance: {...details.insurance, policyNumber: e.target.value}})}
-              placeholder="Optional..."
-            />
-          </div>
-          <div>
-            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Additional Medical Notes</label>
-            <textarea
-              rows={4}
-              value={details.notes}
-              onChange={(e) => setDetails({...details, notes: e.target.value})}
-              placeholder="Any other important medical information that first responders or doctors should know..."
-              className="w-full px-5 py-4 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500/20 outline-none text-gray-900 dark:text-white font-medium transition-all shadow-sm resize-none"
-            />
-          </div>
-        </div>
-        
-        <div className="flex justify-end pt-4 pb-4">
-          <button
-            type="submit"
-            disabled={saving}
-            className="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black rounded-2xl shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-70 text-xs uppercase tracking-widest"
-          >
-            {saving ? 'Saving Records...' : 'Save Complete Medical Profile'}
-          </button>
+        <div className="grid lg:grid-cols-3 gap-10">
+           <div className="lg:col-span-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-xl border border-white dark:border-slate-700">
+              <h3 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-4 mb-10">
+                 <div className="p-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl">
+                    <Shield className="h-6 w-6 text-indigo-600" />
+                 </div>
+                 Insurance Coverage
+              </h3>
+              <div className="space-y-8">
+                 <InputField 
+                    label="Insurance Provider" 
+                    value={details.insurance.provider} 
+                    onChange={(e: any) => setDetails({...details, insurance: {...details.insurance, provider: e.target.value}})}
+                    placeholder="Blue Cross, Aetna..."
+                 />
+                 <InputField 
+                    label="Policy Identification" 
+                    value={details.insurance.policyNumber} 
+                    onChange={(e: any) => setDetails({...details, insurance: {...details.insurance, policyNumber: e.target.value}})}
+                    placeholder="Group/ID..."
+                 />
+              </div>
+           </div>
+
+           <div className="bg-gray-900 rounded-[3rem] p-8 sm:p-12 text-white relative overflow-hidden shadow-2xl">
+              <div className="absolute top-0 right-0 p-12 opacity-10">
+                 <FileText className="h-40 w-40" />
+              </div>
+              <h3 className="text-xl font-black mb-8 flex items-center gap-3">
+                 <Zap className="h-6 w-6 text-amber-400" />
+                 Responder Notes
+              </h3>
+              <textarea
+                rows={6}
+                value={details.notes}
+                onChange={(e) => setDetails({...details, notes: e.target.value})}
+                placeholder="Critical information for first responders..."
+                className="w-full p-6 bg-white/5 border border-white/10 rounded-3xl text-sm font-medium leading-relaxed outline-none focus:bg-white/10 transition-all resize-none placeholder:text-gray-500"
+              />
+           </div>
         </div>
       </form>
 
-      {/* Recent Hospital Visits Form */}
-      <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700 mt-8">
-        <div className="flex items-center gap-4 mb-8">
-           <div className="p-3 bg-gray-900 dark:bg-white rounded-2xl shadow-lg">
-              <Hospital className="h-6 w-6 text-white dark:text-gray-900" />
-           </div>
-           <div>
-              <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tight">Hospital Visits</h2>
-              <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Record clinical visits and upload documents</p>
+      {/* Hospital Visit Records */}
+      <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-xl border border-white dark:border-slate-700 mt-10">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+           <div className="flex items-center gap-4">
+              <div className="p-3 bg-gray-900 dark:bg-white rounded-2xl">
+                 <Hospital className="h-6 w-6 text-white dark:text-gray-900" />
+              </div>
+              <div>
+                 <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Visit Archive</h2>
+                 <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Record clinical visits and store reports</p>
+              </div>
            </div>
         </div>
         
-        {visitMessage && (
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-8 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 text-blue-800 dark:text-blue-400 rounded-2xl flex items-center shadow-sm">
-            <CheckCircle2 className="h-5 w-5 mr-3" />
-            <div className="flex-1 font-bold">{visitMessage}</div>
-          </motion.div>
-        )}
-
-        <form onSubmit={handleVisitSubmit} className="space-y-8">
-          <div className="grid md:grid-cols-2 gap-8">
-            <InputField 
-              label="Hospital Name" 
-              value={visitHospital} 
-              onChange={(e: any) => setVisitHospital(e.target.value)}
-              placeholder="e.g. Apollo Hospital"
-              icon={Hospital}
-            />
-            <div className="space-y-2">
-              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                <Calendar className="h-3 w-3" /> Date Visited
-              </label>
-              <input
-                type="date"
-                value={visitDate}
-                onChange={(e) => setVisitDate(e.target.value)}
-                className="w-full px-5 py-4 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-blue-500/20 outline-none text-gray-900 dark:text-white font-bold transition-all"
+        <form onSubmit={handleVisitSubmit} className="space-y-10">
+           <div className="grid md:grid-cols-2 gap-10">
+              <InputField 
+                label="Hospital/Clinic Name" 
+                value={visitHospital} 
+                onChange={(e: any) => setVisitHospital(e.target.value)}
+                placeholder="e.g. Mayo Clinic"
+                icon={Hospital}
               />
-            </div>
-          </div>
-          <div className="space-y-4">
-            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Upload Medical Documents (Max 5)</label>
-            <div className="relative group">
-               <input
-                 type="file"
-                 multiple
-                 accept=".jpg,.jpeg,.png,.pdf"
-                 onChange={(e) => {
-                   if (e.target.files) {
-                     setVisitDocuments(Array.from(e.target.files));
-                   }
-                 }}
-                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-               />
-               <div className="p-10 border-2 border-dashed border-gray-200 dark:border-slate-700 rounded-[2rem] flex flex-col items-center justify-center group-hover:border-blue-500 transition-colors bg-gray-50/30 dark:bg-slate-900/30">
-                  <Plus className="h-10 w-10 text-gray-300 group-hover:text-blue-500 mb-4 transition-colors" />
-                  <p className="text-sm font-bold text-gray-500 dark:text-gray-400">Click to browse or drag and drop</p>
-                  <p className="text-[10px] text-gray-400 mt-1 uppercase font-black tracking-widest">Images or PDF accepted</p>
-               </div>
-            </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2 ml-1">
+                  <Calendar className="h-3 w-3 text-blue-500" /> Visit Date
+                </label>
+                <input
+                  type="date"
+                  value={visitDate}
+                  onChange={(e) => setVisitDate(e.target.value)}
+                  className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-blue-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
+                />
+              </div>
+           </div>
 
-            {visitDocuments.length > 0 && (
-              <div className="grid sm:grid-cols-2 gap-3 mt-4">
+           <div className="space-y-4">
+              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block ml-1">Attachment Upload</label>
+              <div className="relative group">
+                 <input
+                   type="file"
+                   multiple
+                   accept=".jpg,.jpeg,.png,.pdf"
+                   onChange={(e) => {
+                     if (e.target.files) {
+                       setVisitDocuments(Array.from(e.target.files));
+                     }
+                   }}
+                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                 />
+                 <div className="p-12 border-2 border-dashed border-gray-200 dark:border-slate-700 rounded-[2.5rem] flex flex-col items-center justify-center group-hover:border-blue-500 group-hover:bg-blue-50/30 transition-all bg-gray-50/30 dark:bg-slate-900/30">
+                    <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm mb-4">
+                       <Plus className="h-8 w-8 text-blue-600" />
+                    </div>
+                    <p className="text-sm font-black text-gray-900 dark:text-white">Click to Attach Medical Records</p>
+                    <p className="text-[10px] text-gray-400 mt-1 uppercase font-black tracking-widest">Supports PDF, JPG, PNG (Max 5 files)</p>
+                 </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {visitDocuments.map((doc, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-3 bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800/30 rounded-xl">
-                    <FileText className="h-4 w-4 text-blue-600" />
-                    <span className="text-xs font-bold text-gray-700 dark:text-gray-300 truncate">{doc.name}</span>
+                  <div key={idx} className="flex items-center justify-between p-4 bg-blue-50/50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/30 rounded-2xl">
+                    <div className="flex items-center gap-3 overflow-hidden">
+                       <FileText className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                       <span className="text-xs font-bold text-gray-900 dark:text-white truncate">{doc.name}</span>
+                    </div>
+                    <button type="button" onClick={() => setVisitDocuments(visitDocuments.filter((_, i) => i !== idx))} className="p-2 hover:text-red-600 transition-colors">
+                       <Trash2 className="h-4 w-4" />
+                    </button>
                   </div>
                 ))}
               </div>
-            )}
-          </div>
-          <div className="flex justify-end pt-4">
-            <button
-              type="submit"
-              disabled={visitSaving}
-              className="w-full sm:w-auto px-10 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-black rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition-all disabled:opacity-70 text-xs uppercase tracking-widest"
-            >
-              {visitSaving ? 'Saving Visit...' : 'Record Hospital Visit'}
-            </button>
-          </div>
+           </div>
+
+           <div className="flex justify-end pt-6">
+              <button
+                type="submit"
+                disabled={visitSaving}
+                className="w-full sm:w-auto px-12 py-5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-black rounded-2xl shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-70 text-xs uppercase tracking-[0.2em]"
+              >
+                {visitSaving ? 'Archiving...' : 'Record Visit'}
+              </button>
+           </div>
         </form>
       </div>
     </div>
