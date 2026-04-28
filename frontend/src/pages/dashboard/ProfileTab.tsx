@@ -80,6 +80,15 @@ const ProfileTab = () => {
     return `${import.meta.env.VITE_API_URL.replace('/api', '')}${url}`;
   };
 
+  const calculateAge = (dob: any) => {
+    if (!dob) return null;
+    const birthDate = new Date(dob);
+    if (isNaN(birthDate.getTime())) return null;
+    return differenceInYears(new Date(), birthDate);
+  };
+
+  const age = calculateAge(profile.dob);
+
   if (loading) return <div className="text-gray-500 animate-pulse p-8">Loading profile...</div>;
 
   return (
@@ -153,9 +162,9 @@ const ProfileTab = () => {
               onChange={(e) => setProfile({...profile, dob: e.target.value})}
               className="w-full px-5 py-4 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-[1.25rem] focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-gray-900 dark:text-white transition-all shadow-sm outline-none font-medium"
             />
-            {profile.dob && (
+            {age !== null && (
               <p className="text-[10px] text-blue-600 font-bold uppercase tracking-widest ml-1">
-                Calculated Age: {differenceInYears(new Date(), new Date(profile.dob))} Years
+                Calculated Age: {age} Years
               </p>
             )}
           </div>
