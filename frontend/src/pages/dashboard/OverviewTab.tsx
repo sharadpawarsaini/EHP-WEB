@@ -9,6 +9,7 @@ const OverviewTab = () => {
   const [data, setData] = useState<any>(null);
   const [recentVitals, setRecentVitals] = useState<any[]>([]);
   const [recentReports, setRecentReports] = useState<any[]>([]);
+  const [recentVisits, setRecentVisits] = useState<any[]>([]);
   const [nearestHospital, setNearestHospital] = useState<any>(null);
   const [stats, setStats] = useState({
     profileComplete: false,
@@ -33,13 +34,14 @@ const OverviewTab = () => {
   useEffect(() => {
     const fetchOverviewData = async () => {
       try {
-        const [profileRes, medicalRes, contactsRes, linkRes, vitalsRes, reportsRes] = await Promise.all([
+        const [profileRes, medicalRes, contactsRes, linkRes, vitalsRes, reportsRes, visitsRes] = await Promise.all([
           api.get('/profile').catch(() => ({ data: null })),
           api.get('/medical').catch(() => ({ data: null })),
           api.get('/emergency/contacts').catch(() => ({ data: [] })),
           api.get('/emergency/link').catch(() => ({ data: null })),
           api.get('/vitals').catch(() => ({ data: [] })),
-          api.get('/reports').catch(() => ({ data: [] }))
+          api.get('/reports').catch(() => ({ data: [] })),
+          api.get('/visits').catch(() => ({ data: [] }))
         ]);
 
         setData({
@@ -49,6 +51,7 @@ const OverviewTab = () => {
 
         setRecentVitals(vitalsRes.data.slice(-2).reverse());
         setRecentReports(reportsRes.data.slice(0, 2));
+        setRecentVisits(visitsRes.data.slice(0, 3));
 
         const s = {
           profileComplete: !!profileRes.data?.fullName,
@@ -224,6 +227,38 @@ const OverviewTab = () => {
                 ))}
                 {recentReports.length === 0 && <p className="text-sm text-gray-500 italic py-4 text-center">No reports uploaded yet.</p>}
               </div>
+            </div>
+          </div>
+
+          {/* Recent Hospital Visits */}
+          <div className="bg-white dark:bg-slate-800 rounded-[2rem] p-8 border border-gray-100 dark:border-slate-700 shadow-sm">
+            <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-6">
+              <MapPin className="h-5 w-5 text-indigo-600" /> Recent Hospital Visits
+            </h3>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {recentVisits.map((visit) => (
+                <div 
+                  key={visit._id} 
+                  onClick={() => window.open(`/dashboard/visits/${visit._id}`, '_self')}
+                  className="bg-gray-50 dark:bg-slate-900/50 rounded-2xl p-5 border border-gray-200 dark:border-slate-700 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer group"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                      <MapPin className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <h4 className="font-bold text-gray-900 dark:text-white truncate mb-1" title={visit.hospitalName}>{visit.hospitalName}</h4>
+                  <p className="text-xs text-gray-500 font-medium mb-3">{format(new Date(visit.visitDate), 'MMMM dd, yyyy')}</p>
+                  <div className="flex items-center text-xs font-bold text-indigo-600 dark:text-indigo-400">
+                    <FileText className="h-3 w-3 mr-1" /> {visit.documents?.length || 0} Documents
+                  </div>
+                </div>
+              ))}
+              {recentVisits.length === 0 && (
+                <div className="col-span-full p-6 text-center text-gray-500 italic">
+                  No hospital visits recorded yet. You can add them in the Medical Info tab.
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -17,6 +17,13 @@ const MedicalTab = () => {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
 
+  // Hospital Visit State
+  const [visitHospital, setVisitHospital] = useState('');
+  const [visitDate, setVisitDate] = useState('');
+  const [visitDocuments, setVisitDocuments] = useState<File[]>([]);
+  const [visitSaving, setVisitSaving] = useState(false);
+  const [visitMessage, setVisitMessage] = useState('');
+
   useEffect(() => {
     const fetchDetails = async () => {
       try {
@@ -68,6 +75,40 @@ const MedicalTab = () => {
       setMessage('Failed to save medical details');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleVisitSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!visitHospital || !visitDate) {
+      setVisitMessage('Please provide hospital name and visit date.');
+      return;
+    }
+    
+    setVisitSaving(true);
+    setVisitMessage('');
+
+    const formData = new FormData();
+    formData.append('hospitalName', visitHospital);
+    formData.append('visitDate', visitDate);
+    visitDocuments.forEach((file) => {
+      formData.append('documents', file);
+    });
+
+    try {
+      await api.post('/visits', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      setVisitMessage('Hospital visit recorded successfully!');
+      setVisitHospital('');
+      setVisitDate('');
+      setVisitDocuments([]);
+      setTimeout(() => setVisitMessage(''), 3000);
+    } catch (err: any) {
+      console.error(err);
+      setVisitMessage(err.response?.data?.message || 'Failed to record hospital visit.');
+    } finally {
+      setVisitSaving(false);
     }
   };
 
@@ -239,6 +280,74 @@ const MedicalTab = () => {
           </button>
         </div>
       </form>
+
+      {/* Recent Hospital Visits Form */}
+      <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700 mt-8">
+        <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Recent Hospital Visits</h2>
+        <p className="text-gray-500 dark:text-gray-400 mb-8 text-sm">Record your recent hospital visits and upload necessary medical documents.</p>
+        
+        {visitMessage && (
+          <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 text-blue-800 dark:text-blue-400 rounded-2xl flex items-center shadow-sm">
+            <div className="flex-1 font-medium">{visitMessage}</div>
+          </div>
+        )}
+
+        <form onSubmit={handleVisitSubmit} className="space-y-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Hospital Name</label>
+              <input
+                type="text"
+                value={visitHospital}
+                onChange={(e) => setVisitHospital(e.target.value)}
+                placeholder="e.g. Apollo Hospital"
+                className="w-full px-4 py-3 bg-gray-50/50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 dark:text-white transition-all shadow-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date Visited</label>
+              <input
+                type="date"
+                value={visitDate}
+                onChange={(e) => setVisitDate(e.target.value)}
+                className="w-full px-4 py-3 bg-gray-50/50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 dark:text-white transition-all shadow-sm"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload Medical Documents (Max 5)</label>
+            <input
+              type="file"
+              multiple
+              accept=".jpg,.jpeg,.png,.pdf"
+              onChange={(e) => {
+                if (e.target.files) {
+                  setVisitDocuments(Array.from(e.target.files));
+                }
+              }}
+              className="w-full px-4 py-3 bg-gray-50/50 dark:bg-slate-700/50 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 dark:text-white transition-all shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+            />
+            {visitDocuments.length > 0 && (
+              <ul className="mt-4 space-y-2">
+                {visitDocuments.map((doc, idx) => (
+                  <li key={idx} className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-blue-500"></span> {doc.name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="flex justify-end pt-4">
+            <button
+              type="submit"
+              disabled={visitSaving}
+              className="px-8 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-70"
+            >
+              {visitSaving ? 'Saving Visit...' : 'Record Hospital Visit'}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
