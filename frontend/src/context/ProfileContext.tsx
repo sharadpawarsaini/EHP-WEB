@@ -1,9 +1,12 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import api from '../services/api';
 
 interface ProfileContextType {
   managedMemberId: string | null;
   managedMemberName: string;
+  photoUrl: string | null;
   setManagedMember: (id: string | null, name?: string) => void;
+  refreshProfile: () => Promise<void>;
 }
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
@@ -11,6 +14,25 @@ const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [managedMemberId, setManagedMemberId] = useState<string | null>(localStorage.getItem('managedMemberId'));
   const [managedMemberName, setManagedMemberName] = useState<string>(localStorage.getItem('managedMemberName') || 'Me');
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+
+  const refreshProfile = async () => {
+    try {
+      const { data } = await api.get('/profile');
+      if (data) {
+        if (!managedMemberId) {
+           setManagedMemberName(data.fullName || 'Me');
+           setPhotoUrl(data.photoUrl || null);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to fetch profile in context", err);
+    }
+  };
+
+  useEffect(() => {
+    refreshProfile();
+  }, [managedMemberId]);
 
   const setManagedMember = (id: string | null, name: string = 'Me') => {
     if (id) {
@@ -27,7 +49,7 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   return (
-    <ProfileContext.Provider value={{ managedMemberId, managedMemberName, setManagedMember }}>
+    <ProfileContext.Provider value={{ managedMemberId, managedMemberName, photoUrl, setManagedMember, refreshProfile }}>
       {children}
     </ProfileContext.Provider>
   );

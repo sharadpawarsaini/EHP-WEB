@@ -50,3 +50,38 @@ export const updateProfile = async (req: AuthRequest, res: Response): Promise<vo
     res.status(500).json({ message: 'Server error' });
   }
 };
+export const updateProfilePhoto = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.file) {
+      res.status(400).json({ message: 'No file uploaded' });
+      return;
+    }
+
+    const photoUrl = `/uploads/${req.file.filename}`;
+    
+    let profile = await Profile.findOne({ 
+      userId: req.user.userId,
+      memberId: req.user.memberId 
+    });
+
+    if (profile) {
+      profile.photoUrl = photoUrl;
+      await profile.save();
+    } else {
+      // Create profile shell if it doesn't exist (though it should usually exist)
+      profile = await Profile.create({
+        userId: req.user.userId,
+        memberId: req.user.memberId,
+        fullName: 'New User',
+        dob: new Date(),
+        gender: 'Prefer not to say',
+        bloodGroup: 'Unknown',
+        photoUrl: photoUrl
+      });
+    }
+
+    res.json({ photoUrl });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};

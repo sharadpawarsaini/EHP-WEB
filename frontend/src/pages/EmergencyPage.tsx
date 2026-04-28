@@ -147,6 +147,12 @@ const EmergencyPage = () => {
 
   const age = profile.dob ? differenceInYears(new Date(), new Date(profile.dob)) : null;
 
+  const getFullPhotoUrl = (url: string | null) => {
+    if (!url) return null;
+    if (url.startsWith('http')) return url;
+    return `${import.meta.env.VITE_API_URL.replace('/api', '')}${url}`;
+  };
+
   return (
     <div className={`min-h-screen ${isFullAccess ? 'bg-slate-50 dark:bg-slate-900' : 'bg-gray-900 dark:bg-slate-950'} text-gray-900 dark:text-gray-100 font-sans pb-20 transition-colors duration-300`}>
       <AnimatePresence>
@@ -190,7 +196,7 @@ const EmergencyPage = () => {
           <div className="p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left relative z-10">
             <div className="w-24 h-24 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center flex-shrink-0 border-4 border-white dark:border-slate-600 shadow-sm overflow-hidden">
               {profile.photoUrl ? (
-                <img src={profile.photoUrl} alt="Profile" className="w-full h-full object-cover" />
+                <img src={getFullPhotoUrl(profile.photoUrl)!} alt="Profile" className="w-full h-full object-cover" />
               ) : (
                 <UserCircle className="w-16 h-16 text-gray-400 dark:text-gray-500" />
               )}
