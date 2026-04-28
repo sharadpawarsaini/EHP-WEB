@@ -288,10 +288,10 @@ const Home = () => {
                 </h2>
                 <div className="space-y-6 text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
                   <p>
-                    Sharad Pawar Saini is a Computer Science undergraduate and the Founder of EHP (Emergency Health Passport), a platform built to bridge the critical gap between patients and life-saving medical information during emergencies. With a clear vision to create real-world impact through technology, I lead the platform’s development, strategy, and long-term direction.
+                    I am a Computer Science undergraduate and the Founder of EHP (Emergency Health Passport), a platform built to bridge the critical gap between patients and life-saving medical information during emergencies. With a clear vision to create real-world impact through technology, I lead the platform’s development, strategy, and long-term direction.
                   </p>
                   <p>
-                    Focused on building scalable, secure, and user-centric solutions, he combines strong expertise in full-stack development with a problem-solving mindset to address real-world challenges. I am actively leveraging modern technologies such as AI, web platforms, and secure data systems to redefine how emergency healthcare information is accessed and utilized.
+                    Focused on building scalable, secure, and user-centric solutions, I combines strong expertise in full-stack development with a problem-solving mindset to address real-world challenges. I am actively leveraging modern technologies such as AI, web platforms, and secure data systems to redefine how emergency healthcare information is accessed and utilized.
                   </p>
                   <p className="italic border-l-4 border-blue-600 pl-6 py-2 bg-blue-50/50 dark:bg-blue-900/10 rounded-r-2xl">
                     "My mission is to ensure that essential medical data is instantly available when it matters the most, ultimately aiming to build a reliable, globally accessible emergency healthcare support system."
