@@ -27,7 +27,8 @@ import {
   Plus,
   Shield,
   Activity as PulseIcon,
-  UserCircle
+  UserCircle,
+  Watch
 } from 'lucide-react';
 import api from '../../services/api';
 import { format, differenceInYears } from 'date-fns';

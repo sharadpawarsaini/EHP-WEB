@@ -21,7 +21,8 @@ import {
   Syringe, 
   Calendar as CalendarIcon,
   UserCircle,
-  Search
+  Search,
+  Watch
 } from 'lucide-react';
 import { useProfileContext } from '../context/ProfileContext';
 import { useAuth } from '../context/AuthContext';
