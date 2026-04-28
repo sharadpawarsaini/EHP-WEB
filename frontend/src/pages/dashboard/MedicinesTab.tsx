@@ -79,7 +79,6 @@ const MedicinesTab = () => {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-    <div className="space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Medicine Reminders</h2>
