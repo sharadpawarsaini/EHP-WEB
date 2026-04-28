@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Zap, CheckCircle2, TrendingUp, FileText, ArrowRight, MapPin, Navigation, Trophy } from 'lucide-react';
 import api from '../../services/api';
-import { format } from 'date-fns';
+import { format, differenceInYears } from 'date-fns';
 
 const OverviewTab = () => {
   const [loading, setLoading] = useState(true);
@@ -112,6 +112,8 @@ const OverviewTab = () => {
     return insights.length > 0 ? insights[Math.floor(Math.random() * insights.length)] : "Your medical profile looks great! Keep it updated for maximum safety.";
   };
 
+  const age = data?.profile?.dob ? differenceInYears(new Date(), new Date(data.profile.dob)) : null;
+
   if (loading) return <div className="text-gray-500 dark:text-gray-400">Loading overview...</div>;
 
   return (
@@ -122,7 +124,7 @@ const OverviewTab = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
             <div>
               <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">Welcome, {data?.profile?.fullName?.split(' ')[0] || 'User'}</h1>
-              <p className="text-gray-600 dark:text-gray-400">Your health passport is {safetyScore}% ready for emergencies.</p>
+              <p className="text-gray-600 dark:text-gray-400">Your health passport is {safetyScore}% ready for emergencies. {age && `Current age: ${age} years.`}</p>
             </div>
             <div className="mt-4 md:mt-0 flex items-center space-x-4 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-2xl border border-blue-100 dark:border-blue-800/50">
               <div className="text-right">
