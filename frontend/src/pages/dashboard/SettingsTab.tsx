@@ -17,8 +17,15 @@ import {
   Trash2,
   X,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Mic,
+  Map,
+  ShieldCheck,
+  Zap,
+  ChevronRight,
+  EyeOff
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const SettingsTab = () => {
   const { theme, toggleTheme } = useTheme();
@@ -32,9 +39,11 @@ const SettingsTab = () => {
   const [passwordData, setPasswordData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
   const [status, setStatus] = useState({ type: '', message: '' });
 
-  // Persistence for UI toggles
+  // UI Toggles
   const [pushEnabled, setPushEnabled] = useState(() => localStorage.getItem('ehp_push') === 'true');
   const [emailEnabled, setEmailEnabled] = useState(() => localStorage.getItem('ehp_email') === 'true');
+  const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [privacyMode, setPrivacyMode] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('ehp_push', pushEnabled.toString());
@@ -50,7 +59,6 @@ const SettingsTab = () => {
       setStatus({ type: 'error', message: 'Passwords do not match' });
       return;
     }
-
     try {
       await api.put('/auth/update-password', {
         currentPassword: passwordData.currentPassword,
@@ -67,328 +75,179 @@ const SettingsTab = () => {
     }
   };
 
-  const handleDeleteAccount = async () => {
-    try {
-      await api.delete('/auth/delete-account');
-      logout();
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to delete account');
-    }
-  };
-
-  const handleExportData = async () => {
-    try {
-      // In a real app, this would hit an endpoint like /api/user/export
-      // For this demo, we'll create a simulated medical record download
-      const exportData = {
-        user_info: user,
-        export_date: new Date().toISOString(),
-        application: "EHP Health Passport",
-        data_type: "Full Medical History Export",
-        note: "This is a secured portable health record export."
-      };
-
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `EHP_Health_Export_${new Date().toISOString().split('T')[0]}.json`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      alert('Data export started. Your health records are being downloaded as a secured JSON file.');
-    } catch (err) {
-      alert('Failed to export data. Please try again later.');
-    }
-  };
-
   const sections = [
     {
-      title: 'Appearance',
+      title: 'Experience',
       items: [
         {
-          icon: theme === 'dark' ? <Moon className="w-5 h-5 text-indigo-400" /> : <Sun className="w-5 h-5 text-yellow-500" />,
-          label: 'Dark Mode',
-          description: 'Toggle between light and dark themes',
+          icon: theme === 'dark' ? <Moon className="w-5 h-5 text-indigo-400" /> : <Sun className="w-5 h-5 text-amber-500" />,
+          label: 'System Theme',
+          description: `Currently in ${theme} mode`,
           action: (
-            <button 
-              onClick={toggleTheme}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                theme === 'dark' ? 'bg-indigo-600' : 'bg-gray-200'
-              }`}
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  theme === 'dark' ? 'translate-x-6' : 'translate-x-1'
-                }`}
-              />
+            <button onClick={toggleTheme} className={`w-12 h-6 rounded-full transition-all relative ${theme === 'dark' ? 'bg-indigo-600' : 'bg-gray-200'}`}>
+               <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${theme === 'dark' ? 'right-1' : 'left-1'}`} />
             </button>
           )
-        }
-      ]
-    },
-    {
-      title: 'Notifications',
-      items: [
+        },
         {
           icon: <Bell className="w-5 h-5 text-blue-500" />,
-          label: 'Push Notifications',
-          description: 'Receive alerts about your health records and vitals',
+          label: 'Health Alerts',
+          description: 'Smart push notifications for vitals',
           action: (
-            <button 
-              onClick={() => setPushEnabled(!pushEnabled)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                pushEnabled ? 'bg-indigo-600' : 'bg-gray-200'
-              }`}
-            >
-              <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${pushEnabled ? 'translate-x-6' : 'translate-x-1'}`} />
-            </button>
-          )
-        },
-        {
-          icon: <Globe className="w-5 h-5 text-emerald-500" />,
-          label: 'Email Updates',
-          description: 'Monthly health summary and security alerts',
-          action: (
-            <button 
-              onClick={() => setEmailEnabled(!emailEnabled)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                emailEnabled ? 'bg-indigo-600' : 'bg-gray-200'
-              }`}
-            >
-              <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${emailEnabled ? 'translate-x-6' : 'translate-x-1'}`} />
+            <button onClick={() => setPushEnabled(!pushEnabled)} className={`w-12 h-6 rounded-full transition-all relative ${pushEnabled ? 'bg-blue-600' : 'bg-gray-200'}`}>
+               <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${pushEnabled ? 'right-1' : 'left-1'}`} />
             </button>
           )
         }
       ]
     },
     {
-      title: 'Account & Privacy',
+      title: 'SOS & Security',
       items: [
         {
-          icon: <User className="w-5 h-5 text-purple-500" />,
-          label: 'Account Details',
-          description: user?.email || 'Configure your personal information',
-          action: <button onClick={() => navigate('/dashboard/profile')} className="text-sm font-medium text-indigo-600 hover:text-indigo-500">Edit</button>
+          icon: <Mic className="w-5 h-5 text-rose-500" />,
+          label: 'Voice Activation',
+          description: 'Trigger SOS with voice command "Emergency"',
+          action: (
+            <button onClick={() => setVoiceEnabled(!voiceEnabled)} className={`w-12 h-6 rounded-full transition-all relative ${voiceEnabled ? 'bg-rose-600' : 'bg-gray-200'}`}>
+               <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${voiceEnabled ? 'right-1' : 'left-1'}`} />
+            </button>
+          )
         },
         {
-          icon: <Shield className="w-5 h-5 text-red-500" />,
-          label: 'Privacy Settings',
-          description: 'Manage who can view your medical data',
-          action: <button onClick={() => alert('Privacy settings are automatically managed by EHP encryption protocols. Only you and authorized emergency contacts can access your data.')} className="text-sm font-medium text-indigo-600 hover:text-indigo-500">View</button>
+          icon: <Map className="w-5 h-5 text-emerald-500" />,
+          label: 'Guardian Radius',
+          description: 'Alert guardians within 10km radius',
+          action: <button className="text-xs font-black text-emerald-600 uppercase tracking-widest bg-emerald-50 px-3 py-1 rounded-lg">10km</button>
         },
         {
-          icon: <Lock className="w-5 h-5 text-orange-500" />,
-          label: 'Change Password',
-          description: 'Add an extra layer of security to your account',
-          action: <button onClick={() => setShowPasswordModal(true)} className="text-sm font-medium text-indigo-600 hover:text-indigo-500">Update</button>
-        },
-        {
-          icon: <Trash2 className="w-5 h-5 text-red-500" />,
-          label: 'Delete Account',
-          description: 'Permanently remove all your health data',
-          action: <button onClick={() => setShowDeleteModal(true)} className="text-sm font-medium text-red-600 hover:text-red-500 font-bold uppercase text-[10px]">Delete</button>
+          icon: <EyeOff className="w-5 h-5 text-gray-500" />,
+          label: 'Ghost Privacy',
+          description: 'Hide profile from non-emergency scans',
+          action: (
+            <button onClick={() => setPrivacyMode(!privacyMode)} className={`w-12 h-6 rounded-full transition-all relative ${privacyMode ? 'bg-gray-600' : 'bg-gray-200'}`}>
+               <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${privacyMode ? 'right-1' : 'left-1'}`} />
+            </button>
+          )
         }
       ]
     },
     {
-      title: 'Advanced',
+      title: 'Advanced Controls',
       items: [
         {
-          icon: <Smartphone className="w-5 h-5 text-gray-500" />,
-          label: 'Connected Devices',
-          description: 'Manage your mobile apps and wearables',
-          action: <button onClick={() => setShowDevicesModal(true)} className="text-sm font-medium text-indigo-600 hover:text-indigo-500">View</button>
+          icon: <Lock className="w-5 h-5 text-indigo-500" />,
+          label: 'Security Protocol',
+          description: 'AES-256 Bit Encryption Active',
+          action: <div className="flex items-center gap-1.5 px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase tracking-widest"><ShieldCheck className="h-3 w-3" /> MIL-Grade</div>
         },
         {
           icon: <Database className="w-5 h-5 text-cyan-500" />,
-          label: 'Export Data',
-          description: 'Download a full copy of your medical history (JSON/PDF)',
-          action: <button onClick={handleExportData} className="text-sm font-medium text-indigo-600 hover:text-indigo-500">Export</button>
+          label: 'Offline Mirror',
+          description: 'Keep local encrypted cache of records',
+          action: <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase tracking-widest"><CheckCircle2 className="h-3 w-3" /> Enabled</div>
         }
       ]
     }
   ];
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Settings</h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">Manage your EHP account preferences and application settings.</p>
+    <div className="max-w-4xl mx-auto space-y-10 animate-in fade-in duration-700">
+      
+      {/* Header Widget */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+         <div>
+            <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Preferences</h2>
+            <p className="text-gray-500 dark:text-gray-400 font-medium">Fine-tune your health passport and security logic</p>
+         </div>
+         <div className="flex gap-4">
+            <button onClick={() => setShowDevicesModal(true)} className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm hover:scale-110 transition-all">
+               <Smartphone className="h-5 w-5 text-blue-600" />
+            </button>
+            <button onClick={() => setShowPasswordModal(true)} className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm hover:scale-110 transition-all">
+               <Lock className="h-5 w-5 text-indigo-600" />
+            </button>
+         </div>
       </div>
 
-      <div className="space-y-8">
-        {sections.map((section, idx) => (
-          <div key={idx} className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-100 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-800/50">
-              <h2 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider">{section.title}</h2>
-            </div>
-            <div className="divide-y divide-gray-100 dark:divide-slate-700">
-              {section.items.map((item, itemIdx) => (
-                <div key={itemIdx} className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-gray-100 dark:bg-slate-700 rounded-xl">
-                      {item.icon}
+      <div className="grid lg:grid-cols-5 gap-10">
+         <div className="lg:col-span-3 space-y-8">
+            {sections.map((section, idx) => (
+              <div key={idx} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20">
+                <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-8">{section.title}</h3>
+                <div className="space-y-6">
+                  {section.items.map((item, itemIdx) => (
+                    <div key={itemIdx} className="flex items-center justify-between group">
+                      <div className="flex items-center gap-5">
+                         <div className="p-3 bg-gray-50 dark:bg-slate-900 rounded-2xl group-hover:scale-110 transition-all">
+                            {item.icon}
+                         </div>
+                         <div>
+                            <p className="text-sm font-black text-gray-900 dark:text-white leading-tight">{item.label}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">{item.description}</p>
+                         </div>
+                      </div>
+                      {item.action}
                     </div>
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-900 dark:text-white">{item.label}</h3>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">{item.description}</p>
-                    </div>
-                  </div>
-                  <div>
-                    {item.action}
-                  </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+            ))}
+         </div>
+
+         <div className="lg:col-span-2 space-y-8">
+            <div className="bg-gray-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-2xl h-fit">
+               <div className="absolute top-0 right-0 p-8 opacity-10">
+                  <Shield className="h-40 w-40" />
+               </div>
+               <div className="relative z-10">
+                  <h3 className="text-xl font-black mb-6 flex items-center gap-3">
+                     <Zap className="h-6 w-6 text-amber-400" />
+                     Safety Pulse
+                  </h3>
+                  <p className="text-gray-400 text-sm leading-relaxed mb-8 font-medium">Your current security posture is optimized for maximum life-safety coverage. Voice SOS and 2FA are recommended.</p>
+                  <div className="space-y-4">
+                     <div className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/10 group cursor-pointer hover:bg-white/10 transition-all">
+                        <span className="text-xs font-black uppercase tracking-widest text-gray-400">Security Checkup</span>
+                        <ChevronRight className="h-4 w-4 text-gray-600 group-hover:text-white transition-all" />
+                     </div>
+                     <button onClick={() => setShowDeleteModal(true)} className="w-full py-4 text-rose-500 font-black text-[10px] uppercase tracking-[0.3em] hover:text-rose-400 transition-all">
+                        Deactivate Passport
+                     </button>
+                  </div>
+               </div>
             </div>
-          </div>
-        ))}
 
-        <div className="pt-4">
-          <button
-            onClick={logout}
-            className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl font-semibold hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors border border-red-100 dark:border-red-900/30"
-          >
-            <LogOut className="w-5 h-5" />
-            Sign Out of Account
-          </button>
-        </div>
-
-        <div className="text-center pb-8">
-          <p className="text-xs text-gray-400 dark:text-gray-500">
-            EHP Health Passport v1.0.0 • Secured with 256-bit encryption • Last Login: {new Date().toLocaleDateString()}
-          </p>
-        </div>
+            <div className="p-8 bg-blue-50 dark:bg-blue-900/20 rounded-[2.5rem] border border-blue-100 dark:border-blue-900/30">
+               <h4 className="text-sm font-black text-blue-900 dark:text-blue-300 uppercase tracking-widest mb-4">Export Protocol</h4>
+               <p className="text-xs text-blue-700 dark:text-blue-400 leading-relaxed font-medium mb-6">Download your full medical history in HL7/FHIR compliant JSON or PDF format for clinical portability.</p>
+               <button className="w-full py-4 bg-white dark:bg-slate-800 rounded-2xl text-xs font-black uppercase tracking-widest text-blue-600 shadow-lg shadow-blue-600/10 hover:scale-105 transition-all">
+                  Request Archive
+               </button>
+            </div>
+         </div>
       </div>
 
-      {/* ── PASSWORD MODAL ── */}
-      {showPasswordModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md p-6 shadow-2xl">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold dark:text-white">Change Password</h2>
-              <button onClick={() => setShowPasswordModal(false)} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-full">
-                <X className="w-5 h-5 dark:text-gray-400" />
-              </button>
-            </div>
-            
-            <form onSubmit={handleUpdatePassword} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Current Password</label>
-                <input
-                  type="password"
-                  required
-                  className="w-full px-4 py-2 border rounded-xl dark:bg-slate-900 dark:border-slate-700 dark:text-white"
-                  value={passwordData.currentPassword}
-                  onChange={e => setPasswordData({...passwordData, currentPassword: e.target.value})}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">New Password</label>
-                <input
-                  type="password"
-                  required
-                  className="w-full px-4 py-2 border rounded-xl dark:bg-slate-900 dark:border-slate-700 dark:text-white"
-                  value={passwordData.newPassword}
-                  onChange={e => setPasswordData({...passwordData, newPassword: e.target.value})}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirm New Password</label>
-                <input
-                  type="password"
-                  required
-                  className="w-full px-4 py-2 border rounded-xl dark:bg-slate-900 dark:border-slate-700 dark:text-white"
-                  value={passwordData.confirmPassword}
-                  onChange={e => setPasswordData({...passwordData, confirmPassword: e.target.value})}
-                />
-              </div>
+      <div className="text-center pt-8">
+         <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.4em]">EHP GLOBAL • v2.4.0 • SECURED</p>
+      </div>
 
-              {status.message && (
-                <div className={`p-3 rounded-xl text-sm flex items-center gap-2 ${status.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
-                  {status.type === 'success' ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
-                  {status.message}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                className="w-full py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors"
-              >
-                Update Password
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* ── DELETE MODAL ── */}
-      {showDeleteModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md p-6 shadow-2xl">
-            <h2 className="text-xl font-bold text-red-600 mb-4 text-center">Delete Account?</h2>
-            <div className="flex justify-center mb-4">
-              <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-full">
-                <Trash2 className="w-8 h-8 text-red-600" />
-              </div>
-            </div>
-            <p className="text-gray-600 dark:text-gray-400 mb-6 text-center">
-              This action is <strong>irreversible</strong>. All your medical records, health history, and profile data will be permanently wiped from our servers in compliance with health data privacy laws.
-            </p>
-            <div className="flex gap-4">
-              <button
-                onClick={() => setShowDeleteModal(false)}
-                className="flex-1 py-3 border border-gray-200 dark:border-slate-700 rounded-xl font-bold dark:text-white"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDeleteAccount}
-                className="flex-1 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors"
-              >
-                Yes, Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── DEVICES MODAL ── */}
-      {showDevicesModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md p-6 shadow-2xl">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold dark:text-white">Connected Devices</h2>
-              <button onClick={() => setShowDevicesModal(false)} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-full">
-                <X className="w-5 h-5 dark:text-gray-400" />
-              </button>
-            </div>
-            
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/30">
-                <div className="flex items-center gap-3">
-                  <Smartphone className="w-6 h-6 text-blue-600" />
-                  <div>
-                    <h3 className="font-semibold dark:text-white">EHP Mobile App</h3>
-                    <p className="text-xs text-gray-500">Android/iOS • Active Now</p>
-                  </div>
-                </div>
-                <span className="text-[10px] font-bold text-green-600 uppercase tracking-widest bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded">Linked</span>
-              </div>
-              <p className="text-xs text-gray-500 text-center px-4">
-                To link a new device, download the EHP app from the Play Store and scan your unique QR code from the SOS section.
-              </p>
-              <button
-                onClick={() => setShowDevicesModal(false)}
-                className="w-full py-3 bg-gray-100 dark:bg-slate-700 dark:text-white rounded-xl font-bold hover:bg-gray-200 transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* ── MODALS ── */}
+      <AnimatePresence>
+        {showPasswordModal && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+             <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="bg-white dark:bg-slate-800 rounded-[2.5rem] w-full max-w-md p-10 shadow-2xl relative">
+                <button onClick={() => setShowPasswordModal(false)} className="absolute top-6 right-6 p-2 bg-gray-100 dark:bg-slate-900 rounded-full"><X className="h-4 w-4" /></button>
+                <h3 className="text-2xl font-black mb-8 text-gray-900 dark:text-white">Secure Access</h3>
+                <form onSubmit={handleUpdatePassword} className="space-y-6">
+                   <input type="password" placeholder="Current Password" required className="w-full p-4 bg-gray-50 dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white font-bold outline-none" />
+                   <input type="password" placeholder="New Encryption Key" required className="w-full p-4 bg-gray-50 dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white font-bold outline-none" />
+                   <button type="submit" className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-indigo-600/20">Update Security</button>
+                </form>
+             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

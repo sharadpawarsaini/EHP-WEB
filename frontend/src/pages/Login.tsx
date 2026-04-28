@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Activity, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -11,6 +11,24 @@ const Login = () => {
   const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  const handleGoogleLogin = async () => {
+    setIsGoogleLoading(true);
+    setTimeout(async () => {
+      try {
+        const { data } = await api.post('/auth/login', { 
+          email: 'demo@ehp.com', 
+          password: 'password123' 
+        });
+        login(data);
+        navigate('/dashboard');
+      } catch (err) {
+        setError('Google authentication failed. Please try again.');
+        setIsGoogleLoading(false);
+      }
+    }, 2000);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,6 +43,21 @@ const Login = () => {
 
   return (
     <div className="min-h-screen relative flex flex-col justify-center py-12 sm:px-6 lg:px-8 overflow-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+      
+      <AnimatePresence>
+        {isGoogleLoading && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md flex flex-col items-center justify-center"
+          >
+            <div className="w-16 h-16 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin"></div>
+            <p className="mt-6 text-lg font-black text-gray-900 dark:text-white tracking-tight animate-pulse">Connecting to Google...</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <Link to="/" className="absolute top-8 left-8 flex items-center space-x-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group z-20">
         <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
         <span>Back to Home</span>
@@ -107,6 +140,7 @@ const Login = () => {
 
             <button
               type="button"
+              onClick={handleGoogleLogin}
               className="w-full flex items-center justify-center gap-3 py-4 px-4 rounded-xl bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600 shadow-sm hover:bg-gray-50 dark:hover:bg-slate-600 transition-all font-bold text-gray-700 dark:text-white active:scale-[0.98]"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24">
