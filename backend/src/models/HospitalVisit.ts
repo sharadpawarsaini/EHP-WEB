@@ -20,6 +20,9 @@ const hospitalVisitSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  visitDates: [{
+    type: Date
+  }],
   documents: [documentSchema],
 }, {
   timestamps: true,

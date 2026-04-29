@@ -152,13 +152,24 @@ const HospitalVisitsTab = () => {
                            <div className="p-4 bg-gray-50 dark:bg-slate-900 rounded-[1.5rem] border border-gray-100 dark:border-slate-700 group-hover:scale-110 transition-all">
                               <Hospital className="h-8 w-8 text-emerald-600" />
                            </div>
-                           <div>
-                              <h3 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight leading-tight">{visit.hospitalName}</h3>
-                              <div className="flex items-center gap-2 mt-2 text-emerald-600 dark:text-emerald-400 font-black uppercase text-[10px] tracking-widest">
-                                 <Calendar className="h-3 w-3" />
-                                 {format(new Date(visit.visitDate), 'MMMM dd, yyyy')}
-                              </div>
-                           </div>
+                            <div>
+                               <h3 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight leading-tight">{visit.hospitalName}</h3>
+                               <div className="flex flex-wrap gap-2 mt-3">
+                                  {visit.visitDates && visit.visitDates.length > 0 ? (
+                                    visit.visitDates.sort((a: any, b: any) => new Date(b).getTime() - new Date(a).getTime()).map((date: string, idx: number) => (
+                                      <div key={idx} className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 font-black uppercase text-[9px] tracking-widest rounded-lg border border-emerald-100 dark:border-emerald-800/30">
+                                        <Calendar className="h-2.5 w-2.5" />
+                                        {format(new Date(date), 'MMM dd, yyyy')}
+                                      </div>
+                                    ))
+                                  ) : (
+                                    <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-black uppercase text-[10px] tracking-widest">
+                                       <Calendar className="h-3 w-3" />
+                                       {format(new Date(visit.visitDate), 'MMMM dd, yyyy')}
+                                    </div>
+                                  )}
+                               </div>
+                            </div>
                         </div>
                         <button onClick={() => deleteVisit(visit._id)} className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all opacity-0 group-hover:opacity-100">
                            <Trash2 className="h-5 w-5" />

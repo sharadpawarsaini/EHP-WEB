@@ -78,11 +78,21 @@ const HospitalVisitDetailsTab = () => {
                </h1>
             </div>
          </div>
-         <div className="flex items-center gap-4 p-5 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl border border-white dark:border-slate-700 shadow-sm">
+         <div className="flex flex-wrap items-center gap-3 p-5 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl border border-white dark:border-slate-700 shadow-sm max-w-md overflow-auto">
             <Calendar className="h-5 w-5 text-gray-400" />
-            <span className="text-sm font-black text-gray-700 dark:text-gray-300 uppercase tracking-widest">
-               {format(new Date(visit.visitDate), 'MMMM dd, yyyy')}
-            </span>
+            <div className="flex flex-wrap gap-2">
+               {visit.visitDates && visit.visitDates.length > 0 ? (
+                 visit.visitDates.sort((a: any, b: any) => new Date(b).getTime() - new Date(a).getTime()).map((date: string, idx: number) => (
+                   <span key={idx} className="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest rounded-lg border border-indigo-100 dark:border-indigo-800/30">
+                     {format(new Date(date), 'MMM dd, yyyy')}
+                   </span>
+                 ))
+               ) : (
+                 <span className="text-sm font-black text-gray-700 dark:text-gray-300 uppercase tracking-widest">
+                   {format(new Date(visit.visitDate), 'MMMM dd, yyyy')}
+                 </span>
+               )}
+            </div>
          </div>
       </div>
 
