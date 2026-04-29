@@ -9,7 +9,7 @@ import {
   ShieldAlert, 
   Zap, 
   Lock, 
-  History, 
+  History as HistoryIcon, 
   AlertTriangle,
   Navigation
 } from 'lucide-react';
@@ -101,7 +101,7 @@ const AccessLogsTab = () => {
 
       {logs.length === 0 ? (
         <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-16 text-center border border-gray-100 dark:border-slate-700 shadow-sm">
-          <History className="h-16 w-16 text-gray-200 dark:text-slate-700 mx-auto mb-6" />
+          <HistoryIcon className="h-16 w-16 text-gray-200 dark:text-slate-700 mx-auto mb-6" />
           <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">No Security Events</h3>
           <p className="text-gray-500 font-medium max-w-sm mx-auto">Your profile has not been accessed yet. Logs will generate automatically upon scan.</p>
         </div>

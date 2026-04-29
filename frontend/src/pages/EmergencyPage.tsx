@@ -16,7 +16,7 @@ import {
   Pill, 
   Syringe, 
   Calendar, 
-  History, 
+  History as HistoryIcon, 
   Stethoscope,
   TrendingUp,
   ShieldCheck,
@@ -419,7 +419,7 @@ const EmergencyPage = () => {
                        <div className="flex justify-between items-center mb-10">
                           <h3 className="text-2xl font-black text-gray-900 dark:text-white flex items-center gap-4">
                              <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-2xl">
-                                <History className="h-7 w-7 text-purple-600" />
+                                <HistoryIcon className="h-7 w-7 text-purple-600" />
                              </div>
                              Visitor History Timeline
                           </h3>

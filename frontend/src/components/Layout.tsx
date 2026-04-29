@@ -9,7 +9,7 @@ import {
   QrCode, 
   Home as HomeIcon, 
   ClipboardList, 
-  History, 
+  History as HistoryIcon, 
   Hospital, 
   Users, 
   MessageSquareHeart, 
@@ -78,7 +78,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       items: [
         { name: 'Medicines', path: '/dashboard/medicines', icon: Pill },
         { name: 'Vaccinations', path: '/dashboard/vaccinations', icon: Syringe },
-        { name: 'Visit History', path: '/dashboard/visits', icon: History },
+        { name: 'Visit History', path: '/dashboard/visits', icon: HistoryIcon },
         { name: t('nav_reports'), path: '/dashboard/reports', icon: FileText },
       ]
     },
@@ -95,7 +95,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     {
       title: "System",
       items: [
-        { name: t('nav_logs'), path: '/dashboard/logs', icon: History },
+        { name: t('nav_logs'), path: '/dashboard/logs', icon: HistoryIcon },
         { name: 'Feedback', path: '/dashboard/feedback', icon: MessageSquareHeart },
         { name: 'Settings', path: '/dashboard/settings', icon: Settings },
       ]

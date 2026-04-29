@@ -19,14 +19,14 @@ import {
   CheckCircle2,
   AlertCircle,
   Mic,
-  Map,
+  Map as MapIcon,
   ShieldCheck,
   Zap,
   ChevronRight,
   EyeOff,
   Download,
   AlertTriangle,
-  History,
+  History as HistoryIcon,
   Navigation,
   Watch as WatchIcon
 } from 'lucide-react';
@@ -149,7 +149,7 @@ const SettingsTab = () => {
           )
         },
         {
-          icon: <Map className="w-5 h-5 text-emerald-500" />,
+          icon: <MapIcon className="w-5 h-5 text-emerald-500" />,
           label: 'Guardian Radius',
           description: `Alert guardians within ${guardianRadius}km radius`,
           action: (
