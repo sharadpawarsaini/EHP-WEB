@@ -21,6 +21,21 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const InputField = ({ label, value, onChange, placeholder, icon: Icon }: any) => (
+  <div className="space-y-2">
+    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2 ml-1">
+      {Icon && <Icon className="h-3 w-3 text-blue-500" />} {label}
+    </label>
+    <input
+      type="text"
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-blue-500/10 outline-none text-gray-900 dark:text-white transition-all font-bold placeholder:text-gray-300 dark:placeholder:text-gray-600"
+    />
+  </div>
+);
+
 const MedicalTab = () => {
   const [details, setDetails] = useState({
     allergies: '',
@@ -139,20 +154,6 @@ const MedicalTab = () => {
     </div>
   );
 
-  const InputField = ({ label, value, onChange, placeholder, icon: Icon }: any) => (
-    <div className="space-y-2">
-      <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2 ml-1">
-        {Icon && <Icon className="h-3 w-3 text-blue-500" />} {label}
-      </label>
-      <input
-        type="text"
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-blue-500/10 outline-none text-gray-900 dark:text-white transition-all font-bold placeholder:text-gray-300 dark:placeholder:text-gray-600"
-      />
-    </div>
-  );
 
   return (
     <div className="space-y-10 animate-in fade-in duration-700 max-w-full overflow-hidden">
