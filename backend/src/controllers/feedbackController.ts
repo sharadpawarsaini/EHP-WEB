@@ -47,14 +47,15 @@ export const submitFeedback = async (req: AuthRequest, res: Response): Promise<v
       };
 
       if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-        await transporter.sendMail(mailOptions);
-        console.log('Feedback email sent to Sharad');
+        // Fire and forget to avoid blocking the user response
+        transporter.sendMail(mailOptions)
+          .then(() => console.log('Feedback email sent successfully'))
+          .catch(err => console.error('Background email failure:', err));
       } else {
         console.warn('Feedback received but EMAIL_USER or EMAIL_PASS not configured in .env');
       }
     } catch (mailError) {
-      console.error('Failed to send feedback email:', mailError);
-      // We don't return error to user because feedback is already saved in DB
+      console.error('Failed to initialize email transport:', mailError);
     }
 
     res.status(201).json({ message: 'Feedback submitted successfully' });
