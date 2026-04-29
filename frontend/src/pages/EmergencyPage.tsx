@@ -465,6 +465,28 @@ const EmergencyPage = () => {
                                        " {visit.notes} "
                                     </div>
                                   )}
+                                  {visit.documents && visit.documents.length > 0 && (
+                                    <div className="mt-6 space-y-3">
+                                       <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Attached Reports</p>
+                                       <div className="grid sm:grid-cols-2 gap-3">
+                                          {visit.documents.map((doc: any, idx: number) => (
+                                            <a 
+                                              key={idx}
+                                              href={`${api.defaults.baseURL?.replace('/api', '')}${doc.fileUrl}`} 
+                                              target="_blank"
+                                              rel="noopener noreferrer"
+                                              className="flex items-center gap-3 p-4 bg-white dark:bg-slate-900/50 rounded-2xl border border-gray-100 dark:border-white/10 hover:border-purple-500/30 transition-all group/doc shadow-sm"
+                                            >
+                                               <div className="p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
+                                                  <FileText className="h-4 w-4 text-purple-600" />
+                                               </div>
+                                               <span className="text-[10px] font-black text-gray-700 dark:text-gray-300 truncate flex-1">{doc.title}</span>
+                                               <Download className="h-4 w-4 text-gray-400 group-hover/doc:text-purple-600 transition-all" />
+                                            </a>
+                                          ))}
+                                       </div>
+                                    </div>
+                                  )}
                                </div>
                             </div>
                           ))}
