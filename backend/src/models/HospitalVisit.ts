@@ -4,6 +4,7 @@ const documentSchema = new mongoose.Schema({
   title: { type: String, required: true },
   fileUrl: { type: String, required: true },
   fileType: { type: String },
+  visitDate: { type: Date },
 });
 
 const hospitalVisitSchema = new mongoose.Schema({

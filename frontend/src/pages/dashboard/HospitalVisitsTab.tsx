@@ -176,56 +176,113 @@ const HospitalVisitsTab = () => {
                         </button>
                      </div>
 
-                     <div className="flex flex-wrap gap-3 pt-4">
-                        <div className="px-4 py-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl text-[10px] font-black uppercase tracking-widest text-emerald-600 border border-emerald-100 dark:border-emerald-800/30">Facility Verified</div>
-                        <div className="px-4 py-2 bg-blue-50 dark:bg-blue-900/30 rounded-xl text-[10px] font-black uppercase tracking-widest text-blue-600 border border-blue-100 dark:border-blue-800/30">Clinical Record</div>
-                     </div>
-                  </div>
+                      <div className="flex flex-wrap gap-3 pt-4">
+                         <div className="px-4 py-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl text-[10px] font-black uppercase tracking-widest text-emerald-600 border border-emerald-100 dark:border-emerald-800/30">Facility Verified</div>
+                         <div className="px-4 py-2 bg-blue-50 dark:bg-blue-900/30 rounded-xl text-[10px] font-black uppercase tracking-widest text-blue-600 border border-blue-100 dark:border-blue-800/30">Clinical Record</div>
+                      </div>
+                      <button 
+                        onClick={() => navigate(`/dashboard/visits/${visit._id}`)}
+                        className="w-full mt-6 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl"
+                      >
+                         Analyze Records <ChevronRight className="h-4 w-4" />
+                      </button>
+                   </div>
 
-                  {/* Right Column: Documents Attached */}
-                  <div className="xl:w-2/3">
-                     <div className="flex justify-between items-center mb-8">
-                        <h4 className="text-sm font-black text-gray-900 dark:text-white flex items-center gap-3 uppercase tracking-[0.2em]">
-                           <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
-                           Attachments ({visit.documents?.length || 0})
-                        </h4>
-                        <button className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:underline">Add Report</button>
-                     </div>
-                     
-                     <div className="grid sm:grid-cols-2 gap-4">
-                        {visit.documents && visit.documents.length > 0 ? (
-                          visit.documents.map((doc: any, idx: number) => (
-                            <div key={idx} className="flex items-center justify-between p-5 bg-gray-50/50 dark:bg-slate-900/50 rounded-[1.5rem] border border-gray-100 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 hover:shadow-lg transition-all group/doc">
-                               <div className="flex items-center gap-4 min-w-0">
-                                  <div className="p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700">
-                                     <FileText className="h-5 w-5 text-emerald-500" />
-                                  </div>
-                                  <div className="min-w-0">
-                                     <p className="text-xs font-black text-gray-900 dark:text-white truncate" title={doc.title}>{doc.title}</p>
-                                     <p className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">{doc.fileType.split('/')[1]} Record</p>
-                                  </div>
-                               </div>
-                               <a 
-                                 href={getFullFileUrl(doc.fileUrl)} 
-                                 target="_blank" 
-                                 rel="noreferrer"
-                                 className="p-3 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all shadow-sm"
-                               >
-                                  <Download className="h-4 w-4" />
-                               </a>
-                            </div>
-                          ))
+                   {/* Right Column: Documents Grouped by Date */}
+                   <div className="xl:w-2/3">
+                      <div className="flex justify-between items-center mb-8">
+                         <h4 className="text-sm font-black text-gray-900 dark:text-white flex items-center gap-3 uppercase tracking-[0.2em]">
+                            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+                            Consolidated Archives ({visit.documents?.length || 0})
+                         </h4>
+                      </div>
+                      
+                      <div className="space-y-8">
+                        {visit.visitDates && visit.visitDates.length > 0 ? (
+                          [...visit.visitDates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime()).map((vDate, vIdx) => {
+                            const dateDocs = (visit.documents || []).filter((doc: any) => 
+                              doc.visitDate && new Date(doc.visitDate).toDateString() === new Date(vDate).toDateString()
+                            );
+                            
+                            return (
+                              <div key={vIdx} className="space-y-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="h-[1px] flex-1 bg-gray-100 dark:bg-slate-700"></div>
+                                  <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest whitespace-nowrap">
+                                    {format(new Date(vDate), 'MMMM dd, yyyy')}
+                                  </span>
+                                  <div className="h-[1px] flex-1 bg-gray-100 dark:bg-slate-700"></div>
+                                </div>
+                                
+                                <div className="grid sm:grid-cols-2 gap-4">
+                                  {dateDocs.length > 0 ? (
+                                    dateDocs.map((doc: any, docIdx: number) => (
+                                      <div key={docIdx} className="flex items-center justify-between p-5 bg-gray-50/50 dark:bg-slate-900/50 rounded-[1.5rem] border border-gray-100 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 hover:shadow-lg transition-all group/doc">
+                                        <div className="flex items-center gap-4 min-w-0">
+                                          <div className="p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700">
+                                            <FileText className="h-5 w-5 text-emerald-500" />
+                                          </div>
+                                          <div className="min-w-0">
+                                            <p className="text-xs font-black text-gray-900 dark:text-white truncate" title={doc.title}>{doc.title}</p>
+                                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">{doc.fileType?.split('/')[1] || 'File'} Record</p>
+                                          </div>
+                                        </div>
+                                        <a 
+                                          href={getFullFileUrl(doc.fileUrl)} 
+                                          target="_blank" 
+                                          rel="noreferrer"
+                                          className="p-3 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all shadow-sm"
+                                        >
+                                          <Download className="h-4 w-4" />
+                                        </a>
+                                      </div>
+                                    ))
+                                  ) : (
+                                    <div className="col-span-full p-4 text-center border border-dashed border-gray-100 dark:border-slate-700 rounded-2xl">
+                                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">No documents for this date</p>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })
                         ) : (
-                          <div className="col-span-full py-12 flex flex-col items-center justify-center border-2 border-dashed border-gray-100 dark:border-slate-700 rounded-[2.5rem] bg-gray-50/20 dark:bg-slate-900/20">
-                             <div className="p-4 bg-gray-50 dark:bg-slate-800 rounded-2xl mb-4">
-                                <FileText className="h-8 w-8 text-gray-300" />
-                             </div>
-                             <p className="text-xs text-gray-500 font-bold tracking-widest uppercase">No clinical documents linked</p>
-                             <p className="text-[10px] text-gray-400 mt-1 uppercase font-black tracking-widest italic">Records may be pending upload</p>
+                          // Fallback for old data without visitDates array
+                          <div className="grid sm:grid-cols-2 gap-4">
+                             {visit.documents && visit.documents.length > 0 ? (
+                               visit.documents.map((doc: any, idx: number) => (
+                                 <div key={idx} className="flex items-center justify-between p-5 bg-gray-50/50 dark:bg-slate-900/50 rounded-[1.5rem] border border-gray-100 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 hover:shadow-lg transition-all group/doc">
+                                    <div className="flex items-center gap-4 min-w-0">
+                                       <div className="p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700">
+                                          <FileText className="h-5 w-5 text-emerald-500" />
+                                       </div>
+                                       <div className="min-w-0">
+                                          <p className="text-xs font-black text-gray-900 dark:text-white truncate" title={doc.title}>{doc.title}</p>
+                                          <p className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">{doc.fileType?.split('/')[1] || 'File'} Record</p>
+                                       </div>
+                                    </div>
+                                    <a 
+                                      href={getFullFileUrl(doc.fileUrl)} 
+                                      target="_blank" 
+                                      rel="noreferrer"
+                                      className="p-3 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all shadow-sm"
+                                    >
+                                       <Download className="h-4 w-4" />
+                                    </a>
+                                 </div>
+                               ))
+                             ) : (
+                               <div className="col-span-full py-12 flex flex-col items-center justify-center border-2 border-dashed border-gray-100 dark:border-slate-700 rounded-[2.5rem] bg-gray-50/20 dark:bg-slate-900/20">
+                                  <div className="p-4 bg-gray-50 dark:bg-slate-800 rounded-2xl mb-4">
+                                     <FileText className="h-8 w-8 text-gray-300" />
+                                  </div>
+                                  <p className="text-xs text-gray-500 font-bold tracking-widest uppercase">No clinical documents linked</p>
+                               </div>
+                             )}
                           </div>
                         )}
-                     </div>
-                  </div>
+                      </div>
+                   </div>
                </div>
             </motion.div>
           ))}

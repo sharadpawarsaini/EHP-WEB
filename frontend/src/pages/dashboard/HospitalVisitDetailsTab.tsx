@@ -105,47 +105,103 @@ const HospitalVisitDetailsTab = () => {
                   Clinical Documents
                </h2>
                
-               {visit.documents && visit.documents.length > 0 ? (
-                 <div className="grid sm:grid-cols-2 gap-6">
-                   {visit.documents.map((doc: any, index: number) => {
-                     const fileUrl = `${api.defaults.baseURL?.replace('/api', '') || ''}${doc.fileUrl}`;
+               {visit.visitDates && visit.visitDates.length > 0 ? (
+                 <div className="space-y-12">
+                   {[...visit.visitDates].sort((a, b) => new Date(b).getTime() - new Date(a).getTime()).map((vDate, vIdx) => {
+                     const dateDocs = (visit.documents || []).filter((doc: any) => 
+                       doc.visitDate && new Date(doc.visitDate).toDateString() === new Date(vDate).toDateString()
+                     );
+                     
+                     if (dateDocs.length === 0) return null;
+
                      return (
-                       <motion.div 
-                         whileHover={{ y: -5 }}
-                         key={index} 
-                         className="bg-gray-50/50 dark:bg-slate-900/50 rounded-[2rem] p-8 border border-gray-100 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 hover:shadow-2xl transition-all group"
-                       >
-                         <div className="flex justify-between items-start mb-6">
-                            <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm group-hover:scale-110 transition-all">
-                               <FileText className="h-6 w-6 text-emerald-500" />
-                            </div>
-                            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-100 dark:bg-slate-700 px-3 py-1 rounded-lg">
-                               {doc.fileType.split('/')[1]}
+                       <div key={vIdx} className="space-y-6">
+                         <div className="flex items-center gap-4">
+                            <span className="px-4 py-1.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 text-[10px] font-black uppercase tracking-widest rounded-xl shadow-lg">
+                               {format(new Date(vDate), 'MMMM dd, yyyy')}
                             </span>
+                            <div className="h-[1px] flex-1 bg-gray-100 dark:bg-slate-700"></div>
                          </div>
-                         <h3 className="text-lg font-black text-gray-900 dark:text-white mb-2 truncate" title={doc.title}>{doc.title}</h3>
-                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-10">Clinical Attachment</p>
                          
-                         <a 
-                           href={fileUrl}
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           className="w-full py-4 bg-gray-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl"
-                         >
-                           <Download className="h-4 w-4" /> View Record
-                         </a>
-                       </motion.div>
+                         <div className="grid sm:grid-cols-2 gap-6">
+                           {dateDocs.map((doc: any, index: number) => {
+                             const fileUrl = `${api.defaults.baseURL?.replace('/api', '') || ''}${doc.fileUrl}`;
+                             return (
+                               <motion.div 
+                                 whileHover={{ y: -5 }}
+                                 key={index} 
+                                 className="bg-gray-50/50 dark:bg-slate-900/50 rounded-[2rem] p-8 border border-gray-100 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 hover:shadow-2xl transition-all group"
+                               >
+                                 <div className="flex justify-between items-start mb-6">
+                                    <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm group-hover:scale-110 transition-all">
+                                       <FileText className="h-6 w-6 text-emerald-500" />
+                                    </div>
+                                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-100 dark:bg-slate-700 px-3 py-1 rounded-lg">
+                                       {doc.fileType?.split('/')[1] || 'File'}
+                                    </span>
+                                 </div>
+                                 <h3 className="text-lg font-black text-gray-900 dark:text-white mb-2 truncate" title={doc.title}>{doc.title}</h3>
+                                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-10">Clinical Attachment</p>
+                                 
+                                 <a 
+                                   href={fileUrl}
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   className="w-full py-4 bg-gray-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl"
+                                 >
+                                   <Download className="h-4 w-4" /> View Record
+                                 </a>
+                               </motion.div>
+                             );
+                           })}
+                         </div>
+                       </div>
                      );
                    })}
                  </div>
                ) : (
-                 <div className="py-24 text-center bg-gray-50/50 dark:bg-slate-900/50 rounded-[3.5rem] border-2 border-dashed border-gray-100 dark:border-slate-700">
-                    <div className="w-20 h-20 bg-white dark:bg-slate-800 rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 shadow-sm">
-                       <FileText className="h-10 w-10 text-gray-200" />
-                    </div>
-                    <p className="text-xl font-black text-gray-400 mb-2">No documents linked</p>
-                    <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Facility record may be pending digitization</p>
-                 </div>
+                 visit.documents && visit.documents.length > 0 ? (
+                   <div className="grid sm:grid-cols-2 gap-6">
+                     {visit.documents.map((doc: any, index: number) => {
+                       const fileUrl = `${api.defaults.baseURL?.replace('/api', '') || ''}${doc.fileUrl}`;
+                       return (
+                         <motion.div 
+                           whileHover={{ y: -5 }}
+                           key={index} 
+                           className="bg-gray-50/50 dark:bg-slate-900/50 rounded-[2rem] p-8 border border-gray-100 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 hover:shadow-2xl transition-all group"
+                         >
+                           <div className="flex justify-between items-start mb-6">
+                              <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm group-hover:scale-110 transition-all">
+                                 <FileText className="h-6 w-6 text-emerald-500" />
+                              </div>
+                              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-100 dark:bg-slate-700 px-3 py-1 rounded-lg">
+                                 {doc.fileType?.split('/')[1] || 'File'}
+                              </span>
+                           </div>
+                           <h3 className="text-lg font-black text-gray-900 dark:text-white mb-2 truncate" title={doc.title}>{doc.title}</h3>
+                           <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-10">Clinical Attachment</p>
+                           
+                           <a 
+                             href={fileUrl}
+                             target="_blank"
+                             rel="noopener noreferrer"
+                             className="w-full py-4 bg-gray-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl"
+                           >
+                             <Download className="h-4 w-4" /> View Record
+                           </a>
+                         </motion.div>
+                       );
+                     })}
+                   </div>
+                 ) : (
+                   <div className="py-24 text-center bg-gray-50/50 dark:bg-slate-900/50 rounded-[3.5rem] border-2 border-dashed border-gray-100 dark:border-slate-700">
+                      <div className="w-20 h-20 bg-white dark:bg-slate-800 rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 shadow-sm">
+                         <FileText className="h-10 w-10 text-gray-200" />
+                      </div>
+                      <p className="text-xl font-black text-gray-400 mb-2">No documents linked</p>
+                      <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Facility record may be pending digitization</p>
+                   </div>
+                 )
                )}
             </div>
          </div>

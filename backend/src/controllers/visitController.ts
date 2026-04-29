@@ -18,13 +18,17 @@ export const createVisit = async (req: AuthRequest, res: Response): Promise<void
           title: file.originalname,
           fileUrl: `/uploads/visits/${file.filename}`,
           fileType: file.mimetype,
+          visitDate: new Date(visitDate)
         });
       }
     }
 
+    const trimmedHospitalName = hospitalName.trim();
+    const escapedHospitalName = trimmedHospitalName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    
     let visit = await HospitalVisit.findOne({ 
       userId: req.user.userId, 
-      hospitalName: { $regex: new RegExp(`^${hospitalName}$`, 'i') } 
+      hospitalName: { $regex: new RegExp(`^${escapedHospitalName}$`, 'i') } 
     });
 
     if (visit) {
@@ -48,7 +52,7 @@ export const createVisit = async (req: AuthRequest, res: Response): Promise<void
     } else {
       visit = await HospitalVisit.create({
         userId: req.user.userId,
-        hospitalName,
+        hospitalName: trimmedHospitalName,
         visitDate,
         visitDates: [visitDate],
         documents
