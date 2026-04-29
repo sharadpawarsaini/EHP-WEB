@@ -56,8 +56,13 @@ const FeedbackTab = () => {
       const finalComment = `[${topic}] ${comment}`;
       await api.post('/feedback', { rating, comment: finalComment, experience });
       setSubmitted(true);
-    } catch (err) {
-      alert('Failed to submit feedback. Please try again.');
+    } catch (err: any) {
+      console.error('Feedback Error:', err);
+      if (err.message === 'Network Error' || !err.response) {
+        alert('Transmission failed. This is often caused by Ad-Blockers or browser extensions blocking the "/feedback" endpoint. Please try disabling them or use an Incognito window.');
+      } else {
+        alert(`Failed to submit feedback: ${err.response?.data?.message || 'Please try again.'}`);
+      }
     } finally {
       setLoading(false);
     }
@@ -140,7 +145,7 @@ const FeedbackTab = () => {
       <div className="grid lg:grid-cols-5 gap-8">
          <div className="lg:col-span-3">
             <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-10 shadow-2xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
-              <form onSubmit={handleSubmit} className="space-y-10">
+              <form onSubmit={handleSubmit} className="space-y-10" autoComplete="off">
                 {/* Topic Selector */}
                 <div>
                   <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-5">What are we talking about?</label>
@@ -234,6 +239,7 @@ const FeedbackTab = () => {
                     rows={6}
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
+                    spellCheck="false"
                     className="w-full p-6 rounded-3xl bg-gray-50 dark:bg-slate-900 border border-gray-100 dark:border-slate-700 dark:text-white focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-medium placeholder:text-gray-300 dark:placeholder:text-gray-600 resize-none"
                     placeholder="Tell us everything. What works? What doesn't? We're listening..."
                   ></textarea>
