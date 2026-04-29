@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ProfileProvider } from './context/ProfileContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import ScrollToTop from './components/ScrollToTop';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -20,6 +21,7 @@ function App() {
       <AuthProvider>
         <ProfileProvider>
           <Router>
+            <ScrollToTop />
             <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />

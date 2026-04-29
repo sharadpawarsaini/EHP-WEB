@@ -381,11 +381,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         {/* Content Shell */}
         <div className="flex-1 overflow-auto p-6 md:p-12 pb-32 md:pb-12 bg-white dark:bg-[#0A0A0A]">
           <div className="max-w-7xl mx-auto">
-            <AnimatePresence mode="wait">
-               <motion.div key={location.pathname} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}>
-                  {children}
-               </motion.div>
-            </AnimatePresence>
+            {children}
           </div>
         </div>
       </main>
