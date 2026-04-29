@@ -16,7 +16,7 @@ import {
   Zap,
   ShieldCheck,
   AlertCircle,
-  Video
+  Video as VideoIcon
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -187,7 +187,7 @@ const AppointmentsTab = () => {
          <div className="space-y-8">
             <div className="bg-gray-900 rounded-[3rem] p-10 text-white relative overflow-hidden shadow-2xl">
                <div className="absolute top-0 right-0 p-12 opacity-10">
-                  <Video className="h-40 w-40" />
+                  <VideoIcon className="h-40 w-40" />
                </div>
                <h3 className="text-2xl font-black mb-8 flex items-center gap-3">
                   <Zap className="h-6 w-6 text-amber-400" />

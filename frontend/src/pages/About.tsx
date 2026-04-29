@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Shield, Users, Heart, CheckCircle, ArrowLeft, Activity, ShieldCheck, Zap, Globe } from 'lucide-react';
+import { Shield, Users, Heart, CheckCircle, ArrowLeft, Activity, ShieldCheck, Zap, Globe, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const About = () => {
