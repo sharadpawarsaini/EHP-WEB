@@ -3,7 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { protect } from '../middleware/authMiddleware';
-import { createVisit, getVisits, getVisitById } from '../controllers/visitController';
+import { createVisit, getVisits, getVisitById, deleteVisit } from '../controllers/visitController';
 
 const router = express.Router();
 
@@ -39,5 +39,6 @@ const upload = multer({
 router.post('/', protect, upload.array('documents', 5), createVisit);
 router.get('/', protect, getVisits);
 router.get('/:id', protect, getVisitById);
+router.delete('/:id', protect, deleteVisit);
 
 export default router;

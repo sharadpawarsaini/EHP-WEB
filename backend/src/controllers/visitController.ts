@@ -82,3 +82,16 @@ export const getVisitById = async (req: AuthRequest, res: Response): Promise<voi
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+export const deleteVisit = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const visit = await HospitalVisit.findOneAndDelete({ _id: req.params.id, userId: req.user.userId });
+    if (!visit) {
+      res.status(404).json({ message: 'Visit not found' });
+      return;
+    }
+    res.json({ message: 'Visit deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
