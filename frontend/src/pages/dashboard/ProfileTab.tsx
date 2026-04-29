@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import { differenceInYears, format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getFullPhotoUrl } from '../../utils/url';
 
 const ProfileTab = () => {
   const { refreshProfile } = useProfileContext();
@@ -106,12 +107,7 @@ const ProfileTab = () => {
     }
   };
 
-  const getFullPhotoUrl = (url: string) => {
-    if (!url) return null;
-    if (url.startsWith('http')) return url;
-    const base = api.defaults.baseURL?.replace('/api', '') || '';
-    return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
-  };
+
 
   const calculateAge = (dob: any) => {
     if (!dob) return null;

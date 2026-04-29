@@ -33,6 +33,7 @@ import {
 } from 'lucide-react';
 import api from '../../services/api';
 import { format, differenceInYears } from 'date-fns';
+import { getFullPhotoUrl } from '../../utils/url';
 
 const OverviewTab = () => {
   const navigate = useNavigate();
@@ -172,12 +173,7 @@ const OverviewTab = () => {
 
   const age = calculateAge(data?.profile?.dob);
 
-  const getFullPhotoUrl = (url: string | null) => {
-    if (!url) return null;
-    if (url.startsWith('http')) return url;
-    const base = api.defaults.baseURL?.replace('/api', '') || '';
-    return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
-  };
+
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">

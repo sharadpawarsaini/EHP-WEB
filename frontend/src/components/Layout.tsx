@@ -34,6 +34,7 @@ import { ThemeToggle } from './ThemeToggle';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../services/api';
+import { getFullPhotoUrl } from '../utils/url';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { logout } = useAuth();
@@ -110,12 +111,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: 'Profile', path: '/dashboard/profile', icon: User },
   ];
 
-  const getFullPhotoUrl = (url: string | null) => {
-    if (!url) return null;
-    if (url.startsWith('http')) return url;
-    const base = api.defaults.baseURL?.replace('/api', '') || '';
-    return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
-  };
+
 
   const ProfileAvatar = ({ className = "h-8 w-8" }: { className?: string }) => (
     <div className={`${className} rounded-2xl overflow-hidden bg-gray-100 dark:bg-white/5 flex items-center justify-center border border-gray-200 dark:border-white/10 shadow-inner`}>

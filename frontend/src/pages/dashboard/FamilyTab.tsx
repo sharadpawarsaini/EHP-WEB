@@ -17,6 +17,7 @@ import {
   MoreVertical
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getFullPhotoUrl } from '../../utils/url';
 
 const FamilyTab = () => {
   const [members, setMembers] = useState<any[]>([]);
@@ -26,12 +27,7 @@ const FamilyTab = () => {
   const [relation, setRelation] = useState('');
   const { managedMemberId, setManagedMember, photoUrl } = useProfileContext();
 
-  const getFullPhotoUrl = (url: string | null) => {
-    if (!url) return null;
-    if (url.startsWith('http')) return url;
-    const base = api.defaults.baseURL?.replace('/api', '') || '';
-    return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
-  };
+
 
   useEffect(() => {
     fetchMembers();
