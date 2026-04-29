@@ -375,6 +375,29 @@ const EmergencyTab = () => {
                    </div>
                 </div>
 
+                {/* Public Emergency Link */}
+                <div className="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] border border-gray-100 dark:border-slate-700 shadow-sm relative overflow-hidden">
+                   <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] block mb-4">Public Emergency URL</label>
+                   <div className="flex items-center gap-4 bg-gray-50 dark:bg-slate-900 p-4 rounded-2xl border border-gray-100 dark:border-slate-700">
+                      <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                         <LinkIcon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                          <a 
+                            href={`${window.location.origin}/e/${linkData.link.publicSlug}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline truncate block"
+                          >
+                            {window.location.origin}/e/{linkData.link.publicSlug}
+                          </a>
+                      </div>
+                      <button onClick={() => { navigator.clipboard.writeText(`${window.location.origin}/e/${linkData.link.publicSlug}`); alert('Link Copied!'); }} className="p-3 bg-white dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-600 dark:text-gray-300 rounded-xl border border-gray-200 dark:border-slate-600 transition-all shadow-sm flex-shrink-0">
+                         <Copy className="h-4 w-4" />
+                      </button>
+                   </div>
+                </div>
+
                 <div className="bg-gray-900 p-8 rounded-[2.5rem] relative overflow-hidden group">
                    <div className="absolute top-0 right-0 p-8 opacity-20 group-hover:scale-110 transition-transform">
                       <Zap className="h-24 w-24 text-blue-400" />

@@ -23,8 +23,10 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
         setManagedMemberName(data.fullName || 'Me');
         setPhotoUrl(data.photoUrl || null);
       }
-    } catch (err) {
-      console.error("Failed to fetch profile in context", err);
+    } catch (err: any) {
+      if (err?.response?.status !== 401) {
+        console.error("Failed to fetch profile in context", err);
+      }
     }
   };
 

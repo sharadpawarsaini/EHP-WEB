@@ -124,11 +124,11 @@ const EmergencyPage = () => {
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4">
-        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="bg-white/5 backdrop-blur-2xl p-10 rounded-[3rem] text-center max-w-md w-full border border-white/10 shadow-2xl">
+      <div className="min-h-screen bg-slate-50 dark:bg-[#0A0A0A] flex items-center justify-center px-4">
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="bg-white dark:bg-slate-800 backdrop-blur-2xl p-10 rounded-[3rem] text-center max-w-md w-full border border-gray-100 dark:border-white/10 shadow-2xl">
           <ShieldAlert className="h-20 w-20 text-rose-500 mx-auto mb-6" />
-          <h2 className="text-3xl font-black text-white mb-4 tracking-tight">Identity Ghosted</h2>
-          <p className="text-gray-400 font-medium leading-relaxed">{error}</p>
+          <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-4 tracking-tight">Identity Ghosted</h2>
+          <p className="text-gray-500 dark:text-gray-400 font-medium leading-relaxed">{error}</p>
         </motion.div>
       </div>
     );
@@ -136,13 +136,13 @@ const EmergencyPage = () => {
 
   if (data.isLocked) {
     return (
-      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4">
-        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="bg-white/5 backdrop-blur-2xl p-12 rounded-[3rem] text-center max-w-md w-full border border-white/10 shadow-2xl">
+      <div className="min-h-screen bg-slate-50 dark:bg-[#0A0A0A] flex items-center justify-center px-4">
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="bg-white dark:bg-slate-800 backdrop-blur-2xl p-12 rounded-[3rem] text-center max-w-md w-full border border-gray-100 dark:border-white/10 shadow-2xl">
           <div className="w-24 h-24 bg-rose-500/20 rounded-[2rem] flex items-center justify-center mx-auto mb-8 border border-rose-500/30">
             <Lock className="h-10 w-10 text-rose-500" />
           </div>
-          <h2 className="text-4xl font-black text-white mb-4 tracking-tighter">{t('profile_locked')}</h2>
-          <p className="text-gray-400 leading-relaxed font-medium">
+          <h2 className="text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter">{t('profile_locked')}</h2>
+          <p className="text-gray-500 dark:text-gray-400 leading-relaxed font-medium">
             {t('locked_msg')}
           </p>
         </motion.div>
@@ -171,7 +171,7 @@ const EmergencyPage = () => {
   };
 
   return (
-    <div className={`min-h-screen ${isFullAccess ? 'bg-slate-50 dark:bg-[#0A0A0A]' : 'bg-[#0A0A0A]'} text-gray-900 dark:text-gray-100 font-sans pb-24 selection:bg-blue-500/30`}>
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0A0A0A] text-gray-900 dark:text-gray-100 font-sans pb-24 selection:bg-blue-500/30">
       <AnimatePresence>
         {isOffline && (
           <motion.div 
@@ -200,7 +200,7 @@ const EmergencyPage = () => {
           
           <div className="flex items-center gap-4">
              {isFullAccess && timeLeft !== null && (
-               <div className="hidden sm:flex items-center gap-2 bg-white/20 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/20 animate-pulse">
+               <div className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-colors ${timeLeft <= 60 ? 'bg-rose-500/20 border-rose-500/50 text-rose-100 animate-pulse' : 'bg-white/20 border-white/20 text-white'}`}>
                  <Clock className="h-4 w-4" />
                  <span>Expires: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</span>
                </div>
