@@ -178,7 +178,7 @@ const EmergencyPage = () => {
     if (!url) return null;
     if (url.startsWith('http')) return url;
     const base = api.defaults.baseURL?.replace('/api', '') || '';
-    return `${base}${url}`;
+    return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
   };
 
   return (

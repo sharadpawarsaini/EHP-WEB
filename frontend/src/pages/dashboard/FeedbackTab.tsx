@@ -17,6 +17,7 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import api from '../../services/api';
+import { useProfileContext } from '../../context/ProfileContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const FeedbackTab = () => {
@@ -26,7 +27,15 @@ const FeedbackTab = () => {
   const [topic, setTopic] = useState('General');
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const { photoUrl } = useProfileContext();
   const [hoverRating, setHoverRating] = useState(0);
+
+  const getFullPhotoUrl = (url: string | null) => {
+    if (!url) return null;
+    if (url.startsWith('http')) return url;
+    const base = api.defaults.baseURL?.replace('/api', '') || '';
+    return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
+  };
 
   const experiences = [
     { id: 'Excellent', icon: Smile, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
@@ -131,9 +140,16 @@ const FeedbackTab = () => {
            <p className="text-gray-500 dark:text-gray-400 font-medium">Your experience fuels our innovation. Every word you share helps us protect lives better.</p>
         </div>
         <div className="flex -space-x-3">
-           {[1, 2, 3, 4].map(i => (
+           <div className="w-12 h-12 rounded-full border-4 border-blue-600 dark:border-blue-500 bg-gray-200 dark:bg-slate-800 overflow-hidden shadow-xl z-10">
+              {photoUrl ? (
+                <img src={getFullPhotoUrl(photoUrl)!} alt="User" className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-blue-600 text-white font-black text-xs">ME</div>
+              )}
+           </div>
+           {[1, 2, 3].map(i => (
              <div key={i} className="w-12 h-12 rounded-full border-4 border-slate-50 dark:border-slate-900 bg-gray-200 dark:bg-slate-800 overflow-hidden shadow-xl">
-                <img src={`https://i.pravatar.cc/100?img=${i+10}`} alt="User" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" />
+                <img src={`https://i.pravatar.cc/100?img=${i+14}`} alt="User" className="w-full h-full object-cover grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500" />
              </div>
            ))}
            <div className="w-12 h-12 rounded-full border-4 border-slate-50 dark:border-slate-900 bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-xl">

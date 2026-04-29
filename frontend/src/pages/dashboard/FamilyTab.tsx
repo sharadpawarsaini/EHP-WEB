@@ -24,7 +24,14 @@ const FamilyTab = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [name, setName] = useState('');
   const [relation, setRelation] = useState('');
-  const { managedMemberId, setManagedMember } = useProfileContext();
+  const { managedMemberId, setManagedMember, photoUrl } = useProfileContext();
+
+  const getFullPhotoUrl = (url: string | null) => {
+    if (!url) return null;
+    if (url.startsWith('http')) return url;
+    const base = api.defaults.baseURL?.replace('/api', '') || '';
+    return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
+  };
 
   useEffect(() => {
     fetchMembers();
@@ -101,9 +108,13 @@ const FamilyTab = () => {
            </div>
            
            <div className="flex justify-between items-start mb-8">
-              <div className="p-4 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl">
-                 <UserCircle className="h-8 w-8 text-indigo-600" />
-              </div>
+               <div className="w-16 h-16 rounded-2xl overflow-hidden bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800/30">
+                  {photoUrl ? (
+                    <img src={getFullPhotoUrl(photoUrl)!} alt="Me" className="w-full h-full object-cover" />
+                  ) : (
+                    <UserCircle className="w-full h-full p-3 text-indigo-600" />
+                  )}
+               </div>
               {!managedMemberId && (
                  <div className="px-4 py-1 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full flex items-center gap-2">
                     <ShieldCheck className="h-3 w-3" /> Active
@@ -142,9 +153,13 @@ const FamilyTab = () => {
                 </div>
 
                 <div className="flex justify-between items-start mb-8">
-                   <div className="p-4 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl">
-                      <Users className="h-8 w-8 text-emerald-600" />
-                   </div>
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800/30">
+                       {member.photoUrl ? (
+                         <img src={getFullPhotoUrl(member.photoUrl)!} alt={member.name} className="w-full h-full object-cover" />
+                       ) : (
+                         <Users className="w-full h-full p-4 text-emerald-600" />
+                       )}
+                    </div>
                    <div className="flex gap-2">
                       <button onClick={() => deleteMember(member._id)} className="p-2 text-gray-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all">
                          <Trash2 className="h-5 w-5" />
