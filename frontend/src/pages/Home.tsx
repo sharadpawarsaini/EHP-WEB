@@ -240,8 +240,8 @@ const Home = () => {
          <div className="max-w-7xl mx-auto px-6 mt-20 pt-10 border-t border-gray-100 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
             <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">&copy; {new Date().getFullYear()} EHP GLOBAL REGISTRY</p>
             <div className="flex gap-8">
-               <span className="text-[10px] font-black text-gray-400 hover:text-blue-600 cursor-pointer transition-colors uppercase tracking-widest">Privacy</span>
-               <span className="text-[10px] font-black text-gray-400 hover:text-blue-600 cursor-pointer transition-colors uppercase tracking-widest">Terms</span>
+               <Link to="/" className="text-[10px] font-black text-gray-400 hover:text-blue-600 cursor-pointer transition-colors uppercase tracking-widest">Privacy</Link>
+               <Link to="/" className="text-[10px] font-black text-gray-400 hover:text-blue-600 cursor-pointer transition-colors uppercase tracking-widest">Terms</Link>
             </div>
          </div>
       </footer>
