@@ -163,6 +163,17 @@ const EmergencyPage = () => {
 
   const age = calculateAge(profile.dob);
 
+  const safeFormat = (date: any, formatStr: string) => {
+    try {
+      if (!date) return 'N/A';
+      const d = new Date(date);
+      if (isNaN(d.getTime())) return 'N/A';
+      return format(d, formatStr);
+    } catch (e) {
+      return 'N/A';
+    }
+  };
+
   const getFullPhotoUrl = (url: string | null) => {
     if (!url) return null;
     if (url.startsWith('http')) return url;
@@ -234,7 +245,7 @@ const EmergencyPage = () => {
                 <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tighter mb-2">{profile.fullName || 'Unknown Patient'}</h1>
                 <div className="flex flex-wrap justify-center md:justify-start gap-4">
                    <span className="px-4 py-1.5 bg-gray-100 dark:bg-white/5 rounded-full text-xs font-bold text-gray-500 dark:text-gray-400">
-                      {age !== null ? `${age} Years Old` : 'Age Unknown'}
+                      {age !== null && !isNaN(age) ? `${age} Years Old` : 'Age Unknown'}
                    </span>
                    <span className="px-4 py-1.5 bg-gray-100 dark:bg-white/5 rounded-full text-xs font-bold text-gray-500 dark:text-gray-400">
                       {profile.gender || 'Unknown Gender'}
@@ -395,8 +406,8 @@ const EmergencyPage = () => {
                             {displayData.vitals.slice(0, 5).map((v: any) => (
                               <tr key={v._id} className="group">
                                 <td className="py-5 pr-4">
-                                   <p className="text-sm font-bold text-gray-900 dark:text-white">{format(new Date(v.date), 'MMM dd')}</p>
-                                   <p className="text-[10px] text-gray-400 font-bold uppercase">{format(new Date(v.date), 'HH:mm')}</p>
+                                   <p className="text-sm font-bold text-gray-900 dark:text-white">{safeFormat(v.date, 'MMM dd')}</p>
+                                   <p className="text-[10px] text-gray-400 font-bold uppercase">{safeFormat(v.date, 'HH:mm')}</p>
                                 </td>
                                 <td className="py-5 pr-4">
                                    <span className="text-xs font-black text-gray-500 uppercase tracking-tight">{v.type}</span>
@@ -432,7 +443,7 @@ const EmergencyPage = () => {
                                <div className="bg-gray-50/50 dark:bg-white/5 rounded-[2.5rem] p-8 border border-gray-100 dark:border-white/10 group-hover:border-purple-500/30 transition-all shadow-sm">
                                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                                      <div>
-                                        <p className="text-[10px] font-black text-purple-600 uppercase tracking-[0.2em] mb-1">{format(new Date(visit.date), 'MMMM dd, yyyy')}</p>
+                                        <p className="text-[10px] font-black text-purple-600 uppercase tracking-[0.2em] mb-1">{safeFormat(visit.date, 'MMMM dd, yyyy')}</p>
                                         <h4 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">{visit.hospitalName || 'Clinical Node Access'}</h4>
                                      </div>
                                      <div className="px-4 py-2 bg-purple-50 dark:bg-purple-900/20 rounded-xl text-[10px] font-black text-purple-600 uppercase tracking-widest border border-purple-100 dark:border-purple-800/30">
@@ -497,7 +508,7 @@ const EmergencyPage = () => {
                               <h4 className="font-black text-gray-900 dark:text-white text-sm">{v.vaccineName}</h4>
                               <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">{v.disease}</p>
                             </div>
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{format(new Date(v.dateAdministered), 'MMM yyyy')}</p>
+                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{safeFormat(v.dateAdministered, 'MMM yyyy')}</p>
                           </div>
                         )) || <p className="text-gray-400 text-xs italic">No immunization history synced.</p>}
                       </div>
@@ -561,7 +572,7 @@ const EmergencyPage = () => {
                           <div key={report._id} className="bg-gray-50/50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-[2rem] p-6 flex flex-col justify-between group hover:border-blue-500/30 transition-all">
                             <div>
                                <h4 className="font-black text-gray-900 dark:text-white text-sm mb-4 leading-tight">{report.title}</h4>
-                               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6">{format(new Date(report.createdAt), 'MMM yyyy')}</p>
+                               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6">{safeFormat(report.createdAt, 'MMM yyyy')}</p>
                             </div>
                             <a 
                               href={`${api.defaults.baseURL?.replace('/api', '')}${report.fileUrl}`} 
