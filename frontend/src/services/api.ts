@@ -10,12 +10,18 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// Add a request interceptor to include managed member ID
+// Add a request interceptor to include managed member ID and Auth token
 api.interceptors.request.use((config) => {
   const managedMemberId = localStorage.getItem('managedMemberId');
   if (managedMemberId) {
     config.headers['x-managed-member-id'] = managedMemberId;
   }
+  
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  
   return config;
 });
 

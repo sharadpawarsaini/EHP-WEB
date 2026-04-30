@@ -590,7 +590,7 @@ const EmergencyPage = () => {
                          Lab Reports Vault
                       </h3>
                       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {displayData.reports.map((report: any) => (
+                        {displayData?.reports?.map((report: any) => (
                           <div key={report._id} className="bg-gray-50/50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-[2rem] p-6 flex flex-col justify-between group hover:border-blue-500/30 transition-all">
                             <div>
                                <h4 className="font-black text-gray-900 dark:text-white text-sm mb-4 leading-tight">{report.title}</h4>
@@ -622,7 +622,7 @@ const EmergencyPage = () => {
             </h3>
             {displayData.contacts?.length > 0 ? (
               <div className="grid sm:grid-cols-2 gap-8">
-                {displayData.contacts.map((contact: any, i: number) => (
+                {displayData?.contacts?.map((contact: any, i: number) => (
                   <div key={i} className="bg-gray-50/50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-[2.5rem] p-8 flex flex-col justify-between group hover:border-emerald-500/20 transition-all shadow-sm">
                     <div className="mb-8">
                        <h4 className="font-black text-gray-900 dark:text-white text-2xl tracking-tighter mb-1">{contact.name}</h4>

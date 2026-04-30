@@ -199,9 +199,9 @@ const OverviewTab = () => {
 
   // Recent Activity Feed
   const activityFeed = [
-    ...(data.reports || []).map((r: any) => ({ type: 'report', date: r.createdAt, title: `Report uploaded: ${r.title}`, icon: FileText, color: 'text-indigo-500', bg: 'bg-indigo-50 dark:bg-indigo-900/20' })),
-    ...(data.vitals || []).map((v: any) => ({ type: 'vital', date: v.date, title: `Vital tracked: ${v.type}`, icon: Activity, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-900/20' })),
-    ...(data.visits || []).map((v: any) => ({ type: 'visit', date: v.visitDate, title: `Hospital Visit: ${v.hospitalName}`, icon: Hospital, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' }))
+    ...(data?.reports || []).map((r: any) => ({ type: 'report', date: r.createdAt, title: `Report uploaded: ${r.title}`, icon: FileText, color: 'text-indigo-500', bg: 'bg-indigo-50 dark:bg-indigo-900/20' })),
+    ...(data?.vitals || []).map((v: any) => ({ type: 'vital', date: v.date, title: `Vital tracked: ${v.type}`, icon: Activity, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-900/20' })),
+    ...(data?.visits || []).map((v: any) => ({ type: 'visit', date: v.visitDate, title: `Hospital Visit: ${v.hospitalName}`, icon: Hospital, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' }))
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
 
   return (

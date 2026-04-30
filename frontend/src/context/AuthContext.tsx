@@ -22,9 +22,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const { data } = await api.get('/profile');
-        if (data && data.userId) {
-          setUser({ _id: data.userId, email: '' }); 
+        // First try to check if we have a token in localStorage
+        const token = localStorage.getItem('token');
+        if (token) {
+          // If we have a token, we might be logged in. 
+          // The API interceptor will include it in the headers.
+          const { data } = await api.get('/profile');
+          if (data && data.userId) {
+            setUser({ _id: data.userId, email: '' }); 
+          }
+        } else {
+          // Fallback to cookie-only check
+          const { data } = await api.get('/profile');
+          if (data && data.userId) {
+            setUser({ _id: data.userId, email: '' }); 
+          }
         }
       } catch (error: any) {
         // Silently handle 401 (not logged in)
@@ -32,6 +44,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           console.error('Auth Check Error:', error);
         }
         setUser(null);
+        localStorage.removeItem('token');
       } finally {
         setLoading(false);
       }
@@ -39,13 +52,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkAuth();
   }, []);
 
-  const login = (userData: User) => setUser(userData);
+  const login = (userData: any) => {
+    setUser({ _id: userData._id, email: userData.email });
+    if (userData.token) {
+      localStorage.setItem('token', userData.token);
+    }
+  };
+
   const logout = async () => {
     try {
       await api.post('/auth/logout');
-      setUser(null);
     } catch (error) {
       console.error(error);
+    } finally {
+      setUser(null);
+      localStorage.removeItem('token');
     }
   };
 

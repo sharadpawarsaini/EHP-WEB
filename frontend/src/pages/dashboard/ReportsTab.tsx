@@ -182,8 +182,8 @@ const ReportsTab = () => {
               </div>
 
               <div className="space-y-3">
-                 <a
-                   href={`${import.meta.env.VITE_API_URL.replace('/api', '')}${report.fileUrl}`}
+                  <a
+                   href={`${api.defaults.baseURL?.replace('/api', '') || ''}${report.fileUrl}`}
                    target="_blank"
                    rel="noopener noreferrer"
                    className="w-full flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-900 rounded-2xl hover:bg-gray-100 transition-all group/btn"
