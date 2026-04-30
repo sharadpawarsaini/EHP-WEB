@@ -26,28 +26,28 @@ const app = express();
 
 app.use(cors({ 
   origin: function(origin, callback) {
-    // 1. Mobile apps (Flutter/React Native) often don't send an origin header. Allow them.
+    // 1. Allow requests with no origin (like mobile apps)
     if (!origin) return callback(null, true);
 
-    // 2. Define the strict list of allowed production domains
+    // 2. Allowed origins
     const allowedOrigins = [
       'https://ehp-tan-eight.vercel.app',
       'https://ehp-web.onrender.com',
       process.env.CORS_ORIGIN
-    ].filter(Boolean); // removes undefined
+    ].filter(Boolean);
 
-    // 3. If in local development, safely allow localhost ports (for Flutter Web / React Dev)
-    if (process.env.NODE_ENV !== 'production' && (origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1'))) {
-      return callback(null, true);
-    }
+    // 3. Dynamic Vercel Subdomain Check (Fix for iOS/Safari)
+    const isVercel = origin.endsWith('.vercel.app');
+    
+    // 4. Local development
+    const isLocal = origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1');
 
-    // 4. In production, rigidly check against the allowed domains
-    if (allowedOrigins.includes(origin)) {
+    if (allowedOrigins.includes(origin) || isVercel || (process.env.NODE_ENV !== 'production' && isLocal)) {
       return callback(null, true);
     }
     
-    // Block anything else!
-    callback(new Error(`Origin ${origin} not allowed by CORS`));
+    console.error(`CORS Blocked: Origin ${origin} not in whitelist`);
+    callback(new Error('Not allowed by CORS'));
   },
   credentials: true 
 }));

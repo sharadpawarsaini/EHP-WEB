@@ -21,30 +21,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const checkAuth = async () => {
+      setLoading(true);
       try {
-        // First try to check if we have a token in localStorage
         const token = localStorage.getItem('token');
-        if (token) {
-          // If we have a token, we might be logged in. 
-          // The API interceptor will include it in the headers.
-          const { data } = await api.get('/profile');
-          if (data && data.userId) {
-            setUser({ _id: data.userId, email: '' }); 
-          }
+        if (!token) {
+          setUser(null);
+          return;
+        }
+
+        // Verify token with backend
+        const { data } = await api.get('/profile');
+        if (data && (data.userId || data._id)) {
+          setUser({ _id: data.userId || data._id, email: data.email || '' }); 
         } else {
-          // Fallback to cookie-only check
-          const { data } = await api.get('/profile');
-          if (data && data.userId) {
-            setUser({ _id: data.userId, email: '' }); 
-          }
+          setUser(null);
         }
       } catch (error: any) {
-        // Silently handle 401 (not logged in)
-        if (error.response?.status !== 401) {
-          console.error('Auth Check Error:', error);
+        if (error.response?.status === 401) {
+          // Explicitly clear state on 401
+          localStorage.removeItem('token');
+          setUser(null);
+        } else {
+          console.error('Auth Check Connectivity Error:', error);
         }
-        setUser(null);
-        localStorage.removeItem('token');
       } finally {
         setLoading(false);
       }
