@@ -22,6 +22,7 @@ import appointmentRoutes from './routes/appointmentRoutes';
 import vitalsRoutes from './routes/vitalsRoutes';
 import reportRoutes from './routes/reportRoutes';
 import familyRoutes from './routes/familyRoutes';
+import hospitalRoutes from './routes/hospitalRoutes';
 
 const app = express();
 
@@ -76,6 +77,7 @@ app.use('/api/appointments', appointmentRoutes);
 app.use('/api/vitals', vitalsRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/family', familyRoutes);
+app.use('/api/hospitals', hospitalRoutes);
 
 // Health Check
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
