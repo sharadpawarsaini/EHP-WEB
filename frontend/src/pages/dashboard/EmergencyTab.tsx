@@ -442,22 +442,7 @@ const EmergencyTab = () => {
              </div>
 
              <div className="space-y-8">
-                {/* NFC Feature */}
-                <div className="p-8 bg-gradient-to-br from-gray-50 to-white dark:from-slate-900 dark:to-slate-800 rounded-[2.5rem] border border-gray-100 dark:border-slate-700 shadow-sm relative overflow-hidden">
-                   <div className="absolute -top-10 -right-10 opacity-5">
-                      <Rss className="h-40 w-40" />
-                   </div>
-                   <h4 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest flex items-center gap-2 mb-4">
-                      <Rss className="h-4 w-4 text-emerald-600" />
-                      NFC Bridge
-                   </h4>
-                   <p className="text-xs text-gray-500 dark:text-gray-400 font-medium leading-relaxed mb-6">
-                      Connect your EHP to a physical NFC tag or sticker for instant "Tap-to-View" emergency response.
-                   </p>
-                   <button className="w-full py-4 bg-emerald-600/10 text-emerald-600 border border-emerald-600/20 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 hover:text-white transition-all">
-                      Initialize NFC Write
-                   </button>
-                </div>
+
 
                 <div className="flex flex-col items-center justify-center p-8 bg-white dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-[2.5rem] shadow-sm relative">
                    <div className="absolute top-6 right-6">

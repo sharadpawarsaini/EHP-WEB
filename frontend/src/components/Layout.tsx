@@ -26,7 +26,8 @@ import {
   ChevronRight,
   ShieldCheck,
   Bell,
-  Zap
+  Zap,
+  Rss
 } from 'lucide-react';
 import { useProfileContext } from '../context/ProfileContext';
 import { useAuth } from '../context/AuthContext';
@@ -72,6 +73,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         { name: t('nav_vitals'), path: '/dashboard/vitals', icon: Activity },
         { name: t('nav_emergency'), path: '/dashboard/emergency', icon: QrCode },
         { name: t('nav_medical'), path: '/dashboard/medical', icon: ClipboardList },
+        { name: 'NFC Bridge', path: '/dashboard/nfc', icon: Rss },
       ]
     },
     {
