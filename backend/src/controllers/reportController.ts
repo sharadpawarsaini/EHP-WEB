@@ -3,7 +3,9 @@ import { MedicalReport } from '../models/MedicalReport';
 import { AuthRequest } from '../middleware/authMiddleware';
 import fs from 'fs';
 import path from 'path';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import axios from 'axios';
+
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 export const uploadReport = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
@@ -78,48 +80,73 @@ export const analyzeReport = async (req: AuthRequest, res: Response): Promise<vo
       return;
     }
 
-    if (!process.env.GEMINI_API_KEY) {
-      res.status(500).json({ message: 'Gemini API Key not configured' });
+    const apiKey = (process.env.GROQ_API_KEY || '').trim();
+    if (!apiKey) {
+      res.status(500).json({ message: 'AI API Key not configured' });
       return;
     }
 
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    // Build context from report metadata
+    const reportContext = `
+      Report Title: ${report.title}
+      File Type: ${report.fileType}
+      File Size: ${(report.fileSize / 1024).toFixed(1)} KB
+      Uploaded On: ${report.createdAt}
+    `;
 
+    // For text-readable files (PDFs), attempt to read content
+    let fileContent = '';
     const filePath = path.join(__dirname, '../../uploads/reports', report.fileName);
     
-    if (!fs.existsSync(filePath)) {
-      console.error('File not found on disk:', filePath);
-      res.status(404).json({ message: 'Physical file not found on server' });
-      return;
+    if (fs.existsSync(filePath) && report.fileType === 'application/pdf') {
+      // Read raw text from PDF (basic extraction)
+      const fileBuffer = fs.readFileSync(filePath);
+      const rawText = fileBuffer.toString('utf-8');
+      // Extract readable text chunks from PDF binary
+      const textMatches = rawText.match(/\(([^)]+)\)/g);
+      if (textMatches) {
+        fileContent = textMatches
+          .map(m => m.slice(1, -1))
+          .filter(t => t.length > 2 && /[a-zA-Z0-9]/.test(t))
+          .join(' ')
+          .slice(0, 3000); // Limit to 3000 chars
+      }
     }
 
-    const fileBuffer = fs.readFileSync(filePath);
-    const base64File = fileBuffer.toString('base64');
+    const prompt = fileContent 
+      ? `You are a helpful medical assistant. Analyze this medical report content and provide a summary in 3-4 simple bullet points for a non-medical person. Highlight any critical findings.\n\nReport: "${report.title}"\nContent: ${fileContent}`
+      : `You are a helpful medical assistant. Based on the report title "${report.title}", explain what this type of medical report typically contains, what key values a patient should look for, and what questions they should ask their doctor. Provide 3-4 concise bullet points.`;
 
-    console.log('Starting Gemini analysis for report:', report.title);
-    
-    const prompt = "You are a helpful medical assistant. Please analyze this medical report and provide a summary in 3-4 simple bullet points for a non-medical person. Highlight any critical findings or things the patient should discuss with their doctor. Keep it concise and easy to understand.";
+    console.log('Starting Groq analysis for report:', report.title);
 
-    const result = await model.generateContent([
-      prompt,
+    const response = await axios.post(
+      GROQ_API_URL,
       {
-        inlineData: {
-          data: base64File,
-          mimeType: report.fileType
+        model: 'llama-3.3-70b-versatile',
+        messages: [
+          { role: 'system', content: 'You are a medical report analyst. Be concise, helpful, and use simple language. Always remind the patient to consult their doctor for professional advice.' },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.5,
+        max_tokens: 600
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
         }
       }
-    ]);
+    );
 
-    const analysis = result.response.text();
+    const analysis = response.data.choices[0].message.content;
     console.log('Analysis successful');
     res.json({ analysis });
 
   } catch (error: any) {
-    console.error('AI Analysis Critical Error:', error);
+    console.error('AI Analysis Error:', error.response?.data || error.message);
     res.status(500).json({ 
-      message: 'AI analysis failed. This could be due to an invalid API key, file size limit, or rate limiting.',
-      details: error.message 
+      message: 'AI analysis failed. Please try again in a moment.',
+      details: error.response?.data?.error?.message || error.message 
     });
   }
 };
