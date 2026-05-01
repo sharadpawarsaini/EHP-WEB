@@ -25,7 +25,11 @@ import {
   X,
   Droplets,
   Zap,
-  Info
+  Info,
+  Mic,
+  Volume2,
+  MessageSquare,
+  Sparkles
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -45,6 +49,14 @@ const EmergencyPage = () => {
   const [doctorAuthError, setDoctorAuthError] = useState('');
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const [fullData, setFullData] = useState<any>(null);
+
+  // AI Assistant State
+  const [showAIAssistant, setShowAIAssistant] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [aiResponse, setAiResponse] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
+  const [chatHistory, setChatHistory] = useState<any[]>([]);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   useEffect(() => {
     const handleOnline = () => setIsOffline(false);
@@ -110,6 +122,60 @@ const EmergencyPage = () => {
       setDoctorAuthError('Invalid Access Code. Please try again.');
     } finally {
       setDoctorAuthLoading(false);
+    }
+  };
+
+  // AI Assistant Logic
+  const handleAISpeech = (text: string) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  const startListening = () => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech recognition not supported in this browser.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = i18n.language === 'hi' ? 'hi-IN' : 'en-US';
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+    
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      sendToAI(transcript);
+    };
+
+    recognition.start();
+  };
+
+  const sendToAI = async (message: string) => {
+    setAiLoading(true);
+    setAiResponse('');
+    try {
+      const response = await api.post(`/ai/guide/${slug}`, {
+        message,
+        history: chatHistory
+      });
+      
+      const newResponse = response.data.text;
+      setAiResponse(newResponse);
+      setChatHistory([...chatHistory, 
+        { role: 'user', parts: [{ text: message }] },
+        { role: 'model', parts: [{ text: newResponse }] }
+      ]);
+      handleAISpeech(newResponse);
+    } catch (err) {
+      setAiResponse("I'm sorry, I'm having trouble connecting. Please follow standard emergency protocols.");
+    } finally {
+      setAiLoading(false);
     }
   };
 
@@ -722,6 +788,106 @@ const EmergencyPage = () => {
                 </button>
               </form>
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* AI Assistant Pulse Button */}
+      <div className="fixed bottom-8 right-8 z-[150]">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setShowAIAssistant(!showAIAssistant)}
+          className={`w-16 h-16 rounded-full flex items-center justify-center shadow-3xl transition-all duration-500 ${showAIAssistant ? 'bg-rose-600 rotate-90' : 'bg-blue-600'}`}
+        >
+          {showAIAssistant ? <X className="text-white h-8 w-8" /> : <Sparkles className="text-white h-8 w-8 animate-pulse" />}
+          {!showAIAssistant && (
+            <span className="absolute -top-2 -left-2 bg-rose-600 text-white text-[8px] font-black px-2 py-1 rounded-full animate-bounce">AI GUIDE</span>
+          )}
+        </motion.button>
+      </div>
+
+      {/* AI Assistant Panel */}
+      <AnimatePresence>
+        {showAIAssistant && (
+          <motion.div
+            initial={{ opacity: 0, y: 100, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 100, scale: 0.8 }}
+            className="fixed bottom-28 right-8 z-[140] w-[calc(100%-4rem)] max-w-sm bg-white dark:bg-slate-900 rounded-[3rem] shadow-4xl border border-gray-100 dark:border-white/10 overflow-hidden"
+          >
+            <div className="p-8 space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20">
+                    <Sparkles className="h-5 w-5 text-white" />
+                  </div>
+                  <h3 className="font-black text-gray-900 dark:text-white uppercase tracking-widest text-xs">First-Aid Intelligence</h3>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className={`w-2 h-2 rounded-full ${aiLoading ? 'bg-blue-500 animate-pulse' : 'bg-emerald-500'}`}></div>
+                  <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">{aiLoading ? 'Thinking' : 'Ready'}</span>
+                </div>
+              </div>
+
+              <div className="min-h-[150px] max-h-[300px] overflow-y-auto custom-scrollbar p-6 bg-gray-50 dark:bg-[#050505] rounded-[2rem] border border-gray-100 dark:border-white/5">
+                {aiResponse ? (
+                  <div className="text-sm font-medium text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+                    {aiResponse.split('**').map((part, i) => i % 2 === 1 ? <strong key={i} className="text-blue-600 dark:text-blue-400 font-black">{part}</strong> : part)}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-full space-y-4 opacity-40">
+                    <MessageSquare className="h-10 w-10 text-gray-400" />
+                    <p className="text-[10px] font-black uppercase tracking-widest text-center">Describe the symptom or ask for guidance</p>
+                  </div>
+                )}
+                {aiLoading && (
+                  <div className="mt-4 flex gap-1">
+                    <motion.div animate={{ scale: [1, 1.5, 1] }} transition={{ repeat: Infinity, duration: 1 }} className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                    <motion.div animate={{ scale: [1, 1.5, 1] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                    <motion.div animate={{ scale: [1, 1.5, 1] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                  </div>
+                )}
+              </div>
+
+              <div className="flex gap-4">
+                <button
+                  onClick={startListening}
+                  disabled={isListening || aiLoading}
+                  className={`flex-1 flex items-center justify-center gap-3 py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all ${isListening ? 'bg-rose-500 text-white animate-pulse' : 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-xl'}`}
+                >
+                  {isListening ? (
+                    <>
+                      <div className="flex gap-0.5 items-center">
+                        {[1,2,3,4].map(i => <motion.div key={i} animate={{ height: [8, 16, 8] }} transition={{ repeat: Infinity, duration: 0.5, delay: i * 0.1 }} className="w-1 bg-white rounded-full" />)}
+                      </div>
+                      Listening
+                    </>
+                  ) : (
+                    <>
+                      <Mic className="h-4 w-4" /> Start Voice Guide
+                    </>
+                  )}
+                </button>
+                {aiResponse && (
+                  <button 
+                    onClick={() => handleAISpeech(aiResponse)}
+                    className={`p-5 rounded-2xl border border-gray-100 dark:border-white/10 transition-all ${isSpeaking ? 'bg-blue-600 text-white' : 'bg-white dark:bg-slate-800 text-gray-500 dark:text-gray-400'}`}
+                  >
+                    <Volume2 className={`h-5 w-5 ${isSpeaking ? 'animate-bounce' : ''}`} />
+                  </button>
+                )}
+              </div>
+              
+              <div className="pt-4 border-t border-gray-100 dark:border-white/5 flex justify-between items-center">
+                <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Medical context: Active</p>
+                <div className="flex gap-2">
+                  {['Chest Pain', 'Allergy', 'Bleeding'].map(tag => (
+                    <button key={tag} onClick={() => sendToAI(`How to handle ${tag}?`)} className="text-[8px] font-black text-blue-600 uppercase tracking-widest hover:underline">{tag}</button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
