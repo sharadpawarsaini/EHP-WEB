@@ -17,7 +17,7 @@ export const storage = new CloudinaryStorage({
       folder: 'ehp-profiles',
       allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
       transformation: [{ width: 500, height: 500, crop: 'limit' }],
-      public_id: `${req.user.userId}-${Date.now()}`
+      public_id: `${(req as any).user?.userId || 'anon'}-${Date.now()}`
     };
   },
 });
