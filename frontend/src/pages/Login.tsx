@@ -37,11 +37,7 @@ const Login = () => {
       login(data);
       navigate('/dashboard');
     } catch (err: any) {
-      if (err.response?.data?.notVerified) {
-        navigate('/verify-otp', { state: { email } });
-      } else {
-        setError(err.response?.data?.message || 'Access Denied: Invalid Credentials');
-      }
+      setError(err.response?.data?.message || 'Access Denied: Invalid Credentials');
     }
   };
 

@@ -8,7 +8,6 @@ import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import OtpVerification from './pages/OtpVerification';
 import Dashboard from './pages/Dashboard';
 import EmergencyPage from './pages/EmergencyPage';
 import About from './pages/About';
@@ -29,7 +28,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/verify-otp" element={<OtpVerification />} />
             <Route path="/e/:slug" element={<EmergencyPage />} />
             <Route path="/about" element={<About />} />
             <Route path="/faq" element={<FAQ />} />
