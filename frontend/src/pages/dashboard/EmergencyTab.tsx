@@ -151,6 +151,7 @@ const EmergencyTab = () => {
     doc.setFont('helvetica', 'bold');
     doc.text('EMERGENCY HEALTH PASSPORT', 5, 8);
     
+    // --- Photo (left side) ---
     const finalPhotoUrl = getFullPhotoUrl(profile.photoUrl || photoUrl);
     if (finalPhotoUrl) {
       try {
@@ -167,31 +168,50 @@ const EmergencyTab = () => {
       }
     }
 
+    // --- Name (constrained to not overlap QR) ---
+    // QR starts at x=60, so limit name text to x=22 through x=57 (35mm max width)
+    const maxNameWidth = 35;
     doc.setTextColor(31, 41, 55);
     doc.setFontSize(9);
     doc.setFont('helvetica', 'bold');
-    doc.text(profile.fullName.toUpperCase(), 22, 19);
+    const nameLines = doc.splitTextToSize(profile.fullName.toUpperCase(), maxNameWidth);
+    doc.text(nameLines[0], 22, 19); // first line
+    if (nameLines.length > 1) {
+      doc.text(nameLines[1], 22, 23); // second line if needed
+    }
     
+    // Blood group below the name
+    const bloodGroupY = nameLines.length > 1 ? 27 : 23;
     doc.setFontSize(6);
     doc.setTextColor(107, 114, 128);
-    doc.text('BLOOD GROUP', 22, 23);
+    doc.text('BLOOD GROUP', 22, bloodGroupY);
     doc.setFontSize(10);
     doc.setTextColor(cardColor);
-    doc.text(profile.bloodGroup || 'UNK', 22, 28);
+    doc.text(profile.bloodGroup || 'UNK', 22, bloodGroupY + 5);
 
+    // --- Emergency Contact (bottom-left) ---
     if (contacts && contacts.length > 0) {
       doc.setFontSize(6);
       doc.setTextColor(107, 114, 128);
       doc.text('EMERGENCY CONTACT', 5, 36);
       doc.setFontSize(7);
       doc.setTextColor(31, 41, 55);
-      doc.text(`${contacts[0].name} (${contacts[0].relation})`, 5, 40);
+      const contactText = `${contacts[0].name} (${contacts[0].relation})`;
+      const contactLines = doc.splitTextToSize(contactText, 50);
+      doc.text(contactLines[0], 5, 40);
       doc.setFontSize(8);
       doc.setTextColor(cardColor);
       doc.text(contacts[0].phone, 5, 44);
     }
 
-    doc.addImage(linkData.qrDataUrl, 'PNG', 50, 14, 30, 30);
+    // --- QR Code (right side, shifted further right and slightly smaller to avoid overlap) ---
+    doc.addImage(linkData.qrDataUrl, 'PNG', 60, 16, 22, 22);
+    
+    // "Scan" label under QR
+    doc.setFontSize(4);
+    doc.setTextColor(107, 114, 128);
+    doc.text('SCAN FOR INFO', 71, 41, { align: 'center' });
+
     doc.save(`${profile.fullName.replace(/\s+/g, '_')}_EHP_Card.pdf`);
   };
 
