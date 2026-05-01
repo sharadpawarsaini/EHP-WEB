@@ -3,6 +3,9 @@ import { User } from '../models/User';
 import { Profile } from '../models/Profile';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key');
 
 const generateToken = (res: Response, userId: any): string => {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET as string, {
@@ -28,20 +31,39 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
     const userExists = await User.findOne({ email });
 
     if (userExists) {
-      res.status(400).json({ message: 'User already exists' });
-      return;
+      if (userExists.isVerified) {
+        res.status(400).json({ message: 'User already exists' });
+        return;
+      }
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+    
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedOtp = await bcrypt.hash(otp, salt);
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
 
-    const user = await User.create({
-      email,
-      password: hashedPassword,
-    });
+    let user;
+    if (userExists && !userExists.isVerified) {
+      userExists.password = hashedPassword;
+      userExists.otp = hashedOtp;
+      userExists.otpExpires = otpExpires;
+      await userExists.save();
+      user = userExists;
+    } else {
+      user = await User.create({
+        email,
+        password: hashedPassword,
+        isVerified: false,
+        otp: hashedOtp,
+        otpExpires,
+      });
+    }
 
     if (user) {
       if (fullName && dob && gender && bloodGroup) {
+        if (userExists) await Profile.deleteOne({ userId: user._id });
         await Profile.create({
           userId: user._id,
           fullName,
@@ -51,11 +73,20 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
         });
       }
 
-      const token = generateToken(res, user._id);
+      try {
+        await resend.emails.send({
+          from: 'EHP Protocol <onboarding@resend.dev>',
+          to: email,
+          subject: 'EHP Identity Verification - OTP Code',
+          html: `<p>Your secure EHP verification code is: <strong style="font-size: 24px;">${otp}</strong></p><p>This code expires in 10 minutes.</p>`
+        });
+      } catch (err) {
+        console.error("Failed to send email", err);
+      }
+
       res.status(201).json({
-        _id: user._id,
-        email: user.email,
-        token,
+        message: 'OTP sent successfully to email',
+        email: user.email
       });
     } else {
       res.status(400).json({ message: 'Invalid user data' });
@@ -72,6 +103,11 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
+      if (!user.isVerified) {
+        res.status(401).json({ message: 'Please verify your email first', notVerified: true });
+        return;
+      }
+
       const token = generateToken(res, user._id);
       res.json({
         _id: user._id,
@@ -81,6 +117,92 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
     }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const verifyOTP = async (req: Request, res: Response): Promise<void> => {
+  const { email, otp } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    if (user.isVerified) {
+      res.status(400).json({ message: 'User is already verified' });
+      return;
+    }
+
+    if (!user.otp || !user.otpExpires || user.otpExpires.getTime() < Date.now()) {
+      res.status(400).json({ message: 'OTP expired or invalid. Please request a new one.' });
+      return;
+    }
+
+    const isMatch = await bcrypt.compare(otp, user.otp);
+    if (!isMatch) {
+      res.status(400).json({ message: 'Incorrect OTP' });
+      return;
+    }
+
+    user.isVerified = true;
+    user.otp = undefined;
+    user.otpExpires = undefined;
+    await user.save();
+
+    const token = generateToken(res, user._id);
+    res.json({
+      _id: user._id,
+      email: user.email,
+      token,
+      message: 'Email verified successfully'
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const resendOTP = async (req: Request, res: Response): Promise<void> => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    if (user.isVerified) {
+      res.status(400).json({ message: 'User is already verified' });
+      return;
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const salt = await bcrypt.genSalt(10);
+    const hashedOtp = await bcrypt.hash(otp, salt);
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
+
+    user.otp = hashedOtp;
+    user.otpExpires = otpExpires;
+    await user.save();
+
+    try {
+      await resend.emails.send({
+        from: 'EHP Protocol <onboarding@resend.dev>',
+        to: email,
+        subject: 'EHP Identity Verification - New OTP Code',
+        html: `<p>Your new secure EHP verification code is: <strong style="font-size: 24px;">${otp}</strong></p><p>This code expires in 10 minutes.</p>`
+      });
+    } catch (err) {
+      console.error("Failed to send email", err);
+    }
+
+    res.json({ message: 'New OTP sent successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }

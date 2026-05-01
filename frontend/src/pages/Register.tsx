@@ -37,11 +37,10 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const { data } = await api.post('/auth/register', { 
+      await api.post('/auth/register', { 
         email, password, fullName, dob, gender, bloodGroup 
       });
-      login(data);
-      navigate('/dashboard');
+      navigate('/verify-otp', { state: { email } });
     } catch (err: any) {
       setError(err.response?.data?.message || 'Protocol Failure: Account Generation Refused');
     }
