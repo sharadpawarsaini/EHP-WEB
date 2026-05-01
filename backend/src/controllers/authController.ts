@@ -3,9 +3,15 @@ import { User } from '../models/User';
 import { Profile } from '../models/Profile';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key');
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 const generateToken = (res: Response, userId: any): string => {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET as string, {
@@ -74,8 +80,8 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
       }
 
       try {
-        await resend.emails.send({
-          from: 'EHP Protocol <onboarding@resend.dev>',
+        await transporter.sendMail({
+          from: process.env.EMAIL_USER,
           to: email,
           subject: 'EHP Identity Verification - OTP Code',
           html: `<p>Your secure EHP verification code is: <strong style="font-size: 24px;">${otp}</strong></p><p>This code expires in 10 minutes.</p>`
@@ -192,8 +198,8 @@ export const resendOTP = async (req: Request, res: Response): Promise<void> => {
     await user.save();
 
     try {
-      await resend.emails.send({
-        from: 'EHP Protocol <onboarding@resend.dev>',
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER,
         to: email,
         subject: 'EHP Identity Verification - New OTP Code',
         html: `<p>Your new secure EHP verification code is: <strong style="font-size: 24px;">${otp}</strong></p><p>This code expires in 10 minutes.</p>`
