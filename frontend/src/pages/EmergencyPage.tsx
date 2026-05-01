@@ -179,26 +179,7 @@ const EmergencyPage = () => {
     }
   };
 
-  const getWhatsAppLink = (phone: string, name: string) => {
-    const baseUrl = "https://wa.me/";
-    const cleanPhone = phone.replace(/\D/g, "");
-    
-    // Attempt to get location link
-    const locationPromise = new Promise<string>((resolve) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (pos) => resolve(`https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`),
-          () => resolve("[Location not shared]")
-        );
-      } else {
-        resolve("[GPS not supported]");
-      }
-    });
 
-    const message = encodeURIComponent(`🚨 EMERGENCY ALERT: I am with ${name || 'someone'} who needs immediate medical assistance. \n\nPlease help! \n\nCheck my current location here: `);
-    
-    return { cleanPhone, message };
-  };
 
   const handleWhatsAppSOS = (phone: string, name: string) => {
     if (navigator.geolocation) {
