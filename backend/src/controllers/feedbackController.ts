@@ -56,7 +56,7 @@ export const submitFeedback = async (req: AuthRequest, res: Response): Promise<v
         // Fire and forget to avoid blocking the user response
         transporter.sendMail(mailOptions)
           .then(() => console.log(`Feedback email sent successfully to ${process.env.EMAIL_USER}`))
-          .catch(err => {
+          .catch((err: any) => {
             console.error('Background email failure:', err.message);
             console.error('TROUBLESHOOTING: Ensure you are using a 16-character Gmail APP PASSWORD, not your regular password. Also check if your server IP is blocked by Google.');
           });
