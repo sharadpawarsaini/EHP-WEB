@@ -57,7 +57,7 @@ export const updateProfilePhoto = async (req: AuthRequest, res: Response): Promi
       return;
     }
 
-    const photoUrl = `/uploads/${req.file.filename}`;
+    const photoUrl = (req.file as any).path;
     
     let profile = await Profile.findOne({ 
       userId: req.user.userId,

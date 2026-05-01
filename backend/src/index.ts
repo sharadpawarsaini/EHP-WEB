@@ -6,6 +6,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './config/db';
 import path from 'path';
+import fs from 'fs';
 
 // Route Imports
 import authRoutes from './routes/authRoutes';
@@ -27,6 +28,13 @@ const app = express();
 // Connect to Database
 connectDB();
 
+// Ensure Uploads folders exist
+const uploadRoot = path.join(__dirname, '../uploads');
+['reports', 'visits', 'profiles'].forEach(dir => {
+  const fullPath = path.join(uploadRoot, dir);
+  if (!fs.existsSync(fullPath)) fs.mkdirSync(fullPath, { recursive: true });
+});
+
 // CORS Configuration
 app.use(cors({
   origin: (origin, callback) => {
@@ -34,7 +42,8 @@ app.use(cors({
     const allowedOrigins = [
       'https://ehp-tan-eight.vercel.app',
       'https://ehp-web.onrender.com',
-      process.env.CORS_ORIGIN
+      process.env.CORS_ORIGIN,
+      process.env.FRONTEND_URL
     ].filter(Boolean);
     const isVercel = origin.endsWith('.vercel.app');
     const isLocal = origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1');
@@ -50,7 +59,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Static Files for Uploads
+// Robust Static File Serving
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // API Routes
@@ -71,7 +80,6 @@ app.use('/api/family', familyRoutes);
 // Health Check
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
-// 404 Handler
 app.use((req, res) => {
   res.status(404).json({ message: `Route ${req.originalUrl} not found` });
 });
