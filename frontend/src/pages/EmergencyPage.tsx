@@ -179,6 +179,43 @@ const EmergencyPage = () => {
     }
   };
 
+  const getWhatsAppLink = (phone: string, name: string) => {
+    const baseUrl = "https://wa.me/";
+    const cleanPhone = phone.replace(/\D/g, "");
+    
+    // Attempt to get location link
+    const locationPromise = new Promise<string>((resolve) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => resolve(`https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`),
+          () => resolve("[Location not shared]")
+        );
+      } else {
+        resolve("[GPS not supported]");
+      }
+    });
+
+    const message = encodeURIComponent(`🚨 EMERGENCY ALERT: I am with ${name || 'someone'} who needs immediate medical assistance. \n\nPlease help! \n\nCheck my current location here: `);
+    
+    return { cleanPhone, message };
+  };
+
+  const handleWhatsAppSOS = (phone: string, name: string) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const loc = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+          const text = encodeURIComponent(`🚨 EMERGENCY ALERT: I am with ${profile.fullName || 'someone'} who needs immediate medical assistance. \n\nPlease help! \n\nMy location: ${loc}`);
+          window.open(`https://wa.me/${phone.replace(/\D/g, "")}?text=${text}`, '_blank');
+        },
+        () => {
+          const text = encodeURIComponent(`🚨 EMERGENCY ALERT: I am with ${profile.fullName || 'someone'} who needs immediate medical assistance. \n\nPlease help!`);
+          window.open(`https://wa.me/${phone.replace(/\D/g, "")}?text=${text}`, '_blank');
+        }
+      );
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center text-white space-y-6">
@@ -694,12 +731,27 @@ const EmergencyPage = () => {
                        <h4 className="font-black text-gray-900 dark:text-white text-2xl tracking-tighter mb-1">{contact.name}</h4>
                        <span className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em] bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-100">{contact.relation}</span>
                     </div>
-                    <a 
-                      href={`tel:${contact.phone}`} 
-                      className="w-full flex items-center justify-center gap-4 bg-emerald-600 text-white py-5 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all"
-                    >
-                       <Phone className="h-5 w-5" /> {t('call')}
-                    </a>
+                    <div className="flex flex-col gap-3">
+                      <a 
+                        href={`tel:${contact.phone}`} 
+                        className="w-full flex items-center justify-center gap-4 bg-emerald-600 text-white py-4 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-xl shadow-emerald-600/20 hover:scale-[1.02] active:scale-95 transition-all"
+                      >
+                         <Phone className="h-4 w-4" /> {t('call')}
+                      </a>
+                      <button 
+                        onClick={() => handleWhatsAppSOS(contact.phone, profile.fullName)}
+                        className="w-full flex items-center justify-center gap-4 bg-white dark:bg-slate-900 text-emerald-600 border-2 border-emerald-500/30 py-4 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[0.3em] hover:bg-emerald-50 dark:hover:bg-emerald-900/10 transition-all relative group overflow-hidden"
+                      >
+                         <div className="absolute inset-0 bg-emerald-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                         <MessageSquare className="h-4 w-4 relative z-10" /> 
+                         <span className="relative z-10">WhatsApp SOS</span>
+                         <motion.div 
+                           animate={{ scale: [1, 1.2, 1] }} 
+                           transition={{ repeat: Infinity, duration: 2 }} 
+                           className="absolute top-2 right-4 w-2 h-2 bg-emerald-500 rounded-full"
+                         />
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
