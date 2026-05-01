@@ -181,7 +181,7 @@ const EmergencyPage = () => {
 
 
 
-  const handleWhatsAppSOS = (phone: string, name: string) => {
+  const handleWhatsAppSOS = (phone: string) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -720,7 +720,7 @@ const EmergencyPage = () => {
                          <Phone className="h-4 w-4" /> {t('call')}
                       </a>
                       <button 
-                        onClick={() => handleWhatsAppSOS(contact.phone, profile.fullName)}
+                        onClick={() => handleWhatsAppSOS(contact.phone)}
                         className="w-full flex items-center justify-center gap-4 bg-white dark:bg-slate-900 text-emerald-600 border-2 border-emerald-500/30 py-4 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[0.3em] hover:bg-emerald-50 dark:hover:bg-emerald-900/10 transition-all relative group overflow-hidden"
                       >
                          <div className="absolute inset-0 bg-emerald-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
