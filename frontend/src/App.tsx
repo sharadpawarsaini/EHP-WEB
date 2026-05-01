@@ -13,6 +13,8 @@ import EmergencyPage from './pages/EmergencyPage';
 import About from './pages/About';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 import Layout from './components/Layout';
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
             
             <Route
               path="/dashboard/*"
