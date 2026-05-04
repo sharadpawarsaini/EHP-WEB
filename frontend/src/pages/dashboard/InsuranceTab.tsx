@@ -90,14 +90,14 @@ const InsuranceTab = () => {
          <div className="flex gap-3 w-full md:w-auto">
             <button 
               onClick={handleAddPolicy}
-              className="btn-secondary px-6 py-2.5 text-sm"
+              className="btn-secondary px-6 py-2.5 text-base"
             >
               <Plus className="h-4 w-4" /> Add Policy
             </button>
             <button 
               onClick={handleSubmit} 
               disabled={saving} 
-              className="btn-primary px-8 py-2.5 text-sm"
+              className="btn-primary px-8 py-2.5 text-base"
             >
               {saving ? 'Syncing...' : 'Save Vault'}
             </button>

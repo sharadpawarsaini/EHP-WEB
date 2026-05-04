@@ -249,10 +249,10 @@ const OverviewTab = () => {
                       <v.icon className={`h-4 w-4 ${v.color}`} />
                    </div>
                 </div>
-                <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">{v.label}</p>
-                <p className="text-lg font-bold text-zinc-900 dark:text-white">
+                <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1">{v.label}</p>
+                <p className="text-xl font-bold text-zinc-900 dark:text-white">
                    {v.data ? v.data.value : '--'}
-                   <span className="text-[10px] ml-1 text-zinc-400 font-medium">{v.data?.unit}</span>
+                   <span className="text-xs ml-1 text-zinc-400 font-medium">{v.data?.unit}</span>
                 </p>
               </div>
             ))}
@@ -285,8 +285,8 @@ const OverviewTab = () => {
                   <PulseIcon className="h-5 w-5" />
                </div>
                <div className="text-left">
-                  <p className="font-bold text-zinc-900 dark:text-white leading-tight">Log Vital</p>
-                  <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Instant Track</p>
+                  <p className="text-base font-bold text-zinc-900 dark:text-white leading-tight">Log Vital</p>
+                  <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Instant Track</p>
                </div>
             </div>
             <Plus className="h-5 w-5 text-zinc-300 group-hover:text-rose-600 transition-colors" />
@@ -297,8 +297,8 @@ const OverviewTab = () => {
                   <FileText className="h-5 w-5" />
                </div>
                <div className="text-left">
-                  <p className="font-bold text-zinc-900 dark:text-white leading-tight">Upload Doc</p>
-                  <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Vault Secure</p>
+                  <p className="text-base font-bold text-zinc-900 dark:text-white leading-tight">Upload Doc</p>
+                  <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Vault Secure</p>
                </div>
             </div>
             <Plus className="h-5 w-5 text-zinc-300 group-hover:text-emerald-600 transition-colors" />

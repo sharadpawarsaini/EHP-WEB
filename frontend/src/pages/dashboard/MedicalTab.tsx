@@ -165,7 +165,7 @@ const MedicalTab = () => {
             <h2 className="text-3xl saas-heading">Clinical Passport</h2>
             <p className="saas-subtext">Global interoperable health history and clinical records</p>
          </div>
-         <button onClick={handleSubmit} disabled={saving} className="btn-primary px-8 py-3 text-sm">
+         <button onClick={handleSubmit} disabled={saving} className="btn-primary px-8 py-3 text-base">
             {saving ? 'Syncing...' : 'Save Changes'}
          </button>
       </div>

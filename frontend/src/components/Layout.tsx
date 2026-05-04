@@ -188,7 +188,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                       }`}
                     >
                       <Icon className={`mr-3 h-4 w-4 flex-shrink-0 ${isActive ? 'text-emerald-600' : 'text-zinc-400 group-hover:text-zinc-600'}`} />
-                      <span className="text-sm tracking-tight truncate">{item.name}</span>
+                      <span className="text-base tracking-tight truncate">{item.name}</span>
                     </Link>
                   );
                 })}
