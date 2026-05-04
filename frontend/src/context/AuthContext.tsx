@@ -8,7 +8,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (userData: User) => void;
+  login: (userData: any, stealth?: boolean) => void;
   logout: () => void;
   loading: boolean;
   isStealthMode: boolean;

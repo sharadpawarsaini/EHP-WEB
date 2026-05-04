@@ -19,6 +19,7 @@ import HospitalVisitsTab from './dashboard/HospitalVisitsTab';
 import IntegrationsTab from './dashboard/IntegrationsTab';
 import NFCTab from './dashboard/NFCTab';
 import InsuranceTab from './dashboard/InsuranceTab';
+import PrivacyVault from './dashboard/PrivacyVault';
 
 const Dashboard = () => {
   return (
@@ -43,6 +44,7 @@ const Dashboard = () => {
       <Route path="/settings" element={<SettingsTab />} />
       <Route path="/visits/:id" element={<HospitalVisitDetailsTab />} />
       <Route path="/nfc" element={<NFCTab />} />
+      <Route path="/vault" element={<PrivacyVault />} />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );

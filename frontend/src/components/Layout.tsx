@@ -29,7 +29,8 @@ import {
   Zap,
   Shield,
   EyeOff,
-  Rss
+  Rss,
+  Lock
 } from 'lucide-react';
 import { useProfileContext } from '../context/ProfileContext';
 import { useAuth } from '../context/AuthContext';
@@ -102,6 +103,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     {
       title: "System",
       items: [
+        { name: 'Privacy Vault', path: '/dashboard/vault', icon: Lock },
         { name: t('nav_logs'), path: '/dashboard/logs', icon: HistoryIcon },
         { name: 'Feedback', path: '/dashboard/feedback', icon: MessageSquareHeart },
         { name: 'Settings', path: '/dashboard/settings', icon: Settings },

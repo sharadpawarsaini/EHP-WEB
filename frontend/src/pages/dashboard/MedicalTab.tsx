@@ -4,29 +4,7 @@ import { ClipboardList, Shield, Activity, Plus, FileText, CheckCircle2, Info, Al
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 import { encryptMedicalRecord } from '../../utils/encryption';
-import api from '../../services/api';
-import { 
-  ClipboardList, 
-  Shield, 
-  Activity, 
-  Plus, 
-  FileText, 
-  CheckCircle2, 
-  Info, 
-  AlertCircle, 
-  Calendar, 
-  Hospital,
-  Heart,
-  Droplet,
-  Trash2,
-  ChevronRight,
-  Stethoscope,
-  Wind,
-  Zap
-} from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '../../context/AuthContext';
-import { EyeOff } from 'lucide-react';
+
 
 const InputField = ({ label, value, onChange, placeholder, icon: Icon }: any) => (
   <div className="space-y-2">
@@ -69,9 +47,9 @@ const MedicalTab = () => {
     }
   }, []);
 
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
-  const { isStealthMode, stealthData } = useAuth();
 
   // Hospital Visit State
   const [visitHospital, setVisitHospital] = useState('');
@@ -136,31 +114,7 @@ const MedicalTab = () => {
     }
   };
 
-    e.preventDefault();
-    setSaving(true);
-    
-    const payload = {
-      allergies: details.allergies.split(',').map(s => s.trim()).filter(Boolean),
-      conditions: details.conditions.split(',').map(s => s.trim()).filter(Boolean),
-      medications: details.medications.split(',').map(s => s.trim()).filter(Boolean),
-      surgeries: details.surgeries.split(',').map(s => s.trim()).filter(Boolean),
-      vaccinations: details.vaccinations.split(',').map(s => s.trim()).filter(Boolean),
-      familyHistory: details.familyHistory.split(',').map(s => s.trim()).filter(Boolean),
-      lifestyle: details.lifestyle,
-      notes: details.notes
-    };
 
-    try {
-      await api.post('/medical', payload);
-      setMessage('Medical details saved successfully');
-      setTimeout(() => setMessage(''), 3000);
-    } catch (err) {
-      console.error(err);
-      setMessage('Failed to save medical details');
-    } finally {
-      setSaving(false);
-    }
-  };
 
   const handleVisitSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
