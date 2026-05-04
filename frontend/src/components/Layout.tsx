@@ -128,11 +128,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="min-h-screen bg-white dark:bg-[#050505] transition-colors duration-500 flex font-sans selection:bg-primary-500/30 relative">
       
-      {/* Premium Theme Background Overlays */}
-      <div className="fixed inset-0 pointer-events-none z-0 hidden dark:block">
-         <div className="absolute top-0 left-0 w-full h-full bg-[#020617]"></div>
-         <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-primary-600/10 blur-[120px] rounded-full"></div>
-         <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-emerald-600/10 blur-[120px] rounded-full"></div>
+      {/* Premium Background Architecture */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+         <div className="absolute top-0 left-0 w-full h-full bg-slate-50 dark:bg-slate-950 transition-colors duration-700"></div>
+         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-teal-500/5 dark:bg-teal-500/10 blur-[160px] rounded-full animate-glow"></div>
+         <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-emerald-500/5 dark:bg-emerald-500/10 blur-[160px] rounded-full animate-glow delay-1000"></div>
       </div>
 
       {/* ── HIGH-FIDELITY SIDEBAR ── */}
@@ -140,12 +140,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         
         {/* Sidebar Header */}
         <div className="p-8 pb-4">
-          <div className="flex items-center justify-between mb-10">
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="p-2.5 bg-primary-600 rounded-2xl shadow-2xl shadow-primary-600/30 group-hover:scale-110 transition-transform animate-medical-pulse">
-                <Activity className="h-6 w-6 text-white" />
+          <div className="flex items-center justify-between mb-12">
+            <Link to="/" className="flex items-center gap-4 group">
+              <div className="p-3 bg-slate-900 dark:bg-white rounded-2xl shadow-premium group-hover:scale-110 transition-transform duration-500">
+                <Activity className="h-6 w-6 text-white dark:text-slate-900" />
               </div>
-              <span className="text-2xl font-black tracking-tighter text-slate-900 dark:text-white">EHP</span>
+              <span className="text-3xl font-black tracking-tighter text-slate-950 dark:text-white">EHP</span>
             </Link>
             <ThemeToggle />
           </div>
@@ -161,9 +161,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
              </div>
           </div>
 
-          <div className="flex items-center px-4 py-2 gap-3 mb-6">
-             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
-             <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Node Online</span>
+          <div className="flex items-center px-5 py-2.5 gap-3 mb-8">
+             <div className="w-2.5 h-2.5 rounded-full bg-teal-500 animate-pulse shadow-[0_0_15px_rgba(20,184,166,0.4)]"></div>
+             <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.3em]">Node Secure</span>
           </div>
         </div>
 
@@ -180,17 +180,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     <Link
                       key={item.name}
                       to={item.path}
-                      className={`flex items-center px-4 py-3.5 rounded-[1.25rem] transition-all group relative ${
+                      className={`flex items-center px-5 py-4 rounded-2xl transition-all group relative ${
                         isActive
-                          ? 'bg-primary-600 text-white font-black shadow-2xl shadow-primary-600/30 translate-x-1'
-                          : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-gray-200'
+                          ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-black shadow-premium'
+                          : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-950 dark:hover:text-white'
                       }`}
                     >
-                      <Icon className={`mr-4 h-5 w-5 flex-shrink-0 ${isActive ? 'text-white' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-600'}`} />
-                      <span className="text-xs font-bold tracking-tight truncate">{item.name}</span>
-                      {isActive && (
-                         <motion.div layoutId="sidebar-active" className="absolute left-[-1rem] w-1.5 h-8 bg-primary-600 rounded-r-full" />
-                      )}
+                      <Icon className={`mr-4 h-5 w-5 flex-shrink-0 ${isActive ? 'text-teal-400 dark:text-teal-600' : 'text-slate-400 dark:text-slate-600 group-hover:text-slate-900 dark:group-hover:text-slate-200'}`} />
+                      <span className="text-xs font-black tracking-tight truncate uppercase">{item.name}</span>
                     </Link>
                   );
                 })}
@@ -377,7 +374,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </header>
 
         {/* Content Shell */}
-        <div className="flex-1 overflow-auto p-6 md:p-12 pb-32 md:pb-12 bg-slate-50/50 dark:bg-[#020617] medical-grid">
+        <div className="flex-1 overflow-auto p-8 md:p-12 pb-32 md:pb-12 bg-slate-50 dark:bg-slate-950 transition-colors duration-700 no-scrollbar">
           <div className="max-w-7xl mx-auto">
             {children}
           </div>

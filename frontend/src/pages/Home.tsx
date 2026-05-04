@@ -93,23 +93,22 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen relative font-sans text-slate-900 dark:text-slate-100 overflow-x-hidden bg-slate-50 dark:bg-[#020617] transition-colors duration-500 medical-grid">
+    <div className="min-h-screen relative font-sans text-slate-900 dark:text-slate-100 overflow-x-hidden bg-slate-50 dark:bg-slate-950 transition-colors duration-700">
       
-      {/* Immersive Background Nodes */}
+      {/* Sophisticated Background Glows */}
       <div className="absolute top-0 left-0 w-full h-[1000px] pointer-events-none overflow-hidden">
-        <div className="absolute -top-[20%] -left-[10%] w-[70%] h-[80%] bg-primary-600/10 dark:bg-primary-600/5 blur-[120px] rounded-full animate-pulse"></div>
-        <div className="absolute top-[10%] -right-[10%] w-[60%] h-[70%] bg-green-600/10 dark:bg-green-600/5 blur-[120px] rounded-full animate-pulse delay-700"></div>
-        <div className="absolute bottom-0 left-[20%] w-[50%] h-[50%] bg-emerald-600/10 dark:bg-emerald-600/5 blur-[120px] rounded-full animate-pulse delay-1000"></div>
+        <div className="absolute -top-[10%] -left-[5%] w-[60%] h-[60%] bg-teal-500/5 dark:bg-teal-500/10 blur-[160px] rounded-full animate-glow"></div>
+        <div className="absolute top-[20%] -right-[5%] w-[50%] h-[50%] bg-emerald-500/5 dark:bg-emerald-500/10 blur-[160px] rounded-full animate-glow delay-1000"></div>
       </div>
 
       {/* Premium Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-xl border-b border-gray-100 dark:border-white/5 bg-white/70 dark:bg-[#0A0A0A]/70">
         <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="bg-primary-600 p-2.5 rounded-2xl shadow-2xl shadow-primary-600/30 group-hover:scale-110 transition-transform animate-medical-pulse">
-              <Activity className="h-6 w-6 text-white" />
+          <Link to="/" className="flex items-center gap-4 group">
+            <div className="bg-slate-900 dark:bg-white p-3 rounded-2xl shadow-premium group-hover:scale-110 transition-transform duration-500">
+              <Activity className="h-6 w-6 text-white dark:text-slate-900" />
             </div>
-            <span className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">EHP</span>
+            <span className="text-3xl font-black tracking-tighter text-slate-950 dark:text-white">EHP</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-10">
@@ -174,9 +173,9 @@ const Home = () => {
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-600">The Future of Emergency Triage</span>
            </motion.div>
 
-           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-6xl sm:text-8xl md:text-[10rem] font-black tracking-[calc(-0.04em)] text-slate-900 dark:text-white leading-[0.85] mb-10">
-             Your Life-Link <br/>
-             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-emerald-500 to-green-500">Always Connected.</span>
+           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-7xl sm:text-9xl md:text-[11rem] heading-premium mb-12">
+             Life-Link. <br/>
+             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-500">Universal.</span>
            </motion.h1>
 
            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-lg sm:text-2xl text-gray-500 dark:text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed font-medium">
@@ -193,29 +192,31 @@ const Home = () => {
            </motion.div>
         </section>
 
-        {/* Dynamic Feature Grid */}
-        <section className="max-w-7xl mx-auto px-6 mt-48 grid md:grid-cols-3 gap-10">
-           {[
-             { icon: QrCode, title: 'Instant QR ID', desc: 'Secure medical identification accessible via a high-fidelity QR node on your device lock screen.', color: 'text-primary-500', bg: 'bg-primary-50 dark:bg-primary-900/20' },
-             { icon: ShieldCheck, title: 'Encrypted Vault', desc: 'MIL-grade AES-256 encryption ensures your deep clinical history is only accessible to authorized medical nodes.', color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
-             { icon: Globe, title: 'Global Registry', desc: 'Access your health records anywhere in the world, unified through a single secure medical passport.', color: 'text-green-500', bg: 'bg-green-50 dark:bg-green-900/20' }
-           ].map((feat, i) => {
-             const Icon = feat.icon as any;
-             return (
-               <motion.div 
-                 key={i} 
-                 whileHover={{ y: -10 }}
-                 className="p-10 bg-white/50 dark:bg-white/5 backdrop-blur-xl rounded-[3rem] border border-white dark:border-white/10 shadow-2xl group transition-all"
-               >
-                  <div className={`w-16 h-16 ${feat.bg} rounded-2xl flex items-center justify-center mb-8 shadow-inner group-hover:scale-110 transition-transform`}>
-                     <Icon className={`h-8 w-8 ${feat.color}`} />
-                  </div>
-                  <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-4 tracking-tight">{feat.title}</h3>
-                  <p className="text-gray-500 dark:text-gray-400 font-medium leading-relaxed">{feat.desc}</p>
-               </motion.div>
-             );
-           })}
-        </section>
+         <section className="max-w-7xl mx-auto px-6 mt-60 grid md:grid-cols-3 gap-12">
+            {[
+              { icon: QrCode, title: 'Medical ID', desc: 'Secure encryption nodes accessible via high-fidelity QR telemetry.', color: 'text-teal-500', bg: 'bg-teal-50 dark:bg-teal-900/20' },
+              { icon: ShieldCheck, title: 'Vault Access', desc: 'Military-grade AES-256 protocols securing your deep clinical history.', color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
+              { icon: Globe, title: 'Global Registry', desc: 'Unified medical passport architecture for cross-border emergency response.', color: 'text-cyan-500', bg: 'bg-cyan-50 dark:bg-cyan-900/20' }
+            ].map((feat, i) => {
+              const Icon = feat.icon as any;
+              return (
+                <motion.div 
+                  key={i} 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="p-12 glass rounded-5xl group cursor-default"
+                >
+                   <div className={`w-16 h-16 ${feat.bg} rounded-2xl flex items-center justify-center mb-10 shadow-inner group-hover:scale-110 transition-transform duration-500`}>
+                      <Icon className={`h-8 w-8 ${feat.color}`} />
+                   </div>
+                   <h3 className="text-2xl font-black text-slate-950 dark:text-white mb-4 tracking-tight">{feat.title}</h3>
+                   <p className="subheading-premium">{feat.desc}</p>
+                </motion.div>
+              );
+            })}
+         </section>
 
         {/* Founder Deep Dive */}
         <section className="mt-48 max-w-7xl mx-auto px-6">

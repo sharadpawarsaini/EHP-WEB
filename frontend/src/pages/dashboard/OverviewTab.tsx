@@ -205,10 +205,10 @@ const OverviewTab = () => {
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700 pb-20 medical-grid">
-      {/* Top Banner: Safety Score & Welcome */}
-      <div className="grid lg:grid-cols-3 gap-6 sm:gap-8">
-        <div className="lg:col-span-2 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl rounded-[3rem] p-6 sm:p-10 shadow-2xl border border-white dark:border-emerald-500/10 overflow-hidden relative group card-gradient">
+    <div className="space-y-12 animate-in fade-in duration-1000 pb-20 no-scrollbar">
+      {/* Dynamic Header Section */}
+      <div className="grid lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 card-premium p-10 sm:p-12 overflow-hidden relative group">
           <div className="absolute top-0 right-0 p-8 opacity-5">
              <PulseIcon className="h-64 w-64" />
           </div>
@@ -222,8 +222,8 @@ const OverviewTab = () => {
                  )}
               </div>
               <div>
-                <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">Welcome, {data?.profile?.fullName?.split(' ')[0] || 'User'}</h1>
-                <p className="text-gray-500 dark:text-gray-400 font-medium">Passport readiness at {safetyScore}%. {age !== null && `Age: ${age}.`}</p>
+                <h1 className="text-4xl sm:text-5xl heading-premium mb-3">Welcome, {data?.profile?.fullName?.split(' ')[0] || 'User'}</h1>
+                <p className="subheading-premium">System health: <span className="text-teal-500 font-black">{safetyScore}%</span>. {age !== null && `Temporal Age: ${age}.`}</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 bg-gray-900 dark:bg-white p-5 rounded-[2rem] shadow-xl hover:scale-105 transition-transform cursor-pointer" onClick={() => navigate('/dashboard/profile')}>
@@ -237,45 +237,45 @@ const OverviewTab = () => {
             </div>
           </div>
           
-          <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 relative z-10">
+          <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6 relative z-10">
             {vitalCards.map((v, i) => (
               <div 
                 key={i} 
                 onClick={() => navigate(v.path)}
-                className="p-5 bg-white dark:bg-slate-900/50 rounded-3xl border border-slate-100 dark:border-slate-700 group hover:border-primary-500/30 transition-all cursor-pointer hover:shadow-2xl hover:shadow-primary-500/5"
+                className="p-6 bg-slate-50 dark:bg-white/5 rounded-3xl border border-slate-100 dark:border-white/5 group hover:border-teal-500/30 transition-all cursor-pointer hover:shadow-premium"
               >
-                <div className="flex justify-between items-start mb-3">
-                   <div className={`p-2 rounded-xl ${v.bg}`}>
-                      <v.icon className={`h-4 w-4 ${v.color}`} />
+                <div className="flex justify-between items-start mb-4">
+                   <div className={`p-2.5 rounded-xl ${v.bg} shadow-inner`}>
+                      <v.icon className={`h-5 w-5 ${v.color}`} />
                    </div>
-                   <TrendingUp className="h-3 w-3 text-gray-300 group-hover:text-primary-500 transition-colors" />
+                   <div className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
-                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest truncate">{v.label}</p>
-                <p className="text-xl font-black text-gray-900 dark:text-white truncate">
+                <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-1">{v.label}</p>
+                <p className="text-2xl font-black text-slate-950 dark:text-white">
                    {v.data ? v.data.value : '--'}
-                   <span className="text-[10px] ml-1 text-gray-400 font-bold">{v.data?.unit}</span>
+                   <span className="text-xs ml-1.5 text-slate-400 font-bold tracking-normal">{v.data?.unit}</span>
                 </p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-emerald-600 to-primary-700 rounded-[2.5rem] p-8 sm:p-10 text-white shadow-2xl shadow-emerald-600/30 flex flex-col justify-between relative overflow-hidden group">
-           <div className="absolute top-0 right-0 p-10 opacity-10 group-hover:scale-110 transition-transform duration-700">
-              <ShieldCheck className="h-40 w-40" />
+        <div className="bg-slate-900 dark:bg-white rounded-5xl p-10 text-white dark:text-slate-950 shadow-premium flex flex-col justify-between relative overflow-hidden group">
+           <div className="absolute top-0 right-0 p-12 opacity-10 group-hover:scale-110 transition-transform duration-1000">
+              <ShieldCheck className="h-48 w-48 text-teal-500" />
            </div>
            <div className="relative z-10">
-            <div className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-[1.2rem] flex items-center justify-center mb-8 border border-white/30">
-              <CheckCircle2 className="h-7 w-7 text-white" />
+            <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-10 shadow-glow">
+              <CheckCircle2 className="h-8 w-8 text-white" />
             </div>
-            <h3 className="text-2xl font-black mb-4 tracking-tight">AI Health Audit</h3>
-            <p className="text-primary-100 font-medium leading-relaxed">{getInsight()}</p>
+            <h3 className="text-3xl font-black mb-4 tracking-tighter">Health Intel</h3>
+            <p className="text-slate-400 dark:text-slate-500 font-medium leading-relaxed">{getInsight()}</p>
           </div>
           <button 
             onClick={() => navigate('/dashboard/profile')}
-            className="mt-8 flex items-center justify-center space-x-2 py-4 bg-white text-primary-700 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-primary-50 transition-all shadow-xl shadow-black/10 active:scale-95 relative z-10"
+            className="mt-10 flex items-center justify-center space-x-3 py-5 bg-white dark:bg-slate-950 text-slate-950 dark:text-white rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] hover:scale-[1.02] transition-all shadow-premium active:scale-95 relative z-10"
           >
-            <span>Optimize Profile</span>
+            <span>Run Diagnostics</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
