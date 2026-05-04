@@ -130,9 +130,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       
       {/* Premium Theme Background Overlays */}
       <div className="fixed inset-0 pointer-events-none z-0 hidden dark:block">
-         <div className="absolute top-0 left-0 w-full h-full bg-[#050505]"></div>
-         <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-primary-600/5 blur-[120px] rounded-full"></div>
-         <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-emerald-600/5 blur-[120px] rounded-full"></div>
+         <div className="absolute top-0 left-0 w-full h-full bg-[#020617]"></div>
+         <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-primary-600/10 blur-[120px] rounded-full"></div>
+         <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-emerald-600/10 blur-[120px] rounded-full"></div>
       </div>
 
       {/* ── HIGH-FIDELITY SIDEBAR ── */}
@@ -142,10 +142,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <div className="p-8 pb-4">
           <div className="flex items-center justify-between mb-10">
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="p-2 bg-primary-600 rounded-xl shadow-2xl shadow-primary-600/20 group-hover:scale-110 transition-transform">
+              <div className="p-2.5 bg-primary-600 rounded-2xl shadow-2xl shadow-primary-600/30 group-hover:scale-110 transition-transform animate-medical-pulse">
                 <Activity className="h-6 w-6 text-white" />
               </div>
-              <span className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">EHP</span>
+              <span className="text-2xl font-black tracking-tighter text-slate-900 dark:text-white">EHP</span>
             </Link>
             <ThemeToggle />
           </div>
@@ -377,7 +377,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </header>
 
         {/* Content Shell */}
-        <div className="flex-1 overflow-auto p-6 md:p-12 pb-32 md:pb-12 bg-white dark:bg-[#0A0A0A]">
+        <div className="flex-1 overflow-auto p-6 md:p-12 pb-32 md:pb-12 bg-slate-50/50 dark:bg-[#020617] medical-grid">
           <div className="max-w-7xl mx-auto">
             {children}
           </div>

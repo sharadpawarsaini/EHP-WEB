@@ -93,7 +93,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen relative font-sans text-gray-900 dark:text-gray-100 overflow-x-hidden bg-white dark:bg-[#0A0A0A] transition-colors duration-500">
+    <div className="min-h-screen relative font-sans text-slate-900 dark:text-slate-100 overflow-x-hidden bg-slate-50 dark:bg-[#020617] transition-colors duration-500 medical-grid">
       
       {/* Immersive Background Nodes */}
       <div className="absolute top-0 left-0 w-full h-[1000px] pointer-events-none overflow-hidden">
@@ -106,7 +106,7 @@ const Home = () => {
       <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-xl border-b border-gray-100 dark:border-white/5 bg-white/70 dark:bg-[#0A0A0A]/70">
         <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="bg-primary-600 p-2 rounded-xl shadow-2xl shadow-primary-600/20 group-hover:scale-110 transition-transform">
+            <div className="bg-primary-600 p-2.5 rounded-2xl shadow-2xl shadow-primary-600/30 group-hover:scale-110 transition-transform animate-medical-pulse">
               <Activity className="h-6 w-6 text-white" />
             </div>
             <span className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">EHP</span>
@@ -174,9 +174,9 @@ const Home = () => {
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-600">The Future of Emergency Triage</span>
            </motion.div>
 
-           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-5xl sm:text-7xl md:text-9xl font-black tracking-tighter text-gray-900 dark:text-white leading-[0.9] mb-8">
+           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-6xl sm:text-8xl md:text-[10rem] font-black tracking-[calc(-0.04em)] text-slate-900 dark:text-white leading-[0.85] mb-10">
              Your Life-Link <br/>
-             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-emerald-600 to-green-600">Always Connected.</span>
+             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-emerald-500 to-green-500">Always Connected.</span>
            </motion.h1>
 
            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-lg sm:text-2xl text-gray-500 dark:text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed font-medium">

@@ -205,10 +205,10 @@ const OverviewTab = () => {
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700 pb-20">
+    <div className="space-y-8 animate-in fade-in duration-700 pb-20 medical-grid">
       {/* Top Banner: Safety Score & Welcome */}
       <div className="grid lg:grid-cols-3 gap-6 sm:gap-8">
-        <div className="lg:col-span-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700 overflow-hidden relative">
+        <div className="lg:col-span-2 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl rounded-[3rem] p-6 sm:p-10 shadow-2xl border border-white dark:border-emerald-500/10 overflow-hidden relative group card-gradient">
           <div className="absolute top-0 right-0 p-8 opacity-5">
              <PulseIcon className="h-64 w-64" />
           </div>
@@ -242,7 +242,7 @@ const OverviewTab = () => {
               <div 
                 key={i} 
                 onClick={() => navigate(v.path)}
-                className="p-5 bg-gray-50 dark:bg-slate-900/50 rounded-3xl border border-gray-100 dark:border-slate-700 group hover:border-primary-500/20 transition-all cursor-pointer hover:shadow-lg hover:shadow-primary-500/5"
+                className="p-5 bg-white dark:bg-slate-900/50 rounded-3xl border border-slate-100 dark:border-slate-700 group hover:border-primary-500/30 transition-all cursor-pointer hover:shadow-2xl hover:shadow-primary-500/5"
               >
                 <div className="flex justify-between items-start mb-3">
                    <div className={`p-2 rounded-xl ${v.bg}`}>
@@ -283,17 +283,17 @@ const OverviewTab = () => {
 
       {/* Quick Actions Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-         <button onClick={() => navigate('/dashboard/vitals')} className="group flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-[2rem] border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20 dark:shadow-none hover:shadow-primary-500/10 transition-all">
-            <div className="flex items-center gap-4">
-               <div className="p-3 bg-rose-50 dark:bg-rose-900/20 rounded-2xl text-rose-600 group-hover:scale-110 transition-transform">
-                  <PulseIcon className="h-6 w-6" />
+         <button onClick={() => navigate('/dashboard/vitals')} className="group flex items-center justify-between p-7 bg-white dark:bg-slate-900/60 rounded-[2.5rem] border border-white dark:border-emerald-500/10 shadow-2xl hover:border-primary-500/30 transition-all card-gradient">
+            <div className="flex items-center gap-5">
+               <div className="p-4 bg-rose-50 dark:bg-rose-900/20 rounded-2xl text-rose-600 group-hover:scale-110 transition-transform animate-medical-pulse">
+                  <PulseIcon className="h-7 w-7" />
                </div>
                <div className="text-left">
-                  <p className="text-sm font-black text-gray-900 dark:text-white leading-none mb-1">Log Vital</p>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Instant Track</p>
+                  <p className="text-lg font-black text-slate-900 dark:text-white leading-none mb-1">Log Vital</p>
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">Instant Track</p>
                </div>
             </div>
-            <Plus className="h-5 w-5 text-gray-300 group-hover:text-rose-600" />
+            <Plus className="h-6 w-6 text-slate-300 group-hover:text-rose-600" />
          </button>
          <button onClick={() => navigate('/dashboard/reports')} className="group flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-[2rem] border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20 dark:shadow-none hover:shadow-emerald-500/10 transition-all">
             <div className="flex items-center gap-4">
