@@ -27,6 +27,7 @@ import {
   ShieldCheck,
   Bell,
   Zap,
+  Shield,
   Rss
 } from 'lucide-react';
 import { useProfileContext } from '../context/ProfileContext';
@@ -130,24 +131,22 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="min-h-screen bg-white dark:bg-[#050505] transition-colors duration-500 flex font-sans selection:bg-primary-500/30 relative">
       
-      {/* Premium Background Architecture */}
+      {/* Minimal Background Infrastructure */}
       <div className="fixed inset-0 pointer-events-none z-0">
-         <div className="absolute top-0 left-0 w-full h-full bg-slate-50 dark:bg-slate-950 transition-colors duration-700"></div>
-         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-teal-500/5 dark:bg-teal-500/10 blur-[160px] rounded-full animate-glow"></div>
-         <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-emerald-500/5 dark:bg-emerald-500/10 blur-[160px] rounded-full animate-glow delay-1000"></div>
+         <div className="absolute top-0 left-0 w-full h-full bg-zinc-50 dark:bg-zinc-950 transition-colors duration-500"></div>
       </div>
 
       {/* ── HIGH-FIDELITY SIDEBAR ── */}
       <aside className="w-72 bg-gray-50/50 dark:bg-[#0A0A0A] border-r border-gray-100 dark:border-white/5 flex-col hidden md:flex transition-all duration-500 flex-shrink-0 sticky top-0 h-screen overflow-hidden">
         
         {/* Sidebar Header */}
-        <div className="p-8 pb-4">
-          <div className="flex items-center justify-between mb-12">
-            <Link to="/" className="flex items-center gap-4 group">
-              <div className="p-3 bg-slate-900 dark:bg-white rounded-2xl shadow-premium group-hover:scale-110 transition-transform duration-500">
-                <Activity className="h-6 w-6 text-white dark:text-slate-900" />
+        <div className="p-6 pb-4">
+          <div className="flex items-center justify-between mb-10">
+            <Link to="/" className="flex items-center gap-2 group">
+              <div className="bg-emerald-600 p-2 rounded-xl shadow-sm transition-all duration-300">
+                <Activity className="h-5 w-5 text-white" />
               </div>
-              <span className="text-3xl font-black tracking-tighter text-slate-950 dark:text-white">EHP</span>
+              <span className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">EHP</span>
             </Link>
             <ThemeToggle />
           </div>
@@ -163,9 +162,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
              </div>
           </div>
 
-          <div className="flex items-center px-5 py-2.5 gap-3 mb-8">
-             <div className="w-2.5 h-2.5 rounded-full bg-teal-500 animate-pulse shadow-[0_0_15px_rgba(20,184,166,0.4)]"></div>
-             <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.3em]">Node Secure</span>
+          <div className="flex items-center px-4 py-2 gap-3 mb-6">
+             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+             <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">System Online</span>
           </div>
         </div>
 
@@ -182,14 +181,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     <Link
                       key={item.name}
                       to={item.path}
-                      className={`flex items-center px-5 py-4 rounded-2xl transition-all group relative ${
+                      className={`flex items-center px-4 py-2.5 rounded-xl transition-all group relative ${
                         isActive
-                          ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-black shadow-premium'
-                          : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-950 dark:hover:text-white'
+                          ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white font-semibold'
+                          : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
                       }`}
                     >
-                      <Icon className={`mr-4 h-5 w-5 flex-shrink-0 ${isActive ? 'text-teal-400 dark:text-teal-600' : 'text-slate-400 dark:text-slate-600 group-hover:text-slate-900 dark:group-hover:text-slate-200'}`} />
-                      <span className="text-xs font-black tracking-tight truncate uppercase">{item.name}</span>
+                      <Icon className={`mr-3 h-4 w-4 flex-shrink-0 ${isActive ? 'text-emerald-600' : 'text-zinc-400 group-hover:text-zinc-600'}`} />
+                      <span className="text-sm tracking-tight truncate">{item.name}</span>
                     </Link>
                   );
                 })}

@@ -93,22 +93,21 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen relative font-sans text-slate-900 dark:text-slate-100 overflow-x-hidden bg-slate-50 dark:bg-slate-950 transition-colors duration-700">
+    <div className="min-h-screen relative font-sans text-zinc-900 dark:text-zinc-100 overflow-x-hidden bg-white dark:bg-zinc-950 transition-colors duration-500">
       
-      {/* Sophisticated Background Glows */}
-      <div className="absolute top-0 left-0 w-full h-[1000px] pointer-events-none overflow-hidden">
-        <div className="absolute -top-[10%] -left-[5%] w-[60%] h-[60%] bg-teal-500/5 dark:bg-teal-500/10 blur-[160px] rounded-full animate-glow"></div>
-        <div className="absolute top-[20%] -right-[5%] w-[50%] h-[50%] bg-emerald-500/5 dark:bg-emerald-500/10 blur-[160px] rounded-full animate-glow delay-1000"></div>
+      {/* Minimal Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-[800px] pointer-events-none overflow-hidden opacity-50">
+        <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-emerald-100 dark:bg-emerald-900/20 blur-[120px] rounded-full"></div>
       </div>
 
       {/* Premium Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-xl border-b border-gray-100 dark:border-white/5 bg-white/70 dark:bg-[#0A0A0A]/70">
         <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-4 group">
-            <div className="bg-slate-900 dark:bg-white p-3 rounded-2xl shadow-premium group-hover:scale-110 transition-transform duration-500">
-              <Activity className="h-6 w-6 text-white dark:text-slate-900" />
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className="bg-emerald-600 p-2 rounded-xl shadow-sm transition-all duration-300">
+              <Activity className="h-5 w-5 text-white" />
             </div>
-            <span className="text-3xl font-black tracking-tighter text-slate-950 dark:text-white">EHP</span>
+            <span className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">EHP</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-10">
@@ -136,9 +135,9 @@ const Home = () => {
               ))}
             </div>
             <ThemeToggle />
-            <Link to="/login" className="hidden sm:block text-[10px] font-black uppercase tracking-widest text-gray-900 dark:text-white hover:opacity-70 transition-opacity">{t('nav_login', 'Log in')}</Link>
-            <Link to="/register" className="hidden sm:block bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-8 py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl hover:scale-105 active:scale-95 transition-all">
-              {t('nav_get_started', 'Get Started')}
+            <Link to="/login" className="hidden sm:block text-sm font-semibold text-zinc-900 dark:text-white hover:text-emerald-600 transition-colors">Sign In</Link>
+            <Link to="/register" className="hidden sm:block btn-primary py-2 px-6 text-sm">
+              Get Started
             </Link>
             <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-2 text-gray-900 dark:text-white">
               {menuOpen ? <X /> : <Menu />}
@@ -173,9 +172,9 @@ const Home = () => {
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-600">The Future of Emergency Triage</span>
            </motion.div>
 
-           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-7xl sm:text-9xl md:text-[11rem] heading-premium mb-12">
-             Life-Link. <br/>
-             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-500">Universal.</span>
+           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-5xl sm:text-7xl md:text-8xl saas-heading mb-8">
+             Global Health Identity. <br/>
+             <span className="text-emerald-600">Simpler than ever.</span>
            </motion.h1>
 
            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-lg sm:text-2xl text-gray-500 dark:text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed font-medium">
@@ -192,11 +191,11 @@ const Home = () => {
            </motion.div>
         </section>
 
-         <section className="max-w-7xl mx-auto px-6 mt-60 grid md:grid-cols-3 gap-12">
+         <section className="max-w-7xl mx-auto px-6 mt-40 grid md:grid-cols-3 gap-8">
             {[
-              { icon: QrCode, title: 'Medical ID', desc: 'Secure encryption nodes accessible via high-fidelity QR telemetry.', color: 'text-teal-500', bg: 'bg-teal-50 dark:bg-teal-900/20' },
-              { icon: ShieldCheck, title: 'Vault Access', desc: 'Military-grade AES-256 protocols securing your deep clinical history.', color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
-              { icon: Globe, title: 'Global Registry', desc: 'Unified medical passport architecture for cross-border emergency response.', color: 'text-cyan-500', bg: 'bg-cyan-50 dark:bg-cyan-900/20' }
+              { icon: QrCode, title: 'Medical ID', desc: 'Secure encryption nodes accessible via high-fidelity QR telemetry.', color: 'text-emerald-600', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
+              { icon: ShieldCheck, title: 'Vault Access', desc: 'Military-grade AES-256 protocols securing your deep clinical history.', color: 'text-emerald-600', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
+              { icon: Globe, title: 'Global Registry', desc: 'Unified medical passport architecture for cross-border emergency response.', color: 'text-emerald-600', bg: 'bg-emerald-50 dark:bg-emerald-900/20' }
             ].map((feat, i) => {
               const Icon = feat.icon as any;
               return (
@@ -206,13 +205,13 @@ const Home = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="p-12 glass rounded-5xl group cursor-default"
+                  className="p-8 saas-card"
                 >
-                   <div className={`w-16 h-16 ${feat.bg} rounded-2xl flex items-center justify-center mb-10 shadow-inner group-hover:scale-110 transition-transform duration-500`}>
-                      <Icon className={`h-8 w-8 ${feat.color}`} />
+                   <div className={`w-12 h-12 ${feat.bg} rounded-xl flex items-center justify-center mb-6`}>
+                      <Icon className={`h-6 w-6 ${feat.color}`} />
                    </div>
-                   <h3 className="text-2xl font-black text-slate-950 dark:text-white mb-4 tracking-tight">{feat.title}</h3>
-                   <p className="subheading-premium">{feat.desc}</p>
+                   <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">{feat.title}</h3>
+                   <p className="saas-subtext">{feat.desc}</p>
                 </motion.div>
               );
             })}

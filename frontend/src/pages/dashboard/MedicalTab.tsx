@@ -158,23 +158,23 @@ const MedicalTab = () => {
       {/* Header Widget */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
          <div>
-            <div className="flex items-center gap-2 mb-3">
-               <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Secure EMR</span>
-               <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Synced</span>
+            <div className="flex items-center gap-2 mb-2">
+               <span className="saas-badge bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20">Secure EMR</span>
+               <span className="saas-badge bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20">Synced</span>
             </div>
-            <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Clinical Passport</h2>
-            <p className="text-gray-500 dark:text-gray-400 font-medium">Global interoperable health history and clinical records</p>
+            <h2 className="text-3xl saas-heading">Clinical Passport</h2>
+            <p className="saas-subtext">Global interoperable health history and clinical records</p>
          </div>
-         <button onClick={handleSubmit} disabled={saving} className="w-full md:w-auto px-10 py-5 bg-primary-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-2xl shadow-primary-600/30 hover:scale-105 active:scale-95 transition-all">
+         <button onClick={handleSubmit} disabled={saving} className="btn-primary px-8 py-3 text-sm">
             {saving ? 'Syncing...' : 'Save Changes'}
          </button>
       </div>
 
       <AnimatePresence>
         {message && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="p-6 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/50 text-emerald-800 dark:text-emerald-400 rounded-3xl flex items-center shadow-lg">
-            <CheckCircle2 className="h-6 w-6 mr-4" />
-            <div className="flex-1 font-black uppercase text-xs tracking-widest">{message}</div>
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/50 text-emerald-700 dark:text-emerald-400 rounded-xl flex items-center shadow-sm">
+            <CheckCircle2 className="h-5 w-5 mr-3" />
+            <div className="text-xs font-bold uppercase tracking-widest">{message}</div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -182,13 +182,11 @@ const MedicalTab = () => {
       <form onSubmit={handleSubmit} className="space-y-10">
         
         {/* Core Medical Data */}
-        <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-xl border border-white dark:border-slate-700">
+        <div className="saas-card p-8 sm:p-10">
           <div className="grid lg:grid-cols-2 gap-10">
-             <div className="space-y-8">
-                <h3 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-4">
-                   <div className="p-3 bg-rose-50 dark:bg-rose-900/30 rounded-2xl">
-                      <Heart className="h-6 w-6 text-rose-600" />
-                   </div>
+             <div className="space-y-6">
+                <h3 className="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
+                   <Heart className="h-5 w-5 text-rose-600" />
                    Vital Indicators
                 </h3>
                 <InputField 
@@ -214,11 +212,9 @@ const MedicalTab = () => {
                 />
              </div>
 
-             <div className="space-y-8">
-                <h3 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-4">
-                   <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl">
-                      <Stethoscope className="h-6 w-6 text-emerald-600" />
-                   </div>
+             <div className="space-y-6">
+                <h3 className="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
+                   <Stethoscope className="h-5 w-5 text-emerald-600" />
                    Clinical History
                 </h3>
                 <InputField 
@@ -246,13 +242,11 @@ const MedicalTab = () => {
           </div>
         </div>
 
-        {/* Lifestyle & Wellness */}
-        <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-xl border border-white dark:border-slate-700">
-          <div className="flex items-center gap-4 mb-10">
-             <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl">
-                <Wind className="h-6 w-6 text-emerald-600" />
-             </div>
-             <h3 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Lifestyle & Wellness</h3>
+        {/* Lifestyle Protocol */}
+        <div className="saas-card p-8 sm:p-10">
+          <div className="flex items-center gap-3 mb-8">
+             <Wind className="h-5 w-5 text-emerald-600" />
+             <h3 className="text-lg font-bold text-zinc-900 dark:text-white tracking-tight">Lifestyle Protocol</h3>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             <button
@@ -299,38 +293,32 @@ const MedicalTab = () => {
           </div>
         </div>
 
-        {/* Insurance & Notes */}
-        <div className="grid lg:grid-cols-3 gap-10">
-
-           <div className="bg-gray-900 rounded-[3rem] p-8 sm:p-12 text-white relative overflow-hidden shadow-2xl">
-              <div className="absolute top-0 right-0 p-12 opacity-10">
-                 <FileText className="h-40 w-40" />
-              </div>
-              <h3 className="text-xl font-black mb-8 flex items-center gap-3">
-                 <Zap className="h-6 w-6 text-amber-400" />
-                 Responder Notes
+        {/* Responder Protocol */}
+        <div className="lg:col-span-3">
+           <div className="saas-card p-8 bg-zinc-900 text-white border-none shadow-sm">
+              <h3 className="text-sm font-bold mb-6 flex items-center gap-2">
+                 <Zap className="h-4 w-4 text-emerald-400" />
+                 Responder Protocol
               </h3>
               <textarea
-                rows={6}
+                rows={4}
                 value={details.notes}
                 onChange={(e) => setDetails({...details, notes: e.target.value})}
                 placeholder="Critical information for first responders..."
-                className="w-full p-6 bg-white/5 border border-white/10 rounded-3xl text-sm font-medium leading-relaxed outline-none focus:bg-white/10 transition-all resize-none placeholder:text-gray-500"
+                className="w-full p-5 bg-white/5 border border-white/10 rounded-xl text-sm font-medium leading-relaxed outline-none focus:bg-white/10 transition-all resize-none placeholder:text-zinc-500"
               />
            </div>
         </div>
       </form>
 
-      {/* Hospital Visit Records */}
-      <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-xl border border-white dark:border-slate-700 mt-10">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
-           <div className="flex items-center gap-4">
-              <div className="p-3 bg-gray-900 dark:bg-white rounded-2xl">
-                 <Hospital className="h-6 w-6 text-white dark:text-gray-900" />
-              </div>
+      {/* Visit Archive */}
+      <div className="saas-card p-8 sm:p-10 mt-10">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
+           <div className="flex items-center gap-3">
+              <Hospital className="h-5 w-5 text-emerald-600" />
               <div>
-                 <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Visit Archive</h2>
-                 <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Record clinical visits and store reports</p>
+                 <h2 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight">Visit Archive</h2>
+                 <p className="saas-subtext">Record clinical visits and store reports</p>
               </div>
            </div>
         </div>
@@ -345,20 +333,20 @@ const MedicalTab = () => {
                 icon={Hospital}
               />
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2 ml-1">
-                  <Calendar className="h-3 w-3 text-primary-500" /> Visit Date
+                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 ml-1">
+                  <Calendar className="h-3 w-3 text-emerald-500" /> Visit Date
                 </label>
                 <input
                   type="date"
                   value={visitDate}
                   onChange={(e) => setVisitDate(e.target.value)}
-                  className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-primary-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
+                  className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 outline-none text-gray-900 dark:text-white font-bold transition-all"
                 />
               </div>
            </div>
 
            <div className="space-y-4">
-              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block ml-1">Attachment Upload</label>
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block ml-1">Attachment Upload</label>
               <div className="relative group">
                  <input
                    type="file"
@@ -371,20 +359,20 @@ const MedicalTab = () => {
                    }}
                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                  />
-                 <div className="p-12 border-2 border-dashed border-gray-200 dark:border-slate-700 rounded-[2.5rem] flex flex-col items-center justify-center group-hover:border-primary-500 group-hover:bg-primary-50/30 transition-all bg-gray-50/30 dark:bg-slate-900/30">
+                 <div className="p-12 border-2 border-dashed border-gray-200 dark:border-slate-700 rounded-[2.5rem] flex flex-col items-center justify-center group-hover:border-emerald-500 group-hover:bg-emerald-50/30 transition-all bg-gray-50/30 dark:bg-slate-900/30">
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm mb-4">
-                       <Plus className="h-8 w-8 text-primary-600" />
+                       <Plus className="h-8 w-8 text-emerald-600" />
                     </div>
-                    <p className="text-sm font-black text-gray-900 dark:text-white">Click to Attach Medical Records</p>
-                    <p className="text-[10px] text-gray-400 mt-1 uppercase font-black tracking-widest">Supports PDF, JPG, PNG (Max 5 files)</p>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white">Click to Attach Medical Records</p>
+                    <p className="text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-widest">Supports PDF, JPG, PNG (Max 5 files)</p>
                  </div>
               </div>
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {visitDocuments.map((doc, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-4 bg-primary-50/50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800/30 rounded-2xl">
+                  <div key={idx} className="flex items-center justify-between p-4 bg-emerald-50/50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/30 rounded-2xl">
                     <div className="flex items-center gap-3 overflow-hidden">
-                       <FileText className="h-5 w-5 text-primary-600 flex-shrink-0" />
+                       <FileText className="h-5 w-5 text-emerald-600 flex-shrink-0" />
                        <span className="text-xs font-bold text-gray-900 dark:text-white truncate">{doc.name}</span>
                     </div>
                     <button type="button" onClick={() => setVisitDocuments(visitDocuments.filter((_, i) => i !== idx))} className="p-2 hover:text-red-600 transition-colors">
@@ -395,15 +383,15 @@ const MedicalTab = () => {
               </div>
            </div>
 
-           <div className="flex justify-end pt-6">
-              <button
-                type="submit"
-                disabled={visitSaving}
-                className="w-full sm:w-auto px-12 py-5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-black rounded-2xl shadow-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-70 text-xs uppercase tracking-[0.2em]"
-              >
-                {visitSaving ? 'Archiving...' : 'Record Visit'}
-              </button>
-           </div>
+            <div className="flex justify-end pt-6">
+               <button
+                 type="submit"
+                 disabled={visitSaving}
+                 className="btn-primary px-8 py-3 text-sm"
+               >
+                 {visitSaving ? 'Archiving...' : 'Record Visit'}
+               </button>
+            </div>
         </form>
       </div>
     </div>

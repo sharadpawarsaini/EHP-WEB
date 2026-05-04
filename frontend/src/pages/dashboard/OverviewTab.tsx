@@ -205,10 +205,10 @@ const OverviewTab = () => {
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
 
   return (
-    <div className="space-y-12 animate-in fade-in duration-1000 pb-20 no-scrollbar">
-      {/* Dynamic Header Section */}
-      <div className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 card-premium p-10 sm:p-12 overflow-hidden relative group">
+    <div className="space-y-8 animate-in fade-in duration-500 pb-20 no-scrollbar">
+      {/* Dashboard Header */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 saas-card p-8 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-5">
              <PulseIcon className="h-64 w-64" />
           </div>
@@ -222,8 +222,8 @@ const OverviewTab = () => {
                  )}
               </div>
               <div>
-                <h1 className="text-4xl sm:text-5xl heading-premium mb-3">Welcome, {data?.profile?.fullName?.split(' ')[0] || 'User'}</h1>
-                <p className="subheading-premium">System health: <span className="text-teal-500 font-black">{safetyScore}%</span>. {age !== null && `Temporal Age: ${age}.`}</p>
+                <h1 className="text-3xl saas-heading mb-1">Good day, {data?.profile?.fullName?.split(' ')[0] || 'User'}</h1>
+                <p className="saas-subtext">Your medical passport node is currently <span className="text-emerald-600 font-bold">synchronized</span>. Readiness: {safetyScore}%.</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 bg-gray-900 dark:bg-white p-5 rounded-[2rem] shadow-xl hover:scale-105 transition-transform cursor-pointer" onClick={() => navigate('/dashboard/profile')}>
@@ -237,45 +237,41 @@ const OverviewTab = () => {
             </div>
           </div>
           
-          <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6 relative z-10">
+          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 relative z-10">
             {vitalCards.map((v, i) => (
               <div 
                 key={i} 
                 onClick={() => navigate(v.path)}
-                className="p-6 bg-slate-50 dark:bg-white/5 rounded-3xl border border-slate-100 dark:border-white/5 group hover:border-teal-500/30 transition-all cursor-pointer hover:shadow-premium"
+                className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-100 dark:border-zinc-800 group hover:border-emerald-500/50 transition-all cursor-pointer"
               >
-                <div className="flex justify-between items-start mb-4">
-                   <div className={`p-2.5 rounded-xl ${v.bg} shadow-inner`}>
-                      <v.icon className={`h-5 w-5 ${v.color}`} />
+                <div className="flex justify-between items-start mb-2">
+                   <div className={`p-1.5 rounded-lg ${v.bg}`}>
+                      <v.icon className={`h-4 w-4 ${v.color}`} />
                    </div>
-                   <div className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
-                <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-1">{v.label}</p>
-                <p className="text-2xl font-black text-slate-950 dark:text-white">
+                <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">{v.label}</p>
+                <p className="text-lg font-bold text-zinc-900 dark:text-white">
                    {v.data ? v.data.value : '--'}
-                   <span className="text-xs ml-1.5 text-slate-400 font-bold tracking-normal">{v.data?.unit}</span>
+                   <span className="text-[10px] ml-1 text-zinc-400 font-medium">{v.data?.unit}</span>
                 </p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-slate-900 dark:bg-white rounded-5xl p-10 text-white dark:text-slate-950 shadow-premium flex flex-col justify-between relative overflow-hidden group">
-           <div className="absolute top-0 right-0 p-12 opacity-10 group-hover:scale-110 transition-transform duration-1000">
-              <ShieldCheck className="h-48 w-48 text-teal-500" />
-           </div>
+        <div className="saas-card p-8 flex flex-col justify-between relative overflow-hidden bg-zinc-900 text-white">
            <div className="relative z-10">
-            <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center mb-10 shadow-glow">
-              <CheckCircle2 className="h-8 w-8 text-white" />
+            <div className="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center mb-6">
+              <CheckCircle2 className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-3xl font-black mb-4 tracking-tighter">Health Intel</h3>
-            <p className="text-slate-400 dark:text-slate-500 font-medium leading-relaxed">{getInsight()}</p>
+            <h3 className="text-xl font-bold mb-2 tracking-tight">Security Protocol</h3>
+            <p className="text-zinc-400 text-sm font-medium leading-relaxed">{getInsight()}</p>
           </div>
           <button 
             onClick={() => navigate('/dashboard/profile')}
-            className="mt-10 flex items-center justify-center space-x-3 py-5 bg-white dark:bg-slate-950 text-slate-950 dark:text-white rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] hover:scale-[1.02] transition-all shadow-premium active:scale-95 relative z-10"
+            className="mt-8 btn-primary w-full py-3 text-sm"
           >
-            <span>Run Diagnostics</span>
+            <span>Run Audit</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
@@ -283,56 +279,54 @@ const OverviewTab = () => {
 
       {/* Quick Actions Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-         <button onClick={() => navigate('/dashboard/vitals')} className="group flex items-center justify-between p-7 bg-white dark:bg-slate-900/60 rounded-[2.5rem] border border-white dark:border-emerald-500/10 shadow-2xl hover:border-primary-500/30 transition-all card-gradient">
-            <div className="flex items-center gap-5">
-               <div className="p-4 bg-rose-50 dark:bg-rose-900/20 rounded-2xl text-rose-600 group-hover:scale-110 transition-transform animate-medical-pulse">
-                  <PulseIcon className="h-7 w-7" />
-               </div>
-               <div className="text-left">
-                  <p className="text-lg font-black text-slate-900 dark:text-white leading-none mb-1">Log Vital</p>
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">Instant Track</p>
-               </div>
-            </div>
-            <Plus className="h-6 w-6 text-slate-300 group-hover:text-rose-600" />
-         </button>
-         <button onClick={() => navigate('/dashboard/reports')} className="group flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-[2rem] border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20 dark:shadow-none hover:shadow-emerald-500/10 transition-all">
+         <button onClick={() => navigate('/dashboard/vitals')} className="saas-card p-6 flex items-center justify-between group">
             <div className="flex items-center gap-4">
-               <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl text-emerald-600 group-hover:scale-110 transition-transform">
-                  <FileText className="h-6 w-6" />
+               <div className="p-2.5 bg-rose-50 dark:bg-rose-900/20 rounded-xl text-rose-600 transition-transform">
+                  <PulseIcon className="h-5 w-5" />
                </div>
                <div className="text-left">
-                  <p className="text-sm font-black text-gray-900 dark:text-white leading-none mb-1">Upload Doc</p>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Vault Secure</p>
+                  <p className="font-bold text-zinc-900 dark:text-white leading-tight">Log Vital</p>
+                  <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Instant Track</p>
                </div>
             </div>
-            <Plus className="h-5 w-5 text-gray-300 group-hover:text-emerald-600" />
+            <Plus className="h-5 w-5 text-zinc-300 group-hover:text-rose-600 transition-colors" />
          </button>
-         <button onClick={() => navigate('/dashboard/appointments')} className="group flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-[2rem] border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20 dark:shadow-none hover:shadow-emerald-500/10 transition-all">
+         <button onClick={() => navigate('/dashboard/reports')} className="saas-card p-6 flex items-center justify-between group">
             <div className="flex items-center gap-4">
-               <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl text-emerald-600 group-hover:scale-110 transition-transform">
-                  <Calendar className="h-6 w-6" />
+               <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl text-emerald-600 transition-transform">
+                  <FileText className="h-5 w-5" />
                </div>
                <div className="text-left">
-                  <p className="text-sm font-black text-gray-900 dark:text-white leading-none mb-1">Schedule</p>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Next Visit</p>
+                  <p className="font-bold text-zinc-900 dark:text-white leading-tight">Upload Doc</p>
+                  <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Vault Secure</p>
                </div>
             </div>
-            <Plus className="h-5 w-5 text-gray-300 group-hover:text-emerald-600" />
+            <Plus className="h-5 w-5 text-zinc-300 group-hover:text-emerald-600 transition-colors" />
+         </button>
+         <button onClick={() => navigate('/dashboard/appointments')} className="saas-card p-6 flex items-center justify-between group">
+            <div className="flex items-center gap-4">
+               <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl text-emerald-600 transition-transform">
+                  <Calendar className="h-5 w-5" />
+               </div>
+               <div className="text-left">
+                  <p className="font-bold text-zinc-900 dark:text-white leading-tight">Schedule</p>
+                  <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Next Visit</p>
+               </div>
+            </div>
+            <Plus className="h-5 w-5 text-zinc-300 group-hover:text-emerald-600 transition-colors" />
          </button>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
           {/* Upcoming Appointments Section */}
-          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
+          <div className="saas-card p-8">
             <div className="flex justify-between items-center mb-8">
-               <h3 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-4">
-                  <div className="p-3 bg-primary-50 dark:bg-primary-900/30 rounded-2xl">
-                     <Calendar className="h-6 w-6 text-primary-600" />
-                  </div>
-                  Upcoming Appointments
+               <h3 className="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-3">
+                  <Calendar className="h-5 w-5 text-emerald-600" />
+                  Upcoming Visits
                </h3>
-               <button onClick={() => navigate('/dashboard/appointments')} className="text-[10px] font-black text-primary-600 uppercase tracking-widest hover:underline">View Calendar</button>
+               <button onClick={() => navigate('/dashboard/appointments')} className="text-[11px] font-bold text-emerald-600 uppercase tracking-widest hover:text-emerald-500">Full Schedule</button>
             </div>
             
             {upcomingAppointments && upcomingAppointments.length > 0 ? (
@@ -404,36 +398,35 @@ const OverviewTab = () => {
             </div>
           </div>
 
-          {/* Platform Stats / Community Pulse */}
-          <div className="grid sm:grid-cols-3 gap-6">
-            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-8 rounded-[2rem] border border-white dark:border-slate-700 shadow-sm">
-               <Shield className="h-8 w-8 text-primary-600 mb-4" />
-               <p className="text-3xl font-black text-gray-900 dark:text-white">99.9%</p>
-               <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Uptime & Security</p>
+          {/* Platform Stats */}
+          <div className="grid sm:grid-cols-3 gap-4">
+            <div className="saas-card p-6">
+               <Shield className="h-6 w-6 text-emerald-600 mb-4" />
+               <p className="text-2xl font-bold text-zinc-900 dark:text-white">99.9%</p>
+               <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Uptime & Security</p>
             </div>
-            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-8 rounded-[2rem] border border-white dark:border-slate-700 shadow-sm">
-               <Eye className="h-8 w-8 text-emerald-600 mb-4" />
-               <p className="text-3xl font-black text-gray-900 dark:text-white">50k+</p>
-               <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Global Health IDs</p>
+            <div className="saas-card p-6">
+               <Eye className="h-6 w-6 text-emerald-600 mb-4" />
+               <p className="text-2xl font-bold text-zinc-900 dark:text-white">50k+</p>
+               <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Global Health IDs</p>
             </div>
-            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-8 rounded-[2rem] border border-white dark:border-slate-700 shadow-sm">
-               <Zap className="h-8 w-8 text-amber-500 mb-4" />
-               <p className="text-3xl font-black text-gray-900 dark:text-white">Instant</p>
-               <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">SOS Data Fetch</p>
+            <div className="saas-card p-6">
+               <Zap className="h-6 w-6 text-emerald-600 mb-4" />
+               <p className="text-2xl font-bold text-zinc-900 dark:text-white">Instant</p>
+               <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">SOS Data Fetch</p>
             </div>
           </div>
         </div>
 
         {/* Right Column: Mini Widgets & Stats */}
-        <div className="space-y-8">
-          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700 overflow-hidden relative group">
-            <div className="absolute -top-12 -right-12 w-32 h-32 bg-emerald-500/10 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
+        <div className="space-y-6">
+          <div className="saas-card p-6">
             <div className="flex justify-between items-center mb-6">
-               <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center">
-                 <MapPin className="mr-2 h-5 w-5 text-emerald-600" />
+               <h3 className="text-sm font-bold text-zinc-900 dark:text-white flex items-center">
+                 <MapPin className="mr-2 h-4 w-4 text-emerald-600" />
                  SOS Points
                </h3>
-               {locLoading && <div className="animate-spin h-4 w-4 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full" />}
+               {locLoading && <div className="animate-spin h-3 w-3 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full" />}
             </div>
             
             <div className="space-y-6">
@@ -466,7 +459,7 @@ const OverviewTab = () => {
           </div>
 
           {/* Family Health Widget */}
-          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
+          <div className="saas-card p-8">
              <div className="flex justify-between items-center mb-6">
                <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
                  <Users className="h-5 w-5 text-primary-600" />
@@ -490,10 +483,10 @@ const OverviewTab = () => {
             <button onClick={() => navigate('/dashboard/family')} className="w-full py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all active:scale-95">Switch Profile</button>
           </div>
 
-          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
-            <h3 className="text-lg font-black text-gray-900 dark:text-white mb-6 flex items-center">
-              <Trophy className="mr-2 h-5 w-5 text-amber-500" />
-              Health XP
+          <div className="saas-card p-8">
+            <h3 className="text-sm font-bold text-zinc-900 dark:text-white mb-6 flex items-center">
+              <Trophy className="mr-2 h-4 w-4 text-amber-500" />
+              Health Reputation
             </h3>
             <div className="flex items-center space-x-4 mb-6">
               <div className="w-14 h-14 rounded-2xl border-4 border-amber-100 dark:border-amber-900/30 flex items-center justify-center p-1">
@@ -502,8 +495,8 @@ const OverviewTab = () => {
                 </div>
               </div>
               <div>
-                <p className="font-black text-sm text-gray-900 dark:text-white">Profile Level: {safetyScore > 90 ? 'Guardian' : 'Elite'}</p>
-                <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">{safetyScore}% Data Integrity</p>
+                <p className="font-bold text-sm text-zinc-900 dark:text-white">Status: {safetyScore > 90 ? 'Guardian' : 'Elite'}</p>
+                <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">{safetyScore}% Integrity Score</p>
               </div>
             </div>
             <div className="h-3 w-full bg-gray-100 dark:bg-slate-900 rounded-full overflow-hidden border border-gray-50 dark:border-slate-700">
@@ -516,15 +509,13 @@ const OverviewTab = () => {
             </div>
           </div>
 
-          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
+          <div className="saas-card p-8">
             <div className="flex justify-between items-center mb-6">
-               <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-3">
-                  <div className="p-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl">
-                     <FileText className="h-5 w-5 text-emerald-600" />
-                  </div>
-                  Recent Docs
+               <h3 className="text-sm font-bold text-zinc-900 dark:text-white flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-emerald-600" />
+                  Recent Documents
                </h3>
-               <button onClick={() => navigate('/dashboard/reports')} className="text-[10px] font-black text-emerald-600 uppercase tracking-widest hover:underline">All</button>
+               <button onClick={() => navigate('/dashboard/reports')} className="text-[11px] font-bold text-emerald-600 uppercase tracking-widest hover:text-emerald-500">View All</button>
             </div>
             <div className="space-y-4">
                {data?.reports?.slice(0, 3).map((report: any) => (
@@ -543,12 +534,9 @@ const OverviewTab = () => {
           </div>
 
           {/* Wearables Widget */}
-          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
+          <div className="saas-card p-8">
              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
-                   <WatchIcon className="h-5 w-5 text-primary-600" />
-                   Wearables
-                </h3>
+                <h3 className="text-sm font-bold text-zinc-900 dark:text-white mb-6">Wearable Protocol</h3>
                 <span className={`flex items-center gap-1.5 px-2 py-1 ${isWearableConnected ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600' : 'bg-gray-50 dark:bg-slate-700 text-gray-400'} text-[8px] font-black uppercase rounded-lg tracking-widest border ${isWearableConnected ? 'border-emerald-100 dark:border-emerald-800/30' : 'border-gray-200 dark:border-slate-600'}`}>
                    {isWearableConnected && <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />}
                    {isWearableConnected ? 'Active' : 'Offline'}
@@ -569,8 +557,8 @@ const OverviewTab = () => {
              <button onClick={() => navigate('/dashboard/integrations')} className="mt-4 w-full py-3 text-primary-600 dark:text-primary-400 font-black text-[10px] uppercase tracking-widest hover:underline">Manage Integrations</button>
           </div>
 
-          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
-             <h3 className="text-lg font-black text-gray-900 dark:text-white mb-6">Recent Activity</h3>
+          <div className="saas-card p-8">
+             <h3 className="text-sm font-bold text-zinc-900 dark:text-white mb-6">Activity Feed</h3>
              <div className="space-y-6">
                 {activityFeed.map((act, i) => (
                   <div key={i} className="flex gap-4 relative">
