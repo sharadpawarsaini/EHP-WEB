@@ -95,7 +95,7 @@ const ContactsTab = () => {
          <div>
             <div className="flex items-center gap-2 mb-3">
                <span className="px-3 py-1 bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 text-[10px] font-black uppercase tracking-widest rounded-full">Active Guard</span>
-               <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest rounded-full">SMS Priority</span>
+               <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-[10px] font-black uppercase tracking-widest rounded-full">SMS Priority</span>
             </div>
             <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Guardian Nodes</h2>
             <p className="text-gray-500 dark:text-gray-400 font-medium">Critical emergency contacts notified instantly during SOS triggers</p>
@@ -197,8 +197,8 @@ const ContactsTab = () => {
       <div className="grid md:grid-cols-2 gap-8">
          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-10 shadow-xl border border-white dark:border-slate-700">
             <h3 className="text-xl font-black text-gray-900 dark:text-white mb-6 flex items-center gap-4">
-               <div className="p-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl">
-                  <MessageSquare className="h-6 w-6 text-indigo-600" />
+               <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl">
+                  <MessageSquare className="h-6 w-6 text-emerald-600" />
                </div>
                Custom SOS Payload
             </h3>
@@ -206,7 +206,7 @@ const ContactsTab = () => {
                This intelligent payload is dispatched to all notified guardians along with your real-time GPS coordinates and bio-data pulse during an SOS event.
             </p>
             <textarea 
-              className="w-full p-6 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-[2rem] text-sm font-bold outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all resize-none placeholder:text-gray-400"
+              className="w-full p-6 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-[2rem] text-sm font-bold outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all resize-none placeholder:text-gray-400"
               placeholder="e.g. SOS TRIGERRED: Check my EHP Passport now for live biometric stream and location."
               rows={4}
             />

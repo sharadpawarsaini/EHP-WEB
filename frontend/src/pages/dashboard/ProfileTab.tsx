@@ -120,7 +120,7 @@ const ProfileTab = () => {
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-      <div className="w-10 h-10 border-4 border-indigo-600/20 border-t-indigo-600 rounded-full animate-spin" />
+      <div className="w-10 h-10 border-4 border-emerald-600/20 border-t-emerald-600 rounded-full animate-spin" />
       <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Accessing Secure Vault...</p>
     </div>
   );
@@ -132,7 +132,7 @@ const ProfileTab = () => {
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
          <div>
             <div className="flex items-center gap-2 mb-3">
-               <span className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest rounded-full">Level 4 Citizen</span>
+               <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Level 4 Citizen</span>
                <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Encrypted Identity</span>
             </div>
             <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Identity & Bio</h2>
@@ -173,7 +173,7 @@ const ProfileTab = () => {
                   </div>
                   <button 
                     onClick={() => fileInputRef.current?.click()}
-                    className="absolute -bottom-2 -right-2 p-4 bg-indigo-600 text-white rounded-[1.5rem] shadow-2xl hover:scale-110 transition-all border-4 border-white dark:border-slate-800 group-hover:rotate-12"
+                    className="absolute -bottom-2 -right-2 p-4 bg-emerald-600 text-white rounded-[1.5rem] shadow-2xl hover:scale-110 transition-all border-4 border-white dark:border-slate-800 group-hover:rotate-12"
                   >
                     <Camera className="h-5 w-5" />
                   </button>
@@ -182,10 +182,10 @@ const ProfileTab = () => {
                <div className="text-center sm:text-left space-y-4">
                   <div>
                      <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">{profile.fullName || 'Unidentified Member'}</h3>
-                     <p className="text-xs font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.3em] mt-1">EHP ID: #774-921-00</p>
+                     <p className="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.3em] mt-1">EHP ID: #774-921-00</p>
                   </div>
                   <div className="flex flex-wrap justify-center sm:justify-start gap-3">
-                     <span className="px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl text-[10px] font-black text-indigo-600 uppercase tracking-widest border border-indigo-100 dark:border-indigo-800/30">Biometrics Active</span>
+                     <span className="px-4 py-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl text-[10px] font-black text-emerald-600 uppercase tracking-widest border border-emerald-100 dark:border-emerald-800/30">Biometrics Active</span>
                      <span className="px-4 py-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl text-[10px] font-black text-emerald-600 uppercase tracking-widest border border-emerald-100 dark:border-emerald-800/30">Verified Node</span>
                   </div>
                </div>
@@ -200,7 +200,7 @@ const ProfileTab = () => {
                        required
                        value={profile.fullName}
                        onChange={(e) => setProfile({...profile, fullName: e.target.value})}
-                       className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
+                       className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
                        placeholder="Enter full name..."
                      />
                   </div>
@@ -211,7 +211,7 @@ const ProfileTab = () => {
                        required
                        value={profile.dob}
                        onChange={(e) => setProfile({...profile, dob: e.target.value})}
-                       className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
+                       className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
                      />
                   </div>
                   <div className="space-y-3">
@@ -219,7 +219,7 @@ const ProfileTab = () => {
                      <select
                        value={profile.gender}
                        onChange={(e) => setProfile({...profile, gender: e.target.value})}
-                       className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 outline-none text-gray-900 dark:text-white font-black transition-all appearance-none"
+                       className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 outline-none text-gray-900 dark:text-white font-black transition-all appearance-none"
                      >
                        <option value="Male">Male</option>
                        <option value="Female">Female</option>
@@ -233,7 +233,7 @@ const ProfileTab = () => {
                        required
                        value={profile.bloodGroup}
                        onChange={(e) => setProfile({...profile, bloodGroup: e.target.value})}
-                       className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 outline-none text-gray-900 dark:text-white font-black transition-all appearance-none"
+                       className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 outline-none text-gray-900 dark:text-white font-black transition-all appearance-none"
                      >
                         <option value="">Select Group</option>
                         {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(g => <option key={g} value={g}>{g}</option>)}
@@ -255,7 +255,7 @@ const ProfileTab = () => {
              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl border border-white dark:border-slate-700 flex flex-col justify-between">
                 <div>
                    <h3 className="text-xl font-black text-gray-900 dark:text-white mb-6 flex items-center gap-3">
-                      <Settings2 className="h-5 w-5 text-indigo-600" />
+                      <Settings2 className="h-5 w-5 text-emerald-600" />
                       Global Config
                    </h3>
                    <div className="space-y-4">
@@ -269,15 +269,15 @@ const ProfileTab = () => {
                       </div>
                    </div>
                 </div>
-                <button className="w-full mt-6 py-4 text-xs font-black uppercase tracking-widest text-indigo-600 hover:underline flex items-center justify-center gap-2">
+                <button className="w-full mt-6 py-4 text-xs font-black uppercase tracking-widest text-emerald-600 hover:underline flex items-center justify-center gap-2">
                    Advanced Preferences <ChevronRight className="h-4 w-4" />
                 </button>
              </div>
-             <div className="bg-gradient-to-br from-indigo-600 to-blue-700 rounded-[2.5rem] p-8 text-white shadow-xl shadow-blue-500/20 relative overflow-hidden group">
+             <div className="bg-gradient-to-br from-emerald-600 to-primary-700 rounded-[2.5rem] p-8 text-white shadow-xl shadow-primary-500/20 relative overflow-hidden group">
                 <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
                 <Zap className="h-8 w-8 text-amber-400 mb-6" />
                 <h3 className="text-xl font-black mb-2 uppercase tracking-tighter">EHP Pro Sync</h3>
-                <p className="text-blue-100/80 text-sm font-medium leading-relaxed mb-6">
+                <p className="text-primary-100/80 text-sm font-medium leading-relaxed mb-6">
                    Your clinical identity is automatically synchronized across all nodes of the EHP network including emergency responders.
                 </p>
                 <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-white/10 p-3 rounded-xl border border-white/10 backdrop-blur-md">
@@ -295,7 +295,7 @@ const ProfileTab = () => {
              className="relative group perspective-1000"
            >
               <div className="bg-gray-900 rounded-[3rem] p-10 text-white shadow-3xl relative overflow-hidden h-[500px] flex flex-col justify-between border border-white/10">
-                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/20 via-transparent to-blue-600/20"></div>
+                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-transparent to-primary-600/20"></div>
                  <div className="absolute -bottom-20 -right-20 p-20 opacity-10">
                     <QrCode className="h-64 w-64" />
                  </div>
@@ -303,7 +303,7 @@ const ProfileTab = () => {
                  <div className="relative z-10 flex justify-between items-start">
                     <div className="flex items-center gap-3">
                        <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-md">
-                          <Binary className="h-6 w-6 text-indigo-400" />
+                          <Binary className="h-6 w-6 text-emerald-400" />
                        </div>
                        <span className="text-lg font-black tracking-tighter uppercase">Clinical Passport</span>
                     </div>
@@ -324,7 +324,7 @@ const ProfileTab = () => {
                     <div className="grid grid-cols-2 gap-10">
                        <div>
                           <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">Blood Type</p>
-                          <p className="text-2xl font-black text-indigo-400">{profile.bloodGroup || '--'}</p>
+                          <p className="text-2xl font-black text-emerald-400">{profile.bloodGroup || '--'}</p>
                        </div>
                        <div>
                           <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">Birth Cycle</p>
@@ -365,7 +365,7 @@ const ProfileTab = () => {
                     </button>
                  </div>
                  
-                 <button className="w-full p-5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-3xl font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 border border-indigo-100 dark:border-indigo-800/30 hover:bg-indigo-600 hover:text-white transition-all group">
+                 <button className="w-full p-5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-3xl font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 border border-emerald-100 dark:border-emerald-800/30 hover:bg-emerald-600 hover:text-white transition-all group">
                     View Active Sessions
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                  </button>

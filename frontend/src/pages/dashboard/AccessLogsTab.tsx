@@ -45,7 +45,7 @@ const AccessLogsTab = () => {
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-      <div className="w-10 h-10 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
+      <div className="w-10 h-10 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin" />
       <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Auditing Access Vault...</p>
     </div>
   );
@@ -78,7 +78,7 @@ const AccessLogsTab = () => {
                </div>
                <div className="p-4 bg-gray-50/50 dark:bg-slate-900/50 rounded-2xl border border-gray-100 dark:border-slate-700">
                   <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Unique IPs</p>
-                  <p className="text-xl font-black text-blue-600">{new Set(logs.map(l => l.ipAddress)).size}</p>
+                  <p className="text-xl font-black text-primary-600">{new Set(logs.map(l => l.ipAddress)).size}</p>
                </div>
             </div>
          </div>
@@ -122,7 +122,7 @@ const AccessLogsTab = () => {
                   <tr key={log._id} className="hover:bg-gray-50/50 dark:hover:bg-slate-700/50 transition-colors group">
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-4">
-                        <div className={`p-3 rounded-2xl transition-all ${log.accessType === 'doctor' ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30' : 'bg-blue-50 text-blue-600 dark:bg-blue-900/30'}`}>
+                        <div className={`p-3 rounded-2xl transition-all ${log.accessType === 'doctor' ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30' : 'bg-primary-50 text-primary-600 dark:bg-primary-900/30'}`}>
                            {log.accessType === 'doctor' ? <ShieldCheck className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                         </div>
                         <div>
@@ -143,7 +143,7 @@ const AccessLogsTab = () => {
                     <td className="px-8 py-6">
                       <div className="space-y-1">
                         <div className="flex items-center gap-2 text-sm font-bold text-gray-700 dark:text-gray-300">
-                          <Navigation className="h-3.5 w-3.5 text-blue-500" />
+                          <Navigation className="h-3.5 w-3.5 text-primary-500" />
                           <span className="font-mono">{log.ipAddress || 'Anonymized'}</span>
                         </div>
                         <p className="text-[10px] font-black text-emerald-600 uppercase flex items-center gap-1 ml-5">

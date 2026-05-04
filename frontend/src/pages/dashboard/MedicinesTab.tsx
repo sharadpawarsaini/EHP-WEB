@@ -86,7 +86,7 @@ const MedicinesTab = () => {
         </div>
         <button 
           onClick={() => setShowAdd(true)}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-indigo-500/30 transition-all hover:scale-105 active:scale-95"
+          className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-emerald-500/30 transition-all hover:scale-105 active:scale-95"
         >
           <Plus className="h-5 w-5" /> Add Medicine
         </button>
@@ -95,7 +95,7 @@ const MedicinesTab = () => {
       {/* Interaction Checker - STAND OUT FEATURE */}
       <div className="bg-gradient-to-br from-gray-900 to-slate-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-2xl">
          <div className="absolute top-0 right-0 p-8 opacity-20">
-            <ShieldCheck className="h-32 w-32 text-blue-400" />
+            <ShieldCheck className="h-32 w-32 text-primary-400" />
          </div>
          <div className="relative z-10">
             <h3 className="text-xl font-black mb-2 flex items-center gap-3">
@@ -107,7 +107,7 @@ const MedicinesTab = () => {
             <div className="grid sm:grid-cols-2 gap-4 max-w-3xl">
                <div className="space-y-2">
                   <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Medication A</label>
-                  <select className="w-full p-4 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-500/50">
+                  <select className="w-full p-4 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-primary-500/50">
                      <option className="text-black">Select Primary...</option>
                      <option className="text-black">Aspirin</option>
                      <option className="text-black">Warfarin</option>
@@ -116,7 +116,7 @@ const MedicinesTab = () => {
                </div>
                <div className="space-y-2">
                   <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Medication B</label>
-                  <select className="w-full p-4 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-500/50">
+                  <select className="w-full p-4 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-primary-500/50">
                      <option className="text-black">Select Secondary...</option>
                      <option className="text-black">Blood Thinners</option>
                      <option className="text-black">Alcohol</option>
@@ -135,12 +135,12 @@ const MedicinesTab = () => {
         {medicines.map((m) => (
           <div key={m._id} className={`group bg-white dark:bg-slate-800 p-6 rounded-[2rem] border transition-all duration-300 ${m.active ? 'border-gray-100 dark:border-slate-700 shadow-sm' : 'border-dashed border-gray-200 dark:border-slate-800 opacity-60'}`}>
             <div className="flex justify-between items-start mb-4">
-              <div className={`p-3 rounded-2xl ${m.active ? 'bg-indigo-50 dark:bg-indigo-900/30' : 'bg-gray-50 dark:bg-slate-900'}`}>
-                <Pill className={`h-6 w-6 ${m.active ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-400'}`} />
+              <div className={`p-3 rounded-2xl ${m.active ? 'bg-emerald-50 dark:bg-emerald-900/30' : 'bg-gray-50 dark:bg-slate-900'}`}>
+                <Pill className={`h-6 w-6 ${m.active ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-400'}`} />
               </div>
               <div className="flex gap-2">
                 <button onClick={() => handleToggle(m._id)} className="p-2 hover:bg-gray-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
-                  {m.active ? <ToggleRight className="h-6 w-6 text-indigo-600" /> : <ToggleLeft className="h-6 w-6 text-gray-400" />}
+                  {m.active ? <ToggleRight className="h-6 w-6 text-emerald-600" /> : <ToggleLeft className="h-6 w-6 text-gray-400" />}
                 </button>
                 <button onClick={() => handleDelete(m._id)} className="p-2 hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-400 hover:text-red-500 rounded-xl transition-colors">
                   <Trash2 className="h-5 w-5" />
@@ -149,11 +149,11 @@ const MedicinesTab = () => {
             </div>
 
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{m.name}</h3>
-            <p className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 mb-4">{m.dosage}</p>
+            <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 mb-4">{m.dosage}</p>
 
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-slate-900/50 p-3 rounded-xl">
-                <Clock className="h-4 w-4 text-indigo-500" />
+                <Clock className="h-4 w-4 text-emerald-500" />
                 <span>{m.frequency} • {m.times.join(', ')}</span>
               </div>
               {m.notes && (
@@ -209,7 +209,7 @@ const MedicinesTab = () => {
                   required 
                   value={formData.name} 
                   onChange={e => setFormData({...formData, name: e.target.value})}
-                  className="w-full p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all outline-none"
+                  className="w-full p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 transition-all outline-none"
                   placeholder="e.g. Paracetamol"
                 />
               </div>
@@ -219,7 +219,7 @@ const MedicinesTab = () => {
                   required 
                   value={formData.dosage} 
                   onChange={e => setFormData({...formData, dosage: e.target.value})}
-                  className="w-full p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                  className="w-full p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none"
                   placeholder="e.g. 500mg"
                 />
               </div>
@@ -228,7 +228,7 @@ const MedicinesTab = () => {
                 <select 
                   value={formData.frequency} 
                   onChange={e => setFormData({...formData, frequency: e.target.value})}
-                  className="w-full p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                  className="w-full p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none"
                 >
                   <option>Once a day</option>
                   <option>Twice a day</option>
@@ -245,7 +245,7 @@ const MedicinesTab = () => {
                     required
                     value={formData.times[0]}
                     onChange={e => setFormData({...formData, times: [e.target.value]})}
-                    className="flex-1 p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                    className="flex-1 p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none"
                   />
                 </div>
               </div>
@@ -254,13 +254,13 @@ const MedicinesTab = () => {
                 <textarea 
                   value={formData.notes} 
                   onChange={e => setFormData({...formData, notes: e.target.value})}
-                  className="w-full p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none h-24 resize-none"
+                  className="w-full p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none h-24 resize-none"
                   placeholder="Take after food..."
                 />
               </div>
               <div className="col-span-2 flex gap-4 pt-4">
                 <button type="button" onClick={() => setShowAdd(false)} className="flex-1 py-4 rounded-2xl font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Cancel</button>
-                <button type="submit" className="flex-1 py-4 rounded-2xl font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-xl shadow-indigo-500/20 transition-all active:scale-95">Schedule</button>
+                <button type="submit" className="flex-1 py-4 rounded-2xl font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-xl shadow-emerald-500/20 transition-all active:scale-95">Schedule</button>
               </div>
             </form>
           </div>

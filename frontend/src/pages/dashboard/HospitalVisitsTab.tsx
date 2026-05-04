@@ -77,7 +77,7 @@ const HospitalVisitsTab = () => {
          <div>
             <div className="flex items-center gap-2 mb-3">
                <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Audited Records</span>
-               <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest rounded-full">Cloud Sync</span>
+               <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-[10px] font-black uppercase tracking-widest rounded-full">Cloud Sync</span>
             </div>
             <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight mb-2">Hospital Archive</h2>
             <p className="text-gray-500 dark:text-gray-400 font-medium">Consolidated history of clinical visits and attached medical reports</p>
@@ -111,8 +111,8 @@ const HospitalVisitsTab = () => {
             </div>
          </div>
          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2rem] p-6 border border-white dark:border-slate-700 shadow-sm flex items-center gap-4">
-            <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-xl">
-               <FileText className="h-5 w-5 text-blue-600" />
+            <div className="p-3 bg-primary-50 dark:bg-primary-900/30 rounded-xl">
+               <FileText className="h-5 w-5 text-primary-600" />
             </div>
             <div>
                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Documents</p>
@@ -178,7 +178,7 @@ const HospitalVisitsTab = () => {
 
                       <div className="flex flex-wrap gap-3 pt-4">
                          <div className="px-4 py-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl text-[10px] font-black uppercase tracking-widest text-emerald-600 border border-emerald-100 dark:border-emerald-800/30">Facility Verified</div>
-                         <div className="px-4 py-2 bg-blue-50 dark:bg-blue-900/30 rounded-xl text-[10px] font-black uppercase tracking-widest text-blue-600 border border-blue-100 dark:border-blue-800/30">Clinical Record</div>
+                         <div className="px-4 py-2 bg-primary-50 dark:bg-primary-900/30 rounded-xl text-[10px] font-black uppercase tracking-widest text-primary-600 border border-primary-100 dark:border-primary-800/30">Clinical Record</div>
                       </div>
                       <button 
                         onClick={() => navigate(`/dashboard/visits/${visit._id}`)}
@@ -299,11 +299,11 @@ const HospitalVisitsTab = () => {
       </div>
 
       {/* Safety Info */}
-      <div className="p-8 bg-blue-50 dark:bg-blue-900/10 rounded-[2.5rem] border border-blue-100 dark:border-blue-900/30 flex items-start gap-5">
-         <Info className="h-6 w-6 text-blue-600 flex-shrink-0 mt-0.5" />
+      <div className="p-8 bg-primary-50 dark:bg-primary-900/10 rounded-[2.5rem] border border-primary-100 dark:border-primary-900/30 flex items-start gap-5">
+         <Info className="h-6 w-6 text-primary-600 flex-shrink-0 mt-0.5" />
          <div>
-            <p className="text-sm font-black text-blue-900 dark:text-blue-300 uppercase tracking-widest mb-1">Global Interoperability</p>
-            <p className="text-xs text-blue-700 dark:text-blue-400 leading-relaxed font-medium">All visits recorded here are automatically formatted for HL7/FHIR compatibility. You can export this history as a consolidated medical passport from the Settings tab.</p>
+            <p className="text-sm font-black text-primary-900 dark:text-primary-300 uppercase tracking-widest mb-1">Global Interoperability</p>
+            <p className="text-xs text-primary-700 dark:text-primary-400 leading-relaxed font-medium">All visits recorded here are automatically formatted for HL7/FHIR compatibility. You can export this history as a consolidated medical passport from the Settings tab.</p>
          </div>
       </div>
     </div>

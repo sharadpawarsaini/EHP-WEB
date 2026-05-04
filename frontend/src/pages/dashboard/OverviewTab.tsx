@@ -177,7 +177,7 @@ const OverviewTab = () => {
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
-      <div className="w-12 h-12 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
+      <div className="w-12 h-12 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin" />
       <p className="text-gray-500 dark:text-gray-400 font-bold tracking-widest uppercase text-[10px]">Syncing Health Intelligence...</p>
     </div>
   );
@@ -199,7 +199,7 @@ const OverviewTab = () => {
 
   // Recent Activity Feed
   const activityFeed = [
-    ...(data?.reports || []).map((r: any) => ({ type: 'report', date: r.createdAt, title: `Report uploaded: ${r.title}`, icon: FileText, color: 'text-indigo-500', bg: 'bg-indigo-50 dark:bg-indigo-900/20' })),
+    ...(data?.reports || []).map((r: any) => ({ type: 'report', date: r.createdAt, title: `Report uploaded: ${r.title}`, icon: FileText, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' })),
     ...(data?.vitals || []).map((v: any) => ({ type: 'vital', date: v.date, title: `Vital tracked: ${v.type}`, icon: Activity, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-900/20' })),
     ...(data?.visits || []).map((v: any) => ({ type: 'visit', date: v.visitDate, title: `Hospital Visit: ${v.hospitalName}`, icon: Hospital, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' }))
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
@@ -242,13 +242,13 @@ const OverviewTab = () => {
               <div 
                 key={i} 
                 onClick={() => navigate(v.path)}
-                className="p-5 bg-gray-50 dark:bg-slate-900/50 rounded-3xl border border-gray-100 dark:border-slate-700 group hover:border-blue-500/20 transition-all cursor-pointer hover:shadow-lg hover:shadow-blue-500/5"
+                className="p-5 bg-gray-50 dark:bg-slate-900/50 rounded-3xl border border-gray-100 dark:border-slate-700 group hover:border-primary-500/20 transition-all cursor-pointer hover:shadow-lg hover:shadow-primary-500/5"
               >
                 <div className="flex justify-between items-start mb-3">
                    <div className={`p-2 rounded-xl ${v.bg}`}>
                       <v.icon className={`h-4 w-4 ${v.color}`} />
                    </div>
-                   <TrendingUp className="h-3 w-3 text-gray-300 group-hover:text-blue-500 transition-colors" />
+                   <TrendingUp className="h-3 w-3 text-gray-300 group-hover:text-primary-500 transition-colors" />
                 </div>
                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest truncate">{v.label}</p>
                 <p className="text-xl font-black text-gray-900 dark:text-white truncate">
@@ -260,7 +260,7 @@ const OverviewTab = () => {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-indigo-600 to-blue-700 rounded-[2.5rem] p-8 sm:p-10 text-white shadow-2xl shadow-indigo-600/30 flex flex-col justify-between relative overflow-hidden group">
+        <div className="bg-gradient-to-br from-emerald-600 to-primary-700 rounded-[2.5rem] p-8 sm:p-10 text-white shadow-2xl shadow-emerald-600/30 flex flex-col justify-between relative overflow-hidden group">
            <div className="absolute top-0 right-0 p-10 opacity-10 group-hover:scale-110 transition-transform duration-700">
               <ShieldCheck className="h-40 w-40" />
            </div>
@@ -269,11 +269,11 @@ const OverviewTab = () => {
               <CheckCircle2 className="h-7 w-7 text-white" />
             </div>
             <h3 className="text-2xl font-black mb-4 tracking-tight">AI Health Audit</h3>
-            <p className="text-blue-100 font-medium leading-relaxed">{getInsight()}</p>
+            <p className="text-primary-100 font-medium leading-relaxed">{getInsight()}</p>
           </div>
           <button 
             onClick={() => navigate('/dashboard/profile')}
-            className="mt-8 flex items-center justify-center space-x-2 py-4 bg-white text-blue-700 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-blue-50 transition-all shadow-xl shadow-black/10 active:scale-95 relative z-10"
+            className="mt-8 flex items-center justify-center space-x-2 py-4 bg-white text-primary-700 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-primary-50 transition-all shadow-xl shadow-black/10 active:scale-95 relative z-10"
           >
             <span>Optimize Profile</span>
             <ArrowRight className="h-4 w-4" />
@@ -283,7 +283,7 @@ const OverviewTab = () => {
 
       {/* Quick Actions Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-         <button onClick={() => navigate('/dashboard/vitals')} className="group flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-[2rem] border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20 dark:shadow-none hover:shadow-blue-500/10 transition-all">
+         <button onClick={() => navigate('/dashboard/vitals')} className="group flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-[2rem] border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20 dark:shadow-none hover:shadow-primary-500/10 transition-all">
             <div className="flex items-center gap-4">
                <div className="p-3 bg-rose-50 dark:bg-rose-900/20 rounded-2xl text-rose-600 group-hover:scale-110 transition-transform">
                   <PulseIcon className="h-6 w-6" />
@@ -295,9 +295,9 @@ const OverviewTab = () => {
             </div>
             <Plus className="h-5 w-5 text-gray-300 group-hover:text-rose-600" />
          </button>
-         <button onClick={() => navigate('/dashboard/reports')} className="group flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-[2rem] border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20 dark:shadow-none hover:shadow-indigo-500/10 transition-all">
+         <button onClick={() => navigate('/dashboard/reports')} className="group flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-[2rem] border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20 dark:shadow-none hover:shadow-emerald-500/10 transition-all">
             <div className="flex items-center gap-4">
-               <div className="p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl text-indigo-600 group-hover:scale-110 transition-transform">
+               <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl text-emerald-600 group-hover:scale-110 transition-transform">
                   <FileText className="h-6 w-6" />
                </div>
                <div className="text-left">
@@ -305,7 +305,7 @@ const OverviewTab = () => {
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Vault Secure</p>
                </div>
             </div>
-            <Plus className="h-5 w-5 text-gray-300 group-hover:text-indigo-600" />
+            <Plus className="h-5 w-5 text-gray-300 group-hover:text-emerald-600" />
          </button>
          <button onClick={() => navigate('/dashboard/appointments')} className="group flex items-center justify-between p-6 bg-white dark:bg-slate-800 rounded-[2rem] border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20 dark:shadow-none hover:shadow-emerald-500/10 transition-all">
             <div className="flex items-center gap-4">
@@ -327,24 +327,24 @@ const OverviewTab = () => {
           <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-6 sm:p-10 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
             <div className="flex justify-between items-center mb-8">
                <h3 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-4">
-                  <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-2xl">
-                     <Calendar className="h-6 w-6 text-blue-600" />
+                  <div className="p-3 bg-primary-50 dark:bg-primary-900/30 rounded-2xl">
+                     <Calendar className="h-6 w-6 text-primary-600" />
                   </div>
                   Upcoming Appointments
                </h3>
-               <button onClick={() => navigate('/dashboard/appointments')} className="text-[10px] font-black text-blue-600 uppercase tracking-widest hover:underline">View Calendar</button>
+               <button onClick={() => navigate('/dashboard/appointments')} className="text-[10px] font-black text-primary-600 uppercase tracking-widest hover:underline">View Calendar</button>
             </div>
             
             {upcomingAppointments && upcomingAppointments.length > 0 ? (
               <div className="grid sm:grid-cols-2 gap-4">
                 {upcomingAppointments.slice(0, 2).map((app: any) => (
-                  <div key={app._id} className="p-6 bg-gray-50/50 dark:bg-slate-900/50 rounded-3xl border border-gray-100 dark:border-slate-700 group hover:border-blue-500/30 transition-all cursor-pointer" onClick={() => navigate('/dashboard/appointments')}>
+                  <div key={app._id} className="p-6 bg-gray-50/50 dark:bg-slate-900/50 rounded-3xl border border-gray-100 dark:border-slate-700 group hover:border-primary-500/30 transition-all cursor-pointer" onClick={() => navigate('/dashboard/appointments')}>
                      <div className="flex justify-between items-start mb-4">
                         <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl shadow-sm">
-                           <Stethoscope className="h-5 w-5 text-indigo-600" />
+                           <Stethoscope className="h-5 w-5 text-emerald-600" />
                         </div>
                         <div className="text-right">
-                           <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">{format(new Date(app.appointmentDate), 'MMM dd')}</p>
+                           <p className="text-[10px] font-black text-primary-600 uppercase tracking-widest">{format(new Date(app.appointmentDate), 'MMM dd')}</p>
                            <p className="text-lg font-black text-gray-900 dark:text-white leading-none">{format(new Date(app.appointmentDate), 'HH:mm')}</p>
                         </div>
                      </div>
@@ -360,7 +360,7 @@ const OverviewTab = () => {
             ) : (
               <div className="py-12 text-center bg-gray-50/50 dark:bg-slate-900/50 rounded-3xl border border-dashed border-gray-200 dark:border-slate-700">
                  <p className="text-gray-400 font-bold italic">No upcoming appointments scheduled.</p>
-                 <button onClick={() => navigate('/dashboard/appointments')} className="mt-4 text-blue-600 font-bold text-sm">+ Schedule Now</button>
+                 <button onClick={() => navigate('/dashboard/appointments')} className="mt-4 text-primary-600 font-bold text-sm">+ Schedule Now</button>
               </div>
             )}
           </div>
@@ -407,12 +407,12 @@ const OverviewTab = () => {
           {/* Platform Stats / Community Pulse */}
           <div className="grid sm:grid-cols-3 gap-6">
             <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-8 rounded-[2rem] border border-white dark:border-slate-700 shadow-sm">
-               <Shield className="h-8 w-8 text-blue-600 mb-4" />
+               <Shield className="h-8 w-8 text-primary-600 mb-4" />
                <p className="text-3xl font-black text-gray-900 dark:text-white">99.9%</p>
                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Uptime & Security</p>
             </div>
             <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-8 rounded-[2rem] border border-white dark:border-slate-700 shadow-sm">
-               <Eye className="h-8 w-8 text-indigo-600 mb-4" />
+               <Eye className="h-8 w-8 text-emerald-600 mb-4" />
                <p className="text-3xl font-black text-gray-900 dark:text-white">50k+</p>
                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Global Health IDs</p>
             </div>
@@ -469,10 +469,10 @@ const OverviewTab = () => {
           <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
              <div className="flex justify-between items-center mb-6">
                <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
-                 <Users className="h-5 w-5 text-blue-600" />
+                 <Users className="h-5 w-5 text-primary-600" />
                  Family Health
                </h3>
-               <Plus className="h-5 w-5 text-gray-400 cursor-pointer hover:text-blue-600" onClick={() => navigate('/dashboard/family')} />
+               <Plus className="h-5 w-5 text-gray-400 cursor-pointer hover:text-primary-600" onClick={() => navigate('/dashboard/family')} />
             </div>
             <div className="flex items-center gap-4 mb-6">
                <div className="flex -space-x-3">
@@ -519,21 +519,21 @@ const OverviewTab = () => {
           <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
             <div className="flex justify-between items-center mb-6">
                <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-3">
-                  <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl">
-                     <FileText className="h-5 w-5 text-indigo-600" />
+                  <div className="p-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl">
+                     <FileText className="h-5 w-5 text-emerald-600" />
                   </div>
                   Recent Docs
                </h3>
-               <button onClick={() => navigate('/dashboard/reports')} className="text-[10px] font-black text-indigo-600 uppercase tracking-widest hover:underline">All</button>
+               <button onClick={() => navigate('/dashboard/reports')} className="text-[10px] font-black text-emerald-600 uppercase tracking-widest hover:underline">All</button>
             </div>
             <div className="space-y-4">
                {data?.reports?.slice(0, 3).map((report: any) => (
-                 <div key={report._id} onClick={() => navigate('/dashboard/reports')} className="flex items-center justify-between p-3 bg-gray-50/50 dark:bg-slate-900/50 rounded-2xl border border-gray-100 dark:border-slate-700 group hover:border-indigo-500/30 transition-all cursor-pointer">
+                 <div key={report._id} onClick={() => navigate('/dashboard/reports')} className="flex items-center justify-between p-3 bg-gray-50/50 dark:bg-slate-900/50 rounded-2xl border border-gray-100 dark:border-slate-700 group hover:border-emerald-500/30 transition-all cursor-pointer">
                     <div className="min-w-0">
                        <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{report.title}</p>
                        <p className="text-[10px] text-gray-400 font-bold uppercase">{format(new Date(report.createdAt), 'MMM dd')}</p>
                     </div>
-                    <ArrowRight className="h-4 w-4 text-gray-300 group-hover:text-indigo-600" />
+                    <ArrowRight className="h-4 w-4 text-gray-300 group-hover:text-emerald-600" />
                  </div>
                ))}
                {(!data?.reports || data.reports.length === 0) && (
@@ -546,7 +546,7 @@ const OverviewTab = () => {
           <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">
              <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-black text-gray-900 dark:text-white flex items-center gap-2">
-                   <WatchIcon className="h-5 w-5 text-blue-600" />
+                   <WatchIcon className="h-5 w-5 text-primary-600" />
                    Wearables
                 </h3>
                 <span className={`flex items-center gap-1.5 px-2 py-1 ${isWearableConnected ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600' : 'bg-gray-50 dark:bg-slate-700 text-gray-400'} text-[8px] font-black uppercase rounded-lg tracking-widest border ${isWearableConnected ? 'border-emerald-100 dark:border-emerald-800/30' : 'border-gray-200 dark:border-slate-600'}`}>
@@ -555,18 +555,18 @@ const OverviewTab = () => {
                 </span>
              </div>
              <div 
-               className={`flex items-center gap-4 p-4 rounded-2xl border transition-all cursor-pointer ${isWearableConnected ? 'bg-gray-50/50 dark:bg-slate-900/50 border-gray-100 dark:border-slate-700 hover:border-blue-500/30' : 'bg-gray-50/20 dark:bg-slate-900/20 border-dashed border-gray-200 dark:border-slate-700 opacity-60'}`} 
+               className={`flex items-center gap-4 p-4 rounded-2xl border transition-all cursor-pointer ${isWearableConnected ? 'bg-gray-50/50 dark:bg-slate-900/50 border-gray-100 dark:border-slate-700 hover:border-primary-500/30' : 'bg-gray-50/20 dark:bg-slate-900/20 border-dashed border-gray-200 dark:border-slate-700 opacity-60'}`} 
                onClick={() => navigate('/dashboard/integrations')}
              >
                 <div className="p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
-                   <Activity className={`h-5 w-5 ${isWearableConnected ? 'text-blue-500' : 'text-gray-300'}`} />
+                   <Activity className={`h-5 w-5 ${isWearableConnected ? 'text-primary-500' : 'text-gray-300'}`} />
                 </div>
                 <div>
                    <p className="text-sm font-black text-gray-900 dark:text-white leading-none mb-1">{isWearableConnected ? 'Device Synced' : 'No Devices'}</p>
                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{isWearableConnected ? 'Auto-Syncing Vitals' : 'Setup Integrations'}</p>
                 </div>
              </div>
-             <button onClick={() => navigate('/dashboard/integrations')} className="mt-4 w-full py-3 text-blue-600 dark:text-blue-400 font-black text-[10px] uppercase tracking-widest hover:underline">Manage Integrations</button>
+             <button onClick={() => navigate('/dashboard/integrations')} className="mt-4 w-full py-3 text-primary-600 dark:text-primary-400 font-black text-[10px] uppercase tracking-widest hover:underline">Manage Integrations</button>
           </div>
 
           <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl shadow-gray-200/40 dark:shadow-none border border-white dark:border-slate-700">

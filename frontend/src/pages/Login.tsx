@@ -42,12 +42,12 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-white dark:bg-[#0A0A0A] transition-colors duration-500 selection:bg-blue-500/30">
+    <div className="min-h-screen relative flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-white dark:bg-[#0A0A0A] transition-colors duration-500 selection:bg-primary-500/30">
       
       {/* Immersive Background Nodes */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[80%] bg-blue-600/10 dark:bg-blue-600/5 blur-[120px] rounded-full animate-pulse"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[70%] bg-indigo-600/10 dark:bg-indigo-600/5 blur-[120px] rounded-full animate-pulse delay-700"></div>
+        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[80%] bg-primary-600/10 dark:bg-primary-600/5 blur-[120px] rounded-full animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[70%] bg-emerald-600/10 dark:bg-emerald-600/5 blur-[120px] rounded-full animate-pulse delay-700"></div>
       </div>
 
       <AnimatePresence>
@@ -58,13 +58,13 @@ const Login = () => {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] bg-white/90 dark:bg-[#0A0A0A]/90 backdrop-blur-2xl flex flex-col items-center justify-center"
           >
-            <div className="w-20 h-20 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin"></div>
+            <div className="w-20 h-20 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin"></div>
             <p className="mt-8 text-[10px] font-black uppercase tracking-[0.4em] text-gray-900 dark:text-white">Synchronizing Secure Identity Node...</p>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <Link to="/" className="absolute top-10 left-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-blue-600 transition-colors group z-50">
+      <Link to="/" className="absolute top-10 left-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-primary-600 transition-colors group z-50">
         <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
         <span>Back to Portal Home</span>
       </Link>
@@ -75,7 +75,7 @@ const Login = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-3 bg-blue-600 p-3 rounded-2xl shadow-2xl shadow-blue-600/20 mb-8 mx-auto">
+          <div className="inline-flex items-center gap-3 bg-primary-600 p-3 rounded-2xl shadow-2xl shadow-primary-600/20 mb-8 mx-auto">
             <Activity className="h-8 w-8 text-white" />
           </div>
           <h2 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white tracking-tighter mb-4 leading-none">Command Center <br/> Access.</h2>
@@ -99,14 +99,14 @@ const Login = () => {
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] ml-2">Identity Email</label>
                 <div className="relative group">
-                   <div className="absolute inset-0 bg-blue-600/10 blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
+                   <div className="absolute inset-0 bg-primary-600/10 blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
                    <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="node@ehp.global"
-                    className="relative w-full px-6 py-5 bg-gray-50 dark:bg-[#050505] border border-gray-100 dark:border-white/10 rounded-2xl font-bold text-gray-900 dark:text-white outline-none focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600"
+                    className="relative w-full px-6 py-5 bg-gray-50 dark:bg-[#050505] border border-gray-100 dark:border-white/10 rounded-2xl font-bold text-gray-900 dark:text-white outline-none focus:ring-4 focus:ring-primary-500/10 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600"
                   />
                 </div>
               </div>
@@ -114,14 +114,14 @@ const Login = () => {
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] ml-2">Secure Passphrase</label>
                 <div className="relative group">
-                   <div className="absolute inset-0 bg-blue-600/10 blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
+                   <div className="absolute inset-0 bg-primary-600/10 blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
                    <input
                     type="password"
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="relative w-full px-6 py-5 bg-gray-50 dark:bg-[#050505] border border-gray-100 dark:border-white/10 rounded-2xl font-bold text-gray-900 dark:text-white outline-none focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600"
+                    className="relative w-full px-6 py-5 bg-gray-50 dark:bg-[#050505] border border-gray-100 dark:border-white/10 rounded-2xl font-bold text-gray-900 dark:text-white outline-none focus:ring-4 focus:ring-primary-500/10 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600"
                   />
                 </div>
               </div>
@@ -129,7 +129,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-500 text-white py-6 rounded-[2rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl shadow-blue-600/30 flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-95"
+              className="w-full bg-primary-600 hover:bg-primary-500 text-white py-6 rounded-[2rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl shadow-primary-600/30 flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-95"
             >
               Initialize Session <ChevronRight className="h-4 w-4" />
             </button>
@@ -166,7 +166,7 @@ const Login = () => {
           className="mt-12 text-center text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]"
         >
           New to the Registry? {' '}
-          <Link to="/register" className="text-blue-600 hover:text-blue-500 transition-colors">Initialize New Passport</Link>
+          <Link to="/register" className="text-primary-600 hover:text-primary-500 transition-colors">Initialize New Passport</Link>
         </motion.p>
       </div>
     </div>

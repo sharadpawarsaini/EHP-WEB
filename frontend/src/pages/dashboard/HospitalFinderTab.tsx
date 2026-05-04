@@ -27,9 +27,9 @@ const HospitalFinderTab = () => {
   const [activeType, setActiveType] = useState('hospital');
 
   const finderTypes = [
-    { id: 'hospital', label: 'Hospitals', icon: Hospital, color: 'text-blue-600 bg-blue-50 border-blue-100', dark: 'dark:bg-blue-900/20 dark:border-blue-800/30' },
+    { id: 'hospital', label: 'Hospitals', icon: Hospital, color: 'text-primary-600 bg-primary-50 border-primary-100', dark: 'dark:bg-primary-900/20 dark:border-primary-800/30' },
     { id: 'pharmacy', label: 'Pharmacies', icon: Pill, color: 'text-emerald-600 bg-emerald-50 border-emerald-100', dark: 'dark:bg-emerald-900/20 dark:border-emerald-800/30' },
-    { id: 'lab', label: 'Labs', icon: TestTube, color: 'text-purple-600 bg-purple-50 border-purple-100', dark: 'dark:bg-purple-900/20 dark:border-purple-800/30' },
+    { id: 'lab', label: 'Labs', icon: TestTube, color: 'text-green-600 bg-green-50 border-green-100', dark: 'dark:bg-green-900/20 dark:border-green-800/30' },
   ];
 
   const findNearby = async (lat: number, lng: number, type: string) => {
@@ -99,7 +99,7 @@ const HospitalFinderTab = () => {
          <div>
             <div className="flex items-center gap-2 mb-3">
                <span className="px-3 py-1 bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 text-[10px] font-black uppercase tracking-widest rounded-full">Geo-Health Radar</span>
-               <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest rounded-full">Live Proximity</span>
+               <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-[10px] font-black uppercase tracking-widest rounded-full">Live Proximity</span>
             </div>
             <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Facility Radar</h2>
             <p className="text-gray-500 dark:text-gray-400 font-medium">Scanning local area for medical infrastructure and emergency services</p>
@@ -107,7 +107,7 @@ const HospitalFinderTab = () => {
          <button 
            onClick={() => getMyLocation()}
            disabled={loading}
-           className="w-full lg:w-auto flex items-center justify-center gap-3 px-8 py-5 bg-blue-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-2xl shadow-blue-600/30 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+           className="w-full lg:w-auto flex items-center justify-center gap-3 px-8 py-5 bg-primary-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-2xl shadow-primary-600/30 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
          >
            {loading ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Crosshair className="h-5 w-5" />}
            {loading ? 'Scanning Neural Net...' : 'Recalibrate Position'}
@@ -129,7 +129,7 @@ const HospitalFinderTab = () => {
                  : 'bg-transparent text-gray-500 hover:bg-gray-100 dark:hover:bg-slate-700'
                }`}
              >
-               <Icon className={`h-5 w-5 ${isActive ? 'text-blue-400' : 'text-gray-400'}`} />
+               <Icon className={`h-5 w-5 ${isActive ? 'text-primary-400' : 'text-gray-400'}`} />
                {type.label}
              </button>
            );
@@ -146,13 +146,13 @@ const HospitalFinderTab = () => {
 
       {!location && !loading && (
         <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-16 text-center border-2 border-dashed border-gray-200 dark:border-slate-700 shadow-sm">
-          <div className="w-24 h-24 bg-blue-50 dark:bg-blue-900/30 rounded-[2.5rem] flex items-center justify-center mx-auto mb-8 relative">
-             <MapIcon className="h-10 w-10 text-blue-600" />
-             <div className="absolute inset-0 border-2 border-blue-600 rounded-[2.5rem] animate-ping opacity-20"></div>
+          <div className="w-24 h-24 bg-primary-50 dark:bg-primary-900/30 rounded-[2.5rem] flex items-center justify-center mx-auto mb-8 relative">
+             <MapIcon className="h-10 w-10 text-primary-600" />
+             <div className="absolute inset-0 border-2 border-primary-600 rounded-[2.5rem] animate-ping opacity-20"></div>
           </div>
           <h3 className="text-3xl font-black text-gray-900 dark:text-white mb-3">Initialize Radar</h3>
           <p className="text-gray-500 font-medium max-w-sm mx-auto mb-10">Allow location permissions to scan for medical infrastructure within your 10km safe zone.</p>
-          <button onClick={() => getMyLocation()} className="px-10 py-5 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl shadow-blue-500/30 hover:scale-105 transition-all">
+          <button onClick={() => getMyLocation()} className="px-10 py-5 bg-primary-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl shadow-primary-500/30 hover:scale-105 transition-all">
              Start Local Scan
           </button>
         </div>
@@ -204,7 +204,7 @@ const HospitalFinderTab = () => {
                          <Clock className="h-3 w-3" /> 24/7 Priority
                       </span>
                     )}
-                    <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[9px] font-black uppercase tracking-widest border border-blue-100">Verified</span>
+                    <span className="px-3 py-1 bg-primary-50 text-primary-600 rounded-lg text-[9px] font-black uppercase tracking-widest border border-primary-100">Verified</span>
                  </div>
 
                  <div className="grid grid-cols-2 gap-3">
@@ -217,7 +217,7 @@ const HospitalFinderTab = () => {
                       href={`https://www.google.com/maps/dir/?api=1&destination=${facility.lat},${facility.lng}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 py-4 bg-indigo-600 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl shadow-lg shadow-indigo-600/20 hover:scale-105 transition-all"
+                      className="flex items-center justify-center gap-2 py-4 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl shadow-lg shadow-emerald-600/20 hover:scale-105 transition-all"
                     >
                       <Navigation className="h-3.5 w-3.5" /> Direct
                     </a>
@@ -237,11 +237,11 @@ const HospitalFinderTab = () => {
       )}
 
       {/* Radar Legend */}
-      <div className="p-8 bg-blue-50 dark:bg-blue-900/10 rounded-[2.5rem] border border-blue-100 dark:border-blue-900/30 flex items-start gap-5">
-         <ShieldCheck className="h-6 w-6 text-blue-600 flex-shrink-0 mt-0.5" />
+      <div className="p-8 bg-primary-50 dark:bg-primary-900/10 rounded-[2.5rem] border border-primary-100 dark:border-primary-900/30 flex items-start gap-5">
+         <ShieldCheck className="h-6 w-6 text-primary-600 flex-shrink-0 mt-0.5" />
          <div>
-            <p className="text-sm font-black text-blue-900 dark:text-blue-300 uppercase tracking-widest mb-1">Satellite Precision</p>
-            <p className="text-xs text-blue-700 dark:text-blue-400 leading-relaxed font-medium">Results are pulled from live geo-spatial data. Distance calculations use the Haversine formula for air-distance accuracy. Tap "Direct" to launch turn-by-turn navigation.</p>
+            <p className="text-sm font-black text-primary-900 dark:text-primary-300 uppercase tracking-widest mb-1">Satellite Precision</p>
+            <p className="text-xs text-primary-700 dark:text-primary-400 leading-relaxed font-medium">Results are pulled from live geo-spatial data. Distance calculations use the Haversine formula for air-distance accuracy. Tap "Direct" to launch turn-by-turn navigation.</p>
          </div>
       </div>
     </div>

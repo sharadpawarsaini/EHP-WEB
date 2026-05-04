@@ -41,23 +41,23 @@ const FAQ = () => {
   );
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] transition-colors duration-500 overflow-x-hidden selection:bg-blue-500/30">
+    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] transition-colors duration-500 overflow-x-hidden selection:bg-primary-500/30">
       
       {/* Immersive Background Nodes */}
       <div className="absolute top-0 left-0 w-full h-[1000px] pointer-events-none overflow-hidden">
-        <div className="absolute -top-[20%] -left-[10%] w-[70%] h-[80%] bg-blue-600/10 dark:bg-blue-600/5 blur-[120px] rounded-full animate-pulse"></div>
+        <div className="absolute -top-[20%] -left-[10%] w-[70%] h-[80%] bg-primary-600/10 dark:bg-primary-600/5 blur-[120px] rounded-full animate-pulse"></div>
         <div className="absolute top-[10%] -right-[10%] w-[60%] h-[70%] bg-emerald-600/10 dark:bg-emerald-600/5 blur-[120px] rounded-full animate-pulse delay-700"></div>
       </div>
 
       <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-xl border-b border-gray-100 dark:border-white/5 bg-white/70 dark:bg-[#0A0A0A]/70">
         <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="bg-blue-600 p-2 rounded-xl shadow-2xl shadow-blue-600/20 group-hover:scale-110 transition-transform">
+            <div className="bg-primary-600 p-2 rounded-xl shadow-2xl shadow-primary-600/20 group-hover:scale-110 transition-transform">
               <Activity className="h-6 w-6 text-white" />
             </div>
             <span className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">EHP</span>
           </Link>
-          <Link to="/" className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-blue-600 transition-colors">
+          <Link to="/" className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-primary-600 transition-colors">
             <ArrowLeft className="h-4 w-4" /> Back to Home
           </Link>
         </div>
@@ -79,7 +79,7 @@ const FAQ = () => {
             
             {/* Search Hub */}
             <div className="relative max-w-xl mx-auto group">
-               <div className="absolute inset-0 bg-blue-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+               <div className="absolute inset-0 bg-primary-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                <div className="relative bg-white dark:bg-white/5 backdrop-blur-3xl border border-gray-100 dark:border-white/10 rounded-2xl flex items-center px-6 shadow-2xl">
                   <Search className="h-5 w-5 text-gray-400" />
                   <input 
@@ -99,17 +99,17 @@ const FAQ = () => {
               <motion.div 
                 layout
                 key={i} 
-                className={`bg-white dark:bg-white/5 backdrop-blur-3xl rounded-[2rem] border transition-all duration-500 overflow-hidden shadow-2xl ${openIndex === i ? 'border-blue-500/30' : 'border-gray-100 dark:border-white/10'}`}
+                className={`bg-white dark:bg-white/5 backdrop-blur-3xl rounded-[2rem] border transition-all duration-500 overflow-hidden shadow-2xl ${openIndex === i ? 'border-primary-500/30' : 'border-gray-100 dark:border-white/10'}`}
               >
                 <button 
                   onClick={() => setOpenIndex(openIndex === i ? null : i)}
                   className="w-full px-10 py-8 flex justify-between items-center text-left group"
                 >
                   <div className="space-y-1">
-                     <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">{faq.category}</span>
+                     <span className="text-[10px] font-black text-primary-600 uppercase tracking-widest">{faq.category}</span>
                      <h3 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">{faq.q}</h3>
                   </div>
-                  <div className={`p-3 rounded-xl transition-all ${openIndex === i ? 'bg-blue-600 text-white' : 'bg-gray-50 dark:bg-white/5 text-gray-400 group-hover:bg-blue-50'}`}>
+                  <div className={`p-3 rounded-xl transition-all ${openIndex === i ? 'bg-primary-600 text-white' : 'bg-gray-50 dark:bg-white/5 text-gray-400 group-hover:bg-primary-50'}`}>
                     {openIndex === i ? <Minus className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
                   </div>
                 </button>
@@ -137,11 +137,11 @@ const FAQ = () => {
           </div>
 
           {/* Help Sidebar */}
-          <div className="mt-32 p-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[3rem] text-white text-center shadow-3xl shadow-blue-600/20 relative overflow-hidden">
+          <div className="mt-32 p-10 bg-gradient-to-br from-primary-600 to-emerald-700 rounded-[3rem] text-white text-center shadow-3xl shadow-primary-600/20 relative overflow-hidden">
              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
              <div className="relative z-10">
                 <h4 className="text-2xl font-black mb-4 tracking-tighter">Still have questions?</h4>
-                <p className="text-blue-100 font-medium mb-8">Connect with our support nodes for personalized technical assistance.</p>
+                <p className="text-primary-100 font-medium mb-8">Connect with our support nodes for personalized technical assistance.</p>
                 <Link to="/contact" className="inline-flex items-center gap-3 bg-white text-gray-900 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:scale-105 transition-all">
                    Open Support Ticket <ArrowLeft className="h-4 w-4 rotate-180" />
                 </Link>

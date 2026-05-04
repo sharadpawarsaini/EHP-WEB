@@ -42,7 +42,7 @@ const HospitalVisitDetailsTab = () => {
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-      <div className="w-10 h-10 border-4 border-indigo-600/20 border-t-indigo-600 rounded-full animate-spin" />
+      <div className="w-10 h-10 border-4 border-emerald-600/20 border-t-emerald-600 rounded-full animate-spin" />
       <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Decrypting Clinical Record...</p>
     </div>
   );
@@ -63,17 +63,17 @@ const HospitalVisitDetailsTab = () => {
          <div className="flex items-center gap-6">
             <button 
               onClick={() => navigate('/dashboard')}
-              className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-xl hover:scale-110 active:scale-95 transition-all text-gray-400 hover:text-indigo-600 border border-white dark:border-slate-700"
+              className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-xl hover:scale-110 active:scale-95 transition-all text-gray-400 hover:text-emerald-600 border border-white dark:border-slate-700"
             >
               <ArrowLeft className="h-6 w-6" />
             </button>
             <div>
                <div className="flex items-center gap-2 mb-3">
-                  <span className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest rounded-full">Facility Verified</span>
+                  <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Facility Verified</span>
                   <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Cloud Archive</span>
                </div>
                <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight flex items-center gap-4">
-                  <Hospital className="h-10 w-10 text-indigo-600" />
+                  <Hospital className="h-10 w-10 text-emerald-600" />
                   {visit.hospitalName}
                </h1>
             </div>
@@ -83,7 +83,7 @@ const HospitalVisitDetailsTab = () => {
             <div className="flex flex-wrap gap-2">
                {visit.visitDates && visit.visitDates.length > 0 ? (
                  visit.visitDates.sort((a: any, b: any) => new Date(b).getTime() - new Date(a).getTime()).map((date: string, idx: number) => (
-                   <span key={idx} className="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest rounded-lg border border-indigo-100 dark:border-indigo-800/30">
+                   <span key={idx} className="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-lg border border-emerald-100 dark:border-emerald-800/30">
                      {format(new Date(date), 'MMM dd, yyyy')}
                    </span>
                  ))
@@ -219,7 +219,7 @@ const HospitalVisitDetailsTab = () => {
                <div className="space-y-6">
                   <div className="flex items-center gap-4">
                      <div className="p-3 bg-white/10 rounded-xl">
-                        <Clock className="h-5 w-5 text-indigo-400" />
+                        <Clock className="h-5 w-5 text-emerald-400" />
                      </div>
                      <div>
                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Time Elapsed</p>
@@ -265,11 +265,11 @@ const HospitalVisitDetailsTab = () => {
       </div>
 
       {/* Protocol Guard */}
-      <div className="p-8 bg-indigo-50 dark:bg-indigo-900/10 rounded-[2.5rem] border border-indigo-100 dark:border-indigo-900/30 flex items-start gap-5">
-         <ShieldCheck className="h-6 w-6 text-indigo-600 flex-shrink-0 mt-0.5" />
+      <div className="p-8 bg-emerald-50 dark:bg-emerald-900/10 rounded-[2.5rem] border border-emerald-100 dark:border-emerald-900/30 flex items-start gap-5">
+         <ShieldCheck className="h-6 w-6 text-emerald-600 flex-shrink-0 mt-0.5" />
          <div>
-            <p className="text-sm font-black text-indigo-900 dark:text-indigo-300 uppercase tracking-widest mb-1">Clinical Sovereignty</p>
-            <p className="text-xs text-indigo-700 dark:text-indigo-400 leading-relaxed font-medium">This clinical record is an immutable entry in your EHP timeline. Access is restricted to authorized medical nodes and your primary emergency guardians during active SOS events.</p>
+            <p className="text-sm font-black text-emerald-900 dark:text-emerald-300 uppercase tracking-widest mb-1">Clinical Sovereignty</p>
+            <p className="text-xs text-emerald-700 dark:text-emerald-400 leading-relaxed font-medium">This clinical record is an immutable entry in your EHP timeline. Access is restricted to authorized medical nodes and your primary emergency guardians during active SOS events.</p>
          </div>
       </div>
     </div>

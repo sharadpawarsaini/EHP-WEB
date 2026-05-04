@@ -70,7 +70,7 @@ const FamilyTab = () => {
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-      <div className="w-10 h-10 border-4 border-indigo-600/20 border-t-indigo-600 rounded-full animate-spin" />
+      <div className="w-10 h-10 border-4 border-emerald-600/20 border-t-emerald-600 rounded-full animate-spin" />
       <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Building Circle of Care...</p>
     </div>
   );
@@ -82,13 +82,13 @@ const FamilyTab = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
          <div>
             <div className="flex items-center gap-2 mb-3">
-               <span className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest rounded-full">Shared Access</span>
+               <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Shared Access</span>
                <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">HIPAA Compliant</span>
             </div>
             <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Family Circle</h2>
             <p className="text-gray-500 dark:text-gray-400 font-medium">Manage clinical records and emergency profiles for your loved ones</p>
          </div>
-         <button onClick={() => setShowAdd(true)} className="w-full md:w-auto px-10 py-5 bg-indigo-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-2xl shadow-indigo-600/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
+         <button onClick={() => setShowAdd(true)} className="w-full md:w-auto px-10 py-5 bg-emerald-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-2xl shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
             <UserPlus className="h-4 w-4" /> Add Member
          </button>
       </div>
@@ -97,22 +97,22 @@ const FamilyTab = () => {
         {/* Primary Profile Card */}
         <motion.div 
            whileHover={{ y: -5 }}
-           className={`p-8 rounded-[2.5rem] border-2 transition-all relative overflow-hidden group ${!managedMemberId ? 'bg-white dark:bg-slate-800 border-indigo-500 shadow-2xl shadow-indigo-500/10' : 'bg-white/60 dark:bg-slate-800/60 border-gray-100 dark:border-slate-700 opacity-80'}`}
+           className={`p-8 rounded-[2.5rem] border-2 transition-all relative overflow-hidden group ${!managedMemberId ? 'bg-white dark:bg-slate-800 border-emerald-500 shadow-2xl shadow-emerald-500/10' : 'bg-white/60 dark:bg-slate-800/60 border-gray-100 dark:border-slate-700 opacity-80'}`}
         >
            <div className="absolute top-0 right-0 p-8 opacity-5">
               <UserCircle className="h-32 w-32" />
            </div>
            
            <div className="flex justify-between items-start mb-8">
-               <div className="w-16 h-16 rounded-2xl overflow-hidden bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800/30">
+               <div className="w-16 h-16 rounded-2xl overflow-hidden bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800/30">
                   {photoUrl ? (
                     <img src={getFullPhotoUrl(photoUrl)!} alt="Me" className="w-full h-full object-cover" />
                   ) : (
-                    <UserCircle className="w-full h-full p-3 text-indigo-600" />
+                    <UserCircle className="w-full h-full p-3 text-emerald-600" />
                   )}
                </div>
               {!managedMemberId && (
-                 <div className="px-4 py-1 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full flex items-center gap-2">
+                 <div className="px-4 py-1 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full flex items-center gap-2">
                     <ShieldCheck className="h-3 w-3" /> Active
                  </div>
               )}
@@ -126,7 +126,7 @@ const FamilyTab = () => {
            <button 
              disabled={!managedMemberId}
              onClick={() => setManagedMember(null)}
-             className={`w-full py-5 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${!managedMemberId ? 'bg-indigo-50 text-indigo-600 border border-indigo-100' : 'bg-gray-900 text-white hover:scale-105'}`}
+             className={`w-full py-5 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${!managedMemberId ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-gray-900 text-white hover:scale-105'}`}
            >
              {!managedMemberId ? 'Managing Your Profile' : 'Switch to My Profile'}
            </button>
@@ -192,7 +192,7 @@ const FamilyTab = () => {
         {members.length < 5 && (
            <motion.div 
              onClick={() => setShowAdd(true)}
-             className="p-8 rounded-[2.5rem] border-2 border-dashed border-gray-200 dark:border-slate-700 flex flex-col items-center justify-center text-center cursor-pointer hover:border-indigo-500 hover:bg-indigo-50/10 transition-all"
+             className="p-8 rounded-[2.5rem] border-2 border-dashed border-gray-200 dark:border-slate-700 flex flex-col items-center justify-center text-center cursor-pointer hover:border-emerald-500 hover:bg-emerald-50/10 transition-all"
            >
               <div className="w-16 h-16 bg-gray-50 dark:bg-slate-900 rounded-[2rem] flex items-center justify-center mb-6">
                  <Plus className="h-8 w-8 text-gray-300" />
@@ -203,11 +203,11 @@ const FamilyTab = () => {
       </div>
 
       {/* Info Widget */}
-      <div className="p-8 bg-indigo-50 dark:bg-indigo-900/10 rounded-[2.5rem] border border-indigo-100 dark:border-indigo-900/30 flex items-start gap-5">
-         <Zap className="h-6 w-6 text-indigo-600 flex-shrink-0 mt-0.5" />
+      <div className="p-8 bg-emerald-50 dark:bg-emerald-900/10 rounded-[2.5rem] border border-emerald-100 dark:border-emerald-900/30 flex items-start gap-5">
+         <Zap className="h-6 w-6 text-emerald-600 flex-shrink-0 mt-0.5" />
          <div>
-            <p className="text-sm font-black text-indigo-900 dark:text-indigo-300 uppercase tracking-widest mb-1">Context Switching</p>
-            <p className="text-xs text-indigo-700 dark:text-indigo-400 leading-relaxed font-medium">Managing a family member switches your entire dashboard (Vitals, Medical, Reports) to their context. This allows you to update their clinical passport as a legal guardian.</p>
+            <p className="text-sm font-black text-emerald-900 dark:text-emerald-300 uppercase tracking-widest mb-1">Context Switching</p>
+            <p className="text-xs text-emerald-700 dark:text-emerald-400 leading-relaxed font-medium">Managing a family member switches your entire dashboard (Vitals, Medical, Reports) to their context. This allows you to update their clinical passport as a legal guardian.</p>
          </div>
       </div>
 
@@ -240,7 +240,7 @@ const FamilyTab = () => {
                      <option value="Other">Other</option>
                    </select>
                 </div>
-                <button type="submit" className="w-full py-6 bg-indigo-600 text-white font-black rounded-2xl text-xs uppercase tracking-[0.2em] shadow-2xl shadow-indigo-600/30 hover:scale-105 active:scale-95 transition-all mt-4">
+                <button type="submit" className="w-full py-6 bg-emerald-600 text-white font-black rounded-2xl text-xs uppercase tracking-[0.2em] shadow-2xl shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all mt-4">
                    Initialize Member Profile
                 </button>
               </form>

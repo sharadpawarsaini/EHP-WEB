@@ -126,13 +126,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   );
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#050505] transition-colors duration-500 flex font-sans selection:bg-blue-500/30 relative">
+    <div className="min-h-screen bg-white dark:bg-[#050505] transition-colors duration-500 flex font-sans selection:bg-primary-500/30 relative">
       
       {/* Premium Theme Background Overlays */}
       <div className="fixed inset-0 pointer-events-none z-0 hidden dark:block">
          <div className="absolute top-0 left-0 w-full h-full bg-[#050505]"></div>
-         <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-blue-600/5 blur-[120px] rounded-full"></div>
-         <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-indigo-600/5 blur-[120px] rounded-full"></div>
+         <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-primary-600/5 blur-[120px] rounded-full"></div>
+         <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-emerald-600/5 blur-[120px] rounded-full"></div>
       </div>
 
       {/* ── HIGH-FIDELITY SIDEBAR ── */}
@@ -142,7 +142,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <div className="p-8 pb-4">
           <div className="flex items-center justify-between mb-10">
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="p-2 bg-blue-600 rounded-xl shadow-2xl shadow-blue-600/20 group-hover:scale-110 transition-transform">
+              <div className="p-2 bg-primary-600 rounded-xl shadow-2xl shadow-primary-600/20 group-hover:scale-110 transition-transform">
                 <Activity className="h-6 w-6 text-white" />
               </div>
               <span className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">EHP</span>
@@ -151,7 +151,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           </div>
 
           <div className="relative group">
-             <div className="absolute inset-0 bg-blue-600/10 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+             <div className="absolute inset-0 bg-primary-600/10 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
              <div className="relative flex items-center gap-4 p-4 bg-white dark:bg-white/5 backdrop-blur-3xl rounded-[2rem] border border-white dark:border-white/10 shadow-xl mb-4">
                 <ProfileAvatar className="h-12 w-12 flex-shrink-0" />
                 <div className="min-w-0">
@@ -182,14 +182,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                       to={item.path}
                       className={`flex items-center px-4 py-3.5 rounded-[1.25rem] transition-all group relative ${
                         isActive
-                          ? 'bg-blue-600 text-white font-black shadow-2xl shadow-blue-600/30 translate-x-1'
+                          ? 'bg-primary-600 text-white font-black shadow-2xl shadow-primary-600/30 translate-x-1'
                           : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-gray-200'
                       }`}
                     >
                       <Icon className={`mr-4 h-5 w-5 flex-shrink-0 ${isActive ? 'text-white' : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-600'}`} />
                       <span className="text-xs font-bold tracking-tight truncate">{item.name}</span>
                       {isActive && (
-                         <motion.div layoutId="sidebar-active" className="absolute left-[-1rem] w-1.5 h-8 bg-blue-600 rounded-r-full" />
+                         <motion.div layoutId="sidebar-active" className="absolute left-[-1rem] w-1.5 h-8 bg-primary-600 rounded-r-full" />
                       )}
                     </Link>
                   );
@@ -233,7 +233,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             >
               <div className="p-8 flex items-center justify-between border-b border-gray-100 dark:border-white/5">
                 <div className="flex items-center gap-3">
-                  <Activity className="h-8 w-8 text-blue-600" />
+                  <Activity className="h-8 w-8 text-primary-600" />
                   <span className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">EHP</span>
                 </div>
                 <button onClick={() => setMobileNavOpen(false)} className="p-3 rounded-2xl bg-gray-50 dark:bg-white/5 text-gray-500">
@@ -265,7 +265,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                                to={item.path}
                                onClick={() => setMobileNavOpen(false)}
                                className={`flex items-center px-4 py-4 rounded-2xl transition-all ${
-                                 isActive ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/20' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-50'
+                                 isActive ? 'bg-primary-600 text-white shadow-xl shadow-primary-600/20' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-50'
                                }`}
                              >
                                <Icon className={`mr-4 h-5 w-5 ${isActive ? 'text-white' : 'text-gray-400'}`} />
@@ -297,7 +297,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             </button>
             
             <div className="hidden md:block relative group">
-               <div className="flex items-center bg-gray-50 dark:bg-[#050505] border border-gray-100 dark:border-white/10 rounded-2xl px-5 py-2.5 w-[32rem] focus-within:ring-8 focus-within:ring-blue-600/5 focus-within:border-blue-600/30 transition-all">
+               <div className="flex items-center bg-gray-50 dark:bg-[#050505] border border-gray-100 dark:border-white/10 rounded-2xl px-5 py-2.5 w-[32rem] focus-within:ring-8 focus-within:ring-primary-600/5 focus-within:border-primary-600/30 transition-all">
                   <Search className="h-4 w-4 text-gray-400 mr-4" />
                   <input 
                     ref={searchInputRef}
@@ -320,7 +320,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="absolute top-full left-0 right-0 mt-4 bg-white dark:bg-[#0A0A0A] border border-gray-100 dark:border-white/10 rounded-[2.5rem] shadow-3xl z-50 overflow-hidden divide-y divide-gray-100 dark:divide-white/5">
                          <div className="p-6 bg-gray-50/50 dark:bg-white/5 flex justify-between items-center">
                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Neural Search Protocol</p>
-                            <span className="text-[9px] font-black text-blue-600 bg-blue-50 dark:bg-blue-900/20 px-3 py-1 rounded-full uppercase">Active</span>
+                            <span className="text-[9px] font-black text-primary-600 bg-primary-50 dark:bg-primary-900/20 px-3 py-1 rounded-full uppercase">Active</span>
                          </div>
                          <div className="max-h-[30rem] overflow-y-auto custom-scrollbar">
                             {navGroups.flatMap(g => g.items).filter(i => i.name.toLowerCase().includes(searchQuery.toLowerCase())).length > 0 ? (
@@ -328,7 +328,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                                  const Icon = item.icon as any;
                                  return (
                                    <button key={item.name} onClick={() => { navigate(item.path); setShowResults(false); setSearchQuery(''); }} className="w-full flex items-center p-6 hover:bg-gray-50 dark:hover:bg-white/5 text-left group transition-all">
-                                      <div className="p-3 bg-gray-100 dark:bg-[#050505] rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-all mr-5">
+                                      <div className="p-3 bg-gray-100 dark:bg-[#050505] rounded-xl group-hover:bg-primary-600 group-hover:text-white transition-all mr-5">
                                          <Icon className="h-5 w-5" />
                                       </div>
                                       <div>
@@ -360,13 +360,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <div className="hidden sm:flex items-center gap-3">
                <button className="p-3 rounded-2xl bg-gray-50 dark:bg-white/5 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors relative">
                   <Bell className="h-5 w-5" />
-                  <span className="absolute top-3 right-3 w-1.5 h-1.5 bg-blue-600 rounded-full"></span>
+                  <span className="absolute top-3 right-3 w-1.5 h-1.5 bg-primary-600 rounded-full"></span>
                </button>
             </div>
             <div className="h-8 w-px bg-gray-100 dark:border-white/5 mx-2 hidden sm:block"></div>
             <Link to="/dashboard/profile" className="flex items-center gap-4 group">
                <div className="text-right hidden xl:block">
-                  <p className="text-sm font-black text-gray-900 dark:text-white leading-none mb-1 group-hover:text-blue-600 transition-colors">{managedMemberName}</p>
+                  <p className="text-sm font-black text-gray-900 dark:text-white leading-none mb-1 group-hover:text-primary-600 transition-colors">{managedMemberName}</p>
                   <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest flex items-center justify-end gap-1.5">
                      <ShieldCheck className="h-3 w-3 text-emerald-500" /> Verified ID
                   </p>
@@ -396,13 +396,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 key={item.name}
                 to={item.path}
                 className={`flex flex-col items-center justify-center p-3 rounded-2xl transition-all relative ${
-                  isSOS ? 'bg-rose-600 text-white shadow-2xl shadow-rose-600/40 -mt-10 px-8 py-5 rounded-[2.5rem]' : isActive ? 'text-blue-600' : 'text-gray-400'
+                  isSOS ? 'bg-rose-600 text-white shadow-2xl shadow-rose-600/40 -mt-10 px-8 py-5 rounded-[2.5rem]' : isActive ? 'text-primary-600' : 'text-gray-400'
                 }`}
               >
                 <Icon className={`${isSOS ? 'h-8 w-8' : 'h-6 w-6'} mb-1.5`} />
                 <span className="text-[9px] font-black uppercase tracking-widest">{item.name}</span>
                 {isActive && !isSOS && (
-                  <motion.div layoutId="mobile-active" className="absolute -bottom-1 w-1 h-1 bg-blue-600 rounded-full" />
+                  <motion.div layoutId="mobile-active" className="absolute -bottom-1 w-1 h-1 bg-primary-600 rounded-full" />
                 )}
               </Link>
             );

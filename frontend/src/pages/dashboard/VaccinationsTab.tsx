@@ -162,9 +162,9 @@ const VaccinationsTab = () => {
                     </div>
                   </div>
                   {v.nextDoseDate && (
-                    <div className="bg-blue-50/50 dark:bg-blue-900/10 p-3 rounded-2xl border border-blue-100 dark:border-blue-900/20">
-                      <p className="text-[10px] font-bold text-blue-400 uppercase mb-1">Next Dose</p>
-                      <div className="flex items-center gap-2 text-sm text-blue-700 dark:text-blue-300">
+                    <div className="bg-primary-50/50 dark:bg-primary-900/10 p-3 rounded-2xl border border-primary-100 dark:border-primary-900/20">
+                      <p className="text-[10px] font-bold text-primary-400 uppercase mb-1">Next Dose</p>
+                      <div className="flex items-center gap-2 text-sm text-primary-700 dark:text-primary-300">
                         <AlertTriangle className="h-4 w-4" />
                         {format(new Date(v.nextDoseDate), 'MMM dd, yyyy')}
                       </div>

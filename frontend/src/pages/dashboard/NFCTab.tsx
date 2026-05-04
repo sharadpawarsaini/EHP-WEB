@@ -60,7 +60,7 @@ const NFCTab = () => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-        <div className="w-10 h-10 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin" />
         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Loading NFC Protocol...</p>
       </div>
     );
@@ -100,7 +100,7 @@ const NFCTab = () => {
 
           {nfcStatus !== 'idle' && (
             <div className={`p-5 rounded-[2rem] mb-8 flex items-center gap-4 max-w-lg mx-auto text-left border ${
-              nfcStatus === 'scanning' ? 'bg-blue-50 text-blue-700 border-blue-100 dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-300' :
+              nfcStatus === 'scanning' ? 'bg-primary-50 text-primary-700 border-primary-100 dark:bg-primary-900/30 dark:border-primary-800 dark:text-primary-300' :
               nfcStatus === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-900/30 dark:border-emerald-800 dark:text-emerald-300' :
               'bg-rose-50 text-rose-700 border-rose-100 dark:bg-rose-900/30 dark:border-rose-800 dark:text-rose-300'
             }`}>
@@ -130,13 +130,13 @@ const NFCTab = () => {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="p-8 bg-blue-50 dark:bg-blue-900/10 rounded-[2.5rem] border border-blue-100 dark:border-blue-900/30 flex items-start gap-5">
-          <div className="p-3 bg-blue-100 dark:bg-blue-900/50 rounded-xl">
-            <AlertCircle className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+        <div className="p-8 bg-primary-50 dark:bg-primary-900/10 rounded-[2.5rem] border border-primary-100 dark:border-primary-900/30 flex items-start gap-5">
+          <div className="p-3 bg-primary-100 dark:bg-primary-900/50 rounded-xl">
+            <AlertCircle className="h-6 w-6 text-primary-600 dark:text-primary-400" />
           </div>
           <div>
-            <h4 className="font-black text-blue-900 dark:text-blue-100 uppercase tracking-widest text-[10px] mb-2">Write Compatibility</h4>
-            <p className="text-xs text-blue-800 dark:text-blue-200 leading-relaxed font-medium">
+            <h4 className="font-black text-primary-900 dark:text-primary-100 uppercase tracking-widest text-[10px] mb-2">Write Compatibility</h4>
+            <p className="text-xs text-primary-800 dark:text-primary-200 leading-relaxed font-medium">
               Writing to an NFC tag requires <strong>Google Chrome on an Android device</strong> due to Apple iOS restrictions on the Web NFC API.
             </p>
           </div>

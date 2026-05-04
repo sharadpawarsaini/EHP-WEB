@@ -4,23 +4,23 @@ import { Link } from 'react-router-dom';
 
 const Privacy = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] transition-colors duration-500 overflow-x-hidden selection:bg-blue-500/30">
+    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] transition-colors duration-500 overflow-x-hidden selection:bg-primary-500/30">
       
       {/* Immersive Background Nodes */}
       <div className="absolute top-0 left-0 w-full h-[1000px] pointer-events-none overflow-hidden">
-        <div className="absolute -top-[20%] -left-[10%] w-[70%] h-[80%] bg-blue-600/10 dark:bg-blue-600/5 blur-[120px] rounded-full animate-pulse"></div>
-        <div className="absolute top-[10%] -right-[10%] w-[60%] h-[70%] bg-purple-600/10 dark:bg-purple-600/5 blur-[120px] rounded-full animate-pulse delay-700"></div>
+        <div className="absolute -top-[20%] -left-[10%] w-[70%] h-[80%] bg-primary-600/10 dark:bg-primary-600/5 blur-[120px] rounded-full animate-pulse"></div>
+        <div className="absolute top-[10%] -right-[10%] w-[60%] h-[70%] bg-green-600/10 dark:bg-green-600/5 blur-[120px] rounded-full animate-pulse delay-700"></div>
       </div>
 
       <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-xl border-b border-gray-100 dark:border-white/5 bg-white/70 dark:bg-[#0A0A0A]/70">
         <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="bg-blue-600 p-2 rounded-xl shadow-2xl shadow-blue-600/20 group-hover:scale-110 transition-transform">
+            <div className="bg-primary-600 p-2 rounded-xl shadow-2xl shadow-primary-600/20 group-hover:scale-110 transition-transform">
               <Activity className="h-6 w-6 text-white" />
             </div>
             <span className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">EHP</span>
           </Link>
-          <Link to="/" className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-blue-600 transition-colors">
+          <Link to="/" className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-primary-600 transition-colors">
             <ArrowLeft className="h-4 w-4" /> Back to Home
           </Link>
         </div>
@@ -59,8 +59,8 @@ const Privacy = () => {
               className="bg-white/50 dark:bg-white/5 backdrop-blur-3xl p-10 rounded-[3rem] shadow-2xl border border-white dark:border-white/10"
             >
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/20 rounded-xl flex items-center justify-center">
-                  <Eye className="h-6 w-6 text-blue-600" />
+                <div className="w-12 h-12 bg-primary-50 dark:bg-primary-900/20 rounded-xl flex items-center justify-center">
+                  <Eye className="h-6 w-6 text-primary-600" />
                 </div>
                 <h2 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Transparency & Collection</h2>
               </div>
@@ -84,8 +84,8 @@ const Privacy = () => {
               className="bg-white/50 dark:bg-white/5 backdrop-blur-3xl p-10 rounded-[3rem] shadow-2xl border border-white dark:border-white/10"
             >
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 bg-purple-50 dark:bg-purple-900/20 rounded-xl flex items-center justify-center">
-                  <Lock className="h-6 w-6 text-purple-600" />
+                <div className="w-12 h-12 bg-green-50 dark:bg-green-900/20 rounded-xl flex items-center justify-center">
+                  <Lock className="h-6 w-6 text-green-600" />
                 </div>
                 <h2 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">MIL-Grade Security</h2>
               </div>

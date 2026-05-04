@@ -39,7 +39,7 @@ const FeedbackTab = () => {
 
   const experiences = [
     { id: 'Excellent', icon: Smile, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
-    { id: 'Good', icon: Smile, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-900/20' },
+    { id: 'Good', icon: Smile, color: 'text-primary-500', bg: 'bg-primary-50 dark:bg-primary-900/20' },
     { id: 'Average', icon: Meh, color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-900/20' },
     { id: 'Poor', icon: Frown, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-900/20' },
   ];
@@ -112,7 +112,7 @@ const FeedbackTab = () => {
               <p className="text-xl font-black text-gray-900 dark:text-white">Community</p>
            </div>
            <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl border border-gray-100 dark:border-slate-700 shadow-sm">
-              <Zap className="h-6 w-6 text-blue-500 mx-auto mb-2" />
+              <Zap className="h-6 w-6 text-primary-500 mx-auto mb-2" />
               <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Status</p>
               <p className="text-xl font-black text-gray-900 dark:text-white">Reviewed</p>
            </div>
@@ -120,7 +120,7 @@ const FeedbackTab = () => {
 
         <button 
           onClick={() => { setSubmitted(false); setRating(0); setComment(''); }}
-          className="mt-12 flex items-center gap-2 text-blue-600 dark:text-blue-400 font-black uppercase tracking-widest text-xs hover:gap-4 transition-all"
+          className="mt-12 flex items-center gap-2 text-primary-600 dark:text-primary-400 font-black uppercase tracking-widest text-xs hover:gap-4 transition-all"
         >
           <span>Share More Thoughts</span>
           <ArrowRight className="h-4 w-4" />
@@ -134,17 +134,17 @@ const FeedbackTab = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="max-w-xl">
            <div className="flex items-center gap-2 mb-4">
-              <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest rounded-full">Feedback Loop</span>
+              <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-[10px] font-black uppercase tracking-widest rounded-full">Feedback Loop</span>
            </div>
            <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight mb-3">Shape the Future of EHP</h2>
            <p className="text-gray-500 dark:text-gray-400 font-medium">Your experience fuels our innovation. Every word you share helps us protect lives better.</p>
         </div>
         <div className="flex -space-x-3">
-           <div className="w-12 h-12 rounded-full border-4 border-blue-600 dark:border-blue-500 bg-gray-200 dark:bg-slate-800 overflow-hidden shadow-xl z-10">
+           <div className="w-12 h-12 rounded-full border-4 border-primary-600 dark:border-primary-500 bg-gray-200 dark:bg-slate-800 overflow-hidden shadow-xl z-10">
               {photoUrl ? (
                 <img src={getFullPhotoUrl(photoUrl)!} alt="User" className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-blue-600 text-white font-black text-xs">ME</div>
+                <div className="w-full h-full flex items-center justify-center bg-primary-600 text-white font-black text-xs">ME</div>
               )}
            </div>
            {[1, 2, 3].map(i => (
@@ -152,7 +152,7 @@ const FeedbackTab = () => {
                 <img src={`https://i.pravatar.cc/100?img=${i+14}`} alt="User" className="w-full h-full object-cover grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500" />
              </div>
            ))}
-           <div className="w-12 h-12 rounded-full border-4 border-slate-50 dark:border-slate-900 bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-xl">
+           <div className="w-12 h-12 rounded-full border-4 border-slate-50 dark:border-slate-900 bg-primary-600 flex items-center justify-center text-white text-xs font-black shadow-xl">
               +5k
            </div>
         </div>
@@ -176,7 +176,7 @@ const FeedbackTab = () => {
                           onClick={() => setTopic(t.id)}
                           className={`flex items-center gap-2 px-5 py-3 rounded-2xl border-2 transition-all font-bold text-sm ${
                             isActive 
-                              ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-600/20' 
+                              ? 'bg-primary-600 border-primary-600 text-white shadow-lg shadow-primary-600/20' 
                               : 'bg-gray-50 dark:bg-slate-900/50 border-transparent text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800'
                           }`}
                         >
@@ -202,7 +202,7 @@ const FeedbackTab = () => {
                           onClick={() => setExperience(exp.id)}
                           className={`flex flex-col items-center gap-3 p-5 rounded-3xl border-2 transition-all relative overflow-hidden group ${
                             isActive 
-                              ? `${exp.bg} border-blue-600 dark:border-blue-400` 
+                              ? `${exp.bg} border-primary-600 dark:border-primary-400` 
                               : 'bg-gray-50 dark:bg-slate-900/50 border-transparent hover:bg-gray-100 dark:hover:bg-slate-900'
                           }`}
                         >
@@ -256,7 +256,7 @@ const FeedbackTab = () => {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     spellCheck="false"
-                    className="w-full p-6 rounded-3xl bg-gray-50 dark:bg-slate-900 border border-gray-100 dark:border-slate-700 dark:text-white focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-medium placeholder:text-gray-300 dark:placeholder:text-gray-600 resize-none"
+                    className="w-full p-6 rounded-3xl bg-gray-50 dark:bg-slate-900 border border-gray-100 dark:border-slate-700 dark:text-white focus:ring-4 focus:ring-primary-500/10 outline-none transition-all font-medium placeholder:text-gray-300 dark:placeholder:text-gray-600 resize-none"
                     placeholder="Tell us everything. What works? What doesn't? We're listening..."
                   ></textarea>
                   <div className="absolute bottom-4 right-4 text-[10px] font-black text-gray-300 uppercase tracking-widest">
@@ -267,7 +267,7 @@ const FeedbackTab = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-6 rounded-3xl font-black text-sm uppercase tracking-[0.2em] shadow-2xl shadow-blue-500/40 transition-all flex items-center justify-center gap-4 disabled:opacity-50 active:scale-[0.98] group"
+                  className="w-full bg-primary-600 hover:bg-primary-700 text-white py-6 rounded-3xl font-black text-sm uppercase tracking-[0.2em] shadow-2xl shadow-primary-500/40 transition-all flex items-center justify-center gap-4 disabled:opacity-50 active:scale-[0.98] group"
                 >
                   {loading ? (
                     <div className="animate-spin h-6 w-6 border-4 border-white/30 border-t-white rounded-full" />
@@ -297,7 +297,7 @@ const FeedbackTab = () => {
                <div className="pt-6 border-t border-white/10 relative z-10">
                   <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Lead Developer</p>
                   <p className="text-sm font-bold text-white mb-1">Sharad Pawar Saini</p>
-                  <p className="text-xs text-blue-400">sharadpawarsaini@gmail.com</p>
+                  <p className="text-xs text-primary-400">sharadpawarsaini@gmail.com</p>
                </div>
             </div>
 
@@ -312,14 +312,14 @@ const FeedbackTab = () => {
                     <div key={idx}>
                        <div className="flex justify-between items-center mb-2">
                           <span className="text-xs font-bold text-gray-600 dark:text-gray-400">{item.label}</span>
-                          <span className="text-xs font-black text-blue-600">{item.val}%</span>
+                          <span className="text-xs font-black text-primary-600">{item.val}%</span>
                        </div>
                        <div className="h-2 w-full bg-gray-100 dark:bg-slate-900 rounded-full overflow-hidden">
                           <motion.div 
                             initial={{ width: 0 }}
                             whileInView={{ width: `${item.val}%` }}
                             transition={{ duration: 1, delay: idx * 0.2 }}
-                            className="h-full bg-blue-600 rounded-full"
+                            className="h-full bg-primary-600 rounded-full"
                           />
                        </div>
                     </div>
@@ -327,13 +327,13 @@ const FeedbackTab = () => {
                </div>
             </div>
 
-            <div className="p-8 bg-blue-50 dark:bg-blue-900/20 rounded-[2.5rem] border border-blue-100 dark:border-blue-800/30 flex items-start gap-4">
+            <div className="p-8 bg-primary-50 dark:bg-primary-900/20 rounded-[2.5rem] border border-primary-100 dark:border-primary-800/30 flex items-start gap-4">
               <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl shadow-sm">
-                 <MessageSquareHeart className="h-6 w-6 text-blue-600" />
+                 <MessageSquareHeart className="h-6 w-6 text-primary-600" />
               </div>
               <div>
-                 <h4 className="font-bold text-blue-900 dark:text-blue-300 text-sm mb-1">Direct Line</h4>
-                 <p className="text-xs text-blue-700/70 dark:text-blue-400/70 leading-relaxed">
+                 <h4 className="font-bold text-primary-900 dark:text-primary-300 text-sm mb-1">Direct Line</h4>
+                 <p className="text-xs text-primary-700/70 dark:text-primary-400/70 leading-relaxed">
                    Need urgent help or have a business inquiry? Reach out directly. We aim for 24h response time.
                  </p>
               </div>
@@ -360,7 +360,7 @@ const FeedbackTab = () => {
                   </div>
                   <p className="text-gray-600 dark:text-gray-300 italic font-medium mb-6">"{wall.text}"</p>
                   <div className="flex items-center gap-3">
-                     <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-[10px] font-black text-blue-600 uppercase tracking-widest">{wall.name.charAt(0)}</div>
+                     <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-[10px] font-black text-primary-600 uppercase tracking-widest">{wall.name.charAt(0)}</div>
                      <span className="text-xs font-black text-gray-900 dark:text-white">{wall.name}</span>
                   </div>
                </div>

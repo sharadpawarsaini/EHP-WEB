@@ -4,23 +4,23 @@ import { Link } from 'react-router-dom';
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] transition-colors duration-500 overflow-x-hidden selection:bg-blue-500/30">
+    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] transition-colors duration-500 overflow-x-hidden selection:bg-primary-500/30">
       
       {/* Immersive Background Nodes */}
       <div className="absolute top-0 left-0 w-full h-[1000px] pointer-events-none overflow-hidden">
-        <div className="absolute -top-[20%] -left-[10%] w-[70%] h-[80%] bg-blue-600/10 dark:bg-blue-600/5 blur-[120px] rounded-full animate-pulse"></div>
-        <div className="absolute top-[10%] -right-[10%] w-[60%] h-[70%] bg-purple-600/10 dark:bg-purple-600/5 blur-[120px] rounded-full animate-pulse delay-700"></div>
+        <div className="absolute -top-[20%] -left-[10%] w-[70%] h-[80%] bg-primary-600/10 dark:bg-primary-600/5 blur-[120px] rounded-full animate-pulse"></div>
+        <div className="absolute top-[10%] -right-[10%] w-[60%] h-[70%] bg-green-600/10 dark:bg-green-600/5 blur-[120px] rounded-full animate-pulse delay-700"></div>
       </div>
 
       <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-xl border-b border-gray-100 dark:border-white/5 bg-white/70 dark:bg-[#0A0A0A]/70">
         <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="bg-blue-600 p-2 rounded-xl shadow-2xl shadow-blue-600/20 group-hover:scale-110 transition-transform">
+            <div className="bg-primary-600 p-2 rounded-xl shadow-2xl shadow-primary-600/20 group-hover:scale-110 transition-transform">
               <Activity className="h-6 w-6 text-white" />
             </div>
             <span className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">EHP</span>
           </Link>
-          <Link to="/" className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-blue-600 transition-colors">
+          <Link to="/" className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-primary-600 transition-colors">
             <ArrowLeft className="h-4 w-4" /> Back to Home
           </Link>
         </div>
@@ -35,13 +35,13 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-32"
           >
-            <div className="inline-flex items-center gap-3 bg-blue-50 dark:bg-blue-600/10 px-6 py-2.5 rounded-full border border-blue-100 dark:border-blue-600/20 mb-8">
-               <Zap className="h-4 w-4 text-blue-600" />
-               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600">The EHP Protocol</span>
+            <div className="inline-flex items-center gap-3 bg-primary-50 dark:bg-primary-600/10 px-6 py-2.5 rounded-full border border-primary-100 dark:border-primary-600/20 mb-8">
+               <Zap className="h-4 w-4 text-primary-600" />
+               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-600">The EHP Protocol</span>
             </div>
             <h1 className="text-5xl sm:text-7xl font-black text-gray-900 dark:text-white mb-8 tracking-tighter leading-none">
               Securing Humanity through <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Instant Intelligence.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-600">Instant Intelligence.</span>
             </h1>
             <p className="text-xl sm:text-2xl text-gray-500 dark:text-gray-400 leading-relaxed max-w-3xl mx-auto font-medium">
               EHP (Emergency Health Passport) is a mission-critical platform designed to bridge the data gap during medical emergencies, where seconds save lives.
@@ -54,8 +54,8 @@ const About = () => {
               whileHover={{ y: -10 }}
               className="bg-white/50 dark:bg-white/5 backdrop-blur-3xl p-10 rounded-[3rem] shadow-2xl border border-white dark:border-white/10 group transition-all"
             >
-              <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 rounded-2xl flex items-center justify-center mb-8 shadow-inner group-hover:scale-110 transition-transform">
-                 <Users className="h-8 w-8 text-blue-600" />
+              <div className="w-16 h-16 bg-primary-50 dark:bg-primary-900/20 rounded-2xl flex items-center justify-center mb-8 shadow-inner group-hover:scale-110 transition-transform">
+                 <Users className="h-8 w-8 text-primary-600" />
               </div>
               <h3 className="text-3xl font-black text-gray-900 dark:text-white mb-4 tracking-tight">For Families</h3>
               <p className="text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
@@ -94,7 +94,7 @@ const About = () => {
                     return (
                       <div key={i} className="text-center space-y-6">
                          <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto border border-white/10">
-                            <Icon className="h-8 w-8 text-blue-400" />
+                            <Icon className="h-8 w-8 text-primary-400" />
                          </div>
                          <h4 className="text-xl font-black text-white tracking-tight">{item.title}</h4>
                          <p className="text-gray-400 font-medium leading-relaxed text-sm">{item.desc}</p>
@@ -117,7 +117,7 @@ const About = () => {
                   { title: "Real-time SOS Bridge", desc: "Direct node connection between patient QR scan and emergency guardian alert systems." },
                   { title: "HL7/FHIR Compliance", desc: "Adhering to global medical data standards for seamless hospital integration." }
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-8 p-8 bg-gray-50 dark:bg-white/5 rounded-[2rem] border border-gray-100 dark:border-white/10 hover:border-blue-500/30 transition-all group">
+                  <div key={i} className="flex items-center gap-8 p-8 bg-gray-50 dark:bg-white/5 rounded-[2rem] border border-gray-100 dark:border-white/10 hover:border-primary-500/30 transition-all group">
                      <div className="w-12 h-12 bg-white dark:bg-slate-800 rounded-xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
                         <CheckCircle className="h-6 w-6 text-emerald-500" />
                      </div>

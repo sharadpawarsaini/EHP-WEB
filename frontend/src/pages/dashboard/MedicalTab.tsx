@@ -24,14 +24,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 const InputField = ({ label, value, onChange, placeholder, icon: Icon }: any) => (
   <div className="space-y-2">
     <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2 ml-1">
-      {Icon && <Icon className="h-3 w-3 text-blue-500" />} {label}
+      {Icon && <Icon className="h-3 w-3 text-primary-500" />} {label}
     </label>
     <input
       type="text"
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-blue-500/10 outline-none text-gray-900 dark:text-white transition-all font-bold placeholder:text-gray-300 dark:placeholder:text-gray-600"
+      className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-primary-500/10 outline-none text-gray-900 dark:text-white transition-all font-bold placeholder:text-gray-300 dark:placeholder:text-gray-600"
     />
   </div>
 );
@@ -149,7 +149,7 @@ const MedicalTab = () => {
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-      <div className="w-10 h-10 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
+      <div className="w-10 h-10 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin" />
       <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Constructing Health Profile...</p>
     </div>
   );
@@ -162,13 +162,13 @@ const MedicalTab = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
          <div>
             <div className="flex items-center gap-2 mb-3">
-               <span className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest rounded-full">Secure EMR</span>
+               <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Secure EMR</span>
                <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Synced</span>
             </div>
             <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Clinical Passport</h2>
             <p className="text-gray-500 dark:text-gray-400 font-medium">Global interoperable health history and clinical records</p>
          </div>
-         <button onClick={handleSubmit} disabled={saving} className="w-full md:w-auto px-10 py-5 bg-blue-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-2xl shadow-blue-600/30 hover:scale-105 active:scale-95 transition-all">
+         <button onClick={handleSubmit} disabled={saving} className="w-full md:w-auto px-10 py-5 bg-primary-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-2xl shadow-primary-600/30 hover:scale-105 active:scale-95 transition-all">
             {saving ? 'Syncing...' : 'Save Changes'}
          </button>
       </div>
@@ -219,8 +219,8 @@ const MedicalTab = () => {
 
              <div className="space-y-8">
                 <h3 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-4">
-                   <div className="p-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl">
-                      <Stethoscope className="h-6 w-6 text-indigo-600" />
+                   <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl">
+                      <Stethoscope className="h-6 w-6 text-emerald-600" />
                    </div>
                    Clinical History
                 </h3>
@@ -291,7 +291,7 @@ const MedicalTab = () => {
               <select
                 value={details.lifestyle.exercise}
                 onChange={(e) => setDetails({...details, lifestyle: {...details.lifestyle, exercise: e.target.value}})}
-                className="w-full px-5 py-4 bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-blue-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
+                className="w-full px-5 py-4 bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-primary-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
               >
                 <option value="None">None</option>
                 <option value="Light">Light (1-2 days/wk)</option>
@@ -306,8 +306,8 @@ const MedicalTab = () => {
         <div className="grid lg:grid-cols-3 gap-10">
            <div className="lg:col-span-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-xl border border-white dark:border-slate-700">
               <h3 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-4 mb-10">
-                 <div className="p-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl">
-                    <Shield className="h-6 w-6 text-indigo-600" />
+                 <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl">
+                    <Shield className="h-6 w-6 text-emerald-600" />
                  </div>
                  Insurance Coverage
               </h3>
@@ -371,13 +371,13 @@ const MedicalTab = () => {
               />
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2 ml-1">
-                  <Calendar className="h-3 w-3 text-blue-500" /> Visit Date
+                  <Calendar className="h-3 w-3 text-primary-500" /> Visit Date
                 </label>
                 <input
                   type="date"
                   value={visitDate}
                   onChange={(e) => setVisitDate(e.target.value)}
-                  className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-blue-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
+                  className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-primary-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
                 />
               </div>
            </div>
@@ -396,9 +396,9 @@ const MedicalTab = () => {
                    }}
                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                  />
-                 <div className="p-12 border-2 border-dashed border-gray-200 dark:border-slate-700 rounded-[2.5rem] flex flex-col items-center justify-center group-hover:border-blue-500 group-hover:bg-blue-50/30 transition-all bg-gray-50/30 dark:bg-slate-900/30">
+                 <div className="p-12 border-2 border-dashed border-gray-200 dark:border-slate-700 rounded-[2.5rem] flex flex-col items-center justify-center group-hover:border-primary-500 group-hover:bg-primary-50/30 transition-all bg-gray-50/30 dark:bg-slate-900/30">
                     <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm mb-4">
-                       <Plus className="h-8 w-8 text-blue-600" />
+                       <Plus className="h-8 w-8 text-primary-600" />
                     </div>
                     <p className="text-sm font-black text-gray-900 dark:text-white">Click to Attach Medical Records</p>
                     <p className="text-[10px] text-gray-400 mt-1 uppercase font-black tracking-widest">Supports PDF, JPG, PNG (Max 5 files)</p>
@@ -407,9 +407,9 @@ const MedicalTab = () => {
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {visitDocuments.map((doc, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-4 bg-blue-50/50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/30 rounded-2xl">
+                  <div key={idx} className="flex items-center justify-between p-4 bg-primary-50/50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800/30 rounded-2xl">
                     <div className="flex items-center gap-3 overflow-hidden">
-                       <FileText className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                       <FileText className="h-5 w-5 text-primary-600 flex-shrink-0" />
                        <span className="text-xs font-bold text-gray-900 dark:text-white truncate">{doc.name}</span>
                     </div>
                     <button type="button" onClick={() => setVisitDocuments(visitDocuments.filter((_, i) => i !== idx))} className="p-2 hover:text-red-600 transition-colors">

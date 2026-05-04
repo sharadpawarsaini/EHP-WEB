@@ -89,7 +89,7 @@ const AppointmentsTab = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Scheduled': return 'bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-900/30 dark:border-blue-800/50';
+      case 'Scheduled': return 'bg-primary-50 text-primary-600 border-primary-100 dark:bg-primary-900/30 dark:border-primary-800/50';
       case 'Completed': return 'bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-900/30 dark:border-emerald-800/50';
       case 'Cancelled': return 'bg-rose-50 text-rose-600 border-rose-100 dark:bg-rose-900/30 dark:border-rose-800/50';
       default: return 'bg-gray-50 text-gray-600 border-gray-100';
@@ -98,7 +98,7 @@ const AppointmentsTab = () => {
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-      <div className="w-10 h-10 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
+      <div className="w-10 h-10 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin" />
       <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Accessing Schedule...</p>
     </div>
   );
@@ -113,13 +113,13 @@ const AppointmentsTab = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
          <div>
             <div className="flex items-center gap-2 mb-3">
-               <span className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest rounded-full">Tele-Health Ready</span>
+               <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Tele-Health Ready</span>
                <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Calendar Sync</span>
             </div>
             <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Visit Scheduler</h2>
             <p className="text-gray-500 dark:text-gray-400 font-medium">Manage clinical consultations and telehealth sessions</p>
          </div>
-         <button onClick={() => setShowAdd(true)} className="w-full md:w-auto px-10 py-5 bg-indigo-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-2xl shadow-indigo-600/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
+         <button onClick={() => setShowAdd(true)} className="w-full md:w-auto px-10 py-5 bg-emerald-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-2xl shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
             <Plus className="h-4 w-4" /> Book Consultation
          </button>
       </div>
@@ -130,15 +130,15 @@ const AppointmentsTab = () => {
             <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Upcoming Queue</h3>
             <div className="space-y-6">
                {upcoming.map((a) => (
-                 <motion.div layout key={a._id} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20 group hover:border-indigo-500/30 transition-all">
+                 <motion.div layout key={a._id} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20 group hover:border-emerald-500/30 transition-all">
                    <div className="flex flex-col sm:flex-row justify-between items-start gap-6">
                      <div className="flex gap-6">
-                       <div className="p-5 bg-indigo-50 dark:bg-indigo-900/30 rounded-3xl group-hover:scale-110 transition-all h-fit">
-                         <Stethoscope className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+                       <div className="p-5 bg-emerald-50 dark:bg-emerald-900/30 rounded-3xl group-hover:scale-110 transition-all h-fit">
+                         <Stethoscope className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
                        </div>
                        <div className="space-y-1">
                          <h4 className="text-xl font-black text-gray-900 dark:text-white leading-tight">{a.doctorName}</h4>
-                         <p className="text-sm text-indigo-600 dark:text-indigo-400 font-black uppercase tracking-widest">{a.specialty}</p>
+                         <p className="text-sm text-emerald-600 dark:text-emerald-400 font-black uppercase tracking-widest">{a.specialty}</p>
                          <div className="flex flex-wrap gap-4 pt-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">
                            <div className="flex items-center gap-2">
                              <Clock className="h-3.5 w-3.5 text-emerald-500" />
@@ -177,7 +177,7 @@ const AppointmentsTab = () => {
                  <div className="py-20 text-center bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[3rem] border-2 border-dashed border-gray-100 dark:border-slate-800">
                     <CalendarIcon className="h-16 w-16 text-gray-200 mx-auto mb-6" />
                     <p className="text-xl font-black text-gray-400 mb-2">No clinical visits queued.</p>
-                    <button onClick={() => setShowAdd(true)} className="text-indigo-600 font-black text-xs uppercase tracking-widest hover:underline">Schedule your first visit</button>
+                    <button onClick={() => setShowAdd(true)} className="text-emerald-600 font-black text-xs uppercase tracking-widest hover:underline">Schedule your first visit</button>
                  </div>
                )}
             </div>
@@ -231,7 +231,7 @@ const AppointmentsTab = () => {
                      </div>
                   ))}
                   {past.length > 3 && (
-                     <button className="w-full pt-4 text-[9px] font-black uppercase tracking-widest text-indigo-600 text-center hover:underline">View All History</button>
+                     <button className="w-full pt-4 text-[9px] font-black uppercase tracking-widest text-emerald-600 text-center hover:underline">View All History</button>
                   )}
                </div>
             </div>
@@ -271,7 +271,7 @@ const AppointmentsTab = () => {
                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Reason for Visit</label>
                    <textarea rows={3} required value={formData.reason} onChange={e => setFormData({...formData, reason: e.target.value})} className="w-full p-5 rounded-2xl bg-gray-50 dark:bg-slate-900 border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white font-medium outline-none resize-none" placeholder="Briefly describe your symptoms or reason..." />
                 </div>
-                <button type="submit" className="w-full py-6 bg-indigo-600 text-white font-black rounded-2xl text-xs uppercase tracking-[0.2em] shadow-2xl shadow-indigo-600/30 hover:scale-105 active:scale-95 transition-all mt-4">
+                <button type="submit" className="w-full py-6 bg-emerald-600 text-white font-black rounded-2xl text-xs uppercase tracking-[0.2em] shadow-2xl shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all mt-4">
                    Confirm Appointment
                 </button>
               </form>

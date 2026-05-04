@@ -114,21 +114,21 @@ const SettingsTab = () => {
       title: 'Experience',
       items: [
         {
-          icon: theme === 'dark' ? <Moon className="w-5 h-5 text-indigo-400" /> : <Sun className="w-5 h-5 text-amber-500" />,
+          icon: theme === 'dark' ? <Moon className="w-5 h-5 text-emerald-400" /> : <Sun className="w-5 h-5 text-amber-500" />,
           label: 'System Theme',
           description: `Currently in ${theme} mode`,
           action: (
-            <button onClick={toggleTheme} className={`w-12 h-6 rounded-full transition-all relative ${theme === 'dark' ? 'bg-indigo-600' : 'bg-gray-200'}`}>
+            <button onClick={toggleTheme} className={`w-12 h-6 rounded-full transition-all relative ${theme === 'dark' ? 'bg-emerald-600' : 'bg-gray-200'}`}>
                <motion.div animate={{ x: theme === 'dark' ? 24 : 4 }} className="absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm" />
             </button>
           )
         },
         {
-          icon: <Bell className="w-5 h-5 text-blue-500" />,
+          icon: <Bell className="w-5 h-5 text-primary-500" />,
           label: 'Health Alerts',
           description: 'Smart push notifications for vitals',
           action: (
-            <button onClick={() => setPushEnabled(!pushEnabled)} className={`w-12 h-6 rounded-full transition-all relative ${pushEnabled ? 'bg-blue-600' : 'bg-gray-200'}`}>
+            <button onClick={() => setPushEnabled(!pushEnabled)} className={`w-12 h-6 rounded-full transition-all relative ${pushEnabled ? 'bg-primary-600' : 'bg-gray-200'}`}>
                <motion.div animate={{ x: pushEnabled ? 24 : 4 }} className="absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm" />
             </button>
           )
@@ -181,10 +181,10 @@ const SettingsTab = () => {
       title: 'Security & Identity',
       items: [
         {
-          icon: <Lock className="w-5 h-5 text-indigo-500" />,
+          icon: <Lock className="w-5 h-5 text-emerald-500" />,
           label: 'Change Neural Key',
           description: 'Update your secondary encryption password',
-          action: <button onClick={() => setShowPasswordModal(true)} className="text-[10px] font-black text-indigo-600 uppercase tracking-widest bg-indigo-50 px-4 py-2 rounded-xl hover:bg-indigo-600 hover:text-white transition-all">Update Key</button>
+          action: <button onClick={() => setShowPasswordModal(true)} className="text-[10px] font-black text-emerald-600 uppercase tracking-widest bg-emerald-50 px-4 py-2 rounded-xl hover:bg-emerald-600 hover:text-white transition-all">Update Key</button>
         },
         {
           icon: <Trash2 className="w-5 h-5 text-rose-500" />,
@@ -198,10 +198,10 @@ const SettingsTab = () => {
       title: 'Advanced Controls',
       items: [
         {
-          icon: <Lock className="w-5 h-5 text-indigo-500" />,
+          icon: <Lock className="w-5 h-5 text-emerald-500" />,
           label: 'Security Protocol',
           description: 'AES-256 Bit Encryption Active',
-          action: <div className="flex items-center gap-1.5 px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase tracking-widest"><ShieldCheck className="h-3 w-3" /> MIL-Grade</div>
+          action: <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase tracking-widest"><ShieldCheck className="h-3 w-3" /> MIL-Grade</div>
         },
         {
           icon: <Database className="w-5 h-5 text-cyan-500" />,
@@ -227,7 +227,7 @@ const SettingsTab = () => {
               className={`p-4 rounded-2xl shadow-2xl backdrop-blur-xl border flex items-center gap-3 min-w-[300px] pointer-events-auto ${
                 status.type === 'error' ? 'bg-rose-50/90 border-rose-200 text-rose-600' : 
                 status.type === 'success' ? 'bg-emerald-50/90 border-emerald-200 text-emerald-600' : 
-                'bg-blue-50/90 border-blue-200 text-blue-600'
+                'bg-primary-50/90 border-primary-200 text-primary-600'
               }`}
             >
               {status.type === 'error' ? <AlertCircle className="h-5 w-5" /> : 
@@ -248,17 +248,17 @@ const SettingsTab = () => {
          <div className="flex gap-4">
             <button 
               onClick={() => setShowDevicesModal(true)} 
-              className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm hover:scale-110 hover:border-blue-500/30 transition-all group"
+              className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm hover:scale-110 hover:border-primary-500/30 transition-all group"
               title="Active Nodes"
             >
-               <Smartphone className="h-5 w-5 text-blue-600 group-hover:scale-110 transition-transform" />
+               <Smartphone className="h-5 w-5 text-primary-600 group-hover:scale-110 transition-transform" />
             </button>
             <button 
               onClick={() => setShowPasswordModal(true)} 
-              className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm hover:scale-110 hover:border-indigo-500/30 transition-all group"
+              className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm hover:scale-110 hover:border-emerald-500/30 transition-all group"
               title="Security Protocol"
             >
-               <Lock className="h-5 w-5 text-indigo-600 group-hover:scale-110 transition-transform" />
+               <Lock className="h-5 w-5 text-emerald-600 group-hover:scale-110 transition-transform" />
             </button>
          </div>
       </div>
@@ -317,16 +317,16 @@ const SettingsTab = () => {
                </div>
             </div>
 
-            <div className="p-8 bg-blue-50 dark:bg-blue-900/20 rounded-[2.5rem] border border-blue-100 dark:border-blue-900/30">
-               <h4 className="text-sm font-black text-blue-900 dark:text-blue-300 uppercase tracking-widest mb-4">Export Protocol</h4>
-               <p className="text-xs text-blue-700 dark:text-blue-400 leading-relaxed font-medium mb-6">Download your full medical history in HL7/FHIR compliant JSON or PDF format for clinical portability.</p>
+            <div className="p-8 bg-primary-50 dark:bg-primary-900/20 rounded-[2.5rem] border border-primary-100 dark:border-primary-900/30">
+               <h4 className="text-sm font-black text-primary-900 dark:text-primary-300 uppercase tracking-widest mb-4">Export Protocol</h4>
+               <p className="text-xs text-primary-700 dark:text-primary-400 leading-relaxed font-medium mb-6">Download your full medical history in HL7/FHIR compliant JSON or PDF format for clinical portability.</p>
                <button 
                  onClick={handleRequestArchive}
                  disabled={isExporting}
-                 className="w-full py-4 bg-white dark:bg-slate-800 rounded-2xl text-xs font-black uppercase tracking-widest text-blue-600 shadow-lg shadow-blue-600/10 hover:scale-105 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                 className="w-full py-4 bg-white dark:bg-slate-800 rounded-2xl text-xs font-black uppercase tracking-widest text-primary-600 shadow-lg shadow-primary-600/10 hover:scale-105 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                >
                   {isExporting ? (
-                    <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <><Download className="h-4 w-4" /> Request Archive</>
                   )}
@@ -347,7 +347,7 @@ const SettingsTab = () => {
              <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-white dark:bg-slate-800 rounded-[2.5rem] w-full max-w-md p-10 shadow-2xl relative border border-white dark:border-slate-700">
                 <button onClick={() => setShowPasswordModal(false)} className="absolute top-6 right-6 p-2 bg-gray-100 dark:bg-slate-900 rounded-full hover:bg-gray-200 transition-all text-gray-500"><X className="h-4 w-4" /></button>
                 <h3 className="text-2xl font-black mb-8 text-gray-900 dark:text-white flex items-center gap-3">
-                   <Lock className="h-6 w-6 text-indigo-600" />
+                   <Lock className="h-6 w-6 text-emerald-600" />
                    Security Protocol
                 </h3>
                 <form onSubmit={handleUpdatePassword} className="space-y-6">
@@ -358,7 +358,7 @@ const SettingsTab = () => {
                         required 
                         value={passwordData.currentPassword}
                         onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
-                        className="w-full p-5 bg-gray-50 dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white font-bold outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all" 
+                        className="w-full p-5 bg-gray-50 dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white font-bold outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all" 
                       />
                    </div>
                    <div className="space-y-2">
@@ -368,7 +368,7 @@ const SettingsTab = () => {
                         required 
                         value={passwordData.newPassword}
                         onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
-                        className="w-full p-5 bg-gray-50 dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white font-bold outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all" 
+                        className="w-full p-5 bg-gray-50 dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white font-bold outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all" 
                       />
                    </div>
                    <div className="space-y-2">
@@ -378,12 +378,12 @@ const SettingsTab = () => {
                         required 
                         value={passwordData.confirmPassword}
                         onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
-                        className="w-full p-5 bg-gray-50 dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white font-bold outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all" 
+                        className="w-full p-5 bg-gray-50 dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white font-bold outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all" 
                       />
                    </div>
                    <button 
                      type="submit" 
-                     className="w-full py-6 bg-indigo-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] shadow-2xl shadow-indigo-600/20 hover:scale-105 active:scale-95 transition-all"
+                     className="w-full py-6 bg-emerald-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] shadow-2xl shadow-emerald-600/20 hover:scale-105 active:scale-95 transition-all"
                    >
                       Rotate Security Keys
                    </button>
@@ -427,8 +427,8 @@ const SettingsTab = () => {
              <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-white dark:bg-slate-800 rounded-[2.5rem] w-full max-w-lg p-10 shadow-2xl relative border border-white dark:border-slate-700">
                 <button onClick={() => setShowDevicesModal(false)} className="absolute top-6 right-6 p-2 bg-gray-100 dark:bg-slate-900 rounded-full hover:bg-gray-200 transition-all text-gray-500"><X className="h-4 w-4" /></button>
                 <div className="flex items-center gap-4 mb-10">
-                   <div className="p-4 bg-blue-50 dark:bg-blue-900/30 rounded-[1.5rem]">
-                      <Smartphone className="h-8 w-8 text-blue-600" />
+                   <div className="p-4 bg-primary-50 dark:bg-primary-900/30 rounded-[1.5rem]">
+                      <Smartphone className="h-8 w-8 text-primary-600" />
                    </div>
                    <div>
                       <h3 className="text-2xl font-black text-gray-900 dark:text-white">Authorized Nodes</h3>
@@ -442,10 +442,10 @@ const SettingsTab = () => {
                      { name: 'Browser Session', model: 'Vite Terminal (Win)', status: 'Active', ip: '127.0.0.1' },
                      { name: 'Emergency Watch', model: 'Apple Watch Ultra', status: 'Standby', ip: 'Hidden' }
                    ].map((node, i) => (
-                     <div key={i} className="p-6 bg-gray-50 dark:bg-slate-900/50 rounded-[1.8rem] border border-gray-100 dark:border-slate-700 flex justify-between items-center group hover:border-blue-500/20 transition-all">
+                     <div key={i} className="p-6 bg-gray-50 dark:bg-slate-900/50 rounded-[1.8rem] border border-gray-100 dark:border-slate-700 flex justify-between items-center group hover:border-primary-500/20 transition-all">
                         <div className="flex items-center gap-4">
                            <div className="p-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
-                              {node.name.includes('Watch') ? <WatchIcon className="h-5 w-5 text-indigo-500" /> : <Smartphone className="h-5 w-5 text-blue-500" />}
+                              {node.name.includes('Watch') ? <WatchIcon className="h-5 w-5 text-emerald-500" /> : <Smartphone className="h-5 w-5 text-primary-500" />}
                            </div>
                            <div>
                               <p className="text-sm font-black text-gray-900 dark:text-white">{node.name}</p>
@@ -462,9 +462,9 @@ const SettingsTab = () => {
                    ))}
                 </div>
                 
-                <div className="mt-10 p-5 bg-blue-50 dark:bg-blue-900/20 rounded-3xl border border-blue-100 dark:border-blue-800/30 flex items-center gap-4">
-                   <ShieldCheck className="h-6 w-6 text-blue-600" />
-                   <p className="text-[10px] font-black text-blue-900 dark:text-blue-300 uppercase tracking-widest leading-relaxed">
+                <div className="mt-10 p-5 bg-primary-50 dark:bg-primary-900/20 rounded-3xl border border-primary-100 dark:border-primary-800/30 flex items-center gap-4">
+                   <ShieldCheck className="h-6 w-6 text-primary-600" />
+                   <p className="text-[10px] font-black text-primary-900 dark:text-primary-300 uppercase tracking-widest leading-relaxed">
                       Session tokens are rotated every 24 hours. Emergency access bypasses these limits only during active SOS events.
                    </p>
                 </div>

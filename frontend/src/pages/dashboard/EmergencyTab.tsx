@@ -329,7 +329,7 @@ const EmergencyTab = () => {
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-      <div className="w-10 h-10 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
+      <div className="w-10 h-10 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin" />
       <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Loading SOS Command...</p>
     </div>
   );
@@ -341,7 +341,7 @@ const EmergencyTab = () => {
       <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl border border-white dark:border-slate-700">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
            <div className="flex items-center gap-5">
-              <div className="p-4 bg-blue-600 rounded-2xl shadow-lg shadow-blue-600/20">
+              <div className="p-4 bg-primary-600 rounded-2xl shadow-lg shadow-primary-600/20">
                  <LinkIcon className="h-8 w-8 text-white" />
               </div>
               <div>
@@ -366,7 +366,7 @@ const EmergencyTab = () => {
              <QrIcon className="h-20 w-20 text-gray-200 mx-auto mb-6" />
              <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-3">Passport Offline</h3>
              <p className="text-gray-500 max-w-sm mx-auto mb-10">Your public emergency profile is currently inactive. Generate your secure link to enable SOS features.</p>
-             <button onClick={generateLink} disabled={generating} className="px-10 py-5 bg-blue-600 text-white font-black rounded-2xl text-sm uppercase tracking-widest shadow-2xl shadow-blue-600/30 hover:scale-105 transition-all">
+             <button onClick={generateLink} disabled={generating} className="px-10 py-5 bg-primary-600 text-white font-black rounded-2xl text-sm uppercase tracking-widest shadow-2xl shadow-primary-600/30 hover:scale-105 transition-all">
                 {generating ? 'Encrypting...' : 'Initialize SOS Link'}
              </button>
           </div>
@@ -378,13 +378,13 @@ const EmergencyTab = () => {
                 <div className="p-8 bg-gray-50/50 dark:bg-slate-900/50 rounded-[2.5rem] border border-gray-100 dark:border-slate-700">
                    <div className="flex justify-between items-center mb-6">
                       <h4 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest flex items-center gap-2">
-                         <Palette className="h-4 w-4 text-blue-600" />
+                         <Palette className="h-4 w-4 text-primary-600" />
                          Identity Themes
                       </h4>
                       <p className="text-[10px] font-bold text-gray-400">Card Color</p>
                    </div>
                    <div className="flex gap-4">
-                      {['#ef4444', '#2563eb', '#10b981', '#f59e0b', '#7c3aed', '#111827'].map(c => (
+                      {['#ef4444', '#059669', '#10b981', '#f59e0b', '#7c3aed', '#111827'].map(c => (
                          <button 
                            key={c} 
                            onClick={() => setCardColor(c)}
@@ -399,15 +399,15 @@ const EmergencyTab = () => {
                 <div className="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] border border-gray-100 dark:border-slate-700 shadow-sm relative overflow-hidden">
                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] block mb-4">Public Emergency URL</label>
                    <div className="flex items-center gap-4 bg-gray-50 dark:bg-slate-900 p-4 rounded-2xl border border-gray-100 dark:border-slate-700">
-                      <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
-                         <LinkIcon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                         <LinkIcon className="h-5 w-5 text-primary-600 dark:text-primary-400" />
                       </div>
                       <div className="min-w-0 flex-1">
                           <a 
                             href={`${window.location.origin}/e/${linkData.link.publicSlug}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline truncate block"
+                            className="text-sm font-bold text-primary-600 dark:text-primary-400 hover:underline truncate block"
                           >
                             {window.location.origin}/e/{linkData.link.publicSlug}
                           </a>
@@ -420,7 +420,7 @@ const EmergencyTab = () => {
 
                 <div className="bg-gray-900 p-8 rounded-[2.5rem] relative overflow-hidden group">
                    <div className="absolute top-0 right-0 p-8 opacity-20 group-hover:scale-110 transition-transform">
-                      <Zap className="h-24 w-24 text-blue-400" />
+                      <Zap className="h-24 w-24 text-primary-400" />
                    </div>
                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] block mb-4">Doctor Decryption Key</label>
                    <div className="flex items-center gap-6">
@@ -429,9 +429,9 @@ const EmergencyTab = () => {
                          <Copy className="h-6 w-6" />
                       </button>
                    </div>
-                   <div className="mt-8 flex items-start gap-4 p-4 bg-blue-500/10 rounded-2xl border border-blue-500/20">
-                      <AlertCircle className="h-5 w-5 text-blue-400" />
-                      <p className="text-xs text-blue-100 font-medium leading-relaxed italic">Provide this key to medical professionals to unlock your full history. Do not share publicly.</p>
+                   <div className="mt-8 flex items-start gap-4 p-4 bg-primary-500/10 rounded-2xl border border-primary-500/20">
+                      <AlertCircle className="h-5 w-5 text-primary-400" />
+                      <p className="text-xs text-primary-100 font-medium leading-relaxed italic">Provide this key to medical professionals to unlock your full history. Do not share publicly.</p>
                    </div>
                 </div>
 
@@ -553,7 +553,7 @@ const EmergencyTab = () => {
                          </p>
                       </div>
                       <div className="p-5 bg-white/5 rounded-3xl border border-white/10">
-                         <Stethoscope className="h-5 w-5 text-blue-500 mb-3" />
+                         <Stethoscope className="h-5 w-5 text-primary-500 mb-3" />
                          <p className="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">Conditions</p>
                          <p className="text-xs font-bold text-white leading-relaxed">
                             {medicalData?.conditions?.length > 0 ? medicalData.conditions.join(', ') : 'No chronic conditions'}
@@ -587,7 +587,7 @@ const EmergencyTab = () => {
                       <p className="text-[10px] text-gray-500 font-medium leading-relaxed">
                          Full medical archive (Surgeries, Medications, Vaccinations) requires Doctor Decryption Key.
                       </p>
-                      <button className="mt-6 flex items-center gap-2 mx-auto text-[9px] font-black text-blue-400 uppercase tracking-widest hover:text-white transition-all">
+                      <button className="mt-6 flex items-center gap-2 mx-auto text-[9px] font-black text-primary-400 uppercase tracking-widest hover:text-white transition-all">
                          Enter Access Key <ChevronRight className="h-3 w-3" />
                       </button>
                    </div>
@@ -613,14 +613,14 @@ const EmergencyTab = () => {
         )}
       </AnimatePresence>
 
-      <div className="bg-gradient-to-br from-indigo-600 to-blue-700 rounded-[2.5rem] p-10 text-white shadow-2xl shadow-indigo-600/20 overflow-hidden relative group">
+      <div className="bg-gradient-to-br from-emerald-600 to-primary-700 rounded-[2.5rem] p-10 text-white shadow-2xl shadow-emerald-600/20 overflow-hidden relative group">
          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl group-hover:bg-white/20 transition-all duration-700"></div>
          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="max-w-md text-center md:text-left">
                <h3 className="text-3xl font-black mb-4 tracking-tighter">Physical SOS Bridge</h3>
-               <p className="text-indigo-100 font-medium leading-relaxed">Combine your digital passport with a physical lock screen wallpaper or a printable wallet card for 100% emergency coverage.</p>
+               <p className="text-emerald-100 font-medium leading-relaxed">Combine your digital passport with a physical lock screen wallpaper or a printable wallet card for 100% emergency coverage.</p>
             </div>
-            <button onClick={generateLockScreenWallpaper} className="w-full md:w-auto bg-white text-indigo-600 px-10 py-5 rounded-2xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
+            <button onClick={generateLockScreenWallpaper} className="w-full md:w-auto bg-white text-emerald-600 px-10 py-5 rounded-2xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
                <Smartphone className="h-6 w-6" /> {isWallpaperGenerating ? 'Processing...' : 'Create SOS Wallpaper'}
             </button>
          </div>
