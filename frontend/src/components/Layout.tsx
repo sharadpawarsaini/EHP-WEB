@@ -81,6 +81,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       items: [
         { name: 'Medicines', path: '/dashboard/medicines', icon: Pill },
         { name: 'Vaccinations', path: '/dashboard/vaccinations', icon: Syringe },
+        { name: 'Insurance', path: '/dashboard/insurance', icon: Shield },
         { name: 'Visit History', path: '/dashboard/visits', icon: HistoryIcon },
         { name: t('nav_reports'), path: '/dashboard/reports', icon: FileText },
       ]
@@ -107,8 +108,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   const mobileBottomNav = [
     { name: 'Home', path: '/dashboard', icon: HomeIcon },
-    { name: 'Medical', path: '/dashboard/medical', icon: ClipboardList },
-    { name: 'SOS', path: '/dashboard/emergency', icon: Heart },
+    { name: 'Medical History', path: '/dashboard/medical', icon: ClipboardList },
+    { name: 'Insurance', path: '/dashboard/insurance', icon: Shield },
+    { name: 'Hospital Visits', path: '/dashboard/visits', icon: Hospital },
     { name: 'Vitals', path: '/dashboard/vitals', icon: Activity },
     { name: 'Profile', path: '/dashboard/profile', icon: User },
   ];

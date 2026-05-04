@@ -643,25 +643,44 @@ const EmergencyPage = () => {
                            ))}
                         </div>
                      </div>
-                     <div className="bg-emerald-600 rounded-[3rem] p-8 text-white relative overflow-hidden shadow-2xl">
-                        <div className="absolute top-0 right-0 p-8 opacity-10">
-                           <ShieldCheck className="h-32 w-32" />
-                        </div>
-                        <h3 className="text-lg font-black mb-6 flex items-center gap-3">
-                           <Briefcase className="h-5 w-5 text-emerald-300" />
-                           Insurance
-                        </h3>
-                        <div className="space-y-4 relative z-10">
-                           <div>
-                              <p className="text-[10px] font-black text-emerald-300 uppercase tracking-widest mb-1">Provider</p>
-                              <p className="font-black text-sm">{displayData.medical?.insurance?.provider || 'UNSPECIFIED'}</p>
-                           </div>
-                           <div className="pt-4 border-t border-white/10">
-                              <p className="text-[10px] font-black text-emerald-300 uppercase tracking-widest mb-1">Policy Node</p>
-                              <p className="font-mono text-xs font-black">{displayData.medical?.insurance?.policyNumber || 'N/A'}</p>
-                           </div>
-                        </div>
-                     </div>
+                     <div className="bg-slate-900 rounded-[3rem] p-8 text-white relative overflow-hidden shadow-premium">
+                         <div className="absolute top-0 right-0 p-8 opacity-10">
+                            <ShieldCheck className="h-32 w-32" />
+                         </div>
+                         <h3 className="text-lg font-black mb-6 flex items-center gap-3">
+                            <Briefcase className="h-5 w-5 text-teal-400" />
+                            Insurance Vault
+                         </h3>
+                         <div className="space-y-6 relative z-10 custom-scrollbar max-h-[300px] overflow-auto pr-2">
+                            {displayData.medical?.insurances?.length > 0 ? (
+                              displayData.medical.insurances.map((ins: any, idx: number) => (
+                                <div key={idx} className={`space-y-3 ${idx !== 0 ? 'pt-6 border-t border-white/10' : ''}`}>
+                                   <div className="flex justify-between items-start">
+                                      <div>
+                                         <p className="text-[9px] font-black text-teal-400 uppercase tracking-widest mb-1">{ins.coverageType || 'Medical'} Coverage</p>
+                                         <p className="font-black text-sm">{ins.provider || 'UNSPECIFIED'}</p>
+                                      </div>
+                                      <span className="px-2 py-0.5 bg-teal-500/20 text-teal-400 text-[8px] font-black rounded uppercase">Active</span>
+                                   </div>
+                                   <div>
+                                      <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Policy Node</p>
+                                      <p className="font-mono text-xs font-black">{ins.policyNumber || 'N/A'}</p>
+                                   </div>
+                                   {ins.expiryDate && (
+                                     <div>
+                                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Expiration</p>
+                                        <p className="text-[10px] font-bold">{new Date(ins.expiryDate).toLocaleDateString()}</p>
+                                     </div>
+                                   )}
+                                </div>
+                              ))
+                            ) : (
+                              <div className="py-4 text-center">
+                                 <p className="text-xs text-slate-500 font-bold italic">No insurance nodes detected.</p>
+                              </div>
+                            )}
+                         </div>
+                      </div>
                   </div>
 
                   {/* Clinical Reports */}

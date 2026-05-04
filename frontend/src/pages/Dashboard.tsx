@@ -18,6 +18,7 @@ import HospitalVisitDetailsTab from './dashboard/HospitalVisitDetailsTab';
 import HospitalVisitsTab from './dashboard/HospitalVisitsTab';
 import IntegrationsTab from './dashboard/IntegrationsTab';
 import NFCTab from './dashboard/NFCTab';
+import InsuranceTab from './dashboard/InsuranceTab';
 
 const Dashboard = () => {
   return (
@@ -25,6 +26,7 @@ const Dashboard = () => {
       <Route path="/" element={<OverviewTab />} />
       <Route path="/profile" element={<ProfileTab />} />
       <Route path="/medical" element={<MedicalTab />} />
+      <Route path="/insurance" element={<InsuranceTab />} />
       <Route path="/visits" element={<HospitalVisitsTab />} />
       <Route path="/integrations" element={<IntegrationsTab />} />
       <Route path="/medicines" element={<MedicinesTab />} />

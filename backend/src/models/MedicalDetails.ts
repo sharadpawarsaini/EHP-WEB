@@ -22,10 +22,12 @@ const medicalDetailsSchema = new mongoose.Schema({
     alcohol: { type: Boolean, default: false },
     exercise: { type: String, default: 'None' }
   },
-  insurance: {
+  insurances: [{
     provider: { type: String, default: '' },
-    policyNumber: { type: String, default: '' }
-  },
+    policyNumber: { type: String, default: '' },
+    expiryDate: { type: Date },
+    coverageType: { type: String, default: '' }
+  }],
   doctorHistory: [{
     name: { type: String },
     specialty: { type: String },

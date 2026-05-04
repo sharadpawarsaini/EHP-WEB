@@ -45,7 +45,6 @@ const MedicalTab = () => {
     vaccinations: '',
     familyHistory: '',
     lifestyle: { smoking: false, alcohol: false, exercise: 'None' },
-    insurance: { provider: '', policyNumber: '' },
     notes: ''
   });
   const [loading, setLoading] = useState(true);
@@ -72,7 +71,6 @@ const MedicalTab = () => {
             vaccinations: data.vaccinations?.join(', ') || '',
             familyHistory: data.familyHistory?.join(', ') || '',
             lifestyle: data.lifestyle || { smoking: false, alcohol: false, exercise: 'None' },
-            insurance: data.insurance || { provider: '', policyNumber: '' },
             notes: data.notes || ''
           });
         }
@@ -97,7 +95,6 @@ const MedicalTab = () => {
       vaccinations: details.vaccinations.split(',').map(s => s.trim()).filter(Boolean),
       familyHistory: details.familyHistory.split(',').map(s => s.trim()).filter(Boolean),
       lifestyle: details.lifestyle,
-      insurance: details.insurance,
       notes: details.notes
     };
 
@@ -304,28 +301,6 @@ const MedicalTab = () => {
 
         {/* Insurance & Notes */}
         <div className="grid lg:grid-cols-3 gap-10">
-           <div className="lg:col-span-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-xl border border-white dark:border-slate-700">
-              <h3 className="text-xl font-black text-gray-900 dark:text-white flex items-center gap-4 mb-10">
-                 <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-2xl">
-                    <Shield className="h-6 w-6 text-emerald-600" />
-                 </div>
-                 Insurance Coverage
-              </h3>
-              <div className="space-y-8">
-                 <InputField 
-                    label="Insurance Provider" 
-                    value={details.insurance.provider} 
-                    onChange={(e: any) => setDetails({...details, insurance: {...details.insurance, provider: e.target.value}})}
-                    placeholder="Blue Cross, Aetna..."
-                 />
-                 <InputField 
-                    label="Policy Identification" 
-                    value={details.insurance.policyNumber} 
-                    onChange={(e: any) => setDetails({...details, insurance: {...details.insurance, policyNumber: e.target.value}})}
-                    placeholder="Group/ID..."
-                 />
-              </div>
-           </div>
 
            <div className="bg-gray-900 rounded-[3rem] p-8 sm:p-12 text-white relative overflow-hidden shadow-2xl">
               <div className="absolute top-0 right-0 p-12 opacity-10">
