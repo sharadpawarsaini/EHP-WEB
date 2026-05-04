@@ -102,12 +102,23 @@ const PrivacyVault = () => {
     try {
       const keyBase64 = await retrieveKey(pass);
       if (!keyBase64) throw new Error('Unable to retrieve encryption key');
-      // Read each file as ArrayBuffer, encrypt, and send to backend
+      // Read each file to base64 safely without blowing the call stack
+      const fileToBase64 = (file: File): Promise<string> => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          // result is a data URL like "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+          // We extract just the base64 portion
+          const base64String = (reader.result as string).split(',')[1];
+          resolve(base64String);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
       const encryptedPayloads = await Promise.all(
         files.map(async file => {
-          const arrayBuffer = await file.arrayBuffer();
-          // Convert binary to Uint8Array for encryption utility (it expects JSON-serializable, but we can wrap as base64 string)
-          const data = { name: file.name, content: btoa(String.fromCharCode(...new Uint8Array(arrayBuffer))) };
+          const base64Content = await fileToBase64(file);
+          const data = { name: file.name, content: base64Content };
           const encrypted = await encryptData(data, keyBase64);
           return { filename: file.name, ...encrypted };
         })
