@@ -44,8 +44,31 @@ export const generateEmergencyLink = async (req: AuthRequest, res: Response): Pr
     }
 
     const frontendUrl = process.env.FRONTEND_URL || 'https://ehp-tan-eight.vercel.app';
-    const qrDataUrl = await QRCode.toDataURL(`${frontendUrl}/e/${link.publicSlug}`);
+    const webUrl = `${frontendUrl}/e/${link.publicSlug}`;
+    
+    // Fetch data for offline vCard
+    const profile = await Profile.findOne({ userId: req.user.userId, memberId: req.user.memberId });
+    const medical = await MedicalDetails.findOne({ userId: req.user.userId, memberId: req.user.memberId });
+    const contacts = await EmergencyContact.find({ userId: req.user.userId, memberId: req.user.memberId });
+    
+    let vCard = `BEGIN:VCARD\nVERSION:3.0\n`;
+    vCard += `N:${profile?.fullName || 'EHP Patient'}\n`;
+    vCard += `FN:${profile?.fullName || 'EHP Patient'} (Emergency)\n`;
+    
+    let notes = `EHP MEDICAL ID\\n`;
+    notes += `Blood: ${profile?.bloodGroup || 'Unknown'}\\n`;
+    if (medical?.allergies && medical.allergies.length > 0) notes += `Allergies: ${medical.allergies.join(', ')}\\n`;
+    if (medical?.conditions && medical.conditions.length > 0) notes += `Conditions: ${medical.conditions.join(', ')}\\n`;
+    notes += `Full Info: ${webUrl}\\n`;
+    
+    vCard += `NOTE:${notes}\n`;
+    if (contacts && contacts.length > 0) {
+      vCard += `TEL;TYPE=EMERGENCY,VOICE:${contacts[0].phone}\n`;
+    }
+    vCard += `URL:${webUrl}\n`;
+    vCard += `END:VCARD`;
 
+    const qrDataUrl = await QRCode.toDataURL(vCard, { errorCorrectionLevel: 'M' });
 
     res.status(201).json({
       link,
@@ -64,7 +87,31 @@ export const getEmergencyLink = async (req: AuthRequest, res: Response): Promise
     });
     if (link) {
       const frontendUrl = process.env.FRONTEND_URL || 'https://ehp-tan-eight.vercel.app';
-      const qrDataUrl = await QRCode.toDataURL(`${frontendUrl}/e/${link.publicSlug}`);
+      const webUrl = `${frontendUrl}/e/${link.publicSlug}`;
+      
+      // Fetch data for offline vCard
+      const profile = await Profile.findOne({ userId: req.user.userId, memberId: req.user.memberId });
+      const medical = await MedicalDetails.findOne({ userId: req.user.userId, memberId: req.user.memberId });
+      const contacts = await EmergencyContact.find({ userId: req.user.userId, memberId: req.user.memberId });
+      
+      let vCard = `BEGIN:VCARD\nVERSION:3.0\n`;
+      vCard += `N:${profile?.fullName || 'EHP Patient'}\n`;
+      vCard += `FN:${profile?.fullName || 'EHP Patient'} (Emergency)\n`;
+      
+      let notes = `EHP MEDICAL ID\\n`;
+      notes += `Blood: ${profile?.bloodGroup || 'Unknown'}\\n`;
+      if (medical?.allergies && medical.allergies.length > 0) notes += `Allergies: ${medical.allergies.join(', ')}\\n`;
+      if (medical?.conditions && medical.conditions.length > 0) notes += `Conditions: ${medical.conditions.join(', ')}\\n`;
+      notes += `Full Info: ${webUrl}\\n`;
+      
+      vCard += `NOTE:${notes}\n`;
+      if (contacts && contacts.length > 0) {
+        vCard += `TEL;TYPE=EMERGENCY,VOICE:${contacts[0].phone}\n`;
+      }
+      vCard += `URL:${webUrl}\n`;
+      vCard += `END:VCARD`;
+
+      const qrDataUrl = await QRCode.toDataURL(vCard, { errorCorrectionLevel: 'M' });
 
       res.json({ link, qrDataUrl });
     } else {
