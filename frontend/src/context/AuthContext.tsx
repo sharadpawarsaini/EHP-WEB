@@ -11,6 +11,8 @@ interface AuthContextType {
   login: (userData: User) => void;
   logout: () => void;
   loading: boolean;
+  isStealthMode: boolean;
+  stealthData: any;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,6 +20,35 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isStealthMode, setIsStealthMode] = useState(false);
+
+  // Mock Ghost Data for Stealth Mode
+  const stealthData = {
+    profile: {
+      fullName: "Alex Rivera",
+      age: 28,
+      bloodGroup: "O+",
+      emergencyContact: "9876543210"
+    },
+    medical: {
+      allergies: "None",
+      conditions: "Seasonal Hayfever",
+      medications: "Vitamin C (Daily)",
+      surgeries: "None",
+      familyHistory: "No major concerns"
+    },
+    vitals: [
+      { type: "Heart Rate", value: 72, unit: "bpm", date: new Date().toISOString() },
+      { type: "Blood Pressure", value: "120/80", unit: "mmHg", date: new Date().toISOString() },
+      { type: "SPO2", value: 99, unit: "%", date: new Date().toISOString() }
+    ],
+    reports: [
+      { title: "Routine Health Check", createdAt: new Date().toISOString() }
+    ],
+    visits: [
+      { hospitalName: "General Medical Center", visitDate: new Date().toISOString() }
+    ]
+  };
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -51,10 +82,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkAuth();
   }, []);
 
-  const login = (userData: any) => {
+  const login = (userData: any, stealth: boolean = false) => {
+    setIsStealthMode(stealth);
     setUser({ _id: userData._id, email: userData.email });
     if (userData.token) {
       localStorage.setItem('token', userData.token);
+    }
+    if (stealth) {
+      localStorage.setItem('isStealth', 'true');
+    } else {
+      localStorage.removeItem('isStealth');
     }
   };
 
@@ -70,7 +107,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, isStealthMode, stealthData }}>
       {children}
     </AuthContext.Provider>
   );

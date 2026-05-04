@@ -28,6 +28,7 @@ import {
   Bell,
   Zap,
   Shield,
+  EyeOff,
   Rss
 } from 'lucide-react';
 import { useProfileContext } from '../context/ProfileContext';
@@ -37,9 +38,10 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../services/api';
 import { getFullPhotoUrl } from '../utils/url';
+import StealthBanner from './StealthBanner';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const { logout } = useAuth();
+  const { logout, isStealthMode } = useAuth();
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -158,6 +160,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 <div className="min-w-0">
                   <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Authenticated</p>
                   <p className="text-sm font-black text-gray-900 dark:text-white truncate" title={managedMemberName}>{managedMemberName}</p>
+                  {isStealthMode && (
+                    <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-[9px] font-bold rounded-full uppercase tracking-widest">
+                      <EyeOff className="h-2.5 w-2.5" /> Ghost Mode
+                    </span>
+                  )}
                 </div>
              </div>
           </div>
@@ -286,7 +293,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
       {/* ── COMMAND CENTER MAIN ── */}
       <main className="flex-1 flex flex-col min-w-0 relative">
-        
+
+        {/* Ghost Mode Banner */}
+        <StealthBanner />
+
         {/* Header Protocol */}
         <header className="bg-white/70 dark:bg-[#0A0A0A]/70 backdrop-blur-2xl border-b border-gray-100 dark:border-white/5 px-6 md:px-12 h-20 flex justify-between items-center sticky top-0 z-[100] transition-all duration-500">
           <div className="flex items-center gap-6">
@@ -375,7 +385,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </header>
 
         {/* Content Shell */}
-        <div className="flex-1 overflow-auto p-8 md:p-12 pb-32 md:pb-12 bg-slate-50 dark:bg-slate-950 transition-colors duration-700 no-scrollbar">
+        <div className="flex-1 overflow-auto p-8 md:p-12 pb-32 md:pb-12 bg-slate-50 dark:bg-slate-950 transition-colors duration-700 no-scrollbar relative">
           <div className="max-w-7xl mx-auto">
             {children}
           </div>

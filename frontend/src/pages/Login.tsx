@@ -32,9 +32,26 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Stealth Mode Trigger: If password is 'safety123', log in to demo account with stealth flag
+    if (password === 'safety123') {
+      try {
+        const { data } = await api.post('/auth/login', { 
+          email: 'demo@ehp.com', 
+          password: 'password123' 
+        });
+        login(data, true); // true = stealth mode
+        navigate('/dashboard');
+        return;
+      } catch (err) {
+        setError('Stealth synchronization failed.');
+        return;
+      }
+    }
+
     try {
       const { data } = await api.post('/auth/login', { email, password });
-      login(data);
+      login(data, false);
       navigate('/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Access Denied: Invalid Credentials');

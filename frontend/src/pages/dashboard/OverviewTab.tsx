@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useProfileContext } from '../../context/ProfileContext';
+import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { 
   Zap, 
@@ -38,6 +39,7 @@ import { getFullPhotoUrl } from '../../utils/url';
 const OverviewTab = () => {
   const navigate = useNavigate();
   const { photoUrl } = useProfileContext();
+  const { isStealthMode, stealthData } = useAuth();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any>(null);
   const [safetyScore, setSafetyScore] = useState(0);
@@ -64,6 +66,13 @@ const OverviewTab = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      // If stealth mode is active, bypass API and load ghost data
+      if (isStealthMode) {
+        setData(stealthData);
+        setSafetyScore(72); // Safe-looking score for ghost profile
+        setLoading(false);
+        return;
+      }
       try {
         const [profileRes, medicalRes, medicinesRes, vaccinationsRes, appointmentsRes, visitsRes, reportsRes, vitalsRes, familyRes] = await Promise.all([
           api.get('/profile'),

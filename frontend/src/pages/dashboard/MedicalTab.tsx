@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
+import { ClipboardList, Shield, Activity, Plus, FileText, CheckCircle2, Info, AlertCircle, Calendar, Hospital, Heart, Droplet, Trash2, ChevronRight, Stethoscope, Wind, Zap, EyeOff } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../../context/AuthContext';
+import { encryptMedicalRecord } from '../../utils/encryption';
+import api from '../../services/api';
 import { 
   ClipboardList, 
   Shield, 
@@ -20,6 +25,8 @@ import {
   Zap
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../../context/AuthContext';
+import { EyeOff } from 'lucide-react';
 
 const InputField = ({ label, value, onChange, placeholder, icon: Icon }: any) => (
   <div className="space-y-2">
@@ -47,9 +54,24 @@ const MedicalTab = () => {
     lifestyle: { smoking: false, alcohol: false, exercise: 'None' },
     notes: ''
   });
-  const [loading, setLoading] = useState(true);
+  const { isStealthMode, stealthData } = useAuth();
+  // Passphrase handling for Zero‑Knowledge Encryption
+  const [passphrase, setPassphrase] = useState('');
+  const [showPassModal, setShowPassModal] = useState(false);
+
+  // Show passphrase modal if encryption key not yet stored
+  useEffect(() => {
+    const stored = localStorage.getItem('ehp_user_passphrase');
+    if (!stored) {
+      setShowPassModal(true);
+    } else {
+      setPassphrase(stored);
+    }
+  }, []);
+
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
+  const { isStealthMode, stealthData } = useAuth();
 
   // Hospital Visit State
   const [visitHospital, setVisitHospital] = useState('');
@@ -60,6 +82,21 @@ const MedicalTab = () => {
 
   useEffect(() => {
     const fetchDetails = async () => {
+      // Ghost Mode: Load sanitized medical data instead of real records
+      if (isStealthMode) {
+        setDetails({
+          allergies: stealthData.medical.allergies,
+          conditions: stealthData.medical.conditions,
+          medications: stealthData.medical.medications,
+          surgeries: stealthData.medical.surgeries,
+          vaccinations: 'COVID-19 (2023), Flu (2024)',
+          familyHistory: stealthData.medical.familyHistory,
+          lifestyle: { smoking: false, alcohol: false, exercise: 'Moderate' },
+          notes: 'No critical notes for first responders.'
+        });
+        setLoading(false);
+        return;
+      }
       try {
         const { data } = await api.get('/medical');
         if (data) {
@@ -81,9 +118,24 @@ const MedicalTab = () => {
       }
     };
     fetchDetails();
-  }, []);
+  }, [isStealthMode]);
 
   const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isStealthMode) return; // prevent saving in ghost mode
+    setSaving(true);
+    try {
+      // Encrypt the record with user passphrase (Zero‑Knowledge)
+      const encrypted = await encryptMedicalRecord(details, passphrase);
+      await api.post('/medical', encrypted);
+      setMessage('Medical record saved securely.');
+    } catch (err: any) {
+      setMessage(err.response?.data?.message || 'Failed to save.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
     e.preventDefault();
     setSaving(true);
     
@@ -154,7 +206,26 @@ const MedicalTab = () => {
 
   return (
     <div className="space-y-10 animate-in fade-in duration-700 max-w-full overflow-hidden">
-      
+
+      {/* Ghost Mode Notice */}
+      {isStealthMode && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-4 p-5 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/40 rounded-2xl"
+        >
+          <div className="p-2 bg-amber-100 dark:bg-amber-900/40 rounded-xl flex-shrink-0">
+            <EyeOff className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-amber-800 dark:text-amber-300">Ghost Profile Active</p>
+            <p className="text-xs text-amber-600 dark:text-amber-400 font-medium mt-0.5">
+              You are viewing a sanitized ghost profile. Real clinical data is fully encrypted and hidden. Editing is disabled in this mode.
+            </p>
+          </div>
+        </motion.div>
+      )}
+
       {/* Header Widget */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
          <div>
@@ -165,9 +236,16 @@ const MedicalTab = () => {
             <h2 className="text-3xl saas-heading">Clinical Passport</h2>
             <p className="saas-subtext">Global interoperable health history and clinical records</p>
          </div>
-         <button onClick={handleSubmit} disabled={saving} className="btn-primary px-8 py-3 text-base">
-            {saving ? 'Syncing...' : 'Save Changes'}
-         </button>
+         {isStealthMode ? (
+           <div className="flex items-center gap-2 px-6 py-3 bg-zinc-100 dark:bg-zinc-800 text-zinc-400 rounded-xl text-sm font-bold cursor-not-allowed border border-zinc-200 dark:border-zinc-700">
+             <EyeOff className="h-4 w-4" />
+             Locked in Ghost Mode
+           </div>
+         ) : (
+           <button onClick={handleSubmit} disabled={saving} className="btn-primary px-8 py-3 text-base">
+             {saving ? 'Syncing...' : 'Save Changes'}
+           </button>
+         )}
       </div>
 
       <AnimatePresence>
