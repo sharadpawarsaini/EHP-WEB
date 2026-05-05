@@ -4,6 +4,7 @@ import api from '../services/api';
 interface User {
   _id: string;
   email: string;
+  role: string;
 }
 
 interface AuthContextType {
@@ -62,8 +63,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         // Verify token with backend
         const { data } = await api.get('/profile');
+        const storedRole = localStorage.getItem('role') || 'user';
         if (data && (data.userId || data._id)) {
-          setUser({ _id: data.userId || data._id, email: data.email || '' }); 
+          setUser({ 
+            _id: data.userId || data._id, 
+            email: data.email || '', 
+            role: data.role || storedRole 
+          }); 
         } else {
           setUser(null);
         }
@@ -84,10 +90,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = (userData: any, stealth: boolean = false) => {
     setIsStealthMode(stealth);
-    setUser({ _id: userData._id, email: userData.email });
+    const role = userData.role || 'user';
+    setUser({ _id: userData._id, email: userData.email, role });
     if (userData.token) {
       localStorage.setItem('token', userData.token);
     }
+    localStorage.setItem('role', role);
     if (stealth) {
       localStorage.setItem('isStealth', 'true');
     } else {
@@ -103,6 +111,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       setUser(null);
       localStorage.removeItem('token');
+      localStorage.removeItem('role');
     }
   };
 

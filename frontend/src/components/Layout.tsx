@@ -107,6 +107,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         { name: t('nav_logs'), path: '/dashboard/logs', icon: HistoryIcon },
         { name: 'Feedback', path: '/dashboard/feedback', icon: MessageSquareHeart },
         { name: 'Settings', path: '/dashboard/settings', icon: Settings },
+        ...(useAuth().user?.role === 'admin' ? [{ name: 'Admin Console', path: '/admin', icon: ShieldCheck }] : []),
       ]
     }
   ];

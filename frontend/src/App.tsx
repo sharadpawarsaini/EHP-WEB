@@ -16,6 +16,12 @@ import Contact from './pages/Contact';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Layout from './components/Layout';
+import { AdminRoute } from './components/AdminRoute';
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import UserManagement from './pages/admin/UserManagement';
+import FeedbackManagement from './pages/admin/FeedbackManagement';
+import AuditLogs from './pages/admin/AuditLogs';
 
 function App() {
   return (
@@ -45,6 +51,21 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
+            {/* Admin Routes */}
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminLayout />
+                </AdminRoute>
+              }
+            >
+              <Route index element={<AdminDashboard />} />
+              <Route path="users" element={<UserManagement />} />
+              <Route path="feedback" element={<FeedbackManagement />} />
+              <Route path="logs" element={<AuditLogs />} />
+            </Route>
           </Routes>
         </Router>
       </ProfileProvider>

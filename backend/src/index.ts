@@ -24,6 +24,7 @@ import reportRoutes from './routes/reportRoutes';
 import familyRoutes from './routes/familyRoutes';
 import hospitalRoutes from './routes/hospitalRoutes';
 import privacyRoutes from './routes/privacyRoutes';
+import adminRoutes from './routes/adminRoutes';
 
 const app = express();
 
@@ -80,6 +81,7 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/family', familyRoutes);
 app.use('/api/hospitals', hospitalRoutes);
 app.use('/api/privacy', privacyRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Health Check
 app.get('/health', (req, res) => res.json({ status: 'ok' }));

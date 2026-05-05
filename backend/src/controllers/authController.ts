@@ -4,8 +4,8 @@ import { Profile } from '../models/Profile';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-const generateToken = (res: Response, userId: any): string => {
-  const token = jwt.sign({ userId }, process.env.JWT_SECRET as string, {
+const generateToken = (res: Response, userId: any, role: string): string => {
+  const token = jwt.sign({ userId, role }, process.env.JWT_SECRET as string, {
     expiresIn: '30d',
   });
 
@@ -51,10 +51,11 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
         });
       }
 
-      const token = generateToken(res, user._id);
+      const token = generateToken(res, user._id, (user as any).role);
       res.status(201).json({
         _id: user._id,
         email: user.email,
+        role: (user as any).role,
         token,
       });
     } else {
@@ -72,10 +73,11 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      const token = generateToken(res, user._id);
+      const token = generateToken(res, user._id, (user as any).role);
       res.json({
         _id: user._id,
         email: user.email,
+        role: (user as any).role,
         token,
       });
     } else {

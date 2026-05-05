@@ -8,8 +8,15 @@ export const getProfile = async (req: AuthRequest, res: Response): Promise<void>
       userId: req.user.userId,
       memberId: req.user.memberId 
     });
+    
+    // Also get the role from User model
+    const user = await require('../models/User').User.findById(req.user.userId);
+    
     if (profile) {
-      res.json(profile);
+      res.json({
+        ...profile.toObject(),
+        role: user ? (user as any).role : 'user'
+      });
     } else {
       res.status(404).json({ message: 'Profile not found' });
     }
