@@ -42,7 +42,7 @@ import { getFullPhotoUrl } from '../utils/url';
 import StealthBanner from './StealthBanner';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const { logout, isStealthMode } = useAuth();
+  const { logout, isStealthMode, user } = useAuth();
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -74,6 +74,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       title: "Core Protocol",
       items: [
         { name: t('nav_overview'), path: '/dashboard', icon: HomeIcon },
+        ...(user?.role === 'admin' ? [{ name: 'Admin Console', path: '/admin', icon: ShieldCheck }] : []),
         { name: t('nav_vitals'), path: '/dashboard/vitals', icon: Activity },
         { name: t('nav_emergency'), path: '/dashboard/emergency', icon: QrCode },
         { name: t('nav_medical'), path: '/dashboard/medical', icon: ClipboardList },
@@ -107,7 +108,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         { name: t('nav_logs'), path: '/dashboard/logs', icon: HistoryIcon },
         { name: 'Feedback', path: '/dashboard/feedback', icon: MessageSquareHeart },
         { name: 'Settings', path: '/dashboard/settings', icon: Settings },
-        ...(useAuth().user?.role === 'admin' ? [{ name: 'Admin Console', path: '/admin', icon: ShieldCheck }] : []),
       ]
     }
   ];
@@ -179,7 +179,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
 
         {/* Navigation Groups */}
-        <nav className="flex-1 px-4 space-y-8 overflow-y-auto custom-scrollbar pb-10">
+        <nav className="flex-1 px-4 space-y-8 overflow-y-auto custom-scrollbar pb-10 min-h-0">
           {navGroups.map((group) => (
             <div key={group.title} className="space-y-2">
               <h4 className="px-4 text-[9px] font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.3em] mb-4">{group.title}</h4>

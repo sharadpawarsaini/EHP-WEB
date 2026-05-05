@@ -63,12 +63,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         // Verify token with backend
         const { data } = await api.get('/profile');
-        const storedRole = localStorage.getItem('role') || 'user';
         if (data && (data.userId || data._id)) {
+          const role = data.role || 'user';
+          localStorage.setItem('role', role); // Synchronize role
           setUser({ 
             _id: data.userId || data._id, 
             email: data.email || '', 
-            role: data.role || storedRole 
+            role: role 
           }); 
         } else {
           setUser(null);
