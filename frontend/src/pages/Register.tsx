@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Activity, ArrowLeft, ShieldCheck, UserPlus, Zap, ChevronRight } from 'lucide-react';
+import { Activity, ArrowLeft, ShieldCheck, UserPlus, Zap, ChevronRight, Lock } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';

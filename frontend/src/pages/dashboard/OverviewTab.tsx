@@ -475,7 +475,7 @@ const OverviewTab = () => {
               <Navigation className="h-3.5 w-3.5" />
               <span>SOS Navigator</span>
             </button>
-          </div>v>
+          </div>
 
           {/* Family Health Widget */}
           <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl">

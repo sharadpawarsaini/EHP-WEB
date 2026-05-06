@@ -435,7 +435,6 @@ const MedicalTab = () => {
                </div>
              ))}
            </div>
-           </div>
 
             <div className="flex justify-end pt-8">
                <button
