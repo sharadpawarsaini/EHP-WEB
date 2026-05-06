@@ -127,31 +127,39 @@ const NotificationSystem = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-md flex items-center justify-center p-6"
+            className="fixed inset-0 z-[200] bg-zinc-950/95 backdrop-blur-xl flex items-center justify-center p-6"
           >
             <motion.div 
-              initial={{ scale: 0.9, y: 40 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 40 }}
-              className={`max-w-md w-full bg-[#0A0A0A] border rounded-[3rem] p-10 relative overflow-hidden shadow-3xl ${getTypeStyles(currentPopup.type).border}`}
+              initial={{ scale: 0.9, y: 40, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 40, opacity: 0 }}
+              className={`max-w-lg w-full bg-zinc-900 border-2 rounded-[3.5rem] p-12 relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] ${getTypeStyles(currentPopup.type).border}`}
             >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-3xl -mr-16 -mt-16 rounded-full"></div>
+                {/* Decorative background glow */}
+                <div className={`absolute -top-24 -right-24 w-64 h-64 ${getTypeStyles(currentPopup.type).bg} blur-[80px] rounded-full opacity-50`}></div>
                 
-                <div className={`w-16 h-16 rounded-3xl ${getTypeStyles(currentPopup.type).bg} flex items-center justify-center mb-8 relative z-10`}>
+                <div className={`w-20 h-20 rounded-3xl ${getTypeStyles(currentPopup.type).bg} flex items-center justify-center mb-10 relative z-10 border border-white/5 shadow-2xl`}>
                     {(() => {
                         const IconComponent = getTypeStyles(currentPopup.type).icon;
-                        return <IconComponent className={`w-8 h-8 ${getTypeStyles(currentPopup.type).color}`} />;
+                        return <IconComponent className={`w-10 h-10 ${getTypeStyles(currentPopup.type).color}`} />;
                     })()}
                 </div>
 
-                <div className="relative z-10">
-                    <h2 className="text-2xl font-black text-white uppercase tracking-tight mb-2">{currentPopup.title}</h2>
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mb-6">Inbound System Transmission</p>
-                    <p className="text-slate-300 leading-relaxed mb-10">{currentPopup.message}</p>
+                <div className="relative z-10 space-y-8">
+                    <div>
+                        <h2 className="text-3xl font-black text-white uppercase tracking-tighter mb-3 leading-none">{currentPopup.title}</h2>
+                        <p className="text-[11px] font-black text-zinc-500 uppercase tracking-[0.5em]">Inbound System Transmission</p>
+                    </div>
+                    
+                    <div className="bg-white/5 rounded-[2rem] p-8 border border-white/5 shadow-inner">
+                        <p className="text-lg text-zinc-300 leading-relaxed font-medium italic">
+                            "{currentPopup.message}"
+                        </p>
+                    </div>
                     
                     <button 
                         onClick={markAsSeen}
-                        className="w-full py-5 bg-white text-black rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-emerald-500 hover:text-white transition-all shadow-2xl shadow-white/5"
+                        className="w-full py-6 bg-white hover:bg-emerald-500 text-zinc-950 hover:text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] transition-all shadow-2xl hover:scale-[1.02] active:scale-95"
                     >
                         Acknowledge & Close
                     </button>
