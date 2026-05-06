@@ -46,21 +46,42 @@ const AdminDashboard = () => {
   const [broadcastForm, setBroadcastForm] = useState({ title: '', message: '', type: 'info' });
 
   useEffect(() => {
+    let isMounted = true;
+    
     const fetchData = async () => {
       try {
-        const [statsRes, settingsRes] = await Promise.all([
-          api.get('/admin/stats'),
-          api.get('/admin/system-settings')
-        ]);
-        setStats(statsRes.data);
-        setMaintenanceMode(settingsRes.data.maintenanceMode);
+        const statsPromise = api.get('/admin/stats');
+        const settingsPromise = api.get('/admin/system-settings');
+        
+        const [statsRes, settingsRes] = await Promise.allSettled([statsPromise, settingsPromise]);
+        
+        if (isMounted) {
+          if (statsRes.status === 'fulfilled') {
+            setStats(statsRes.value.data);
+          }
+          if (settingsRes.status === 'fulfilled') {
+            setMaintenanceMode(settingsRes.value.data.maintenanceMode);
+          }
+        }
       } catch (error) {
         console.error('Error fetching admin data:', error);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
+
+    // Initial fetch
     fetchData();
+
+    // Poll every 5 seconds for real-time updates
+    const interval = setInterval(fetchData, 5000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
   }, []);
 
   const handleMaintenanceToggle = async () => {
@@ -275,19 +296,19 @@ const AdminDashboard = () => {
                 <div className="space-y-2">
                     <div className="flex justify-between items-center text-xs font-bold">
                         <span className="text-zinc-500 flex items-center gap-1.5"><Cpu className="w-3.5 h-3.5" /> CPU Load</span>
-                        <span className="text-zinc-900 dark:text-white">{stats?.systemHealth?.cpu}%</span>
+                        <span className="text-zinc-900 dark:text-white">{stats?.systemHealth?.cpu || 0}%</span>
                     </div>
                     <div className="w-full h-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
-                        <div className="h-full bg-primary-500 transition-all duration-1000" style={{ width: `${stats?.systemHealth?.cpu}%` }}></div>
+                        <div className="h-full bg-primary-500 transition-all duration-1000" style={{ width: `${stats?.systemHealth?.cpu || 0}%` }}></div>
                     </div>
                 </div>
                 <div className="space-y-2">
                     <div className="flex justify-between items-center text-xs font-bold">
                         <span className="text-zinc-500 flex items-center gap-1.5"><Database className="w-3.5 h-3.5" /> Memory</span>
-                        <span className="text-zinc-900 dark:text-white">{stats?.systemHealth?.memory}%</span>
+                        <span className="text-zinc-900 dark:text-white">{stats?.systemHealth?.memory || 0}%</span>
                     </div>
                     <div className="w-full h-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
-                        <div className="h-full bg-blue-500 transition-all duration-1000" style={{ width: `${stats?.systemHealth?.memory}%` }}></div>
+                        <div className="h-full bg-blue-500 transition-all duration-1000" style={{ width: `${stats?.systemHealth?.memory || 0}%` }}></div>
                     </div>
                 </div>
             </div>
