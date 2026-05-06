@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, X, Info, AlertTriangle, Zap, CheckCircle } from 'lucide-react';
+import { Bell, X, Info, AlertTriangle, Zap, CheckCircle, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../services/api';
 
@@ -10,14 +10,23 @@ const NotificationSystem = () => {
   const [hasSeenPopup, setHasSeenPopup] = useState(false);
 
   useEffect(() => {
-    const fetchBroadcasts = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await api.get('/profile/broadcasts');
-        setBroadcasts(data);
+        const [broadcastRes, messageRes] = await Promise.all([
+          api.get('/profile/broadcasts'),
+          api.get('/profile/messages')
+        ]);
+        
+        const combined = [
+          ...broadcastRes.data.map((b: any) => ({ ...b, itemType: 'broadcast' })),
+          ...messageRes.data.map((m: any) => ({ ...m, itemType: 'message', type: 'dm' }))
+        ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+        setBroadcasts(combined);
         
         // Show popup for the latest broadcast if it's new
-        if (data.length > 0 && !hasSeenPopup) {
-            const latest = data[0];
+        if (broadcastRes.data.length > 0 && !hasSeenPopup) {
+            const latest = broadcastRes.data[0];
             const seenId = localStorage.getItem('last_seen_broadcast');
             if (seenId !== latest._id) {
                 setCurrentPopup(latest);
@@ -27,7 +36,7 @@ const NotificationSystem = () => {
         console.error('Error fetching notifications:', error);
       }
     };
-    fetchBroadcasts();
+    fetchData();
   }, [hasSeenPopup]);
 
   const markAsSeen = () => {
@@ -43,6 +52,7 @@ const NotificationSystem = () => {
       case 'warning': return { icon: AlertTriangle, color: 'text-amber-500', bg: 'bg-amber-500/10', border: 'border-amber-500/20' };
       case 'emergency': return { icon: Zap, color: 'text-rose-500', bg: 'bg-rose-500/10', border: 'border-rose-500/20' };
       case 'update': return { icon: CheckCircle, color: 'text-emerald-500', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' };
+      case 'dm': return { icon: User, color: 'text-blue-400', bg: 'bg-blue-400/10', border: 'border-blue-400/20' };
       default: return { icon: Info, color: 'text-blue-500', bg: 'bg-blue-500/10', border: 'border-blue-500/20' };
     }
   };
@@ -83,10 +93,15 @@ const NotificationSystem = () => {
                           <styles.icon className={`w-4 h-4 ${styles.color}`} />
                         </div>
                         <div className="space-y-1">
-                          <h4 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">{b.title}</h4>
-                          <p className="text-[10px] text-slate-500 leading-relaxed">{b.message}</p>
-                          <p className="text-[8px] text-slate-700 font-bold uppercase tracking-widest pt-1">
+                          <h4 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">
+                            {b.itemType === 'message' ? `Direct: ${b.title}` : b.title}
+                          </h4>
+                          <p className="text-[10px] text-slate-500 leading-relaxed">
+                            {b.itemType === 'message' ? b.content : b.message}
+                          </p>
+                          <p className="text-[8px] text-slate-700 font-bold uppercase tracking-widest pt-1 flex items-center gap-2">
                             {new Date(b.createdAt).toLocaleDateString()}
+                            {b.itemType === 'message' && <span className="px-1.5 py-0.5 bg-blue-500/10 text-blue-400 rounded-md text-[6px]">PRIVATE</span>}
                           </p>
                         </div>
                       </div>

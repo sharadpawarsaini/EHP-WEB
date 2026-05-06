@@ -12,7 +12,8 @@ import {
   ShieldCheck,
   Home,
   TrendingUp,
-  Clock
+  Clock,
+  Send
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -26,6 +27,7 @@ const AdminLayout = () => {
     { icon: Users, label: 'Users', path: '/admin/users' },
     { icon: TrendingUp, label: 'Analytics', path: '/admin/analytics' },
     { icon: MessageSquare, label: 'Feedback', path: '/admin/feedback' },
+    { icon: Send, label: 'Communications', path: '/admin/communication' },
     { icon: ShieldAlert, label: 'SOS Monitor', path: '/admin/sos' },
     { icon: Clock, label: 'Audit Logs', path: '/admin/logs' },
   ];

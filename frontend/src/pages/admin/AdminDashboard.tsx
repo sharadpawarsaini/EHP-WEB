@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import { 
   Users, 
@@ -15,7 +16,8 @@ import {
   Globe,
   Bell,
   Settings,
-  AlertTriangle
+  AlertTriangle,
+  Send
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -36,6 +38,7 @@ import {
 } from 'recharts';
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [maintenanceMode, setMaintenanceMode] = useState(false);
@@ -333,6 +336,16 @@ const AdminDashboard = () => {
                     <div>
                         <span className="block font-black text-[10px] uppercase tracking-widest text-white mb-1">Broadcast Alert</span>
                         <span className="text-[9px] text-slate-500 uppercase font-bold tracking-widest">Global Notification</span>
+                    </div>
+                </button>
+                <button 
+                    onClick={() => navigate('/admin/communication')}
+                    className="flex flex-col items-start gap-4 p-6 bg-white/[0.02] border border-white/10 hover:border-blue-500/50 rounded-[2rem] transition-all text-left group"
+                >
+                    <Send className="w-8 h-8 text-slate-500 group-hover:text-blue-500 transition-colors" />
+                    <div>
+                        <span className="block font-black text-[10px] uppercase tracking-widest text-white mb-1">Communication Hub</span>
+                        <span className="text-[9px] text-slate-500 uppercase font-bold tracking-widest">Global & Direct</span>
                     </div>
                 </button>
                 <button className="flex flex-col items-start gap-4 p-6 bg-white/[0.02] border border-white/10 hover:border-blue-500/50 rounded-[2rem] transition-all text-left group">

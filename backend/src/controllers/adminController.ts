@@ -138,6 +138,7 @@ export const getAccessLogs = async (req: Request, res: Response): Promise<void> 
 };
 
 import { Broadcast } from '../models/Broadcast';
+import { Message } from '../models/Message';
 
 export const createBroadcast = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -160,6 +161,32 @@ export const getActiveBroadcasts = async (req: Request, res: Response): Promise<
     res.json(broadcasts);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching broadcasts' });
+  }
+};
+
+export const sendDirectMessage = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { receiverId, title, content, priority } = req.body;
+    const message = await Message.create({
+      senderId: (req as any).user.userId,
+      receiverId,
+      title,
+      content,
+      priority
+    });
+    res.status(201).json(message);
+  } catch (error) {
+    res.status(500).json({ message: 'Error sending message' });
+  }
+};
+
+export const getUserMessages = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const messages = await Message.find({ receiverId: (req as any).user.userId })
+      .sort({ createdAt: -1 });
+    res.json(messages);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching messages' });
   }
 };
 

@@ -26,6 +26,7 @@ import AdminLogin from './pages/admin/AdminLogin';
 import AdminRegister from './pages/admin/AdminRegister';
 import Analytics from './pages/admin/Analytics';
 import SOSMonitor from './pages/admin/SOSMonitor';
+import CommunicationCenter from './pages/admin/CommunicationCenter';
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function App() {
               <Route path="analytics" element={<Analytics />} />
               <Route path="feedback" element={<FeedbackManagement />} />
               <Route path="sos" element={<SOSMonitor />} />
+              <Route path="communication" element={<CommunicationCenter />} />
               <Route path="logs" element={<AuditLogs />} />
             </Route>
 

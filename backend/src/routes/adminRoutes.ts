@@ -5,7 +5,9 @@ import {
   getAllFeedback, 
   updateFeedbackStatus, 
   getAccessLogs, 
-  deleteUser 
+  deleteUser,
+  createBroadcast,
+  sendDirectMessage
 } from '../controllers/adminController';
 import { protect } from '../middleware/authMiddleware';
 import { admin } from '../middleware/adminMiddleware';
@@ -22,6 +24,7 @@ router.get('/feedback', getAllFeedback);
 router.patch('/feedback/:id', updateFeedbackStatus);
 router.get('/logs', getAccessLogs);
 router.delete('/users/:id', deleteUser);
-router.post('/broadcast', require('../controllers/adminController').createBroadcast);
+router.post('/broadcast', createBroadcast);
+router.post('/message', sendDirectMessage);
 
 export default router;
