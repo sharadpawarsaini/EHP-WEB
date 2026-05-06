@@ -129,20 +129,23 @@ const ProfileTab = () => {
     <div className="space-y-10 animate-in fade-in duration-700 max-w-full overflow-hidden">
       
       {/* Header Widget */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
-         <div>
-            <div className="flex items-center gap-2 mb-3">
-               <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Level 4 Citizen</span>
-               <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full">Encrypted Identity</span>
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10 mb-12">
+         <div className="space-y-4">
+            <div className="flex items-center gap-3">
+               <span className="px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.1)]">Level 4 Citizen</span>
+               <span className="px-4 py-1.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.1)]">Nexus Identity Node</span>
             </div>
-            <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Identity & Bio</h2>
-            <p className="text-gray-500 dark:text-gray-400 font-medium">Verify clinical credentials and biometric identification</p>
+            <h2 className="text-5xl font-black text-zinc-900 dark:text-white uppercase tracking-tighter leading-none">Profile Matrix</h2>
+            <p className="text-sm text-zinc-500 font-medium italic">Manage clinical telemetry nodes and biometric verification protocols.</p>
          </div>
          <AnimatePresence>
            {message && (
-             <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0 }} className="p-4 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center gap-3 border border-emerald-100 dark:border-emerald-800/30 shadow-xl shadow-emerald-500/10">
-               <CheckCircle2 className="h-5 w-5" />
-               <span className="text-[10px] font-black uppercase tracking-widest">{message}</span>
+             <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0 }} className="p-5 bg-white/5 backdrop-blur-xl border border-white/10 text-emerald-500 rounded-2xl flex items-center gap-4 shadow-2xl relative z-10 overflow-hidden group">
+               <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+               <div className="p-2 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
+                  <CheckCircle2 className="h-4 w-4" />
+               </div>
+               <span className="text-[10px] font-black uppercase tracking-[0.3em]">{message}</span>
              </motion.div>
            )}
          </AnimatePresence>
@@ -151,92 +154,93 @@ const ProfileTab = () => {
       <div className="grid lg:grid-cols-3 gap-10">
         
         {/* Left: Bio Form */}
-        <div className="lg:col-span-2 space-y-8">
-          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-10 shadow-xl border border-white dark:border-slate-700 overflow-hidden relative">
-            <div className="absolute top-0 right-0 p-12 opacity-5">
-               <Dna className="h-40 w-40" />
+        <div className="lg:col-span-2 space-y-10">
+          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl rounded-[3.5rem] p-12 shadow-2xl border border-white/10 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+               <Dna className="h-48 w-48 text-emerald-500" />
             </div>
-
-            <div className="flex flex-col sm:flex-row items-center gap-10 mb-12 pb-12 border-b border-gray-50 dark:border-slate-700 relative z-10">
-               <div className="relative group">
-                  <div className="w-40 h-40 rounded-[3rem] border-8 border-white dark:border-slate-800 shadow-2xl overflow-hidden bg-gray-50 dark:bg-slate-900 flex items-center justify-center transition-transform group-hover:scale-105 duration-500">
+ 
+            <div className="flex flex-col sm:flex-row items-center gap-12 mb-12 pb-12 border-b border-white/5 relative z-10">
+               <div className="relative group/photo">
+                  <div className="w-48 h-48 rounded-[3.5rem] border-8 border-zinc-900 shadow-2xl overflow-hidden bg-zinc-900 flex items-center justify-center transition-all group-hover/photo:scale-105 duration-500 group-hover/photo:border-emerald-500/30 p-1">
                     {profile.photoUrl ? (
-                      <img src={getFullPhotoUrl(profile.photoUrl)!} alt="Profile" className="w-full h-full object-cover" />
+                      <img src={getFullPhotoUrl(profile.photoUrl)!} alt="Profile" className="w-full h-full object-cover rounded-[3rem]" />
                     ) : (
-                      <UserCircle className="w-20 h-20 text-gray-300" />
+                      <UserCircle className="w-24 h-24 text-zinc-800" />
                     )}
                     {uploading && (
-                      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center">
-                        <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-md flex items-center justify-center rounded-[3.5rem]">
+                        <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
                       </div>
                     )}
                   </div>
                   <button 
                     onClick={() => fileInputRef.current?.click()}
-                    className="absolute -bottom-2 -right-2 p-4 bg-emerald-600 text-white rounded-[1.5rem] shadow-2xl hover:scale-110 transition-all border-4 border-white dark:border-slate-800 group-hover:rotate-12"
+                    className="absolute -bottom-3 -right-3 p-5 bg-emerald-600 text-white rounded-3xl shadow-2xl hover:scale-110 transition-all border-4 border-zinc-900 group-hover/photo:rotate-12 group-hover/photo:bg-emerald-500"
                   >
-                    <Camera className="h-5 w-5" />
+                    <Camera className="h-6 w-6" />
                   </button>
                   <input type="file" ref={fileInputRef} onChange={handlePhotoUpload} className="hidden" accept="image/*" />
                </div>
-               <div className="text-center sm:text-left space-y-4">
+               <div className="text-center sm:text-left space-y-5">
                   <div>
-                     <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">{profile.fullName || 'Unidentified Member'}</h3>
-                     <p className="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.3em] mt-1">EHP ID: #774-921-00</p>
+                     <h3 className="text-4xl font-black text-white uppercase tracking-tighter leading-none mb-3">{profile.fullName || 'Unidentified Node'}</h3>
+                     <p className="text-[11px] font-black text-emerald-500 uppercase tracking-[0.4em] glow-text">Nexus Relay: #774-921-00</p>
                   </div>
                   <div className="flex flex-wrap justify-center sm:justify-start gap-3">
-                     <span className="px-4 py-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl text-[10px] font-black text-emerald-600 uppercase tracking-widest border border-emerald-100 dark:border-emerald-800/30">Biometrics Active</span>
-                     <span className="px-4 py-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl text-[10px] font-black text-emerald-600 uppercase tracking-widest border border-emerald-100 dark:border-emerald-800/30">Verified Node</span>
+                     <span className="px-5 py-2 bg-emerald-500/10 rounded-xl text-[9px] font-black text-emerald-500 uppercase tracking-[0.3em] border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]">Biometric Uplink Active</span>
+                     <span className="px-5 py-2 bg-cyan-500/10 rounded-xl text-[9px] font-black text-cyan-500 uppercase tracking-[0.3em] border border-cyan-500/20 shadow-[0_0_15px_rgba(6,182,212,0.1)]">Verified Neural Node</span>
                   </div>
                </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-10 relative z-10">
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <form onSubmit={handleSubmit} className="space-y-12 relative z-10">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Legal Designation</label>
+                     <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] ml-2">Legal Designation</label>
                      <input
                        type="text"
                        required
                        value={profile.fullName}
                        onChange={(e) => setProfile({...profile, fullName: e.target.value})}
-                       className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
+                       className="w-full px-7 py-6 bg-white/5 border border-white/10 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/50 outline-none text-white font-bold transition-all shadow-inner placeholder:text-zinc-700"
                        placeholder="Enter full name..."
                      />
                   </div>
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Birth Date</label>
+                     <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] ml-2">Birth Cycle</label>
                      <input
                        type="date"
                        required
                        value={profile.dob}
                        onChange={(e) => setProfile({...profile, dob: e.target.value})}
-                       className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
+                       className="w-full px-7 py-6 bg-white/5 border border-white/10 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/50 outline-none text-white font-black uppercase tracking-widest text-[11px] transition-all shadow-inner"
                      />
                   </div>
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Gender Identification</label>
+                     <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] ml-2">Gender Identification</label>
                      <select
                        value={profile.gender}
                        onChange={(e) => setProfile({...profile, gender: e.target.value})}
-                       className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 outline-none text-gray-900 dark:text-white font-black transition-all appearance-none"
+                       className="w-full px-7 py-6 bg-white/5 border border-white/10 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/50 outline-none text-white font-black uppercase tracking-widest text-[11px] transition-all appearance-none shadow-inner"
                      >
-                       <option value="Male">Male</option>
-                       <option value="Female">Female</option>
-                       <option value="Other">Other</option>
-                       <option value="Prefer not to say">Prefer not to say</option>
+                       <option value="Male" className="bg-zinc-950">Male</option>
+                       <option value="Female" className="bg-zinc-950">Female</option>
+                       <option value="Other" className="bg-zinc-950">Other</option>
+                       <option value="Prefer not to say" className="bg-zinc-950">Prefer not to say</option>
                      </select>
                   </div>
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Blood Type Cluster</label>
+                     <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] ml-2">Blood Type Cluster</label>
                      <select
                        required
                        value={profile.bloodGroup}
                        onChange={(e) => setProfile({...profile, bloodGroup: e.target.value})}
-                       className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 outline-none text-gray-900 dark:text-white font-black transition-all appearance-none"
+                       className="w-full px-7 py-6 bg-white/5 border border-white/10 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/50 outline-none text-white font-black uppercase tracking-widest text-[11px] transition-all appearance-none shadow-inner"
                      >
-                        <option value="">Select Group</option>
-                        {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(g => <option key={g} value={g}>{g}</option>)}
+                        <option value="" className="bg-zinc-950">Select Group</option>
+                        {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(g => <option key={g} value={g} className="bg-zinc-950">{g}</option>)}
                      </select>
                   </div>
                </div>
@@ -244,44 +248,52 @@ const ProfileTab = () => {
                <button
                  type="submit"
                  disabled={saving}
-                 className="w-full py-6 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-black rounded-2xl shadow-2xl hover:scale-[1.02] active:scale-95 transition-all text-xs uppercase tracking-[0.2em]"
+                 className="w-full py-7 bg-white text-zinc-950 font-black rounded-2xl shadow-2xl hover:scale-[1.02] active:scale-95 transition-all text-[11px] uppercase tracking-[0.4em] relative z-10"
                >
-                 {saving ? 'Synchronizing Identity...' : 'Update Clinical Identity'}
+                 {saving ? 'Synchronizing Nexus Identity...' : 'Confirm Clinical Identity'}
                </button>
             </form>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-             <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl border border-white dark:border-slate-700 flex flex-col justify-between">
-                <div>
-                   <h3 className="text-xl font-black text-gray-900 dark:text-white mb-6 flex items-center gap-3">
-                      <Settings2 className="h-5 w-5 text-emerald-600" />
-                      Global Config
-                   </h3>
-                   <div className="space-y-4">
-                      <div className="flex items-center justify-between p-4 bg-gray-50/50 dark:bg-slate-900/50 rounded-2xl border border-gray-50 dark:border-slate-700">
-                         <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Language</span>
-                         <span className="text-sm font-bold text-gray-700 dark:text-gray-300">English (US)</span>
+          <div className="grid md:grid-cols-2 gap-10">
+             <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl rounded-[3.5rem] p-10 shadow-2xl border border-white/10 flex flex-col justify-between group">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                <div className="relative z-10">
+                   <h3 className="text-2xl font-black text-white mb-8 flex items-center gap-4 uppercase tracking-tighter leading-none">
+                      <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
+                        <Settings2 className="h-6 w-6 text-emerald-500" />
                       </div>
-                      <div className="flex items-center justify-between p-4 bg-gray-50/50 dark:bg-slate-900/50 rounded-2xl border border-gray-50 dark:border-slate-700">
-                         <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Units</span>
-                         <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Metric (SI)</span>
+                      Global Configuration
+                   </h3>
+                   <div className="space-y-5">
+                      <div className="flex items-center justify-between p-5 bg-white/5 rounded-2xl border border-white/5 shadow-inner group/item hover:border-emerald-500/30 transition-all">
+                         <span className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">Language Matrix</span>
+                         <span className="text-xs font-black text-white uppercase tracking-widest group-hover/item:text-emerald-500 transition-colors">English (US)</span>
+                      </div>
+                      <div className="flex items-center justify-between p-5 bg-white/5 rounded-2xl border border-white/5 shadow-inner group/item hover:border-emerald-500/30 transition-all">
+                         <span className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">Standard Units</span>
+                         <span className="text-xs font-black text-white uppercase tracking-widest group-hover/item:text-emerald-500 transition-colors">Metric (SI)</span>
                       </div>
                    </div>
                 </div>
-                <button className="w-full mt-6 py-4 text-xs font-black uppercase tracking-widest text-emerald-600 hover:underline flex items-center justify-center gap-2">
-                   Advanced Preferences <ChevronRight className="h-4 w-4" />
+                <button className="w-full mt-10 py-5 text-[10px] font-black uppercase tracking-[0.4em] text-emerald-500 hover:text-emerald-400 flex items-center justify-center gap-3 relative z-10">
+                   Advanced Logic <ChevronRight className="h-5 w-5" />
                 </button>
              </div>
-             <div className="bg-gradient-to-br from-emerald-600 to-primary-700 rounded-[2.5rem] p-8 text-white shadow-xl shadow-primary-500/20 relative overflow-hidden group">
-                <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-                <Zap className="h-8 w-8 text-amber-400 mb-6" />
-                <h3 className="text-xl font-black mb-2 uppercase tracking-tighter">EHP Pro Sync</h3>
-                <p className="text-primary-100/80 text-sm font-medium leading-relaxed mb-6">
-                   Your clinical identity is automatically synchronized across all nodes of the EHP network including emergency responders.
-                </p>
-                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-white/10 p-3 rounded-xl border border-white/10 backdrop-blur-md">
-                   <ShieldCheck className="h-4 w-4 text-emerald-400" /> Live Data Relay
+             <div className="bg-zinc-950 rounded-[3.5rem] p-10 text-white shadow-3xl border border-white/10 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="absolute -top-10 -right-10 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+                <div className="relative z-10">
+                   <div className="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 w-fit mb-8 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                      <Zap className="h-8 w-8 text-emerald-500" />
+                   </div>
+                   <h3 className="text-3xl font-black mb-3 uppercase tracking-tighter leading-none">Nexus Pro Sync</h3>
+                   <p className="text-zinc-500 text-sm font-medium leading-relaxed mb-8 italic">
+                      Your clinical identity is automatically synchronized across all authorized nodes of the EHP network including active emergency responders.
+                   </p>
+                   <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] bg-white/5 p-4 rounded-2xl border border-white/10 backdrop-blur-md shadow-inner w-fit">
+                      <ShieldCheck className="h-4 w-4 text-emerald-400" /> Live Data Relay Active
+                   </div>
                 </div>
              </div>
           </div>
@@ -294,88 +306,98 @@ const ProfileTab = () => {
              whileHover={{ y: -10, rotateY: 5 }}
              className="relative group perspective-1000"
            >
-              <div className="bg-gray-900 rounded-[3rem] p-10 text-white shadow-3xl relative overflow-hidden h-[500px] flex flex-col justify-between border border-white/10">
-                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/20 via-transparent to-primary-600/20"></div>
-                 <div className="absolute -bottom-20 -right-20 p-20 opacity-10">
-                    <QrCode className="h-64 w-64" />
+              <div className="bg-zinc-950 rounded-[3.5rem] p-12 text-white shadow-3xl relative overflow-hidden h-[550px] flex flex-col justify-between border border-white/10 group-hover:border-emerald-500/30 transition-all duration-500">
+                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/10 via-transparent to-cyan-600/10"></div>
+                 <div className="absolute -bottom-20 -right-20 p-20 opacity-5 pointer-events-none group-hover:opacity-10 group-hover:rotate-12 transition-all duration-700">
+                    <QrCode className="h-72 w-72" />
                  </div>
                  
                  <div className="relative z-10 flex justify-between items-start">
-                    <div className="flex items-center gap-3">
-                       <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-md">
-                          <Binary className="h-6 w-6 text-emerald-400" />
+                    <div className="flex items-center gap-4">
+                       <div className="p-4 bg-white/5 rounded-2xl backdrop-blur-xl border border-white/10 shadow-2xl">
+                          <Binary className="h-7 w-7 text-emerald-500" />
                        </div>
-                       <span className="text-lg font-black tracking-tighter uppercase">Clinical Passport</span>
+                       <span className="text-xl font-black tracking-[0.2em] uppercase">Clinical Passport</span>
                     </div>
-                    <Cpu className="h-6 w-6 text-white/30" />
+                    <Cpu className="h-7 w-7 text-zinc-800 animate-pulse" />
                  </div>
-
+ 
                  <div className="relative z-10">
-                    <div className="w-24 h-24 bg-white/10 backdrop-blur-2xl rounded-[2rem] border-4 border-white/20 overflow-hidden mb-8 shadow-2xl">
+                    <div className="w-28 h-28 bg-zinc-900 rounded-[2.5rem] border-4 border-white/5 overflow-hidden mb-10 shadow-2xl group-hover:border-emerald-500/30 transition-all p-1">
                        {profile.photoUrl ? (
-                         <img src={getFullPhotoUrl(profile.photoUrl)!} alt="Profile" className="w-full h-full object-cover" />
+                         <img src={getFullPhotoUrl(profile.photoUrl)!} alt="Profile" className="w-full h-full object-cover rounded-[2.2rem]" />
                        ) : (
-                         <UserCircle className="w-full h-full p-5 text-white/30" />
+                         <UserCircle className="w-full h-full p-6 text-zinc-800" />
                        )}
                     </div>
-                    <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em] leading-none mb-2">Subject Designation</p>
-                    <h4 className="text-3xl font-black mb-8 leading-tight">{profile.fullName || '--- ---'}</h4>
+                    <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] leading-none mb-3">Subject Designation</p>
+                    <h4 className="text-4xl font-black mb-10 tracking-tighter uppercase leading-none group-hover:text-emerald-500 transition-colors">{profile.fullName || 'UNIDENTIFIED'}</h4>
                     
-                    <div className="grid grid-cols-2 gap-10">
+                    <div className="grid grid-cols-2 gap-12">
                        <div>
-                          <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">Blood Type</p>
-                          <p className="text-2xl font-black text-emerald-400">{profile.bloodGroup || '--'}</p>
+                          <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-2">Blood Group</p>
+                          <p className="text-3xl font-black text-emerald-500 tracking-tighter">{profile.bloodGroup || '--'}</p>
                        </div>
                        <div>
-                          <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">Birth Cycle</p>
-                          <p className="text-2xl font-black">{profile.dob ? profile.dob.split('-')[0] : '----'}</p>
+                          <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-2">Birth Cycle</p>
+                          <p className="text-3xl font-black tracking-tighter">{profile.dob ? profile.dob.split('-')[0] : '----'}</p>
                        </div>
                     </div>
                  </div>
-
-                 <div className="relative z-10 pt-8 border-t border-white/10 flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                       <ShieldCheck className="h-4 w-4 text-emerald-400" />
-                       <span className="text-[9px] font-black tracking-[0.2em] uppercase text-gray-400">Secure Protocol v4.0</span>
+ 
+                 <div className="relative z-10 pt-10 border-t border-white/5 flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                       <div className="p-2 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
+                          <ShieldCheck className="h-4 w-4 text-emerald-500" />
+                       </div>
+                       <span className="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-600">Nexus Protocol v4.0</span>
                     </div>
-                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <div className="flex gap-1.5">
+                       <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+                       <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-pulse delay-75 shadow-[0_0_10px_rgba(6,182,212,0.5)]"></div>
+                    </div>
                  </div>
               </div>
            </motion.div>
 
            {/* Security Hub */}
-           <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-8 shadow-xl border border-white dark:border-slate-700">
-              <h3 className="text-lg font-black text-gray-900 dark:text-white mb-8 flex items-center gap-3">
-                 <Lock className="h-5 w-5 text-rose-600" />
+           <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl rounded-[3.5rem] p-10 shadow-2xl border border-white/10 group">
+              <h3 className="text-2xl font-black text-white mb-10 flex items-center gap-4 uppercase tracking-tighter leading-none">
+                 <div className="p-3 bg-rose-500/10 rounded-2xl border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]">
+                   <Lock className="h-6 w-6 text-rose-500" />
+                 </div>
                  Vault Security
               </h3>
               <div className="space-y-6">
-                 <div className="flex items-center justify-between p-5 bg-gray-50/50 dark:bg-slate-900/50 rounded-3xl border border-gray-50 dark:border-slate-700">
-                    <div className="flex items-center gap-4">
-                       <div className={`p-3 rounded-xl ${twoFA ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-                          <Fingerprint className="h-5 w-5" />
+                 <div className="flex items-center justify-between p-6 bg-white/5 rounded-[2rem] border border-white/5 shadow-inner group/toggle hover:border-emerald-500/30 transition-all">
+                    <div className="flex items-center gap-5">
+                       <div className={`p-4 rounded-2xl border transition-all ${twoFA ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.1)]' : 'bg-rose-500/10 border-rose-500/20 text-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.1)]'}`}>
+                          <Fingerprint className="h-6 w-6" />
                        </div>
-                       <span className="text-xs font-black uppercase tracking-widest text-gray-600 dark:text-gray-300">Biometric 2FA</span>
+                       <div>
+                          <span className="block text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 mb-1">Access Protocol</span>
+                          <span className="block text-xs font-black text-white uppercase tracking-widest">Biometric 2FA</span>
+                       </div>
                     </div>
-                    <button onClick={() => setTwoFA(!twoFA)} className={`w-14 h-7 rounded-full transition-all relative ${twoFA ? 'bg-emerald-500 shadow-lg shadow-emerald-500/20' : 'bg-gray-200 dark:bg-slate-700'}`}>
+                    <button onClick={() => setTwoFA(!twoFA)} className={`w-16 h-8 rounded-full transition-all relative ${twoFA ? 'bg-emerald-600 shadow-[0_0_15px_rgba(16,185,129,0.3)]' : 'bg-zinc-900 border border-white/5'}`}>
                        <motion.div 
-                          animate={{ x: twoFA ? 28 : 4 }}
-                          className="absolute top-1.5 w-4 h-4 bg-white rounded-full shadow-sm" 
+                          animate={{ x: twoFA ? 34 : 6 }}
+                          className="absolute top-2 w-4 h-4 bg-white rounded-full shadow-2xl" 
                        />
                     </button>
                  </div>
                  
-                 <button className="w-full p-5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-3xl font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 border border-emerald-100 dark:border-emerald-800/30 hover:bg-emerald-600 hover:text-white transition-all group">
-                    View Active Sessions
-                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                 <button className="w-full p-6 bg-white/5 hover:bg-white/10 text-white rounded-[2rem] font-black text-[10px] uppercase tracking-[0.4em] flex items-center justify-center gap-4 border border-white/5 transition-all group/btn shadow-inner">
+                    Active Session Matrix
+                    <ArrowRight className="h-5 w-5 group-hover/btn:translate-x-2 transition-transform text-emerald-500" />
                  </button>
               </div>
            </div>
-
+ 
            {/* Quick Actions */}
-           <div className="bg-rose-50/50 dark:bg-rose-900/10 rounded-[2.5rem] p-8 border border-rose-100 dark:border-rose-900/30">
-              <p className="text-[10px] font-black text-rose-600 uppercase tracking-widest mb-4">Hazard Zone</p>
-              <button className="w-full py-4 bg-white dark:bg-slate-800 text-rose-600 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-sm hover:bg-rose-600 hover:text-white transition-all border border-rose-100 dark:border-rose-800/30">
+           <div className="bg-rose-500/5 backdrop-blur-xl rounded-[3rem] p-10 border border-rose-500/10 group hover:bg-rose-500/10 transition-all">
+              <p className="text-[10px] font-black text-rose-500/60 uppercase tracking-[0.4em] mb-6 text-center italic">Critical Hazard Zone</p>
+              <button className="w-full py-6 bg-rose-500/10 text-rose-500 rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] shadow-2xl shadow-rose-500/20 hover:bg-rose-600 hover:text-white transition-all border border-rose-500/20 group-hover:scale-105 active:scale-95">
                  Purge Clinical Identity
               </button>
            </div>

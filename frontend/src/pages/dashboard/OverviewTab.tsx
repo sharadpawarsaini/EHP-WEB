@@ -216,373 +216,381 @@ const OverviewTab = () => {
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20 no-scrollbar">
       {/* Dashboard Header */}
-      <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 health-card p-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-5 text-primary-600">
+      <div className="grid lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div className="absolute top-0 right-0 p-8 opacity-5 text-emerald-500">
              <PulseIcon className="h-64 w-64" />
           </div>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative z-10">
-            <div className="flex items-center gap-6">
-              <div className="w-20 h-20 bg-zinc-100 dark:bg-zinc-800 rounded-2xl flex items-center justify-center flex-shrink-0 border border-zinc-200 dark:border-zinc-700 shadow-sm overflow-hidden">
+            <div className="flex items-center gap-8">
+              <div className="w-24 h-24 bg-zinc-900 rounded-[2rem] flex items-center justify-center flex-shrink-0 border border-white/10 shadow-2xl overflow-hidden glow-border">
                  {photoUrl ? (
                    <img src={getFullPhotoUrl(photoUrl)!} alt="Profile" className="w-full h-full object-cover scale-110" />
                  ) : (
-                   <UserCircle className="w-12 h-12 text-zinc-400" />
+                   <UserCircle className="w-14 h-14 text-zinc-700" />
                  )}
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-1">Good day, {data?.profile?.fullName?.split(' ')[0] || 'User'}</h1>
-                <p className="text-sm text-zinc-500 font-medium">Your health passport is <span className="text-primary-600 font-semibold">up to date</span>. Profile readiness: {safetyScore}%.</p>
+                <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em] mb-2">Authenticated Node</p>
+                <h1 className="text-4xl font-black text-zinc-900 dark:text-white mb-2 uppercase tracking-tighter">GOOD DAY, <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">{data?.profile?.fullName?.split(' ')[0] || 'USER'}</span></h1>
+                <p className="text-sm text-zinc-500 font-medium">System status: <span className="text-emerald-500 font-bold">READY</span>. Health integrity at {safetyScore}%.</p>
               </div>
             </div>
-            <div className="flex items-center space-x-4 bg-primary-50 dark:bg-primary-900/20 p-4 rounded-2xl shadow-sm border border-primary-100 dark:border-primary-800/30 hover:shadow-md transition-all cursor-pointer" onClick={() => navigate('/dashboard/profile')}>
-               <div className="w-12 h-12 bg-white dark:bg-zinc-900 rounded-xl flex items-center justify-center shadow-sm">
-                 <ShieldCheck className="h-6 w-6 text-primary-600" />
+            <div className="flex items-center space-x-4 bg-zinc-950 dark:bg-zinc-950 border border-white/10 p-5 rounded-[2rem] shadow-2xl hover:shadow-emerald-500/10 transition-all cursor-pointer group/score" onClick={() => navigate('/dashboard/profile')}>
+               <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 glow-border group-hover/score:scale-110 transition-transform">
+                 <ShieldCheck className="h-6 w-6 text-emerald-500" />
                </div>
                <div className="text-left pr-2">
-                 <p className="text-xs font-semibold text-primary-600/80 uppercase tracking-wider mb-0.5">Safety Score</p>
-                 <p className="text-2xl font-extrabold text-primary-700 dark:text-primary-400 leading-none">{safetyScore}%</p>
+                 <p className="text-[9px] font-black text-emerald-500/50 uppercase tracking-widest mb-1 leading-none">Safety Index</p>
+                 <p className="text-3xl font-black text-white leading-none">{safetyScore}%</p>
                </div>
             </div>
           </div>
           
-          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 relative z-10">
+          <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 relative z-10">
             {vitalCards.map((v, i) => (
               <div 
                 key={i} 
                 onClick={() => navigate(v.path)}
-                className="p-4 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm hover:border-primary-200 dark:hover:border-primary-800 transition-all cursor-pointer"
+                className="p-6 bg-white/5 backdrop-blur-xl rounded-[2rem] border border-white/5 shadow-inner hover:border-emerald-500/20 transition-all cursor-pointer group/vital"
               >
-                <div className="flex justify-between items-start mb-3">
-                   <div className={`p-2 rounded-lg ${v.bg}`}>
-                      <v.icon className={`h-4 w-4 ${v.color}`} />
+                <div className="flex justify-between items-start mb-4">
+                   <div className={`p-3 rounded-2xl ${v.bg} border border-white/5 group-hover/vital:scale-110 transition-transform`}>
+                      <v.icon className={`h-5 w-5 ${v.color}`} />
                    </div>
                 </div>
-                <p className="text-xs font-semibold text-zinc-500 mb-1">{v.label}</p>
-                <p className="text-xl font-bold text-zinc-900 dark:text-white flex items-baseline gap-1">
+                <p className="text-[10px] font-black text-zinc-500 mb-2 uppercase tracking-widest">{v.label}</p>
+                <p className="text-2xl font-black text-zinc-900 dark:text-white flex items-baseline gap-1">
                    {v.data ? v.data.value : '--'}
-                   <span className="text-xs text-zinc-400 font-medium">{v.data?.unit}</span>
+                   <span className="text-[10px] text-zinc-500 font-black uppercase tracking-widest">{v.data?.unit}</span>
                 </p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="health-card p-8 flex flex-col justify-between relative overflow-hidden bg-zinc-900 dark:bg-zinc-900 text-white border-0 shadow-lg">
-           <div className="absolute inset-0 bg-primary-900/20 mix-blend-overlay"></div>
+        <div className="bg-zinc-950/90 dark:bg-zinc-950/80 backdrop-blur-xl p-10 flex flex-col justify-between rounded-[3.5rem] relative overflow-hidden shadow-2xl border border-white/5">
+           <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 mix-blend-overlay"></div>
            <div className="relative z-10">
-            <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-6 backdrop-blur-sm">
-              <Shield className="h-6 w-6 text-white" />
+            <div className="w-16 h-16 bg-white/5 rounded-[1.5rem] flex items-center justify-center mb-8 border border-white/10 glow-border">
+              <Shield className="h-8 w-8 text-white" />
             </div>
-            <h3 className="text-xl font-bold mb-3 tracking-tight">Security Protocol</h3>
-            <p className="text-zinc-300 text-sm font-medium leading-relaxed">{getInsight()}</p>
+            <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.5em] mb-4">Security Protocol</p>
+            <h3 className="text-2xl font-black text-white mb-4 tracking-tighter uppercase leading-none">Vulnerability <br/> Audit</h3>
+            <p className="text-zinc-400 text-sm font-medium leading-relaxed italic">{getInsight()}</p>
           </div>
           <button 
             onClick={() => navigate('/dashboard/profile')}
-            className="mt-8 w-full py-3 bg-white text-zinc-900 hover:bg-zinc-100 rounded-xl font-bold text-sm transition-colors flex items-center justify-center gap-2 relative z-10 shadow-sm"
+            className="mt-10 w-full py-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all flex items-center justify-center gap-3 relative z-10 shadow-2xl hover:scale-105 active:scale-95"
           >
-            <span>Run Audit</span>
-            <ArrowRight className="h-4 w-4" />
+            Run Deep Audit <ArrowRight className="h-4 w-4" />
           </button>
         </div>
       </div>
 
       {/* Quick Actions Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-         <button onClick={() => navigate('/dashboard/vitals')} className="health-card p-6 flex items-center justify-between group cursor-pointer hover:border-primary-200 dark:hover:border-primary-800 transition-all">
-            <div className="flex items-center gap-4">
-               <div className="p-3 bg-rose-50 dark:bg-rose-900/20 rounded-xl text-rose-600">
-                  <PulseIcon className="h-5 w-5" />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+         <button onClick={() => navigate('/dashboard/vitals')} className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex items-center justify-between group cursor-pointer hover:border-emerald-500/30 transition-all shadow-2xl relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex items-center gap-6 relative z-10">
+               <div className="p-4 bg-emerald-500/10 rounded-2xl text-emerald-500 border border-emerald-500/20 glow-border group-hover:scale-110 transition-transform">
+                  <PulseIcon className="h-6 w-6" />
                </div>
                <div className="text-left">
-                  <p className="text-sm font-bold text-zinc-900 dark:text-white mb-0.5">Log Vital</p>
-                  <p className="text-xs text-zinc-500 font-medium">Record new reading</p>
+                  <p className="text-base font-black text-zinc-900 dark:text-white mb-1 uppercase tracking-tighter">Log Vital</p>
+                  <p className="text-[10px] text-zinc-500 font-black uppercase tracking-widest">New Protocol Reading</p>
                </div>
             </div>
-            <ChevronRight className="h-5 w-5 text-zinc-300 group-hover:text-rose-600 transition-colors" />
+            <ChevronRight className="h-6 w-6 text-zinc-700 group-hover:text-emerald-500 transition-all relative z-10" />
          </button>
-         <button onClick={() => navigate('/dashboard/reports')} className="health-card p-6 flex items-center justify-between group cursor-pointer hover:border-primary-200 dark:hover:border-primary-800 transition-all">
-            <div className="flex items-center gap-4">
-               <div className="p-3 bg-primary-50 dark:bg-primary-900/20 rounded-xl text-primary-600">
-                  <FileText className="h-5 w-5" />
+         <button onClick={() => navigate('/dashboard/reports')} className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex items-center justify-between group cursor-pointer hover:border-emerald-500/30 transition-all shadow-2xl relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex items-center gap-6 relative z-10">
+               <div className="p-4 bg-cyan-500/10 rounded-2xl text-cyan-500 border border-cyan-500/20 glow-border group-hover:scale-110 transition-transform">
+                  <FileText className="h-6 w-6" />
                </div>
                <div className="text-left">
-                  <p className="text-sm font-bold text-zinc-900 dark:text-white mb-0.5">Upload Report</p>
-                  <p className="text-xs text-zinc-500 font-medium">Add medical record</p>
+                  <p className="text-base font-black text-zinc-900 dark:text-white mb-1 uppercase tracking-tighter">Upload Report</p>
+                  <p className="text-[10px] text-zinc-500 font-black uppercase tracking-widest">Binary Data Sync</p>
                </div>
             </div>
-            <ChevronRight className="h-5 w-5 text-zinc-300 group-hover:text-primary-600 transition-colors" />
+            <ChevronRight className="h-6 w-6 text-zinc-700 group-hover:text-cyan-500 transition-all relative z-10" />
          </button>
-         <button onClick={() => navigate('/dashboard/appointments')} className="health-card p-6 flex items-center justify-between group cursor-pointer hover:border-primary-200 dark:hover:border-primary-800 transition-all">
-            <div className="flex items-center gap-4">
-               <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl text-amber-600">
-                  <Calendar className="h-5 w-5" />
+         <button onClick={() => navigate('/dashboard/appointments')} className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex items-center justify-between group cursor-pointer hover:border-emerald-500/30 transition-all shadow-2xl relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex items-center gap-6 relative z-10">
+               <div className="p-4 bg-amber-500/10 rounded-2xl text-amber-500 border border-amber-500/20 glow-border group-hover:scale-110 transition-transform">
+                  <Calendar className="h-6 w-6" />
                </div>
                <div className="text-left">
-                  <p className="text-sm font-bold text-zinc-900 dark:text-white mb-0.5">Schedule</p>
-                  <p className="text-xs text-zinc-500 font-medium">Book appointment</p>
+                  <p className="text-base font-black text-zinc-900 dark:text-white mb-1 uppercase tracking-tighter">Schedule</p>
+                  <p className="text-[10px] text-zinc-500 font-black uppercase tracking-widest">Clinical Engagement</p>
                </div>
             </div>
-            <ChevronRight className="h-5 w-5 text-zinc-300 group-hover:text-amber-600 transition-colors" />
+            <ChevronRight className="h-6 w-6 text-zinc-700 group-hover:text-amber-500 transition-all relative z-10" />
          </button>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
           {/* Upcoming Appointments Section */}
-          <div className="health-card p-8">
-            <div className="flex justify-between items-center mb-6">
-               <h3 className="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-3">
-                  <div className="p-2 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
-                    <Calendar className="h-5 w-5 text-primary-600" />
+          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <div className="flex justify-between items-center mb-10 relative z-10">
+               <h3 className="text-2xl font-black text-zinc-900 dark:text-white flex items-center gap-5 uppercase tracking-tighter">
+                  <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 glow-border">
+                    <Calendar className="h-6 w-6 text-emerald-500" />
                   </div>
                   Upcoming Visits
                </h3>
-               <button onClick={() => navigate('/dashboard/appointments')} className="text-sm font-semibold text-primary-600 hover:text-primary-700 transition-colors">View All</button>
+               <button onClick={() => navigate('/dashboard/appointments')} className="text-[10px] font-black text-emerald-500 hover:text-emerald-400 transition-colors uppercase tracking-[0.2em]">Full Schedule</button>
             </div>
             
             {upcomingAppointments && upcomingAppointments.length > 0 ? (
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 gap-6 relative z-10">
                 {upcomingAppointments.slice(0, 2).map((app: any) => (
-                  <div key={app._id} className="p-5 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 group hover:border-primary-200 dark:hover:border-primary-800 transition-all cursor-pointer shadow-sm" onClick={() => navigate('/dashboard/appointments')}>
-                     <div className="flex justify-between items-start mb-4">
-                        <div className="p-2.5 bg-white dark:bg-zinc-900 rounded-xl shadow-sm">
-                           <Stethoscope className="h-5 w-5 text-primary-600" />
+                  <div key={app._id} className="p-8 bg-zinc-950/50 dark:bg-zinc-950/50 backdrop-blur-xl border border-white/5 rounded-[2.5rem] group/card hover:border-emerald-500/30 transition-all cursor-pointer shadow-inner" onClick={() => navigate('/dashboard/appointments')}>
+                     <div className="flex justify-between items-start mb-6">
+                        <div className="p-4 bg-zinc-900 rounded-2xl border border-white/5 shadow-2xl group-hover/card:scale-110 transition-transform">
+                           <Stethoscope className="h-6 w-6 text-emerald-500" />
                         </div>
                         <div className="text-right">
-                           <p className="text-xs font-semibold text-primary-600 uppercase tracking-wider mb-0.5">{format(new Date(app.appointmentDate), 'MMM dd')}</p>
-                           <p className="text-lg font-bold text-zinc-900 dark:text-white leading-none">{format(new Date(app.appointmentDate), 'HH:mm')}</p>
+                           <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.3em] mb-1">{format(new Date(app.appointmentDate), 'MMM dd')}</p>
+                           <p className="text-2xl font-black text-white leading-none tracking-tighter">{format(new Date(app.appointmentDate), 'HH:mm')}</p>
                         </div>
                      </div>
-                     <h4 className="font-bold text-zinc-900 dark:text-white mb-1 truncate">{app.doctorName}</h4>
-                     <p className="text-xs text-zinc-500 font-medium mb-3">{app.specialty}</p>
-                     <div className="flex items-center text-xs text-zinc-500 gap-1.5 bg-white dark:bg-zinc-900 px-2 py-1.5 rounded-lg border border-zinc-100 dark:border-zinc-800 w-fit">
-                        <MapPin className="h-3.5 w-3.5 text-zinc-400" />
+                     <h4 className="text-lg font-black text-white mb-1 truncate uppercase tracking-tight">{app.doctorName}</h4>
+                     <p className="text-[10px] text-zinc-500 font-black uppercase tracking-widest mb-6">{app.specialty}</p>
+                     <div className="flex items-center text-[10px] text-zinc-400 font-black uppercase tracking-widest gap-2.5 bg-white/5 px-4 py-3 rounded-xl border border-white/5 w-fit">
+                        <MapPin className="h-4 w-4 text-emerald-500" />
                         <span className="truncate">{app.hospitalName}</span>
                      </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="py-10 text-center bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-700">
-                 <p className="text-zinc-500 font-medium">No upcoming appointments scheduled.</p>
-                 <button onClick={() => navigate('/dashboard/appointments')} className="mt-3 text-primary-600 font-semibold text-sm">+ Schedule Now</button>
+              <div className="py-20 text-center bg-white/5 rounded-[2.5rem] border border-dashed border-white/10 relative z-10">
+                 <p className="text-zinc-500 font-black uppercase tracking-widest text-[10px]">No upcoming clinical engagements.</p>
+                 <button onClick={() => navigate('/dashboard/appointments')} className="mt-4 text-emerald-500 font-black uppercase tracking-[0.3em] text-[10px] hover:text-emerald-400 transition-colors">+ Initialize Protocol</button>
               </div>
             )}
           </div>
 
           {/* Recent Hospital Visits Section */}
-          <div className="health-card p-8">
-             <div className="flex justify-between items-center mb-6">
-               <h3 className="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-3">
-                  <div className="p-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg">
-                     <Hospital className="h-5 w-5 text-emerald-600" />
+          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
+             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+             <div className="flex justify-between items-center mb-10 relative z-10">
+               <h3 className="text-2xl font-black text-zinc-900 dark:text-white flex items-center gap-5 uppercase tracking-tighter">
+                  <div className="p-3 bg-cyan-500/10 rounded-2xl border border-cyan-500/20 glow-border">
+                     <Hospital className="h-6 w-6 text-cyan-500" />
                   </div>
-                  Recent Hospital Visits
+                  Recent Visits
                </h3>
-               <button onClick={() => navigate('/dashboard/visits')} className="text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">View History</button>
+               <button onClick={() => navigate('/dashboard/visits')} className="text-[10px] font-black text-cyan-500 hover:text-cyan-400 transition-colors uppercase tracking-[0.2em]">View History</button>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4 relative z-10">
                {recentVisits && recentVisits.length > 0 ? (
                  recentVisits.map((visit: any) => (
-                   <div key={visit._id} onClick={() => navigate(`/dashboard/visits`)} className="flex items-center justify-between p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 group hover:bg-white dark:hover:bg-zinc-800 hover:border-emerald-200 dark:hover:border-emerald-800 transition-all cursor-pointer">
-                      <div className="flex items-center gap-4">
-                         <div className="w-12 h-12 bg-white dark:bg-zinc-900 rounded-xl flex items-center justify-center shadow-sm border border-zinc-100 dark:border-zinc-800">
-                            <Hospital className="h-5 w-5 text-zinc-400 group-hover:text-emerald-600 transition-colors" />
+                   <div key={visit._id} onClick={() => navigate(`/dashboard/visits`)} className="flex items-center justify-between p-6 bg-zinc-950/50 dark:bg-zinc-950/50 backdrop-blur-xl border border-white/5 rounded-[2rem] group/visit hover:border-cyan-500/30 transition-all cursor-pointer shadow-inner">
+                      <div className="flex items-center gap-6">
+                         <div className="w-14 h-14 bg-zinc-900 rounded-2xl flex items-center justify-center shadow-2xl border border-white/5 group-hover/visit:scale-110 transition-transform">
+                            <Hospital className="h-6 w-6 text-zinc-500 group-hover/visit:text-cyan-500 transition-colors" />
                          </div>
                          <div>
-                            <p className="text-base font-bold text-zinc-900 dark:text-white mb-0.5">{visit.hospitalName}</p>
-                            <div className="flex items-center gap-3">
-                               <span className="flex items-center gap-1.5 text-xs text-zinc-500 font-medium"><Clock className="h-3.5 w-3.5 text-zinc-400" /> {format(new Date(visit.visitDate), 'MMM dd, yyyy')}</span>
-                               <span className="px-2 py-0.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 text-[10px] font-bold uppercase rounded tracking-wider">Completed</span>
+                            <p className="text-lg font-black text-white mb-1 uppercase tracking-tight">{visit.hospitalName}</p>
+                            <div className="flex items-center gap-4">
+                               <span className="flex items-center gap-2 text-[10px] text-zinc-500 font-black uppercase tracking-widest"><Clock className="h-4 w-4 text-zinc-700" /> {format(new Date(visit.visitDate), 'MMM dd, yyyy')}</span>
+                               <span className="px-3 py-1 bg-cyan-500/10 text-cyan-500 text-[9px] font-black uppercase rounded-lg tracking-widest border border-cyan-500/20">Archived</span>
                             </div>
                          </div>
                       </div>
-                      <ChevronRight className="h-5 w-5 text-zinc-300 group-hover:text-emerald-600 transition-colors" />
+                      <ChevronRight className="h-6 w-6 text-zinc-700 group-hover/visit:text-cyan-500 transition-all" />
                    </div>
                  ))
                ) : (
-                 <div className="py-8 text-center bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-700">
-                    <p className="text-zinc-500 font-medium">No hospital visits recorded yet.</p>
+                 <div className="py-12 text-center bg-white/5 rounded-[2.5rem] border border-dashed border-white/10">
+                    <p className="text-zinc-500 font-black uppercase tracking-widest text-[10px]">No historical data found.</p>
                  </div>
                )}
             </div>
           </div>
 
           {/* Platform Stats */}
-          <div className="grid sm:grid-cols-3 gap-4">
-            <div className="health-card p-6 flex flex-col justify-center text-center">
-               <Shield className="h-6 w-6 text-primary-600 mx-auto mb-3" />
-               <p className="text-2xl font-extrabold text-zinc-900 dark:text-white mb-1">99.9%</p>
-               <p className="text-xs font-semibold text-zinc-500">Uptime & Security</p>
+          <div className="grid sm:grid-cols-3 gap-6">
+            <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex flex-col justify-center text-center shadow-2xl">
+               <Shield className="h-8 w-8 text-emerald-500 mx-auto mb-4" />
+               <p className="text-3xl font-black text-white mb-1 tracking-tighter">99.9%</p>
+               <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Uptime & Security</p>
             </div>
-            <div className="health-card p-6 flex flex-col justify-center text-center">
-               <Eye className="h-6 w-6 text-primary-600 mx-auto mb-3" />
-               <p className="text-2xl font-extrabold text-zinc-900 dark:text-white mb-1">50k+</p>
-               <p className="text-xs font-semibold text-zinc-500">Global Health IDs</p>
+            <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex flex-col justify-center text-center shadow-2xl">
+               <Eye className="h-8 w-8 text-cyan-500 mx-auto mb-4" />
+               <p className="text-3xl font-black text-white mb-1 tracking-tighter">50k+</p>
+               <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Global Nodes</p>
             </div>
-            <div className="health-card p-6 flex flex-col justify-center text-center">
-               <Zap className="h-6 w-6 text-primary-600 mx-auto mb-3" />
-               <p className="text-2xl font-extrabold text-zinc-900 dark:text-white mb-1">Instant</p>
-               <p className="text-xs font-semibold text-zinc-500">SOS Data Fetch</p>
+            <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex flex-col justify-center text-center shadow-2xl">
+               <Zap className="h-8 w-8 text-amber-500 mx-auto mb-4" />
+               <p className="text-3xl font-black text-white mb-1 tracking-tighter">Instant</p>
+               <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">SOS Protocol</p>
             </div>
           </div>
         </div>
 
         {/* Right Column: Mini Widgets & Stats */}
         <div className="space-y-6">
-          <div className="health-card p-6">
-            <div className="flex justify-between items-center mb-6">
-               <h3 className="text-sm font-bold text-zinc-900 dark:text-white flex items-center">
-                 <MapPin className="mr-2 h-4 w-4 text-primary-600" />
+          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl">
+            <div className="flex justify-between items-center mb-8">
+               <h3 className="text-[10px] font-black text-white flex items-center uppercase tracking-[0.4em]">
+                 <MapPin className="mr-3 h-4 w-4 text-emerald-500" />
                  SOS Points
                </h3>
-               {locLoading && <div className="animate-spin h-3 w-3 border-2 border-primary-500/30 border-t-primary-500 rounded-full" />}
+               {locLoading && <div className="animate-spin h-3 w-3 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full" />}
             </div>
             
-            <div className="space-y-5">
-              {nearbyFacilities && nearbyFacilities.length > 0 ? (
-                nearbyFacilities.map((hosp, idx) => (
-                  <div key={idx} className="relative pl-5 border-l-2 border-primary-100 dark:border-primary-900/30">
-                    <div className="absolute -left-[5px] top-1 w-2 h-2 rounded-full bg-primary-500"></div>
-                    <p className="font-semibold text-sm text-zinc-900 dark:text-white mb-0.5 truncate">{hosp.name}</p>
-                    <div className="flex items-center text-xs font-medium text-zinc-500">
-                      <span>{hosp.distance} km away</span>
-                      <span className="mx-2">•</span>
-                      <a href={`tel:${hosp.phone}`} className="text-primary-600 hover:text-primary-700">Emergency Line</a>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="text-center py-4">
-                   <Search className="h-6 w-6 text-zinc-300 mx-auto mb-2" />
-                   <p className="text-xs text-zinc-500 font-medium">Searching nearby...</p>
-                </div>
-              )}
+            <div className="space-y-6">
+               {nearbyFacilities && nearbyFacilities.length > 0 ? (
+                 nearbyFacilities.map((hosp, idx) => (
+                   <div key={idx} className="relative pl-6 border-l-2 border-white/5 hover:border-emerald-500/50 transition-colors">
+                     <div className="absolute -left-[5px] top-1 w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+                     <p className="font-black text-[13px] text-white mb-1 uppercase tracking-tight truncate">{hosp.name}</p>
+                     <div className="flex items-center text-[9px] font-black text-zinc-500 uppercase tracking-widest">
+                       <span>{hosp.distance} km</span>
+                       <span className="mx-3 opacity-20">•</span>
+                       <a href={`tel:${hosp.phone}`} className="text-emerald-500 hover:text-emerald-400 transition-colors">Emergency Line</a>
+                     </div>
+                   </div>
+                 ))
+               ) : (
+                 <div className="text-center py-6">
+                    <Search className="h-8 w-8 text-zinc-800 mx-auto mb-3" />
+                    <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest">Scanning Grid...</p>
+                 </div>
+               )}
             </div>
             <button 
               onClick={() => navigate('/dashboard/hospitals')}
-              className="mt-6 w-full py-3 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 rounded-xl font-semibold text-xs flex items-center justify-center gap-2 transition-all hover:bg-primary-100 dark:hover:bg-primary-900/40"
+              className="mt-10 w-full py-4 bg-white/5 border border-white/10 text-white rounded-2xl font-black text-[9px] uppercase tracking-[0.4em] flex items-center justify-center gap-3 transition-all hover:bg-emerald-600 hover:border-emerald-500"
             >
               <Navigation className="h-3.5 w-3.5" />
               <span>SOS Navigator</span>
             </button>
-          </div>
+          </div>v>
 
           {/* Family Health Widget */}
-          <div className="health-card p-6">
-             <div className="flex justify-between items-center mb-5">
-               <h3 className="text-sm font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-                 <Users className="h-4 w-4 text-primary-600" />
-                 Family Health
+          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl">
+             <div className="flex justify-between items-center mb-8">
+               <h3 className="text-[10px] font-black text-white flex items-center gap-3 uppercase tracking-[0.4em]">
+                 <Users className="h-4 w-4 text-emerald-500" />
+                 Family Protocol
                </h3>
-               <Plus className="h-4 w-4 text-zinc-400 cursor-pointer hover:text-primary-600" onClick={() => navigate('/dashboard/family')} />
+               <Plus className="h-5 w-5 text-zinc-600 cursor-pointer hover:text-emerald-500 transition-colors" onClick={() => navigate('/dashboard/family')} />
             </div>
-            <div className="flex items-center gap-4 mb-5">
-               <div className="flex -space-x-3">
+            <div className="flex items-center gap-5 mb-8">
+               <div className="flex -space-x-4">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="w-8 h-8 rounded-full border-2 border-white dark:border-zinc-900 bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center overflow-hidden">
-                       <UserCircle className="h-5 w-5 text-zinc-400" />
+                    <div key={i} className="w-10 h-10 rounded-2xl border-4 border-zinc-950 bg-zinc-900 flex items-center justify-center overflow-hidden glow-border">
+                       <UserCircle className="h-6 w-6 text-zinc-700" />
                     </div>
                   ))}
                </div>
                <div className="text-left">
-                  <p className="text-sm font-bold text-zinc-900 dark:text-white">{data?.family?.length || 0} Managed Profiles</p>
+                  <p className="text-sm font-black text-white uppercase tracking-tighter">{data?.family?.length || 0} Managed Nodes</p>
                </div>
             </div>
-            <button onClick={() => navigate('/dashboard/family')} className="w-full py-2.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white rounded-xl font-semibold text-xs transition-colors">Switch Profile</button>
+            <button onClick={() => navigate('/dashboard/family')} className="w-full py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-2xl font-black text-[9px] uppercase tracking-[0.4em] transition-all">Switch Node</button>
           </div>
 
-          <div className="health-card p-6">
-            <h3 className="text-sm font-bold text-zinc-900 dark:text-white mb-5 flex items-center">
-              <ShieldCheck className="mr-2 h-4 w-4 text-emerald-500" />
-              Health Reputation
+          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl relative overflow-hidden group">
+            <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <h3 className="text-[10px] font-black text-white mb-8 flex items-center uppercase tracking-[0.4em]">
+              <ShieldCheck className="mr-3 h-4 w-4 text-emerald-500" />
+              Reputation Index
             </h3>
-            <div className="flex items-center space-x-4 mb-5">
-              <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center">
-                 <Trophy className="h-5 w-5 text-emerald-500" />
+            <div className="flex items-center space-x-5 mb-8">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 glow-border group-hover:scale-110 transition-transform">
+                 <Trophy className="h-6 w-6 text-emerald-500" />
               </div>
               <div>
-                <p className="font-bold text-sm text-zinc-900 dark:text-white">Status: {safetyScore > 90 ? 'Guardian' : 'Elite'}</p>
-                <p className="text-xs text-zinc-500 font-medium">{safetyScore}% Integrity Score</p>
+                <p className="font-black text-sm text-white uppercase tracking-tight">Level: {safetyScore > 90 ? 'Guardian' : 'Elite'}</p>
+                <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest">{safetyScore}% Data Integrity</p>
               </div>
             </div>
-            <div className="h-2.5 w-full bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+            <div className="h-3 w-full bg-white/5 rounded-full overflow-hidden border border-white/5 shadow-inner">
               <motion.div 
                 initial={{ width: 0 }}
                 animate={{ width: `${safetyScore}%` }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                className="h-full bg-emerald-500 rounded-full" 
+                transition={{ duration: 1.5, ease: "easeOut" }}
+                className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.3)]" 
               />
             </div>
           </div>
 
-          <div className="health-card p-6">
-            <div className="flex justify-between items-center mb-5">
-               <h3 className="text-sm font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-                  <FileText className="h-4 w-4 text-primary-600" />
-                  Recent Documents
+          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl group">
+            <div className="flex justify-between items-center mb-8">
+               <h3 className="text-[10px] font-black text-white flex items-center gap-3 uppercase tracking-[0.4em]">
+                  <FileText className="h-4 w-4 text-cyan-500" />
+                  Binary Archives
                </h3>
-               <button onClick={() => navigate('/dashboard/reports')} className="text-xs font-semibold text-primary-600 hover:text-primary-700 transition-colors">View All</button>
+               <button onClick={() => navigate('/dashboard/reports')} className="text-[9px] font-black text-cyan-500 hover:text-cyan-400 transition-colors uppercase tracking-widest">Full Access</button>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-4">
                {data?.reports?.slice(0, 3).map((report: any) => (
-                 <div key={report._id} onClick={() => navigate('/dashboard/reports')} className="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-100 dark:border-zinc-800 group hover:border-primary-200 dark:hover:border-primary-800 transition-all cursor-pointer">
+                 <div key={report._id} onClick={() => navigate('/dashboard/reports')} className="flex items-center justify-between p-5 bg-zinc-950/50 dark:bg-zinc-950/50 backdrop-blur-xl border border-white/5 rounded-2xl group/doc hover:border-cyan-500/30 transition-all cursor-pointer shadow-inner">
                     <div className="min-w-0">
-                       <p className="text-sm font-semibold text-zinc-900 dark:text-white truncate">{report.title}</p>
-                       <p className="text-xs text-zinc-500 font-medium">{format(new Date(report.createdAt), 'MMM dd')}</p>
+                       <p className="text-[13px] font-black text-white truncate uppercase tracking-tight mb-1">{report.title}</p>
+                       <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest">{format(new Date(report.createdAt), 'MMM dd, yyyy')}</p>
                     </div>
-                    <ArrowRight className="h-4 w-4 text-zinc-300 group-hover:text-primary-600" />
+                    <ArrowRight className="h-4 w-4 text-zinc-800 group-hover/doc:text-cyan-500 transition-colors" />
                  </div>
                ))}
                {(!data?.reports || data.reports.length === 0) && (
-                 <p className="text-sm text-zinc-500 text-center py-4">No reports uploaded yet.</p>
+                 <p className="text-[10px] text-zinc-600 font-black uppercase tracking-widest text-center py-6 border border-dashed border-white/5 rounded-2xl">No archives detected.</p>
                )}
             </div>
           </div>
 
           {/* Wearables Widget */}
-          <div className="health-card p-6">
-             <div className="flex justify-between items-center mb-5">
-                <h3 className="text-sm font-bold text-zinc-900 dark:text-white">Wearables</h3>
-                <span className={`flex items-center gap-1.5 px-2 py-1 ${isWearableConnected ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500'} text-[10px] font-semibold uppercase rounded-md tracking-widest`}>
-                   {isWearableConnected && <div className="w-1.5 h-1.5 bg-primary-500 rounded-full animate-pulse" />}
+          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl">
+             <div className="flex justify-between items-center mb-8">
+                <h3 className="text-[10px] font-black text-white uppercase tracking-[0.4em]">Biometric Link</h3>
+                <span className={`flex items-center gap-2 px-3 py-1.5 ${isWearableConnected ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' : 'bg-zinc-900 text-zinc-600 border border-white/5'} text-[8px] font-black uppercase rounded-lg tracking-[0.2em] shadow-2xl`}>
+                   {isWearableConnected && <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />}
                    {isWearableConnected ? 'Active' : 'Offline'}
                 </span>
              </div>
              <div 
-               className={`flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${isWearableConnected ? 'bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700 hover:border-primary-300' : 'bg-zinc-50/50 dark:bg-zinc-900/50 border-dashed border-zinc-200 dark:border-zinc-800 opacity-70'}`} 
+               className={`flex items-center gap-5 p-5 rounded-2xl border transition-all cursor-pointer shadow-inner ${isWearableConnected ? 'bg-zinc-950/50 border-emerald-500/20 hover:border-emerald-500/50' : 'bg-zinc-950/50 border-dashed border-white/5 opacity-50'}`} 
                onClick={() => navigate('/dashboard/integrations')}
              >
-                <div className="p-2.5 bg-white dark:bg-zinc-900 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-800">
-                   <Activity className={`h-4 w-4 ${isWearableConnected ? 'text-primary-600' : 'text-zinc-400'}`} />
+                <div className="p-4 bg-zinc-900 rounded-2xl border border-white/5 shadow-2xl">
+                   <Activity className={`h-5 w-5 ${isWearableConnected ? 'text-emerald-500' : 'text-zinc-700'}`} />
                 </div>
                 <div>
-                   <p className="text-sm font-bold text-zinc-900 dark:text-white mb-0.5">{isWearableConnected ? 'Device Synced' : 'No Devices'}</p>
-                   <p className="text-xs font-medium text-zinc-500">{isWearableConnected ? 'Auto-Syncing Vitals' : 'Setup Integrations'}</p>
+                   <p className="text-[13px] font-black text-white mb-1 uppercase tracking-tight">{isWearableConnected ? 'DEVICE SYNCED' : 'NO BIOMETRICS'}</p>
+                   <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest leading-none">{isWearableConnected ? 'STREAMING DATA' : 'SYNC REQUIRED'}</p>
                 </div>
              </div>
-             <button onClick={() => navigate('/dashboard/integrations')} className="mt-4 w-full py-2 text-primary-600 font-semibold text-xs hover:text-primary-700 transition-colors">Manage Integrations</button>
+             <button onClick={() => navigate('/dashboard/integrations')} className="mt-6 w-full py-2 text-emerald-500 font-black text-[9px] uppercase tracking-[0.3em] hover:text-emerald-400 transition-colors">Manage Link</button>
           </div>
 
-          <div className="health-card p-6">
-             <h3 className="text-sm font-bold text-zinc-900 dark:text-white mb-5">Activity Feed</h3>
-             <div className="space-y-5">
+          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl">
+             <h3 className="text-[10px] font-black text-white mb-10 uppercase tracking-[0.4em]">Protocol Feed</h3>
+             <div className="space-y-6">
                 {activityFeed.map((act, i) => (
-                  <div key={i} className="flex gap-4 relative">
-                     {i !== activityFeed.length - 1 && <div className="absolute left-[13px] top-7 w-0.5 h-full bg-zinc-100 dark:bg-zinc-800" />}
-                     <div className={`w-7 h-7 rounded-full ${act.bg} flex items-center justify-center relative z-10`}>
-                        <act.icon className={`h-3.5 w-3.5 ${act.color}`} />
+                  <div key={i} className="flex gap-5 relative group/item">
+                     {i !== activityFeed.length - 1 && <div className="absolute left-[15px] top-8 w-0.5 h-full bg-white/5 group-hover/item:bg-emerald-500/20 transition-colors" />}
+                     <div className={`w-8 h-8 rounded-xl ${act.bg} border border-white/5 flex items-center justify-center relative z-10 shadow-2xl group-hover/item:scale-110 transition-transform`}>
+                        <act.icon className={`h-4 w-4 ${act.color}`} />
                      </div>
-                     <div className="flex-1 pb-1">
-                        <p className="text-sm font-semibold text-zinc-900 dark:text-white mb-0.5">{act.title}</p>
-                        <p className="text-xs text-zinc-500">{format(new Date(act.date), 'MMM dd, HH:mm')}</p>
+                     <div className="flex-1 pb-4">
+                        <p className="text-[13px] font-black text-white mb-1 uppercase tracking-tight leading-none">{act.title}</p>
+                        <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest">{format(new Date(act.date), 'MMM dd, HH:mm')}</p>
                      </div>
                   </div>
                 ))}
                 {activityFeed.length === 0 && (
-                  <p className="text-sm text-zinc-500 text-center py-4">No recent activity detected.</p>
+                  <p className="text-[10px] text-zinc-600 font-black uppercase tracking-widest text-center py-6 border border-dashed border-white/5 rounded-2xl">Signal silence.</p>
                 )}
              </div>
           </div>

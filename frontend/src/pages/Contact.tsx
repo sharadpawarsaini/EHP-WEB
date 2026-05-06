@@ -4,24 +4,26 @@ import { motion } from 'framer-motion';
 
 const Contact = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] transition-colors duration-500 overflow-x-hidden selection:bg-primary-500/30">
+    <div className="min-h-screen bg-zinc-950 transition-colors duration-500 overflow-x-hidden selection:bg-emerald-500/30 text-white">
       
-      {/* Immersive Background Nodes */}
-      <div className="absolute top-0 left-0 w-full h-[1000px] pointer-events-none overflow-hidden">
-        <div className="absolute -top-[20%] -left-[10%] w-[70%] h-[80%] bg-primary-600/10 dark:bg-primary-600/5 blur-[120px] rounded-full animate-pulse"></div>
-        <div className="absolute top-[10%] -right-[10%] w-[60%] h-[70%] bg-emerald-600/10 dark:bg-emerald-600/5 blur-[120px] rounded-full animate-pulse delay-700"></div>
+      {/* Background Infrastructure */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[50%] bg-emerald-500/10 blur-[150px] rounded-full animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-cyan-500/10 blur-[150px] rounded-full animate-pulse delay-700"></div>
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5"></div>
+        <div className="absolute inset-0 cyber-grid opacity-[0.05]"></div>
       </div>
 
-      <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-xl border-b border-gray-100 dark:border-white/5 bg-white/70 dark:bg-[#0A0A0A]/70">
+      <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-2xl border-b border-white/5 bg-zinc-950/80">
         <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="bg-primary-600 p-2 rounded-xl shadow-2xl shadow-primary-600/20 group-hover:scale-110 transition-transform">
+            <div className="bg-emerald-600 p-2.5 rounded-xl shadow-[0_0_30px_rgba(16,185,129,0.4)] group-hover:scale-110 transition-transform">
               <Activity className="h-6 w-6 text-white" />
             </div>
-            <span className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">EHP</span>
+            <span className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">NEXUS EHP</span>
           </Link>
-          <Link to="/" className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-primary-600 transition-colors">
-            <ArrowLeft className="h-4 w-4" /> Back to Home
+          <Link to="/" className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 hover:text-white transition-all">
+            <ArrowLeft className="h-4 w-4" /> Abort Session
           </Link>
         </div>
       </nav>
@@ -29,47 +31,47 @@ const Contact = () => {
       <main className="relative pt-40 pb-32">
         <div className="max-w-7xl mx-auto px-6">
           
-          <div className="grid lg:grid-cols-2 gap-20 items-start">
+          <div className="grid lg:grid-cols-2 gap-24 items-start">
             
             {/* Contact Info Sidebar */}
             <motion.div 
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              className="space-y-12"
+              className="space-y-16"
             >
               <div>
-                <div className="inline-flex items-center gap-3 bg-emerald-50 dark:bg-emerald-600/10 px-6 py-2.5 rounded-full border border-emerald-100 dark:border-emerald-600/20 mb-8">
-                   <MessageSquare className="h-4 w-4 text-emerald-600" />
-                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600">Communication Hub</span>
+                <div className="inline-flex items-center gap-4 bg-emerald-500/10 px-8 py-3 rounded-full border border-emerald-500/20 mb-10">
+                   <MessageSquare className="h-4 w-4 text-emerald-500 animate-pulse" />
+                   <span className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-500">Signal Uplink</span>
                 </div>
-                <h1 className="text-5xl sm:text-7xl font-black text-gray-900 dark:text-white tracking-tighter leading-none mb-8">Establish a <br/> Connection.</h1>
-                <p className="text-xl text-gray-500 dark:text-gray-400 font-medium leading-relaxed max-w-md">
-                  Have questions about the clinical protocol or account security? Connect with our global support nodes.
+                <h1 className="text-5xl sm:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-10 uppercase">Establish <br/> Comms.</h1>
+                <p className="text-xl text-zinc-400 font-medium leading-relaxed max-w-md italic">
+                  "Establishing a direct neural link between administrative nodes and clinical operatives."
                 </p>
               </div>
 
-              <div className="space-y-8">
+              <div className="space-y-10">
                 {[
-                  { icon: Mail, label: 'Neural Mail', val: 'sharadpawarsaini@gmail.com', color: 'text-primary-500', bg: 'bg-primary-50 dark:bg-primary-900/20' },
-                  { icon: Phone, label: 'Direct Line', val: 'Available 09:00 - 18:00 IST', color: 'text-green-500', bg: 'bg-green-50 dark:bg-green-900/20' },
-                  { icon: Globe, label: 'Global Node', val: 'Dehradun, Uttarakhand, IN', color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' }
+                  { icon: Mail, label: 'Neural Mail', val: 'sharadpawarsaini@gmail.com', color: 'text-emerald-500', bg: 'bg-emerald-500/10 border-emerald-500/20' },
+                  { icon: Phone, label: 'Direct Relay', val: '09:00 - 18:00 IST', color: 'text-cyan-500', bg: 'bg-cyan-500/10 border-cyan-500/20' },
+                  { icon: Globe, label: 'Geo-Coordinates', val: 'Dehradun, Uttarakhand, IN', color: 'text-rose-500', bg: 'bg-rose-500/10 border-rose-500/20' }
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-6 group">
-                    <div className={`p-5 ${item.bg} rounded-2xl shadow-inner group-hover:scale-110 transition-transform`}>
-                      <item.icon className={`h-6 w-6 ${item.color}`} />
+                  <div key={i} className="flex items-center gap-8 group">
+                    <div className={`p-6 ${item.bg} border rounded-[2rem] shadow-2xl group-hover:scale-110 transition-transform`}>
+                      <item.icon className={`h-8 w-8 ${item.color}`} />
                     </div>
                     <div>
-                      <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">{item.label}</h4>
-                      <p className="text-lg font-black text-gray-900 dark:text-white tracking-tight">{item.val}</p>
+                      <h4 className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-2">{item.label}</h4>
+                      <p className="text-2xl font-black text-white tracking-tighter uppercase">{item.val}</p>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="p-8 bg-gray-50 dark:bg-white/5 rounded-[3rem] border border-gray-100 dark:border-white/10 flex items-start gap-4">
-                 <Shield className="h-6 w-6 text-primary-600 flex-shrink-0 mt-1" />
-                 <p className="text-xs text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
-                   Your communication is encrypted. Support tokens are dispatched via a secure relay to ensure patient privacy.
+              <div className="p-10 bg-white/5 backdrop-blur-2xl rounded-[4rem] border border-white/5 flex items-start gap-6 shadow-3xl">
+                 <Shield className="h-8 w-8 text-emerald-500 flex-shrink-0" />
+                 <p className="text-xs text-zinc-500 font-medium leading-relaxed italic">
+                   Transmission is shielded via Zero-Knowledge encryption. Signal tokens are processed through a decentralized relay to ensure node anonymity.
                  </p>
               </div>
             </motion.div>
@@ -78,41 +80,41 @@ const Contact = () => {
             <motion.div 
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white/80 dark:bg-white/5 backdrop-blur-3xl p-10 sm:p-12 rounded-[4rem] shadow-3xl border border-white dark:border-white/10 relative group"
+              className="bg-zinc-950 p-12 sm:p-16 rounded-[5rem] shadow-[0_0_100px_rgba(0,0,0,0.8)] border border-white/10 relative group overflow-hidden"
             >
-              <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary-600/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <form className="space-y-8 relative z-10">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] ml-2">Identity Name</label>
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <form className="space-y-10 relative z-10">
+                <div className="grid md:grid-cols-2 gap-10">
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] ml-4">Node Identity</label>
                     <input 
                       type="text" 
-                      className="w-full p-5 rounded-2xl bg-gray-50 dark:bg-[#050505] border border-gray-100 dark:border-white/10 font-bold text-gray-900 dark:text-white outline-none focus:ring-4 focus:ring-primary-500/10 transition-all" 
-                      placeholder="Enter Full Name" 
+                      className="w-full p-6 rounded-[2rem] bg-white/5 border border-white/5 font-bold text-white outline-none focus:border-emerald-500/30 transition-all placeholder:text-zinc-800" 
+                      placeholder="ENTER FULL NAME" 
                     />
                   </div>
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] ml-2">Secure Email</label>
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] ml-4">Secure Uplink</label>
                     <input 
                       type="email" 
-                      className="w-full p-5 rounded-2xl bg-gray-50 dark:bg-[#050505] border border-gray-100 dark:border-white/10 font-bold text-gray-900 dark:text-white outline-none focus:ring-4 focus:ring-primary-500/10 transition-all" 
-                      placeholder="node@example.com" 
+                      className="w-full p-6 rounded-[2rem] bg-white/5 border border-white/5 font-bold text-white outline-none focus:border-emerald-500/30 transition-all placeholder:text-zinc-800" 
+                      placeholder="NODE@PROTOCOL.COM" 
                     />
                   </div>
                 </div>
-                <div className="space-y-3">
-                  <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] ml-2">Transmission Data</label>
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] ml-4">Data Transmission</label>
                   <textarea 
-                    rows={5} 
-                    className="w-full p-6 rounded-[2rem] bg-gray-50 dark:bg-[#050505] border border-gray-100 dark:border-white/10 font-bold text-gray-900 dark:text-white outline-none focus:ring-4 focus:ring-primary-500/10 transition-all" 
-                    placeholder="Describe your technical inquiry..."
+                    rows={6} 
+                    className="w-full p-8 rounded-[3rem] bg-white/5 border border-white/5 font-bold text-white outline-none focus:border-emerald-500/30 transition-all placeholder:text-zinc-800 resize-none" 
+                    placeholder="DESCRIBE OPERATIONAL REQUIREMENTS..."
                   ></textarea>
                 </div>
                 <button 
                   type="submit" 
-                  className="w-full bg-primary-600 hover:bg-primary-500 text-white py-6 rounded-[2rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl shadow-primary-600/30 flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-95"
+                  className="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-8 rounded-[2.5rem] font-black text-[12px] uppercase tracking-[0.6em] shadow-[0_0_50px_rgba(16,185,129,0.3)] flex items-center justify-center gap-4 transition-all hover:scale-[1.02] active:scale-95 group/btn"
                 >
-                  <Send className="h-5 w-5" /> Dispatch Token
+                  <Send className="h-6 w-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> Dispatch Token
                 </button>
               </form>
             </motion.div>
@@ -121,8 +123,8 @@ const Contact = () => {
         </div>
       </main>
 
-      <footer className="bg-gray-50 dark:bg-[#050505] border-t border-gray-100 dark:border-white/5 py-12 text-center">
-         <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.4em]">&copy; {new Date().getFullYear()} EHP GLOBAL REGISTRY • COMMUNICATION RELAY</p>
+      <footer className="bg-zinc-950 border-t border-white/5 py-16 text-center">
+         <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.6em]">&copy; {new Date().getFullYear()} NEXUS EHP GLOBAL REGISTRY • COMMUNICATION RELAY</p>
       </footer>
     </div>
   );

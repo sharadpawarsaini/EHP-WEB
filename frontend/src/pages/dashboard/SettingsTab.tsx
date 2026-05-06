@@ -240,47 +240,53 @@ const SettingsTab = () => {
       </div>
 
       {/* Header Widget */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-         <div>
-            <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Preferences</h2>
-            <p className="text-gray-500 dark:text-gray-400 font-medium">Fine-tune your health passport and security logic</p>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-12">
+         <div className="space-y-4">
+            <h2 className="text-5xl font-black text-zinc-900 dark:text-white uppercase tracking-tighter leading-none">System Protocols</h2>
+            <p className="text-sm text-zinc-500 font-medium italic">Fine-tune your clinical identity and neural security logic.</p>
          </div>
-         <div className="flex gap-4">
+         <div className="flex gap-6 relative z-10">
             <button 
               onClick={() => setShowDevicesModal(true)} 
-              className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm hover:scale-110 hover:border-primary-500/30 transition-all group"
+              className="p-5 bg-white/5 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] border border-white/10 shadow-2xl hover:scale-110 hover:border-emerald-500/30 transition-all group"
               title="Active Nodes"
             >
-               <Smartphone className="h-5 w-5 text-primary-600 group-hover:scale-110 transition-transform" />
+               <Smartphone className="h-6 w-6 text-emerald-500 group-hover:scale-110 transition-transform" />
             </button>
             <button 
               onClick={() => setShowPasswordModal(true)} 
-              className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm hover:scale-110 hover:border-emerald-500/30 transition-all group"
+              className="p-5 bg-white/5 dark:bg-white/5 backdrop-blur-xl rounded-[2rem] border border-white/10 shadow-2xl hover:scale-110 hover:border-cyan-500/30 transition-all group"
               title="Security Protocol"
             >
-               <Lock className="h-5 w-5 text-emerald-600 group-hover:scale-110 transition-transform" />
+               <Lock className="h-6 w-6 text-cyan-500 group-hover:scale-110 transition-transform" />
             </button>
          </div>
       </div>
 
-      <div className="grid lg:grid-cols-5 gap-10">
-         <div className="lg:col-span-3 space-y-8">
+      <div className="grid lg:grid-cols-5 gap-12">
+         <div className="lg:col-span-3 space-y-10">
             {sections.map((section, idx) => (
-              <div key={idx} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20">
-                <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-8">{section.title}</h3>
-                <div className="space-y-6">
+              <div key={idx} className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] mb-10 flex items-center gap-3">
+                   <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+                   {section.title}
+                </h3>
+                <div className="space-y-10">
                   {section.items.map((item, itemIdx) => (
-                    <div key={itemIdx} className="flex items-center justify-between group">
-                      <div className="flex items-center gap-5">
-                         <div className="p-3 bg-gray-50 dark:bg-slate-900 rounded-2xl group-hover:scale-110 transition-all">
+                    <div key={itemIdx} className="flex items-center justify-between group/item">
+                      <div className="flex items-center gap-6">
+                         <div className="p-4 bg-zinc-900 rounded-2xl border border-white/5 group-hover/item:scale-110 transition-all shadow-2xl">
                             {item.icon}
                          </div>
                          <div>
-                            <p className="text-sm font-black text-gray-900 dark:text-white leading-tight">{item.label}</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">{item.description}</p>
+                            <p className="text-base font-black text-zinc-900 dark:text-white uppercase tracking-tight leading-none mb-1.5">{item.label}</p>
+                            <p className="text-[10px] text-zinc-500 font-black uppercase tracking-widest leading-none">{item.description}</p>
                          </div>
                       </div>
-                      {item.action}
+                      <div className="relative z-10">
+                         {item.action}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -288,102 +294,111 @@ const SettingsTab = () => {
             ))}
          </div>
 
-         <div className="lg:col-span-2 space-y-8">
-            <div className="bg-gray-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-2xl h-fit">
-               <div className="absolute top-0 right-0 p-8 opacity-10">
-                  <Shield className="h-40 w-40" />
+         <div className="lg:col-span-2 space-y-10">
+            <div className="bg-zinc-950 p-10 rounded-[3.5rem] text-white relative overflow-hidden shadow-2xl border border-white/5 group">
+               <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+               <div className="absolute top-0 right-0 p-10 opacity-5">
+                  <Shield className="h-48 w-48 text-emerald-500" />
                </div>
                <div className="relative z-10">
-                  <h3 className="text-xl font-black mb-6 flex items-center gap-3">
-                     <Zap className="h-6 w-6 text-amber-400" />
-                     Safety Pulse
+                  <h3 className="text-2xl font-black mb-8 flex items-center gap-4 uppercase tracking-tighter">
+                     <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 glow-border">
+                        <Zap className="h-6 w-6 text-emerald-500" />
+                     </div>
+                     Neural Pulse
                   </h3>
-                  <p className="text-gray-400 text-sm leading-relaxed mb-8 font-medium">Your current security posture is optimized for maximum life-safety coverage. Voice SOS and 2FA are recommended.</p>
-                  <div className="space-y-4">
+                  <p className="text-zinc-500 text-sm leading-relaxed mb-10 font-medium italic">Your security posture is currently optimized for global clinical coverage. Automated SOS and AES-256 are locked.</p>
+                  <div className="space-y-6">
                      <div 
                        onClick={handleSecurityCheckup}
-                       className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/10 group cursor-pointer hover:bg-white/10 transition-all"
+                       className="flex items-center justify-between p-6 bg-white/5 rounded-2xl border border-white/5 group/link cursor-pointer hover:bg-white/10 transition-all shadow-inner"
                      >
-                        <span className="text-xs font-black uppercase tracking-widest text-gray-400">Security Checkup</span>
-                        <ChevronRight className="h-4 w-4 text-gray-600 group-hover:text-white transition-all" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Tactical Scan</span>
+                        <ChevronRight className="h-5 w-5 text-zinc-700 group-hover/link:text-emerald-500 transition-all" />
                      </div>
                      <button 
                        onClick={() => setShowDeleteModal(true)} 
-                       className="w-full py-4 text-rose-500 font-black text-[10px] uppercase tracking-[0.3em] hover:text-rose-400 transition-all hover:bg-rose-500/5 rounded-xl"
+                       className="w-full py-6 bg-white/5 text-rose-500 font-black text-[10px] uppercase tracking-[0.4em] hover:bg-rose-500 hover:text-white rounded-2xl border border-rose-500/10 hover:border-rose-500 transition-all shadow-2xl"
                      >
-                        Deactivate Passport
+                        PURGE NODE
                      </button>
                   </div>
                </div>
             </div>
 
-            <div className="p-8 bg-primary-50 dark:bg-primary-900/20 rounded-[2.5rem] border border-primary-100 dark:border-primary-900/30">
-               <h4 className="text-sm font-black text-primary-900 dark:text-primary-300 uppercase tracking-widest mb-4">Export Protocol</h4>
-               <p className="text-xs text-primary-700 dark:text-primary-400 leading-relaxed font-medium mb-6">Download your full medical history in HL7/FHIR compliant JSON or PDF format for clinical portability.</p>
+            <div className="p-10 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
+               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+               <h4 className="text-[10px] font-black text-cyan-500 uppercase tracking-[0.4em] mb-6 flex items-center gap-3">
+                  <Download className="h-4 w-4" />
+                  Binary Archive
+               </h4>
+               <p className="text-xs text-zinc-500 leading-relaxed font-medium mb-10 italic">Export full clinical telemetry in FHIR compliant archives for external node migration.</p>
                <button 
                  onClick={handleRequestArchive}
                  disabled={isExporting}
-                 className="w-full py-4 bg-white dark:bg-slate-800 rounded-2xl text-xs font-black uppercase tracking-widest text-primary-600 shadow-lg shadow-primary-600/10 hover:scale-105 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                 className="w-full py-6 bg-white text-zinc-950 rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-4 disabled:opacity-50"
                >
                   {isExporting ? (
-                    <div className="w-4 h-4 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
+                    <div className="w-5 h-5 border-2 border-zinc-950 border-t-transparent rounded-full animate-spin" />
                   ) : (
-                    <><Download className="h-4 w-4" /> Request Archive</>
+                    <><Download className="h-4 w-4" /> Initialize Export</>
                   )}
                </button>
             </div>
          </div>
       </div>
 
-      <div className="text-center pt-8">
-         <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.4em]">EHP GLOBAL • v2.4.0 • SECURED</p>
+      <div className="text-center pt-16">
+         <p className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.8em]">EHP NEXUS COMMAND • v3.0.0 • ENCRYPTED</p>
       </div>
 
       {/* ── MODALS ── */}
       <AnimatePresence>
         {/* Password Modal */}
         {showPasswordModal && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
-             <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-white dark:bg-slate-800 rounded-[2.5rem] w-full max-w-md p-10 shadow-2xl relative border border-white dark:border-slate-700">
-                <button onClick={() => setShowPasswordModal(false)} className="absolute top-6 right-6 p-2 bg-gray-100 dark:bg-slate-900 rounded-full hover:bg-gray-200 transition-all text-gray-500"><X className="h-4 w-4" /></button>
-                <h3 className="text-2xl font-black mb-8 text-gray-900 dark:text-white flex items-center gap-3">
-                   <Lock className="h-6 w-6 text-emerald-600" />
-                   Security Protocol
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-zinc-950/95 backdrop-blur-2xl">
+             <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-white/10 dark:bg-zinc-950/80 backdrop-blur-2xl rounded-[3.5rem] w-full max-w-md p-12 shadow-2xl relative border border-white/10">
+                <button onClick={() => setShowPasswordModal(false)} className="absolute top-8 right-8 p-3 bg-white/5 rounded-2xl hover:bg-white/10 transition-all text-zinc-500 border border-white/5"><X className="h-5 w-5" /></button>
+                <h3 className="text-3xl font-black mb-10 text-white uppercase tracking-tighter flex items-center gap-4">
+                   <div className="p-3 bg-cyan-500/10 rounded-2xl border border-cyan-500/20 glow-border">
+                      <Lock className="h-6 w-6 text-cyan-500" />
+                   </div>
+                   Security Matrix
                 </h3>
-                <form onSubmit={handleUpdatePassword} className="space-y-6">
-                   <div className="space-y-2">
-                      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Current Password</label>
+                <form onSubmit={handleUpdatePassword} className="space-y-8">
+                   <div className="space-y-3">
+                      <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Legacy Protocol Key</label>
                       <input 
                         type="password" 
                         required 
                         value={passwordData.currentPassword}
                         onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
-                        className="w-full p-5 bg-gray-50 dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white font-bold outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all" 
+                        className="w-full p-6 bg-white/5 rounded-2xl border border-white/5 text-white font-bold outline-none focus:ring-4 focus:ring-cyan-500/10 transition-all shadow-inner" 
                       />
                    </div>
-                   <div className="space-y-2">
-                      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">New Neural Key</label>
+                   <div className="space-y-3">
+                      <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">New Neural Key</label>
                       <input 
                         type="password" 
                         required 
                         value={passwordData.newPassword}
                         onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
-                        className="w-full p-5 bg-gray-50 dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white font-bold outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all" 
+                        className="w-full p-6 bg-white/5 rounded-2xl border border-white/5 text-white font-bold outline-none focus:ring-4 focus:ring-cyan-500/10 transition-all shadow-inner" 
                       />
                    </div>
-                   <div className="space-y-2">
-                      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Confirm Neural Key</label>
+                   <div className="space-y-3">
+                      <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Confirm Neural Key</label>
                       <input 
                         type="password" 
                         required 
                         value={passwordData.confirmPassword}
                         onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
-                        className="w-full p-5 bg-gray-50 dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white font-bold outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all" 
+                        className="w-full p-6 bg-white/5 rounded-2xl border border-white/5 text-white font-bold outline-none focus:ring-4 focus:ring-cyan-500/10 transition-all shadow-inner" 
                       />
                    </div>
                    <button 
                      type="submit" 
-                     className="w-full py-6 bg-emerald-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] shadow-2xl shadow-emerald-600/20 hover:scale-105 active:scale-95 transition-all"
+                     className="w-full py-6 bg-cyan-600 text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] shadow-2xl shadow-cyan-600/20 hover:scale-105 active:scale-95 transition-all mt-6"
                    >
                       Rotate Security Keys
                    </button>
@@ -394,25 +409,25 @@ const SettingsTab = () => {
 
         {/* Delete Modal */}
         {showDeleteModal && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
-             <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-white dark:bg-slate-800 rounded-[2.5rem] w-full max-w-md p-10 shadow-2xl relative border border-rose-100 dark:border-rose-900/30 text-center">
-                <div className="w-20 h-20 bg-rose-50 dark:bg-rose-900/20 rounded-[2rem] flex items-center justify-center mx-auto mb-8">
-                   <AlertTriangle className="h-10 w-10 text-rose-600" />
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-zinc-950/95 backdrop-blur-2xl">
+             <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-white/10 dark:bg-zinc-950/80 backdrop-blur-2xl rounded-[3.5rem] w-full max-w-md p-12 shadow-2xl relative border border-rose-500/20 text-center">
+                <div className="w-24 h-24 bg-rose-500/10 rounded-[2.5rem] flex items-center justify-center mx-auto mb-10 border border-rose-500/20 glow-border shadow-rose-500/20">
+                   <AlertTriangle className="h-12 w-12 text-rose-500" />
                 </div>
-                <h3 className="text-3xl font-black mb-4 text-gray-900 dark:text-white">Identity Purge</h3>
-                <p className="text-gray-500 dark:text-gray-400 font-medium mb-10 leading-relaxed">
-                   This action will permanently delete your EHP Clinical Identity, all medical records, and emergency linkages. This cannot be undone.
+                <h3 className="text-4xl font-black mb-6 text-white uppercase tracking-tighter">Identity Purge</h3>
+                <p className="text-zinc-500 font-medium mb-12 leading-relaxed italic">
+                   This action will permanently purge your clinical identity, all telemetry data, and emergency linkages. This cannot be reversed.
                 </p>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-6">
                    <button 
                      onClick={handleDeleteAccount}
-                     className="w-full py-5 bg-rose-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-rose-600/20 hover:scale-105 active:scale-95 transition-all"
+                     className="w-full py-6 bg-rose-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.4em] shadow-2xl shadow-rose-600/20 hover:scale-105 active:scale-95 transition-all"
                    >
                       Confirm Purge
                    </button>
                    <button 
                      onClick={() => setShowDeleteModal(false)}
-                     className="w-full py-5 bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-gray-300 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-gray-200 transition-all"
+                     className="w-full py-6 bg-white/5 text-zinc-500 rounded-2xl font-black text-xs uppercase tracking-[0.4em] hover:bg-white/10 transition-all border border-white/5"
                    >
                       Abort Mission
                    </button>
@@ -423,49 +438,49 @@ const SettingsTab = () => {
 
         {/* Devices Modal */}
         {showDevicesModal && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
-             <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-white dark:bg-slate-800 rounded-[2.5rem] w-full max-w-lg p-10 shadow-2xl relative border border-white dark:border-slate-700">
-                <button onClick={() => setShowDevicesModal(false)} className="absolute top-6 right-6 p-2 bg-gray-100 dark:bg-slate-900 rounded-full hover:bg-gray-200 transition-all text-gray-500"><X className="h-4 w-4" /></button>
-                <div className="flex items-center gap-4 mb-10">
-                   <div className="p-4 bg-primary-50 dark:bg-primary-900/30 rounded-[1.5rem]">
-                      <Smartphone className="h-8 w-8 text-primary-600" />
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-zinc-950/95 backdrop-blur-2xl">
+             <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-white/10 dark:bg-zinc-950/80 backdrop-blur-2xl rounded-[3.5rem] w-full max-w-lg p-12 shadow-2xl relative border border-white/10">
+                <button onClick={() => setShowDevicesModal(false)} className="absolute top-8 right-8 p-3 bg-white/5 rounded-2xl hover:bg-white/10 transition-all text-zinc-500 border border-white/5"><X className="h-5 w-5" /></button>
+                <div className="flex items-center gap-6 mb-12">
+                   <div className="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 glow-border">
+                      <Smartphone className="h-8 w-8 text-emerald-500" />
                    </div>
                    <div>
-                      <h3 className="text-2xl font-black text-gray-900 dark:text-white">Authorized Nodes</h3>
-                      <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Active EHP Sessions</p>
+                      <h3 className="text-3xl font-black text-white uppercase tracking-tighter">Authorized Nodes</h3>
+                      <p className="text-[10px] text-zinc-500 font-black uppercase tracking-widest mt-1">Active EHP Sync Streams</p>
                    </div>
                 </div>
                 
-                <div className="space-y-4">
+                <div className="space-y-6">
                    {[
                      { name: 'Primary Device', model: 'iPhone 15 Pro', status: 'Online', ip: '192.168.1.1' },
-                     { name: 'Browser Session', model: 'Vite Terminal (Win)', status: 'Active', ip: '127.0.0.1' },
-                     { name: 'Emergency Watch', model: 'Apple Watch Ultra', status: 'Standby', ip: 'Hidden' }
+                     { name: 'Nexus Terminal', model: 'Win 11 Build', status: 'Active', ip: '127.0.0.1' },
+                     { name: 'Emergency Watch', model: 'Series X Ultra', status: 'Standby', ip: 'Hidden' }
                    ].map((node, i) => (
-                     <div key={i} className="p-6 bg-gray-50 dark:bg-slate-900/50 rounded-[1.8rem] border border-gray-100 dark:border-slate-700 flex justify-between items-center group hover:border-primary-500/20 transition-all">
-                        <div className="flex items-center gap-4">
-                           <div className="p-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
-                              {node.name.includes('Watch') ? <WatchIcon className="h-5 w-5 text-emerald-500" /> : <Smartphone className="h-5 w-5 text-primary-500" />}
+                     <div key={i} className="p-8 bg-white/5 rounded-[2.5rem] border border-white/5 flex justify-between items-center group/node hover:border-emerald-500/20 transition-all shadow-inner">
+                        <div className="flex items-center gap-6">
+                           <div className="p-4 bg-zinc-900 rounded-2xl border border-white/5 shadow-2xl group-hover/node:scale-110 transition-transform">
+                              {node.name.includes('Watch') ? <WatchIcon className="h-6 w-6 text-emerald-500" /> : <Smartphone className="h-6 w-6 text-cyan-500" />}
                            </div>
                            <div>
-                              <p className="text-sm font-black text-gray-900 dark:text-white">{node.name}</p>
-                              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{node.model} • {node.ip}</p>
+                              <p className="text-base font-black text-white uppercase tracking-tight leading-none mb-2">{node.name}</p>
+                              <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest">{node.model} // {node.ip}</p>
                            </div>
                         </div>
                         <div className="flex flex-col items-end">
-                           <span className={`text-[10px] font-black uppercase tracking-widest ${node.status === 'Online' || node.status === 'Active' ? 'text-emerald-500' : 'text-amber-500'}`}>
+                           <span className={`text-[9px] font-black uppercase tracking-widest mb-2 ${node.status === 'Online' || node.status === 'Active' ? 'text-emerald-500' : 'text-amber-500'}`}>
                               {node.status}
                            </span>
-                           <button className="text-[9px] font-black text-rose-500 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Revoke</button>
+                           <button className="text-[9px] font-black text-rose-500 uppercase tracking-widest opacity-0 group-hover/node:opacity-100 transition-opacity">Deauth</button>
                         </div>
                      </div>
                    ))}
                 </div>
                 
-                <div className="mt-10 p-5 bg-primary-50 dark:bg-primary-900/20 rounded-3xl border border-primary-100 dark:border-primary-800/30 flex items-center gap-4">
-                   <ShieldCheck className="h-6 w-6 text-primary-600" />
-                   <p className="text-[10px] font-black text-primary-900 dark:text-primary-300 uppercase tracking-widest leading-relaxed">
-                      Session tokens are rotated every 24 hours. Emergency access bypasses these limits only during active SOS events.
+                <div className="mt-12 p-6 bg-emerald-500/5 rounded-[2rem] border border-emerald-500/10 flex items-center gap-5">
+                   <ShieldCheck className="h-7 w-7 text-emerald-500" />
+                   <p className="text-[10px] font-black text-emerald-500 uppercase tracking-widest leading-relaxed italic">
+                      Session tokens rotate every 24h. Emergency bypass active.
                    </p>
                 </div>
              </motion.div>

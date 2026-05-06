@@ -114,90 +114,92 @@ const ReportsTab = () => {
     <div className="space-y-8 animate-in fade-in duration-500 max-w-full">
       
       {/* Dynamic Header */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
-         <div>
-            <div className="flex items-center gap-2 mb-2">
-               <span className="px-2.5 py-1 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 text-xs font-bold uppercase tracking-wider rounded-lg">Secure Vault</span>
-               <span className="px-2.5 py-1 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-wider rounded-lg">AI Ready</span>
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10 mb-12">
+         <div className="space-y-4">
+            <div className="flex items-center gap-3">
+               <span className="px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.1)]">Nexus Vault</span>
+               <span className="px-4 py-1.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.1)]">Neural Engine Enabled</span>
             </div>
-            <h2 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">Medical Reports</h2>
-            <p className="text-zinc-500 font-medium">Manage lab results, imaging reports, and medical certificates</p>
+            <h2 className="text-5xl font-black text-zinc-900 dark:text-white uppercase tracking-tighter leading-none">Clinical Reports</h2>
+            <p className="text-sm text-zinc-500 font-medium italic">Manage lab results, imaging telemetry, and medical certificates via the Nexus Archive.</p>
          </div>
-         <div className="flex gap-4 w-full sm:w-auto">
-            <div className="relative flex-1 sm:w-64">
-               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+         <div className="flex gap-4 w-full sm:w-auto relative z-10">
+            <div className="relative flex-1 sm:w-80 group">
+               <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-700 group-focus-within:text-cyan-500 transition-colors" />
                <input 
                   type="text" 
-                  placeholder="Filter reports..." 
+                  placeholder="Filter Clinical Streams..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 text-sm font-semibold text-zinc-900 dark:text-white transition-all shadow-sm"
+                  className="w-full pl-14 pr-6 py-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500/50 text-white font-bold transition-all shadow-inner placeholder:text-zinc-700"
                />
+               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity rounded-[2rem] pointer-events-none"></div>
             </div>
-            <button onClick={() => setShowUploadModal(true)} className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl text-sm transition-all flex items-center gap-2 shadow-sm">
-               <Plus className="h-4 w-4" /> Upload
+            <button onClick={() => setShowUploadModal(true)} className="px-10 py-5 bg-emerald-600 hover:bg-emerald-500 text-white font-black rounded-2xl text-[11px] uppercase tracking-[0.4em] shadow-2xl shadow-emerald-600/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
+               <Plus className="h-5 w-5" /> Deploy Report
             </button>
          </div>
       </div>
 
-      {reports.length === 0 ? (
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl p-16 text-center border border-dashed border-zinc-200 dark:border-zinc-800 shadow-sm">
-          <div className="w-16 h-16 bg-zinc-50 dark:bg-zinc-800 rounded-2xl flex items-center justify-center mx-auto mb-6">
-             <FileSearch className="h-8 w-8 text-zinc-400" />
-          </div>
-          <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">No Reports Found</h3>
-          <p className="text-zinc-500 font-medium max-w-sm mx-auto mb-8">Upload your first lab result or medical certificate to start building your clinical history.</p>
-          <button onClick={() => setShowUploadModal(true)} className="px-6 py-3 bg-zinc-900 dark:bg-white hover:bg-zinc-800 dark:hover:bg-zinc-100 text-white dark:text-zinc-900 rounded-xl font-bold text-sm transition-all shadow-sm">
-             Upload First Report
-          </button>
-        </div>
+43:         <div className="py-24 text-center bg-white/5 backdrop-blur-xl border-2 border-dashed border-white/5 rounded-[3.5rem] relative overflow-hidden group">
+144:           <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+145:           <div className="p-8 bg-zinc-950 rounded-[2.5rem] border border-white/5 shadow-2xl mx-auto w-fit mb-8 group-hover:scale-110 transition-transform">
+146:              <FileSearch className="h-12 w-12 text-zinc-700 group-hover:text-cyan-500 transition-colors" />
+147:           </div>
+148:           <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-2">No Reports Found</h3>
+149:           <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.4em] italic max-w-sm mx-auto mb-10">Upload your first lab result or medical certificate to start building your clinical history.</p>
+150:           <button onClick={() => setShowUploadModal(true)} className="px-10 py-5 bg-white text-zinc-950 hover:bg-zinc-100 rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] transition-all shadow-2xl relative z-10">
+151:              Initialize Archive
+152:           </button>
+153:         </div>
       ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {filteredReports.map((report) => (
             <motion.div 
               layout
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               key={report._id} 
-              className="health-card p-6 group hover:border-primary-200 dark:hover:border-primary-800/30 transition-all cursor-pointer"
+              className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group hover:border-cyan-500/30 transition-all"
             >
-              <div className="flex justify-between items-start mb-6">
-                 <div className="p-3 bg-primary-50 dark:bg-primary-900/20 rounded-xl text-primary-600">
-                    <FileText className="h-6 w-6" />
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+              <div className="flex justify-between items-start mb-10 relative z-10">
+                 <div className="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 glow-border">
+                    <FileText className="h-7 w-7 text-emerald-500" />
                  </div>
-                 <button onClick={() => handleDelete(report._id)} className="p-2 text-zinc-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-all opacity-0 group-hover:opacity-100">
-                    <Trash2 className="h-4 w-4" />
+                 <button onClick={() => handleDelete(report._id)} className="p-3 bg-white/5 border border-white/5 rounded-2xl text-zinc-500 hover:text-rose-500 hover:bg-rose-500/10 transition-all opacity-0 group-hover:opacity-100">
+                    <Trash2 className="h-5 w-5" />
                  </button>
               </div>
-
-              <div className="space-y-1 mb-6">
-                 <h4 className="font-bold text-base text-zinc-900 dark:text-white truncate" title={report.title}>{report.title}</h4>
-                 <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500 uppercase tracking-wider">
-                    <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {new Date(report.createdAt).toLocaleDateString()}</span>
-                    <span className="w-1 h-1 bg-zinc-300 rounded-full"></span>
+ 
+              <div className="space-y-2 mb-10 relative z-10">
+                 <h4 className="font-black text-2xl text-white uppercase tracking-tighter leading-none truncate" title={report.title}>{report.title}</h4>
+                 <div className="flex items-center gap-3 text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em]">
+                    <span className="flex items-center gap-1.5"><Calendar className="h-3 w-3 text-cyan-500" /> {new Date(report.createdAt).toLocaleDateString()}</span>
+                    <span className="w-1.5 h-1.5 bg-zinc-800 rounded-full"></span>
                     <span>{(report.fileSize / 1024 / 1024).toFixed(2)} MB</span>
                  </div>
               </div>
-
-              <div className="space-y-2">
+ 
+              <div className="space-y-4 relative z-10">
                   <a
                    href={`${api.defaults.baseURL?.replace('/api', '') || ''}${report.fileUrl}`}
                    target="_blank"
                    rel="noopener noreferrer"
-                   className="w-full flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-900 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                   className="w-full flex items-center justify-between p-5 bg-white/5 border border-white/5 rounded-2xl hover:bg-white/10 transition-all group/btn shadow-inner"
                  >
-                    <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">View Document</span>
-                    <Eye className="h-4 w-4 text-zinc-400" />
-                 </a>
+                    <span className="text-[10px] font-black text-white uppercase tracking-[0.4em]">View Artifact</span>
+                    <Eye className="h-5 w-5 text-zinc-500 group-hover/btn:text-white transition-colors" />
+                  </a>
                  <button
                    onClick={() => analyzeReport(report._id)}
                    disabled={analyzingId === report._id}
-                   className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors ${analyzingId === report._id ? 'bg-primary-600 text-white' : 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-900/40'}`}
+                   className={`w-full flex items-center justify-between p-6 rounded-2xl transition-all shadow-2xl ${analyzingId === report._id ? 'bg-cyan-600 text-white' : 'bg-white text-zinc-950 hover:scale-105 active:scale-95'}`}
                  >
-                    <span className="text-xs font-bold">
-                       {analyzingId === report._id ? 'Analyzing...' : 'Explain with AI'}
+                    <span className="text-[11px] font-black uppercase tracking-[0.4em]">
+                       {analyzingId === report._id ? 'Analyzing...' : 'Neural Insight'}
                     </span>
-                    {analyzingId === report._id ? <Loader2 className="h-4 w-4 animate-spin" /> : <BrainCircuit className="h-4 w-4" />}
+                    {analyzingId === report._id ? <Loader2 className="h-5 w-5 animate-spin" /> : <BrainCircuit className="h-5 w-5" />}
                  </button>
               </div>
             </motion.div>
@@ -206,44 +208,48 @@ const ReportsTab = () => {
       )}
 
       {/* AI Analysis Modal */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {showAnalysisModal && analysisResult && (
-          <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm" onClick={() => setShowAnalysisModal(false)} />
-            <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="bg-white dark:bg-zinc-900 rounded-2xl p-6 sm:p-8 max-w-2xl w-full relative z-10 shadow-xl border border-zinc-200 dark:border-zinc-800">
-              <div className="flex justify-between items-start mb-6">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-xl">
-                    <BrainCircuit className="h-6 w-6 text-primary-600" />
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-zinc-950/95 backdrop-blur-2xl" onClick={() => setShowAnalysisModal(false)} />
+            <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="bg-white/10 dark:bg-zinc-950/80 backdrop-blur-2xl rounded-[3.5rem] p-12 max-w-3xl w-full relative z-10 shadow-2xl border border-white/10 overflow-hidden">
+              <div className="absolute top-0 right-0 p-20 opacity-5 pointer-events-none">
+                 <BrainCircuit className="h-64 w-64 text-cyan-500" />
+              </div>
+
+              <div className="flex justify-between items-start mb-12 relative z-10">
+                <div className="flex items-center gap-6">
+                  <div className="p-5 bg-cyan-500/10 rounded-2xl border border-cyan-500/20 glow-border">
+                    <BrainCircuit className="h-8 w-8 text-cyan-500" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-zinc-900 dark:text-white">AI Clinical Insight</h3>
-                    <p className="text-sm font-medium text-zinc-500">Medical report explanation</p>
+                    <h3 className="text-4xl font-black text-white uppercase tracking-tighter">Clinical Insight</h3>
+                    <p className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">Neural Telemetry Analysis</p>
                   </div>
                 </div>
-                <button onClick={() => setShowAnalysisModal(false)} className="p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-lg text-zinc-500 transition-colors">
-                  <X className="h-5 w-5" />
+                <button onClick={() => setShowAnalysisModal(false)} className="p-4 bg-white/5 rounded-2xl text-zinc-500 hover:text-white transition-all border border-white/5">
+                  <X className="h-6 w-6" />
                 </button>
               </div>
 
-              <div className="bg-zinc-50 dark:bg-zinc-800/50 rounded-xl p-6 border border-zinc-100 dark:border-zinc-800 mb-6 max-h-[60vh] overflow-y-auto custom-scrollbar">
-                <div className="prose prose-sm dark:prose-invert max-w-none text-zinc-700 dark:text-zinc-300 leading-relaxed font-medium whitespace-pre-wrap">
+              <div className="bg-zinc-950/60 backdrop-blur-xl rounded-[2.5rem] p-10 border border-white/5 mb-10 max-h-[50vh] overflow-y-auto custom-scrollbar relative z-10 shadow-inner">
+                <div className="prose prose-invert max-w-none text-zinc-400 leading-relaxed font-medium italic whitespace-pre-wrap text-sm">
                   {analysisResult.text}
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 bg-amber-50 dark:bg-amber-900/10 p-4 rounded-xl border border-amber-100 dark:border-amber-900/30 mb-6">
-                <Info className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
-                <p className="text-xs text-amber-800 dark:text-amber-400 font-semibold leading-relaxed">
-                  DISCLAIMER: This analysis is generated via AI and is for educational reference only. It does not replace professional medical advice.
+              <div className="flex items-start gap-5 bg-emerald-500/5 p-6 rounded-2xl border border-emerald-500/10 mb-10 relative z-10">
+                <Info className="h-6 w-6 text-emerald-500 flex-shrink-0 mt-0.5" />
+                <p className="text-[11px] text-emerald-500/80 font-black uppercase tracking-[0.2em] leading-relaxed">
+                  PROTOCOL DISCLAIMER: This insight is synthesized via neural-net processing and serves as a clinical reference node only. Cross-validate with a certified protocol specialist.
                 </p>
               </div>
 
               <button
                 onClick={() => setShowAnalysisModal(false)}
-                className="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-900 font-bold py-3 rounded-xl text-sm transition-colors shadow-sm"
+                className="w-full bg-white hover:bg-zinc-100 text-zinc-950 font-black py-7 rounded-2xl text-[11px] uppercase tracking-[0.4em] transition-all shadow-2xl relative z-10"
               >
-                Close
+                Terminate Session
               </button>
             </motion.div>
           </div>
@@ -253,31 +259,31 @@ const ReportsTab = () => {
       {/* Upload Modal */}
       <AnimatePresence>
          {showUploadModal && (
-           <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm" onClick={() => setShowUploadModal(false)} />
-             <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="bg-white dark:bg-zinc-900 rounded-2xl p-8 max-w-md w-full relative z-10 shadow-xl border border-zinc-200 dark:border-zinc-800">
-               <div className="flex justify-between items-center mb-8">
-                 <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Upload Report</h3>
-                 <button onClick={() => setShowUploadModal(false)} className="p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-lg text-zinc-500 transition-colors">
-                   <X className="h-5 w-5" />
+           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-zinc-950/95 backdrop-blur-2xl" onClick={() => setShowUploadModal(false)} />
+             <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="bg-white/10 dark:bg-zinc-950/80 backdrop-blur-2xl rounded-[3.5rem] p-12 max-w-lg w-full relative z-10 shadow-2xl border border-white/10">
+               <div className="flex justify-between items-center mb-12">
+                 <h3 className="text-4xl font-black text-white uppercase tracking-tighter">Deploy Artifact</h3>
+                 <button onClick={() => setShowUploadModal(false)} className="p-4 bg-white/5 rounded-2xl text-zinc-500 hover:text-white transition-all border border-white/5">
+                   <X className="h-6 w-6" />
                  </button>
                </div>
                
-               <form onSubmit={handleUpload} className="space-y-6">
-                 <div className="space-y-2">
-                   <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 ml-1">Document Title</label>
+               <form onSubmit={handleUpload} className="space-y-10">
+                 <div className="space-y-3">
+                   <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] ml-2">Artifact Designation</label>
                    <input
                      type="text"
                      required
-                     placeholder="e.g. Blood Test - March 2024"
+                     placeholder="e.g. Blood Telemetry - Node 01"
                      value={title}
                      onChange={(e) => setTitle(e.target.value)}
-                     className="w-full px-4 py-3 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 text-zinc-900 dark:text-white font-medium transition-colors"
+                     className="w-full p-6 bg-white/5 border border-white/10 rounded-2xl outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/50 text-white font-bold transition-all shadow-inner placeholder:text-zinc-700"
                    />
                  </div>
-
-                 <div className="space-y-2">
-                   <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 ml-1">Attachment</label>
+ 
+                 <div className="space-y-3">
+                   <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] ml-2">Digital Payload</label>
                    <div className="relative group">
                      <input
                        type="file"
@@ -286,28 +292,28 @@ const ReportsTab = () => {
                        onChange={(e) => setFile(e.target.files?.[0] || null)}
                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                      />
-                     <div className="p-8 border-2 border-dashed border-zinc-200 dark:border-zinc-700 rounded-xl flex flex-col items-center justify-center group-hover:border-primary-500 group-hover:bg-primary-50/50 dark:group-hover:bg-primary-900/10 transition-colors bg-zinc-50 dark:bg-zinc-800/50">
-                        <div className="p-3 bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700 mb-3 group-hover:border-primary-200 transition-colors">
-                           <Upload className="h-6 w-6 text-primary-600" />
+                     <div className="p-10 border-2 border-dashed border-white/5 bg-zinc-950/60 rounded-[2.5rem] flex flex-col items-center justify-center group-hover:border-emerald-500/50 group-hover:bg-white/5 transition-all shadow-inner">
+                        <div className="p-5 bg-zinc-900 rounded-2xl border border-white/5 shadow-2xl mb-6 group-hover:scale-110 transition-transform">
+                           <Upload className="h-8 w-8 text-emerald-500" />
                         </div>
-                        <p className="text-sm font-bold text-zinc-900 dark:text-white text-center px-4 mb-1">
-                           {file ? file.name : 'Select or Drag Document'}
+                        <p className="text-[11px] font-black text-white text-center uppercase tracking-[0.2em] mb-2 px-6">
+                           {file ? file.name : 'Select Clinical Payload'}
                         </p>
-                        <p className="text-xs text-zinc-500 font-medium">PDF, JPG, PNG (Max 10MB)</p>
+                        <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest">PDF, JPG, PNG // MAX 10MB</p>
                      </div>
                    </div>
                  </div>
-
+ 
                  <button
                    type="submit"
                    disabled={uploading || !file}
-                   className="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3.5 rounded-xl text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                   className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-7 rounded-2xl text-[11px] uppercase tracking-[0.4em] transition-all shadow-2xl shadow-emerald-600/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 mt-6"
                  >
                    {uploading ? (
                      <>
-                       <Loader2 className="animate-spin h-4 w-4 mr-2" /> Uploading...
+                       <Loader2 className="animate-spin h-5 w-5" /> Syncing...
                      </>
-                   ) : 'Upload Report'}
+                   ) : <>Upload to Vault <ShieldCheck className="h-5 w-5" /></>}
                  </button>
                </form>
              </motion.div>

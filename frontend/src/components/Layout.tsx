@@ -140,10 +140,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       {/* Minimal Background Infrastructure */}
       <div className="fixed inset-0 pointer-events-none z-0">
          <div className="absolute top-0 left-0 w-full h-full bg-zinc-50 dark:bg-zinc-950 transition-colors duration-500"></div>
+         <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-emerald-500/10 blur-[120px] rounded-full"></div>
+         <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-cyan-500/10 blur-[120px] rounded-full"></div>
+         <div className="absolute inset-0 cyber-grid opacity-[0.03] dark:opacity-[0.05]"></div>
       </div>
 
       {/* ── HIGH-FIDELITY SIDEBAR ── */}
-      <aside className="w-72 bg-white dark:bg-zinc-950 border-r border-zinc-100 dark:border-zinc-800 flex-col hidden md:flex transition-all duration-500 flex-shrink-0 sticky top-0 h-screen overflow-hidden">
+      <aside className="w-72 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-2xl border-r border-zinc-100 dark:border-white/5 flex-col hidden md:flex transition-all duration-500 flex-shrink-0 sticky top-0 h-screen overflow-hidden z-50">
         
         {/* Sidebar Header */}
         <div className="p-6 pb-4">
@@ -158,13 +161,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           </div>
 
           <div className="relative group">
-             <div className="relative flex items-center gap-4 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-sm mb-4">
-                <ProfileAvatar className="h-11 w-11 flex-shrink-0 rounded-xl" />
+             <div className="relative flex items-center gap-4 p-4 bg-white/50 dark:bg-white/5 backdrop-blur-md rounded-2xl border border-zinc-100 dark:border-white/10 shadow-sm mb-4 group-hover:border-primary-500/30 transition-all">
+                <ProfileAvatar className="h-11 w-11 flex-shrink-0 rounded-xl glow-border" />
                 <div className="min-w-0">
-                  <p className="text-xs font-semibold text-primary-600 dark:text-primary-400 leading-none mb-1">Authenticated</p>
-                  <p className="text-sm font-bold text-zinc-900 dark:text-white truncate" title={managedMemberName}>{managedMemberName}</p>
+                  <p className="text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-widest leading-none mb-1">Authenticated</p>
+                  <p className="text-sm font-black text-zinc-900 dark:text-white truncate" title={managedMemberName}>{managedMemberName}</p>
                   {isStealthMode && (
-                    <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 text-[10px] font-bold rounded-full">
+                    <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 bg-amber-500/10 text-amber-500 text-[10px] font-black uppercase rounded-full border border-amber-500/20">
                       <EyeOff className="h-3 w-3" /> Ghost Mode
                     </span>
                   )}
@@ -191,14 +194,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     <Link
                       key={item.name}
                       to={item.path}
-                      className={`flex items-center px-4 py-2.5 rounded-xl transition-all group ${
+                      className={`flex items-center px-4 py-3 rounded-xl transition-all duration-300 group ${
                         isActive
-                          ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 font-semibold'
-                          : 'text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-white font-medium'
+                          ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-black shadow-[inset_0_0_10px_rgba(16,185,129,0.1)] border border-emerald-500/20'
+                          : 'text-zinc-500 dark:text-zinc-400 hover:bg-white/5 hover:text-zinc-900 dark:hover:text-white font-bold'
                       }`}
                     >
-                      <Icon className={`mr-3 h-5 w-5 flex-shrink-0 ${isActive ? 'text-primary-600' : 'text-zinc-400 group-hover:text-zinc-600'}`} />
-                      <span className="text-sm tracking-tight truncate">{item.name}</span>
+                      <Icon className={`mr-3 h-5 w-5 flex-shrink-0 transition-all ${isActive ? 'text-emerald-500' : 'text-zinc-400 group-hover:text-zinc-600 group-hover:scale-110'}`} />
+                      <span className="text-[10px] uppercase tracking-widest truncate">{item.name}</span>
                     </Link>
                   );
                 })}
@@ -211,15 +214,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <div className="p-6 space-y-3 bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-800">
           <button
             onClick={() => navigate('/dashboard/emergency')}
-            className="flex items-center justify-center gap-2 px-4 py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold w-full transition-all active:scale-95 text-sm"
+            className="flex items-center justify-center gap-2 px-4 py-4 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] w-full transition-all active:scale-95 shadow-2xl shadow-rose-600/20 border border-rose-500/20"
           >
-            <ShieldAlert className="h-5 w-5" />
+            <ShieldAlert className="h-5 w-5 animate-pulse" />
             EMERGENCY SOS
           </button>
 
           <button
             onClick={handleLogout}
-            className="flex items-center justify-center gap-2 px-4 py-3 text-zinc-600 dark:text-zinc-400 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:text-zinc-900 font-semibold w-full transition-all text-sm"
+            className="flex items-center justify-center gap-2 px-4 py-3 text-zinc-500 dark:text-zinc-400 rounded-xl hover:bg-white/5 hover:text-rose-500 font-black text-[10px] uppercase tracking-widest w-full transition-all"
           >
             <LogOut className="h-5 w-5" />
             <span>{t('nav_logout')}</span>
@@ -273,14 +276,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <StealthBanner />
 
         {/* Header Protocol */}
-        <header className="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-100 dark:border-zinc-800 px-6 md:px-8 h-16 flex justify-between items-center sticky top-0 z-[100] transition-all duration-300">
-          <div className="flex items-center gap-4">
-            <button onClick={() => setMobileNavOpen(true)} className="md:hidden p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">
+        <header className="bg-white/60 dark:bg-zinc-950/60 backdrop-blur-2xl border-b border-zinc-100 dark:border-white/5 px-6 md:px-8 h-20 flex justify-between items-center sticky top-0 z-[100] transition-all duration-300">
+          <div className="flex items-center gap-6">
+            <button onClick={() => setMobileNavOpen(true)} className="md:hidden p-3 rounded-xl bg-white/5 border border-white/10 text-zinc-600 dark:text-zinc-300">
               <Menu className="h-5 w-5" />
             </button>
             
             <div className="hidden md:block relative group">
-               <div className="flex items-center bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-2 w-[28rem] focus-within:ring-2 focus-within:ring-primary-500/20 focus-within:border-primary-500 transition-all">
+               <div className="flex items-center bg-white/40 dark:bg-white/5 backdrop-blur-md border border-zinc-200 dark:border-white/10 rounded-2xl px-5 py-3 w-[32rem] focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500/50 transition-all shadow-inner">
                   <Search className="h-4 w-4 text-zinc-400 mr-3" />
                   <input 
                     ref={searchInputRef}
@@ -289,9 +292,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     value={searchQuery}
                     onChange={(e) => { setSearchQuery(e.target.value); setShowResults(true); }}
                     onFocus={() => setShowResults(true)}
-                    className="bg-transparent border-none focus:ring-0 text-sm w-full text-zinc-900 dark:text-white placeholder:text-zinc-400 font-medium"
+                    className="bg-transparent border-none focus:ring-0 text-[13px] w-full text-zinc-900 dark:text-white placeholder:text-zinc-500 font-bold"
                   />
-                  <div className="flex items-center gap-1 px-2 py-0.5 rounded border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs font-semibold text-zinc-400 shadow-sm ml-2">
+                  <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-800 text-[9px] font-black text-zinc-500 shadow-sm ml-2">
                     ⌘K
                   </div>
                </div>
@@ -354,14 +357,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             </div>
             <NotificationSystem />
             <div className="h-8 w-px bg-zinc-200 dark:bg-zinc-800 mx-2 hidden sm:block"></div>
-            <Link to="/dashboard/profile" className="flex items-center gap-3 group">
+            <Link to="/dashboard/profile" className="flex items-center gap-4 group">
                <div className="text-right hidden xl:block">
-                  <p className="text-sm font-bold text-zinc-900 dark:text-white leading-none mb-1 group-hover:text-primary-600 transition-colors">{managedMemberName}</p>
-                  <p className="text-xs font-semibold text-zinc-500 flex items-center justify-end gap-1.5">
-                     <ShieldCheck className="h-3 w-3 text-emerald-500" /> Verified ID
+                  <p className="text-sm font-black text-zinc-900 dark:text-white leading-none mb-1 group-hover:text-emerald-500 transition-colors uppercase tracking-tight">{managedMemberName}</p>
+                  <p className="text-[10px] font-black text-zinc-500 flex items-center justify-end gap-1.5 uppercase tracking-widest">
+                     <ShieldCheck className="h-3 w-3 text-emerald-500" /> Verified Node
                   </p>
                </div>
-               <ProfileAvatar className="h-10 w-10 shadow-sm group-hover:scale-105 transition-transform border border-zinc-200 dark:border-zinc-700" />
+               <ProfileAvatar className="h-11 w-11 shadow-2xl group-hover:scale-105 transition-transform border border-zinc-200 dark:border-white/10 glow-border" />
             </Link>
           </div>
         </header>

@@ -7,17 +7,20 @@ import { encryptMedicalRecord } from '../../utils/encryption';
 
 
 const InputField = ({ label, value, onChange, placeholder, icon: Icon }: any) => (
-  <div className="space-y-2">
-    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2 ml-1">
-      {Icon && <Icon className="h-3 w-3 text-primary-500" />} {label}
+  <div className="space-y-3">
+    <label className="text-[10px] font-black text-zinc-500 dark:text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-2 ml-2">
+      {Icon && <Icon className="h-3.5 w-3.5 text-emerald-500" />} {label}
     </label>
-    <input
-      type="text"
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-primary-500/10 outline-none text-gray-900 dark:text-white transition-all font-bold placeholder:text-gray-300 dark:placeholder:text-gray-600"
-    />
+    <div className="relative group">
+       <input
+         type="text"
+         value={value}
+         onChange={onChange}
+         placeholder={placeholder}
+         className="w-full px-8 py-5 bg-white/5 dark:bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] focus:ring-4 focus:ring-emerald-500/10 outline-none text-zinc-900 dark:text-white transition-all font-bold placeholder:text-zinc-300 dark:placeholder:text-zinc-600 shadow-inner group-focus-within:border-emerald-500/50"
+       />
+       <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity rounded-[2rem] pointer-events-none"></div>
+    </div>
   </div>
 );
 
@@ -181,23 +184,23 @@ const MedicalTab = () => {
       )}
 
       {/* Header Widget */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-         <div>
-            <div className="flex items-center gap-2 mb-2">
-               <span className="saas-badge bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20">Secure EMR</span>
-               <span className="saas-badge bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20">Synced</span>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+         <div className="space-y-4">
+            <div className="flex items-center gap-3">
+               <span className="px-3 py-1 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 text-[9px] font-black uppercase tracking-widest rounded-lg shadow-2xl">SECURE EMR</span>
+               <span className="px-3 py-1 bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 text-[9px] font-black uppercase tracking-widest rounded-lg shadow-2xl">AES-256</span>
             </div>
-            <h2 className="text-3xl saas-heading">Clinical Passport</h2>
-            <p className="saas-subtext">Global interoperable health history and clinical records</p>
+            <h2 className="text-4xl font-black text-zinc-900 dark:text-white uppercase tracking-tighter leading-none">Clinical Passport</h2>
+            <p className="text-sm text-zinc-500 font-medium italic">Global interoperable health history and clinical records sync protocol.</p>
          </div>
          {isStealthMode ? (
-           <div className="flex items-center gap-2 px-6 py-3 bg-zinc-100 dark:bg-zinc-800 text-zinc-400 rounded-xl text-sm font-bold cursor-not-allowed border border-zinc-200 dark:border-zinc-700">
+           <div className="flex items-center gap-3 px-8 py-4 bg-zinc-950 border border-white/5 text-zinc-600 rounded-2xl text-[10px] font-black uppercase tracking-widest cursor-not-allowed">
              <EyeOff className="h-4 w-4" />
              Locked in Ghost Mode
            </div>
          ) : (
-           <button onClick={handleSubmit} disabled={saving} className="btn-primary px-8 py-3 text-base">
-             {saving ? 'Syncing...' : 'Save Changes'}
+           <button onClick={handleSubmit} disabled={saving} className="px-10 py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] shadow-2xl shadow-emerald-600/20 transition-all hover:scale-105 active:scale-95 flex items-center gap-3">
+             {saving ? 'Syncing...' : 'Update Records'} <Zap className="h-4 w-4" />
            </button>
          )}
       </div>
@@ -214,11 +217,14 @@ const MedicalTab = () => {
       <form onSubmit={handleSubmit} className="space-y-10">
         
         {/* Core Medical Data */}
-        <div className="saas-card p-8 sm:p-10">
-          <div className="grid lg:grid-cols-2 gap-10">
-             <div className="space-y-6">
-                <h3 className="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-                   <Heart className="h-5 w-5 text-rose-600" />
+        <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div className="grid lg:grid-cols-2 gap-16 relative z-10">
+             <div className="space-y-10">
+                <h3 className="text-2xl font-black text-zinc-900 dark:text-white flex items-center gap-4 uppercase tracking-tighter">
+                   <div className="p-3 bg-rose-500/10 rounded-2xl border border-rose-500/20 glow-border">
+                      <Heart className="h-6 w-6 text-rose-500" />
+                   </div>
                    Vital Indicators
                 </h3>
                 <InputField 
@@ -244,9 +250,11 @@ const MedicalTab = () => {
                 />
              </div>
 
-             <div className="space-y-6">
-                <h3 className="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-                   <Stethoscope className="h-5 w-5 text-emerald-600" />
+             <div className="space-y-10">
+                <h3 className="text-2xl font-black text-zinc-900 dark:text-white flex items-center gap-4 uppercase tracking-tighter">
+                   <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 glow-border">
+                      <Stethoscope className="h-6 w-6 text-emerald-500" />
+                   </div>
                    Clinical History
                 </h3>
                 <InputField 
@@ -275,51 +283,56 @@ const MedicalTab = () => {
         </div>
 
         {/* Lifestyle Protocol */}
-        <div className="saas-card p-8 sm:p-10">
-          <div className="flex items-center gap-3 mb-8">
-             <Wind className="h-5 w-5 text-emerald-600" />
-             <h3 className="text-lg font-bold text-zinc-900 dark:text-white tracking-tight">Lifestyle Protocol</h3>
+        <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div className="flex items-center gap-4 mb-10 relative z-10">
+             <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 glow-border">
+                <Wind className="h-6 w-6 text-emerald-500" />
+             </div>
+             <h3 className="text-2xl font-black text-zinc-900 dark:text-white tracking-tighter uppercase leading-none">Lifestyle Protocol</h3>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 relative z-10">
             <button
               type="button"
               onClick={() => setDetails({...details, lifestyle: {...details.lifestyle, smoking: !details.lifestyle.smoking}})}
-              className={`p-6 rounded-3xl border transition-all flex flex-col gap-4 text-left ${details.lifestyle.smoking ? 'bg-rose-50 border-rose-200' : 'bg-gray-50/50 dark:bg-slate-900/50 border-gray-100 dark:border-slate-700'}`}
+              className={`p-10 rounded-[2.5rem] border transition-all flex flex-col gap-6 text-left shadow-2xl relative overflow-hidden group/btn ${details.lifestyle.smoking ? 'bg-rose-600 border-rose-500 text-white' : 'bg-white/5 border-white/10'}`}
             >
-               <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${details.lifestyle.smoking ? 'bg-rose-600 text-white' : 'bg-gray-200 dark:bg-slate-700 text-gray-400'}`}>
-                  <Droplet className="h-5 w-5" />
+               <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-all ${details.lifestyle.smoking ? 'bg-white/10 border-white/20' : 'bg-white/5 border-white/10 text-zinc-500 group-hover/btn:scale-110'}`}>
+                  <Droplet className="h-6 w-6" />
                </div>
                <div>
-                  <p className="text-xs font-black uppercase tracking-widest text-gray-400">Status</p>
-                  <p className="text-lg font-black text-gray-900 dark:text-white">{details.lifestyle.smoking ? 'Smoker' : 'Non-Smoker'}</p>
+                  <p className={`text-[10px] font-black uppercase tracking-[0.3em] mb-2 ${details.lifestyle.smoking ? 'text-rose-100' : 'text-zinc-500'}`}>Current Status</p>
+                  <p className="text-2xl font-black uppercase tracking-tight leading-none">{details.lifestyle.smoking ? 'Smoker' : 'Non-Smoker'}</p>
                </div>
+               {details.lifestyle.smoking && <div className="absolute top-0 right-0 p-6 opacity-20"><Zap className="h-20 w-20" /></div>}
             </button>
 
             <button
               type="button"
               onClick={() => setDetails({...details, lifestyle: {...details.lifestyle, alcohol: !details.lifestyle.alcohol}})}
-              className={`p-6 rounded-3xl border transition-all flex flex-col gap-4 text-left ${details.lifestyle.alcohol ? 'bg-amber-50 border-amber-200' : 'bg-gray-50/50 dark:bg-slate-900/50 border-gray-100 dark:border-slate-700'}`}
+              className={`p-10 rounded-[2.5rem] border transition-all flex flex-col gap-6 text-left shadow-2xl relative overflow-hidden group/btn ${details.lifestyle.alcohol ? 'bg-amber-600 border-amber-500 text-white' : 'bg-white/5 border-white/10'}`}
             >
-               <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${details.lifestyle.alcohol ? 'bg-amber-600 text-white' : 'bg-gray-200 dark:bg-slate-700 text-gray-400'}`}>
-                  <Zap className="h-5 w-5" />
+               <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-all ${details.lifestyle.alcohol ? 'bg-white/10 border-white/20' : 'bg-white/5 border-white/10 text-zinc-500 group-hover/btn:scale-110'}`}>
+                  <Zap className="h-6 w-6" />
                </div>
                <div>
-                  <p className="text-xs font-black uppercase tracking-widest text-gray-400">Consumption</p>
-                  <p className="text-lg font-black text-gray-900 dark:text-white">{details.lifestyle.alcohol ? 'Alcohol User' : 'Alcohol Free'}</p>
+                  <p className={`text-[10px] font-black uppercase tracking-[0.3em] mb-2 ${details.lifestyle.alcohol ? 'text-amber-100' : 'text-zinc-500'}`}>Consumption</p>
+                  <p className="text-2xl font-black uppercase tracking-tight leading-none">{details.lifestyle.alcohol ? 'Alcohol User' : 'Alcohol Free'}</p>
                </div>
+               {details.lifestyle.alcohol && <div className="absolute top-0 right-0 p-6 opacity-20"><Zap className="h-20 w-20" /></div>}
             </button>
 
-            <div className="p-6 bg-gray-50/50 dark:bg-slate-900/50 rounded-3xl border border-gray-100 dark:border-slate-700">
-              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-4 ml-1">Exercise Intensity</label>
+            <div className="p-10 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] shadow-inner">
+              <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] block mb-6 ml-1">Exercise Intensity</label>
               <select
                 value={details.lifestyle.exercise}
                 onChange={(e) => setDetails({...details, lifestyle: {...details.lifestyle, exercise: e.target.value}})}
-                className="w-full px-5 py-4 bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-primary-500/10 outline-none text-gray-900 dark:text-white font-black transition-all"
+                className="w-full px-8 py-5 bg-zinc-950/50 dark:bg-zinc-950/50 border border-white/5 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 outline-none text-zinc-900 dark:text-white font-black transition-all appearance-none uppercase tracking-widest text-[11px]"
               >
-                <option value="None">None</option>
-                <option value="Light">Light (1-2 days/wk)</option>
-                <option value="Moderate">Moderate (3-4 days/wk)</option>
-                <option value="Active">Active (5+ days/wk)</option>
+                <option value="None">Level: None</option>
+                <option value="Light">Level: Light (1-2/wk)</option>
+                <option value="Moderate">Level: Moderate (3-4/wk)</option>
+                <option value="Active">Level: Active (5+/wk)</option>
               </select>
             </div>
           </div>
@@ -327,58 +340,64 @@ const MedicalTab = () => {
 
         {/* Responder Protocol */}
         <div className="lg:col-span-3">
-           <div className="saas-card p-8 bg-zinc-900 text-white border-none shadow-sm">
-              <h3 className="text-sm font-bold mb-6 flex items-center gap-2">
-                 <Zap className="h-4 w-4 text-emerald-400" />
-                 Responder Protocol
+           <div className="bg-zinc-950 p-10 rounded-[3.5rem] border border-white/5 shadow-2xl relative overflow-hidden group">
+              <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+              <h3 className="text-[10px] font-black mb-8 flex items-center gap-3 uppercase tracking-[0.5em] text-emerald-500 relative z-10">
+                 <Zap className="h-4 w-4" />
+                 Tactical Responder Notes
               </h3>
               <textarea
                 rows={4}
                 value={details.notes}
                 onChange={(e) => setDetails({...details, notes: e.target.value})}
                 placeholder="Critical information for first responders..."
-                className="w-full p-5 bg-white/5 border border-white/10 rounded-xl text-sm font-medium leading-relaxed outline-none focus:bg-white/10 transition-all resize-none placeholder:text-zinc-500"
+                className="w-full p-8 bg-white/5 border border-white/10 rounded-[2rem] text-sm font-medium leading-relaxed outline-none focus:bg-white/10 transition-all resize-none placeholder:text-zinc-600 text-white relative z-10 shadow-inner"
               />
            </div>
         </div>
       </form>
 
       {/* Visit Archive */}
-      <div className="saas-card p-8 sm:p-10 mt-10">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
-           <div className="flex items-center gap-3">
-              <Hospital className="h-5 w-5 text-emerald-600" />
+      <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group mt-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12 relative z-10">
+           <div className="flex items-center gap-5">
+              <div className="p-3 bg-cyan-500/10 rounded-2xl border border-cyan-500/20 glow-border">
+                 <Hospital className="h-6 w-6 text-cyan-500" />
+              </div>
               <div>
-                 <h2 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight">Visit Archive</h2>
-                 <p className="saas-subtext">Record clinical visits and store reports</p>
+                 <h2 className="text-3xl font-black text-zinc-900 dark:text-white uppercase tracking-tighter leading-none">Visit Archive</h2>
+                 <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Record clinical visits and binary report archives</p>
               </div>
            </div>
         </div>
-        
-        <form onSubmit={handleVisitSubmit} className="space-y-10">
-           <div className="grid md:grid-cols-2 gap-10">
+               <form onSubmit={handleVisitSubmit} className="space-y-12 relative z-10">
+           <div className="grid md:grid-cols-2 gap-12">
               <InputField 
-                label="Hospital/Clinic Name" 
+                label="Hospital/Clinic Node" 
                 value={visitHospital} 
                 onChange={(e: any) => setVisitHospital(e.target.value)}
                 placeholder="e.g. Mayo Clinic"
                 icon={Hospital}
               />
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 ml-1">
-                  <Calendar className="h-3 w-3 text-emerald-500" /> Visit Date
+              <div className="space-y-3">
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-2 ml-2">
+                  <Calendar className="h-3.5 w-3.5 text-cyan-500" /> Visit Date
                 </label>
-                <input
-                  type="date"
-                  value={visitDate}
-                  onChange={(e) => setVisitDate(e.target.value)}
-                  className="w-full px-6 py-5 bg-gray-50/50 dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 outline-none text-gray-900 dark:text-white font-bold transition-all"
-                />
+                <div className="relative group">
+                   <input
+                     type="date"
+                     value={visitDate}
+                     onChange={(e) => setVisitDate(e.target.value)}
+                     className="w-full px-8 py-5 bg-white/5 dark:bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] focus:ring-4 focus:ring-cyan-500/10 outline-none text-zinc-900 dark:text-white font-black uppercase tracking-widest text-[11px] transition-all group-focus-within:border-cyan-500/50 shadow-inner"
+                   />
+                   <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity rounded-[2rem] pointer-events-none"></div>
+                </div>
               </div>
            </div>
 
-           <div className="space-y-4">
-              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block ml-1">Attachment Upload</label>
+           <div className="space-y-6">
+              <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] block ml-2">Binary Payload Uplink</label>
               <div className="relative group">
                  <input
                    type="file"
@@ -391,37 +410,40 @@ const MedicalTab = () => {
                    }}
                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                  />
-                 <div className="p-12 border-2 border-dashed border-gray-200 dark:border-slate-700 rounded-[2.5rem] flex flex-col items-center justify-center group-hover:border-emerald-500 group-hover:bg-emerald-50/30 transition-all bg-gray-50/30 dark:bg-slate-900/30">
-                    <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm mb-4">
-                       <Plus className="h-8 w-8 text-emerald-600" />
+                 <div className="p-20 border-2 border-dashed border-white/5 rounded-[3.5rem] flex flex-col items-center justify-center group-hover:border-cyan-500/50 group-hover:bg-white/5 transition-all bg-white/5 shadow-inner">
+                    <div className="p-6 bg-zinc-950 rounded-[2rem] border border-white/5 shadow-2xl mb-6 group-hover:scale-110 transition-transform">
+                       <Plus className="h-10 w-10 text-cyan-500" />
                     </div>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">Click to Attach Medical Records</p>
-                    <p className="text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-widest">Supports PDF, JPG, PNG (Max 5 files)</p>
+                    <p className="text-base font-black text-white uppercase tracking-tighter">Click to Uplink Records</p>
+                    <p className="text-[9px] text-zinc-500 mt-2 uppercase font-black tracking-[0.3em]">PDF, JPG, PNG // MAX PAYLOAD 5 FILES</p>
                  </div>
-              </div>
-
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {visitDocuments.map((doc, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-4 bg-emerald-50/50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/30 rounded-2xl">
-                    <div className="flex items-center gap-3 overflow-hidden">
-                       <FileText className="h-5 w-5 text-emerald-600 flex-shrink-0" />
-                       <span className="text-xs font-bold text-gray-900 dark:text-white truncate">{doc.name}</span>
-                    </div>
-                    <button type="button" onClick={() => setVisitDocuments(visitDocuments.filter((_, i) => i !== idx))} className="p-2 hover:text-red-600 transition-colors">
-                       <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                ))}
               </div>
            </div>
 
-            <div className="flex justify-end pt-6">
+           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+             {visitDocuments.map((doc, idx) => (
+               <div key={idx} className="flex items-center justify-between p-6 bg-white/5 border border-white/5 rounded-[2rem] shadow-2xl">
+                 <div className="flex items-center gap-4 overflow-hidden">
+                    <div className="p-3 bg-cyan-500/10 rounded-xl border border-cyan-500/20">
+                       <FileText className="h-5 w-5 text-cyan-500 flex-shrink-0" />
+                    </div>
+                    <span className="text-[11px] font-black text-white truncate uppercase tracking-tight">{doc.name}</span>
+                 </div>
+                 <button type="button" onClick={() => setVisitDocuments(visitDocuments.filter((_, i) => i !== idx))} className="p-2 text-zinc-600 hover:text-rose-500 transition-colors">
+                    <Trash2 className="h-5 w-5" />
+                 </button>
+               </div>
+             ))}
+           </div>
+           </div>
+
+            <div className="flex justify-end pt-8">
                <button
                  type="submit"
                  disabled={visitSaving}
-                 className="btn-primary px-8 py-3 text-sm"
+                 className="px-10 py-5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] transition-all shadow-2xl shadow-cyan-600/20 hover:scale-105 active:scale-95 flex items-center gap-3"
                >
-                 {visitSaving ? 'Archiving...' : 'Record Visit'}
+                 {visitSaving ? 'Processing...' : 'Sync Archive'} <Zap className="h-4 w-4" />
                </button>
             </div>
         </form>
