@@ -100,16 +100,16 @@ const OverviewTab = () => {
 
         // Calculate Safety Score
         const checklistItems = [
-          { label: 'Profile Completed', completed: !!profile.fullName && !!profile.dob && !!profile.bloodGroup },
-          { label: 'Allergies Listed', completed: medical.allergies?.length > 0 },
-          { label: 'Medical Conditions', completed: medical.conditions?.length > 0 },
+          { label: 'Profile Completed', completed: !!profile?.fullName && !!profile?.dob && !!profile?.bloodGroup },
+          { label: 'Allergies Listed', completed: (medical?.allergies?.length || 0) > 0 },
+          { label: 'Medical Conditions', completed: (medical?.conditions?.length || 0) > 0 },
           { label: 'Emergency Contacts', completed: true }, 
-          { label: 'Digital Reports', completed: reports?.length > 0 },
-          { label: 'Insurance Info', completed: !!medical.insurance?.provider },
-          { label: 'Medicine Reminders', completed: medicines?.length > 0 },
-          { label: 'Vaccination History', completed: vaccinations?.length > 0 },
-          { label: 'Health Appointments', completed: appointments?.length > 0 },
-          { label: 'Vitals Tracked', completed: vitals?.length > 0 }
+          { label: 'Digital Reports', completed: (reports?.length || 0) > 0 },
+          { label: 'Insurance Info', completed: !!medical?.insurance?.provider },
+          { label: 'Medicine Reminders', completed: (medicines?.length || 0) > 0 },
+          { label: 'Vaccination History', completed: (vaccinations?.length || 0) > 0 },
+          { label: 'Health Appointments', completed: (appointments?.length || 0) > 0 },
+          { label: 'Vitals Tracked', completed: (vitals?.length || 0) > 0 }
         ];
 
         const completedCount = checklistItems.filter(item => item.completed).length;

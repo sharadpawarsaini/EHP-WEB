@@ -61,6 +61,8 @@ const AdminDashboard = () => {
           }
           if (settingsRes.status === 'fulfilled') {
             setMaintenanceMode(settingsRes.value.data.maintenanceMode);
+          } else {
+            setMaintenanceMode(false);
           }
         }
       } catch (error) {

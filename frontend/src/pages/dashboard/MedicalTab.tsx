@@ -66,12 +66,12 @@ const MedicalTab = () => {
       // Ghost Mode: Load sanitized medical data instead of real records
       if (isStealthMode) {
         setDetails({
-          allergies: stealthData.medical.allergies,
-          conditions: stealthData.medical.conditions,
-          medications: stealthData.medical.medications,
-          surgeries: stealthData.medical.surgeries,
+          allergies: stealthData?.medical?.allergies || '',
+          conditions: stealthData?.medical?.conditions || '',
+          medications: stealthData?.medical?.medications || '',
+          surgeries: stealthData?.medical?.surgeries || '',
           vaccinations: 'COVID-19 (2023), Flu (2024)',
-          familyHistory: stealthData.medical.familyHistory,
+          familyHistory: stealthData?.medical?.familyHistory || '',
           lifestyle: { smoking: false, alcohol: false, exercise: 'Moderate' },
           notes: 'No critical notes for first responders.'
         });
