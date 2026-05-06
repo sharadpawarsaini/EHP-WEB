@@ -104,7 +104,7 @@ const Home = () => {
       <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-xl border-b border-zinc-100 dark:border-white/5 bg-white/80 dark:bg-zinc-950/80">
         <div className="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="bg-primary-600 p-2 rounded-xl shadow-blue">
+            <div className="bg-primary-600 p-2 rounded-xl shadow-primary">
               <Activity className="h-5 w-5 text-white" />
             </div>
             <span className="text-xl font-extrabold tracking-tight text-zinc-900 dark:text-white">EHP</span>
@@ -168,7 +168,7 @@ const Home = () => {
               </motion.p>
 
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="flex flex-col sm:flex-row gap-4">
-                <Link to="/register" className="btn-primary py-4 px-8 text-base rounded-xl shadow-blue">
+                <Link to="/register" className="btn-primary py-4 px-8 text-base rounded-xl shadow-primary">
                   {t('home_cta_create', 'Get Started Free')} <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link to="/about" className="btn-secondary py-4 px-8 text-base rounded-xl">

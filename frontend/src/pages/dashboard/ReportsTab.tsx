@@ -105,99 +105,97 @@ const ReportsTab = () => {
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-      <div className="w-10 h-10 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin" />
-      <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Accessing Document Vault...</p>
+      <div className="w-10 h-10 border-4 border-primary-100 border-t-primary-600 rounded-full animate-spin" />
+      <p className="text-sm font-semibold text-zinc-500 uppercase tracking-widest">Loading Records...</p>
     </div>
   );
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-700 max-w-full">
+    <div className="space-y-8 animate-in fade-in duration-500 max-w-full">
       
       {/* Dynamic Header */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
          <div>
-            <div className="flex items-center gap-2 mb-3">
-               <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-[10px] font-black uppercase tracking-widest rounded-full">Encrypted Storage</span>
-               <span className="px-3 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 text-[10px] font-black uppercase tracking-widest rounded-full">AI Ready</span>
+            <div className="flex items-center gap-2 mb-2">
+               <span className="px-2.5 py-1 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 text-xs font-bold uppercase tracking-wider rounded-lg">Secure Vault</span>
+               <span className="px-2.5 py-1 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-wider rounded-lg">AI Ready</span>
             </div>
-            <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight mb-2">Clinical Archive</h2>
-            <p className="text-gray-500 dark:text-gray-400 font-medium">Manage lab results, imaging reports, and medical certificates</p>
+            <h2 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">Medical Reports</h2>
+            <p className="text-zinc-500 font-medium">Manage lab results, imaging reports, and medical certificates</p>
          </div>
          <div className="flex gap-4 w-full sm:w-auto">
             <div className="relative flex-1 sm:w-64">
-               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
                <input 
                   type="text" 
                   placeholder="Filter reports..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-4 py-4 bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl outline-none focus:ring-4 focus:ring-primary-500/10 text-sm font-bold text-gray-900 dark:text-white transition-all"
+                  className="w-full pl-11 pr-4 py-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 text-sm font-semibold text-zinc-900 dark:text-white transition-all shadow-sm"
                />
             </div>
-            <button onClick={() => setShowUploadModal(true)} className="px-8 py-4 bg-primary-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-2xl shadow-primary-500/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+            <button onClick={() => setShowUploadModal(true)} className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl text-sm transition-all flex items-center gap-2 shadow-sm">
                <Plus className="h-4 w-4" /> Upload
             </button>
          </div>
       </div>
 
       {reports.length === 0 ? (
-        <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-16 text-center border-2 border-dashed border-gray-200 dark:border-slate-700 shadow-sm">
-          <div className="w-20 h-20 bg-gray-50 dark:bg-slate-900 rounded-[2rem] flex items-center justify-center mx-auto mb-8">
-             <FileSearch className="h-10 w-10 text-gray-300 dark:text-slate-600" />
+        <div className="bg-white dark:bg-zinc-900 rounded-2xl p-16 text-center border border-dashed border-zinc-200 dark:border-zinc-800 shadow-sm">
+          <div className="w-16 h-16 bg-zinc-50 dark:bg-zinc-800 rounded-2xl flex items-center justify-center mx-auto mb-6">
+             <FileSearch className="h-8 w-8 text-zinc-400" />
           </div>
-          <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-3">Archive is Empty</h3>
-          <p className="text-gray-500 font-medium max-w-sm mx-auto mb-10">Upload your first lab result or medical certificate to start building your clinical history.</p>
-          <button onClick={() => setShowUploadModal(true)} className="px-10 py-5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:scale-105 transition-all">
-             Initialize First Upload
+          <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">No Reports Found</h3>
+          <p className="text-zinc-500 font-medium max-w-sm mx-auto mb-8">Upload your first lab result or medical certificate to start building your clinical history.</p>
+          <button onClick={() => setShowUploadModal(true)} className="px-6 py-3 bg-zinc-900 dark:bg-white hover:bg-zinc-800 dark:hover:bg-zinc-100 text-white dark:text-zinc-900 rounded-xl font-bold text-sm transition-all shadow-sm">
+             Upload First Report
           </button>
         </div>
       ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredReports.map((report) => (
             <motion.div 
               layout
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               key={report._id} 
-              className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 border border-white dark:border-slate-700 shadow-xl shadow-gray-200/20 group hover:shadow-2xl transition-all"
+              className="health-card p-6 group hover:border-primary-200 dark:hover:border-primary-800/30 transition-all cursor-pointer"
             >
-              <div className="flex justify-between items-start mb-8">
-                 <div className="p-4 bg-primary-50 dark:bg-primary-900/30 rounded-2xl group-hover:scale-110 transition-all">
-                    <FileText className="h-8 w-8 text-primary-600 dark:text-primary-400" />
+              <div className="flex justify-between items-start mb-6">
+                 <div className="p-3 bg-primary-50 dark:bg-primary-900/20 rounded-xl text-primary-600">
+                    <FileText className="h-6 w-6" />
                  </div>
-                 <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
-                    <button onClick={() => handleDelete(report._id)} className="p-2 text-rose-500 hover:bg-rose-50 rounded-xl transition-all">
-                       <Trash2 className="h-5 w-5" />
-                    </button>
-                 </div>
+                 <button onClick={() => handleDelete(report._id)} className="p-2 text-zinc-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-all opacity-0 group-hover:opacity-100">
+                    <Trash2 className="h-4 w-4" />
+                 </button>
               </div>
 
-              <div className="space-y-1 mb-8">
-                 <h4 className="font-black text-lg text-gray-900 dark:text-white truncate" title={report.title}>{report.title}</h4>
-                 <div className="flex items-center gap-3 text-[10px] font-black text-gray-400 uppercase tracking-widest">
+              <div className="space-y-1 mb-6">
+                 <h4 className="font-bold text-base text-zinc-900 dark:text-white truncate" title={report.title}>{report.title}</h4>
+                 <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500 uppercase tracking-wider">
                     <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {new Date(report.createdAt).toLocaleDateString()}</span>
-                    <span className="w-1.5 h-1.5 bg-gray-200 rounded-full"></span>
+                    <span className="w-1 h-1 bg-zinc-300 rounded-full"></span>
                     <span>{(report.fileSize / 1024 / 1024).toFixed(2)} MB</span>
                  </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2">
                   <a
                    href={`${api.defaults.baseURL?.replace('/api', '') || ''}${report.fileUrl}`}
                    target="_blank"
                    rel="noopener noreferrer"
-                   className="w-full flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-900 rounded-2xl hover:bg-gray-100 transition-all group/btn"
+                   className="w-full flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-900 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
                  >
-                    <span className="text-xs font-black uppercase tracking-widest text-gray-600 dark:text-gray-300">View Document</span>
-                    <Eye className="h-4 w-4 text-gray-400 group-hover/btn:text-primary-600 transition-all" />
+                    <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">View Document</span>
+                    <Eye className="h-4 w-4 text-zinc-400" />
                  </a>
                  <button
                    onClick={() => analyzeReport(report._id)}
                    disabled={analyzingId === report._id}
-                   className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all ${analyzingId === report._id ? 'bg-primary-600 text-white animate-pulse' : 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 hover:bg-primary-100'}`}
+                   className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors ${analyzingId === report._id ? 'bg-primary-600 text-white' : 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-900/40'}`}
                  >
-                    <span className={`text-xs font-black uppercase tracking-widest ${analyzingId === report._id ? 'text-white' : 'text-primary-600'}`}>
-                       {analyzingId === report._id ? 'Analyzing Bio-Data' : 'Explain with AI'}
+                    <span className="text-xs font-bold">
+                       {analyzingId === report._id ? 'Analyzing...' : 'Explain with AI'}
                     </span>
                     {analyzingId === report._id ? <Loader2 className="h-4 w-4 animate-spin" /> : <BrainCircuit className="h-4 w-4" />}
                  </button>
@@ -211,43 +209,41 @@ const ReportsTab = () => {
       <AnimatePresence>
         {showAnalysisModal && analysisResult && (
           <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/80 backdrop-blur-xl" onClick={() => setShowAnalysisModal(false)} />
-            <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="bg-white dark:bg-slate-800 rounded-[3rem] p-8 sm:p-12 max-w-2xl w-full relative z-10 shadow-2xl border border-white dark:border-slate-700">
-              <div className="flex justify-between items-center mb-10">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm" onClick={() => setShowAnalysisModal(false)} />
+            <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="bg-white dark:bg-zinc-900 rounded-2xl p-6 sm:p-8 max-w-2xl w-full relative z-10 shadow-xl border border-zinc-200 dark:border-zinc-800">
+              <div className="flex justify-between items-start mb-6">
                 <div className="flex items-center gap-4">
-                  <div className="p-4 bg-primary-600 rounded-[1.5rem] shadow-xl shadow-primary-600/20">
-                    <BrainCircuit className="h-8 w-8 text-white" />
+                  <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-xl">
+                    <BrainCircuit className="h-6 w-6 text-primary-600" />
                   </div>
                   <div>
-                    <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">AI Clinical Insight</h3>
-                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Medical Language Decryption</p>
+                    <h3 className="text-xl font-bold text-zinc-900 dark:text-white">AI Clinical Insight</h3>
+                    <p className="text-sm font-medium text-zinc-500">Medical report explanation</p>
                   </div>
                 </div>
-                <button onClick={() => setShowAnalysisModal(false)} className="p-3 bg-gray-50 dark:bg-slate-900 rounded-2xl text-gray-400 hover:text-gray-900 transition-all">
+                <button onClick={() => setShowAnalysisModal(false)} className="p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-lg text-zinc-500 transition-colors">
                   <X className="h-5 w-5" />
                 </button>
               </div>
 
-              <div className="bg-primary-50/50 dark:bg-primary-900/10 rounded-[2rem] p-8 border border-primary-100 dark:border-primary-800/30 mb-8 max-h-96 overflow-y-auto custom-scrollbar">
-                <div className="prose dark:prose-invert max-w-none">
-                  <p className="text-gray-800 dark:text-primary-100 leading-relaxed font-medium whitespace-pre-wrap">
-                    {analysisResult.text}
-                  </p>
+              <div className="bg-zinc-50 dark:bg-zinc-800/50 rounded-xl p-6 border border-zinc-100 dark:border-zinc-800 mb-6 max-h-[60vh] overflow-y-auto custom-scrollbar">
+                <div className="prose prose-sm dark:prose-invert max-w-none text-zinc-700 dark:text-zinc-300 leading-relaxed font-medium whitespace-pre-wrap">
+                  {analysisResult.text}
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 bg-amber-50 dark:bg-amber-900/10 p-6 rounded-2xl border border-amber-100 dark:border-amber-900/30">
-                <Info className="h-6 w-6 text-amber-600 flex-shrink-0 mt-0.5" />
-                <p className="text-xs text-amber-800 dark:text-amber-400 font-bold leading-relaxed">
-                  DISCLAIMER: This analysis is generated via Gemini AI and is for educational reference only. It does not replace professional medical advice. Please review this with your doctor.
+              <div className="flex items-start gap-3 bg-amber-50 dark:bg-amber-900/10 p-4 rounded-xl border border-amber-100 dark:border-amber-900/30 mb-6">
+                <Info className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-amber-800 dark:text-amber-400 font-semibold leading-relaxed">
+                  DISCLAIMER: This analysis is generated via AI and is for educational reference only. It does not replace professional medical advice.
                 </p>
               </div>
 
               <button
                 onClick={() => setShowAnalysisModal(false)}
-                className="w-full mt-10 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-black py-5 rounded-2xl text-xs uppercase tracking-widest shadow-xl hover:scale-105 transition-all"
+                className="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-900 font-bold py-3 rounded-xl text-sm transition-colors shadow-sm"
               >
-                Exit Analysis
+                Close
               </button>
             </motion.div>
           </div>
@@ -258,30 +254,30 @@ const ReportsTab = () => {
       <AnimatePresence>
          {showUploadModal && (
            <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/80 backdrop-blur-xl" onClick={() => setShowUploadModal(false)} />
-             <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="bg-white dark:bg-slate-800 rounded-[3rem] p-10 max-w-lg w-full relative z-10 shadow-2xl border border-white dark:border-slate-700">
-               <div className="flex justify-between items-center mb-10">
-                 <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Archive Record</h3>
-                 <button onClick={() => setShowUploadModal(false)} className="p-3 bg-gray-50 dark:bg-slate-900 rounded-2xl text-gray-400 hover:text-gray-900 transition-all">
+             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm" onClick={() => setShowUploadModal(false)} />
+             <motion.div initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }} className="bg-white dark:bg-zinc-900 rounded-2xl p-8 max-w-md w-full relative z-10 shadow-xl border border-zinc-200 dark:border-zinc-800">
+               <div className="flex justify-between items-center mb-8">
+                 <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Upload Report</h3>
+                 <button onClick={() => setShowUploadModal(false)} className="p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-lg text-zinc-500 transition-colors">
                    <X className="h-5 w-5" />
                  </button>
                </div>
                
-               <form onSubmit={handleUpload} className="space-y-8">
+               <form onSubmit={handleUpload} className="space-y-6">
                  <div className="space-y-2">
-                   <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Document Title</label>
+                   <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 ml-1">Document Title</label>
                    <input
                      type="text"
                      required
-                     placeholder="e.g. Lab Report March 2024"
+                     placeholder="e.g. Blood Test - March 2024"
                      value={title}
                      onChange={(e) => setTitle(e.target.value)}
-                     className="w-full px-6 py-5 bg-gray-50 dark:bg-slate-900 border border-gray-100 dark:border-slate-700 rounded-2xl outline-none focus:ring-4 focus:ring-primary-500/10 text-gray-900 dark:text-white font-bold"
+                     className="w-full px-4 py-3 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 text-zinc-900 dark:text-white font-medium transition-colors"
                    />
                  </div>
 
                  <div className="space-y-2">
-                   <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Attachment</label>
+                   <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 ml-1">Attachment</label>
                    <div className="relative group">
                      <input
                        type="file"
@@ -290,14 +286,14 @@ const ReportsTab = () => {
                        onChange={(e) => setFile(e.target.files?.[0] || null)}
                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                      />
-                     <div className="p-12 border-2 border-dashed border-gray-200 dark:border-slate-700 rounded-[2.5rem] flex flex-col items-center justify-center group-hover:border-primary-500 group-hover:bg-primary-50/30 transition-all bg-gray-50/30 dark:bg-slate-900/30">
-                        <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-sm mb-4">
-                           <Upload className="h-8 w-8 text-primary-600" />
+                     <div className="p-8 border-2 border-dashed border-zinc-200 dark:border-zinc-700 rounded-xl flex flex-col items-center justify-center group-hover:border-primary-500 group-hover:bg-primary-50/50 dark:group-hover:bg-primary-900/10 transition-colors bg-zinc-50 dark:bg-zinc-800/50">
+                        <div className="p-3 bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700 mb-3 group-hover:border-primary-200 transition-colors">
+                           <Upload className="h-6 w-6 text-primary-600" />
                         </div>
-                        <p className="text-sm font-black text-gray-900 dark:text-white text-center px-4">
+                        <p className="text-sm font-bold text-zinc-900 dark:text-white text-center px-4 mb-1">
                            {file ? file.name : 'Select or Drag Document'}
                         </p>
-                        <p className="text-[10px] text-gray-400 mt-1 uppercase font-black tracking-widest">PDF, JPG, PNG (Max 10MB)</p>
+                        <p className="text-xs text-zinc-500 font-medium">PDF, JPG, PNG (Max 10MB)</p>
                      </div>
                    </div>
                  </div>
@@ -305,9 +301,13 @@ const ReportsTab = () => {
                  <button
                    type="submit"
                    disabled={uploading || !file}
-                   className="w-full bg-primary-600 text-white font-black py-6 rounded-[1.5rem] text-xs uppercase tracking-[0.2em] shadow-2xl shadow-primary-600/30 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+                   className="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3.5 rounded-xl text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                  >
-                   {uploading ? 'Encrypting & Syncing...' : 'Complete Archive'}
+                   {uploading ? (
+                     <>
+                       <Loader2 className="animate-spin h-4 w-4 mr-2" /> Uploading...
+                     </>
+                   ) : 'Upload Report'}
                  </button>
                </form>
              </motion.div>

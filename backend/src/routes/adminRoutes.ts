@@ -7,7 +7,10 @@ import {
   getAccessLogs, 
   deleteUser,
   createBroadcast,
-  sendDirectMessage
+  sendDirectMessage,
+  getSystemSettings,
+  updateSystemSettings,
+  bulkUserActions
 } from '../controllers/adminController';
 import { protect } from '../middleware/authMiddleware';
 import { admin } from '../middleware/adminMiddleware';
@@ -20,11 +23,14 @@ router.use(admin);
 
 router.get('/stats', getStats);
 router.get('/users', getAllUsers);
+router.post('/users/bulk-action', bulkUserActions);
 router.get('/feedback', getAllFeedback);
 router.patch('/feedback/:id', updateFeedbackStatus);
 router.get('/logs', getAccessLogs);
 router.delete('/users/:id', deleteUser);
 router.post('/broadcast', createBroadcast);
 router.post('/message', sendDirectMessage);
+router.get('/system-settings', getSystemSettings);
+router.put('/system-settings', updateSystemSettings);
 
 export default router;

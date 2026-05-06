@@ -59,12 +59,12 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-white dark:bg-[#0A0A0A] transition-colors duration-500 selection:bg-primary-500/30">
+    <div className="min-h-screen relative flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-zinc-50 dark:bg-zinc-950 transition-colors duration-500">
       
-      {/* Immersive Background Nodes */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[80%] bg-primary-600/10 dark:bg-primary-600/5 blur-[120px] rounded-full animate-pulse"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[70%] bg-emerald-600/10 dark:bg-emerald-600/5 blur-[120px] rounded-full animate-pulse delay-700"></div>
+      {/* Background accents */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-40">
+        <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-primary-100 dark:bg-primary-900/20 blur-[100px] rounded-full"></div>
+        <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-primary-100 dark:bg-primary-900/20 blur-[100px] rounded-full"></div>
       </div>
 
       <AnimatePresence>
@@ -73,97 +73,91 @@ const Login = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-white/90 dark:bg-[#0A0A0A]/90 backdrop-blur-2xl flex flex-col items-center justify-center"
+            className="fixed inset-0 z-[100] bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm flex flex-col items-center justify-center"
           >
-            <div className="w-20 h-20 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin"></div>
-            <p className="mt-8 text-[10px] font-black uppercase tracking-[0.4em] text-gray-900 dark:text-white">Synchronizing Secure Identity Node...</p>
+            <div className="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
+            <p className="mt-6 text-sm font-semibold text-zinc-800 dark:text-zinc-200">Connecting securely...</p>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <Link to="/" className="absolute top-10 left-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-primary-600 transition-colors group z-50">
+      <Link to="/" className="absolute top-8 left-8 flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-primary-600 transition-colors group z-50">
         <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-        <span>Back to Portal Home</span>
+        <span>Back to Home</span>
       </Link>
 
       <div className="max-w-md w-full relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          className="text-center mb-10"
         >
-          <div className="inline-flex items-center gap-3 bg-primary-600 p-3 rounded-2xl shadow-2xl shadow-primary-600/20 mb-8 mx-auto">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-600 rounded-2xl shadow-primary mb-6 mx-auto">
             <Activity className="h-8 w-8 text-white" />
           </div>
-          <h2 className="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white tracking-tighter mb-4 leading-none">Command Center <br/> Access.</h2>
-          <p className="text-sm font-bold text-gray-500 uppercase tracking-[0.2em]">Authorized Personnel Only</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white tracking-tight mb-2">Welcome Back</h2>
+          <p className="text-zinc-500 dark:text-zinc-400 font-medium">Sign in to your health passport</p>
         </motion.div>
 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white/80 dark:bg-white/5 backdrop-blur-3xl p-10 sm:p-12 rounded-[3.5rem] shadow-3xl border border-white dark:border-white/10"
+          className="health-card p-8 sm:p-10"
         >
-          <form className="space-y-8" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
-              <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-[10px] font-black uppercase tracking-widest text-center text-rose-600 bg-rose-50 dark:bg-rose-900/20 p-4 rounded-2xl border border-rose-100 dark:border-rose-800/30">
+              <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-sm font-medium text-center text-rose-600 bg-rose-50 dark:bg-rose-900/20 p-4 rounded-xl border border-rose-100 dark:border-rose-800/30">
                 {error}
               </motion.div>
             )}
             
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] ml-2">Identity Email</label>
-                <div className="relative group">
-                   <div className="absolute inset-0 bg-primary-600/10 blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
-                   <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="node@ehp.global"
-                    className="relative w-full px-6 py-5 bg-gray-50 dark:bg-[#050505] border border-gray-100 dark:border-white/10 rounded-2xl font-bold text-gray-900 dark:text-white outline-none focus:ring-4 focus:ring-primary-500/10 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600"
-                  />
-                </div>
+            <div className="space-y-5">
+              <div className="space-y-1.5">
+                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 ml-1">Email Address</label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className="health-input"
+                />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] ml-2">Secure Passphrase</label>
-                <div className="relative group">
-                   <div className="absolute inset-0 bg-primary-600/10 blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
-                   <input
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="relative w-full px-6 py-5 bg-gray-50 dark:bg-[#050505] border border-gray-100 dark:border-white/10 rounded-2xl font-bold text-gray-900 dark:text-white outline-none focus:ring-4 focus:ring-primary-500/10 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600"
-                  />
-                </div>
+              <div className="space-y-1.5">
+                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 ml-1">Password</label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="health-input"
+                />
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-primary-600 hover:bg-primary-500 text-white py-6 rounded-[2rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl shadow-primary-600/30 flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-95"
+              className="w-full btn-primary"
             >
-              Initialize Session <ChevronRight className="h-4 w-4" />
+              Sign In
             </button>
 
-            <div className="relative">
+            <div className="relative py-2">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-100 dark:border-white/5"></div>
+                <div className="w-full border-t border-zinc-200 dark:border-zinc-800"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white dark:bg-[#0A0A0A] text-[9px] font-black text-gray-400 uppercase tracking-[0.3em]">Protocol Bridge</span>
+                <span className="px-4 bg-white dark:bg-zinc-900 text-zinc-500 font-medium">Or continue with</span>
               </div>
             </div>
 
             <button
               type="button"
               onClick={handleGoogleLogin}
-              className="w-full bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 py-5 rounded-[1.5rem] flex items-center justify-center gap-4 font-black text-[10px] uppercase tracking-widest text-gray-900 dark:text-white hover:bg-gray-50 transition-all active:scale-95"
+              className="w-full btn-secondary"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -171,26 +165,29 @@ const Login = () => {
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
               </svg>
-              <span>Connect with Google Node</span>
+              <span>Google</span>
             </button>
           </form>
         </motion.div>
 
-        <motion.p 
+        <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="mt-12 text-center text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]"
+          className="mt-8 text-center"
         >
-          New to the Registry? {' '}
-          <Link to="/register" className="text-primary-600 hover:text-primary-500 transition-colors">Initialize New Passport</Link>
-          <div className="mt-4 pt-4 border-t border-gray-100 dark:border-white/5">
-            <Link to="/admin/login" className="text-[8px] font-black text-gray-300 dark:text-gray-700 hover:text-primary-500 uppercase tracking-[0.4em] transition-colors">System Administrator Access</Link>
+          <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+            Don't have an account? {' '}
+            <Link to="/register" className="text-primary-600 font-semibold hover:text-primary-700 transition-colors">Create one now</Link>
+          </p>
+          <div className="mt-6 pt-6 border-t border-zinc-200 dark:border-zinc-800">
+            <Link to="/admin/login" className="text-xs font-semibold text-zinc-400 hover:text-primary-600 transition-colors">Admin Login</Link>
           </div>
-        </motion.p>
+        </motion.div>
       </div>
     </div>
   );
+
 };
 
 export default Login;

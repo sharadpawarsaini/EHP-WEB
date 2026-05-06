@@ -65,6 +65,9 @@ app.use(cookieParser());
 // Robust Static File Serving
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
+import { checkSystemStatus } from './middleware/systemMiddleware';
+app.use('/api', checkSystemStatus);
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);

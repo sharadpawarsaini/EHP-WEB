@@ -207,3 +207,73 @@ export const deleteUser = async (req: Request, res: Response): Promise<void> => 
     res.status(500).json({ message: 'Error deleting user' });
   }
 };
+
+import { SystemSettings } from '../models/SystemSettings';
+
+export const getSystemSettings = async (req: Request, res: Response): Promise<void> => {
+  try {
+    let settings = await SystemSettings.findOne({ key: 'system_state' });
+    if (!settings) {
+      settings = await SystemSettings.create({ key: 'system_state' });
+    }
+    res.json(settings);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching system settings' });
+  }
+};
+
+export const updateSystemSettings = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { maintenanceMode, registrationLocked } = req.body;
+    let settings = await SystemSettings.findOne({ key: 'system_state' });
+    
+    if (!settings) {
+      settings = new SystemSettings({ key: 'system_state' });
+    }
+    
+    if (maintenanceMode !== undefined) settings.maintenanceMode = maintenanceMode;
+    if (registrationLocked !== undefined) settings.registrationLocked = registrationLocked;
+    settings.lastUpdatedBy = (req as any).user.userId;
+    
+    await settings.save();
+    
+    // Log the action
+    await AccessLog.create({
+      userId: (req as any).user.userId,
+      action: 'SYSTEM_SETTINGS_UPDATE',
+      resource: 'SystemSettings',
+      ipAddress: req.ip || 'Unknown',
+      status: 'success'
+    });
+
+    res.json(settings);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating system settings' });
+  }
+};
+
+export const bulkUserActions = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userIds, action } = req.body;
+    
+    if (!Array.isArray(userIds) || userIds.length === 0) {
+      res.status(400).json({ message: 'No users selected' });
+      return;
+    }
+
+    if (userIds.includes((req as any).user.userId)) {
+      res.status(400).json({ message: 'You cannot perform bulk actions on yourself' });
+      return;
+    }
+
+    if (action === 'delete') {
+      await User.deleteMany({ _id: { $in: userIds } });
+      await Profile.deleteMany({ userId: { $in: userIds } });
+      res.json({ message: `Successfully deleted ${userIds.length} users` });
+    } else {
+      res.status(400).json({ message: 'Invalid action' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error performing bulk action' });
+  }
+};
