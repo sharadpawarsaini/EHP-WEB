@@ -24,6 +24,8 @@ import FeedbackManagement from './pages/admin/FeedbackManagement';
 import AuditLogs from './pages/admin/AuditLogs';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminRegister from './pages/admin/AdminRegister';
+import Analytics from './pages/admin/Analytics';
+import SOSMonitor from './pages/admin/SOSMonitor';
 
 function App() {
   return (
@@ -69,9 +71,12 @@ function App() {
             >
               <Route index element={<AdminDashboard />} />
               <Route path="users" element={<UserManagement />} />
+              <Route path="analytics" element={<Analytics />} />
               <Route path="feedback" element={<FeedbackManagement />} />
+              <Route path="sos" element={<SOSMonitor />} />
               <Route path="logs" element={<AuditLogs />} />
             </Route>
+
           </Routes>
 
         </Router>

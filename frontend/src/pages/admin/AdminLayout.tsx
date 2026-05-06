@@ -22,8 +22,10 @@ const AdminLayout = () => {
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/admin' },
     { icon: Users, label: 'Users', path: '/admin/users' },
+    { icon: TrendingUp, label: 'Analytics', path: '/admin/analytics' },
     { icon: MessageSquare, label: 'Feedback', path: '/admin/feedback' },
-    { icon: ShieldAlert, label: 'Security Logs', path: '/admin/logs' },
+    { icon: ShieldAlert, label: 'SOS Monitor', path: '/admin/sos' },
+    { icon: Clock, label: 'Audit Logs', path: '/admin/logs' },
   ];
 
   const handleLogout = () => {

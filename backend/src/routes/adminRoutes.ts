@@ -22,5 +22,6 @@ router.get('/feedback', getAllFeedback);
 router.patch('/feedback/:id', updateFeedbackStatus);
 router.get('/logs', getAccessLogs);
 router.delete('/users/:id', deleteUser);
+router.post('/broadcast', require('../controllers/adminController').createBroadcast);
 
 export default router;

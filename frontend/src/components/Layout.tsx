@@ -40,6 +40,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import api from '../services/api';
 import { getFullPhotoUrl } from '../utils/url';
 import StealthBanner from './StealthBanner';
+import NotificationSystem from './NotificationSystem';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { logout, isStealthMode, user } = useAuth();
@@ -369,10 +370,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                <span className="absolute -top-1 -right-1 w-3 h-3 bg-rose-600 rounded-full border-2 border-white dark:border-[#0A0A0A] animate-ping"></span>
             </button>
             <div className="hidden sm:flex items-center gap-3">
-               <button className="p-3 rounded-2xl bg-gray-50 dark:bg-white/5 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors relative">
-                  <Bell className="h-5 w-5" />
-                  <span className="absolute top-3 right-3 w-1.5 h-1.5 bg-primary-600 rounded-full"></span>
-               </button>
+               <NotificationSystem />
             </div>
             <div className="h-8 w-px bg-gray-100 dark:border-white/5 mx-2 hidden sm:block"></div>
             <Link to="/dashboard/profile" className="flex items-center gap-4 group">
