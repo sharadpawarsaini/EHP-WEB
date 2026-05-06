@@ -21,7 +21,7 @@ const AdminLogin = () => {
     try {
       const { data } = await api.post('/auth/login', { email, password });
       
-      if (data.user.role !== 'admin') {
+      if (data.role !== 'admin') {
         setError('Unauthorized Access: Admin privileges required for this node.');
         setIsLoading(false);
         return;
