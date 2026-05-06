@@ -19,7 +19,7 @@ export const protect = (req: AuthRequest, res: Response, next: NextFunction): vo
       
       // Extract managed member ID from headers
       const managedMemberId = req.headers['x-managed-member-id'];
-      if (managedMemberId) {
+      if (managedMemberId && managedMemberId !== 'null' && managedMemberId !== 'undefined' && managedMemberId !== '') {
         req.user.memberId = managedMemberId;
       } else {
         req.user.memberId = null;
