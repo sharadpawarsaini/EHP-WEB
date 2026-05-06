@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import { getProfile, updateProfile, updateProfilePhoto } from '../controllers/profileController';
+import { getActiveBroadcasts } from '../controllers/adminController';
 import { protect } from '../middleware/authMiddleware';
 import { storage } from '../config/cloudinary';
 
@@ -19,6 +20,6 @@ router.route('/')
 
 // The 'photoUrl' will now be a permanent Cloudinary URL
 router.post('/photo', protect, upload.single('photo'), updateProfilePhoto);
-router.get('/broadcasts', protect, require('../controllers/adminController').getActiveBroadcasts);
+router.get('/broadcasts', protect, getActiveBroadcasts);
 
 export default router;

@@ -15,10 +15,18 @@ export const getProfile = async (req: AuthRequest, res: Response): Promise<void>
     if (profile) {
       res.json({
         ...profile.toObject(),
+        email: user ? user.email : '',
         role: user ? (user as any).role : 'user'
       });
     } else {
-      res.status(404).json({ message: 'Profile not found' });
+      // If profile doesn't exist, return basic user info to prevent 404 during auth check
+      res.json({
+        userId: req.user.userId,
+        email: user ? user.email : '',
+        role: user ? (user as any).role : 'user',
+        fullName: user ? user.email.split('@')[0] : 'User',
+        isNewUser: true
+      });
     }
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
