@@ -141,19 +141,7 @@ const ReportsTab = () => {
          </div>
       </div>
 
-      {loading ? (
-        <div className="py-24 text-center bg-white/5 backdrop-blur-xl border-2 border-dashed border-white/5 rounded-[3.5rem] relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <div className="p-8 bg-zinc-950 rounded-[2.5rem] border border-white/5 shadow-2xl mx-auto w-fit mb-8 group-hover:scale-110 transition-transform">
-             <FileSearch className="h-12 w-12 text-zinc-700 group-hover:text-cyan-500 transition-colors" />
-          </div>
-          <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-2">No Reports Found</h3>
-          <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.4em] italic max-w-sm mx-auto mb-10">Upload your first lab result or medical certificate to start building your clinical history.</p>
-          <button onClick={() => setShowUploadModal(true)} className="px-10 py-5 bg-white text-zinc-950 hover:bg-zinc-100 rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] transition-all shadow-2xl relative z-10">
-             Initialize Archive
-          </button>
-        </div>
-      ) : filteredReports.length === 0 ? (
+      {filteredReports.length === 0 ? (
         <div className="py-24 text-center bg-white/5 backdrop-blur-xl border-2 border-dashed border-white/5 rounded-[3.5rem] relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
           <div className="p-8 bg-zinc-950 rounded-[2.5rem] border border-white/5 shadow-2xl mx-auto w-fit mb-8 group-hover:scale-110 transition-transform">

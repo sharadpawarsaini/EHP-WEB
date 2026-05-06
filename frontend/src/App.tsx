@@ -29,7 +29,28 @@ import SOSMonitor from './pages/admin/SOSMonitor';
 import CommunicationCenter from './pages/admin/CommunicationCenter';
 import LockdownPage from './pages/LockdownPage';
 
+import { useEffect } from 'react';
+import api from './services/api';
+
 function App() {
+  // Global Maintenance Check
+  useEffect(() => {
+    const checkStatus = async () => {
+      // Don't check if we are already on lockdown or admin pages
+      const is_admin_route = window.location.pathname.startsWith('/admin');
+      const is_lockdown_route = window.location.pathname === '/lockdown';
+      
+      if (!is_admin_route && !is_lockdown_route) {
+        try {
+          await api.get('/system-state');
+        } catch (err: any) {
+          // Interceptor handles 503 redirect
+        }
+      }
+    };
+    checkStatus();
+  }, [window.location.pathname]);
+
   return (
     <ThemeProvider>
       <AuthProvider>

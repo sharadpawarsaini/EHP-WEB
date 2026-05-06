@@ -66,10 +66,9 @@ const OverviewTab = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // If stealth mode is active, bypass API and load ghost data
       if (isStealthMode) {
         setData(stealthData);
-        setSafetyScore(72); // Safe-looking score for ghost profile
+        setSafetyScore(72);
         setLoading(false);
         return;
       }
@@ -98,7 +97,6 @@ const OverviewTab = () => {
 
         setData({ profile, medical, medicines, vaccinations, appointments, visits, reports, vitals, family });
 
-        // Calculate Safety Score
         const checklistItems = [
           { label: 'Profile Completed', completed: !!profile?.fullName && !!profile?.dob && !!profile?.bloodGroup },
           { label: 'Allergies Listed', completed: (medical?.allergies?.length || 0) > 0 },
@@ -115,7 +113,6 @@ const OverviewTab = () => {
         const completedCount = checklistItems.filter(item => item.completed).length;
         setSafetyScore(Math.round((completedCount / checklistItems.length) * 100));
 
-        // Initial Location Fetch
         getMyLocation();
 
       } catch (err) {
@@ -125,10 +122,10 @@ const OverviewTab = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [isStealthMode]);
 
   const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
-    const R = 6371; // km
+    const R = 6371; 
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -182,8 +179,6 @@ const OverviewTab = () => {
 
   const age = calculateAge(data?.profile?.dob);
 
-
-
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
       <div className="w-12 h-12 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin" />
@@ -194,7 +189,6 @@ const OverviewTab = () => {
   const upcomingAppointments = data?.appointments?.filter((a: any) => new Date(a.appointmentDate) >= new Date()).sort((a: any, b: any) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime());
   const recentVisits = data?.visits?.sort((a: any, b: any) => new Date(b.visitDate).getTime() - new Date(a.visitDate).getTime()).slice(0, 3);
   
-  // Latest Vitals logic
   const getLatestVital = (vType: string) => {
     return data?.vitals?.filter((v: any) => v.type === vType).sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
   };
@@ -206,7 +200,6 @@ const OverviewTab = () => {
     { label: 'Temperature', icon: Thermometer, color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-900/20', data: getLatestVital('Temperature'), path: '/dashboard/vitals' },
   ];
 
-  // Recent Activity Feed
   const activityFeed = [
     ...(data?.reports || []).map((r: any) => ({ type: 'report', date: r.createdAt, title: `Report uploaded: ${r.title}`, icon: FileText, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' })),
     ...(data?.vitals || []).map((v: any) => ({ type: 'vital', date: v.date, title: `Vital tracked: ${v.type}`, icon: Activity, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-900/20' })),
@@ -215,7 +208,6 @@ const OverviewTab = () => {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20 no-scrollbar">
-      {/* Dashboard Header */}
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
@@ -289,7 +281,6 @@ const OverviewTab = () => {
         </div>
       </div>
 
-      {/* Quick Actions Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
          <button onClick={() => navigate('/dashboard/vitals')} className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex items-center justify-between group cursor-pointer hover:border-emerald-500/30 transition-all shadow-2xl relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -334,7 +325,6 @@ const OverviewTab = () => {
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          {/* Upcoming Appointments Section */}
           <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
             <div className="flex justify-between items-center mb-10 relative z-10">
@@ -377,7 +367,6 @@ const OverviewTab = () => {
             )}
           </div>
 
-          {/* Recent Hospital Visits Section */}
           <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
              <div className="flex justify-between items-center mb-10 relative z-10">
@@ -417,7 +406,6 @@ const OverviewTab = () => {
             </div>
           </div>
 
-          {/* Platform Stats */}
           <div className="grid sm:grid-cols-3 gap-6">
             <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex flex-col justify-center text-center shadow-2xl">
                <Shield className="h-8 w-8 text-emerald-500 mx-auto mb-4" />
@@ -437,7 +425,6 @@ const OverviewTab = () => {
           </div>
         </div>
 
-        {/* Right Column: Mini Widgets & Stats */}
         <div className="space-y-6">
           <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl">
             <div className="flex justify-between items-center mb-8">
@@ -477,7 +464,6 @@ const OverviewTab = () => {
             </button>
           </div>
 
-          {/* Family Health Widget */}
           <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl">
              <div className="flex justify-between items-center mb-8">
                <h3 className="text-[10px] font-black text-white flex items-center gap-3 uppercase tracking-[0.4em]">
@@ -550,7 +536,6 @@ const OverviewTab = () => {
             </div>
           </div>
 
-          {/* Wearables Widget */}
           <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl">
              <div className="flex justify-between items-center mb-8">
                 <h3 className="text-[10px] font-black text-white uppercase tracking-[0.4em]">Biometric Link</h3>
@@ -564,7 +549,7 @@ const OverviewTab = () => {
                onClick={() => navigate('/dashboard/integrations')}
              >
                 <div className="p-4 bg-zinc-900 rounded-2xl border border-white/5 shadow-2xl">
-                   <Activity className={`h-5 w-5 ${isWearableConnected ? 'text-emerald-500' : 'text-zinc-700'}`} />
+                   <PulseIcon className={`h-5 w-5 ${isWearableConnected ? 'text-emerald-500' : 'text-zinc-700'}`} />
                 </div>
                 <div>
                    <p className="text-[13px] font-black text-white mb-1 uppercase tracking-tight">{isWearableConnected ? 'DEVICE SYNCED' : 'NO BIOMETRICS'}</p>

@@ -3,7 +3,6 @@ import api from '../../services/api';
 import { ClipboardList, Shield, Activity, Plus, FileText, CheckCircle2, Info, AlertCircle, Calendar, Hospital, Heart, Droplet, Trash2, ChevronRight, Stethoscope, Wind, Zap, EyeOff } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
-import { encryptMedicalRecord } from '../../utils/encryption';
 
 
 const InputField = ({ label, value, onChange, placeholder, icon: Icon }: any) => (
@@ -36,20 +35,6 @@ const MedicalTab = () => {
     notes: ''
   });
   const { isStealthMode, stealthData } = useAuth();
-  // Passphrase handling for Zero‑Knowledge Encryption
-  const [passphrase, setPassphrase] = useState('');
-  const [showPassModal, setShowPassModal] = useState(false);
-
-  // Show passphrase modal if encryption key not yet stored
-  useEffect(() => {
-    const stored = localStorage.getItem('ehp_user_passphrase');
-    if (!stored) {
-      setShowPassModal(true);
-    } else {
-      setPassphrase(stored);
-    }
-  }, []);
-
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -63,7 +48,6 @@ const MedicalTab = () => {
 
   useEffect(() => {
     const fetchDetails = async () => {
-      // Ghost Mode: Load sanitized medical data instead of real records
       if (isStealthMode) {
         setDetails({
           allergies: stealthData?.medical?.allergies || '',
@@ -108,7 +92,6 @@ const MedicalTab = () => {
     setMessage('');
     
     try {
-      // Parse the comma-separated strings back into arrays for the backend
       const payload = {
         allergies: details.allergies.split(',').map(s => s.trim()).filter(s => s),
         conditions: details.conditions.split(',').map(s => s.trim()).filter(s => s),
@@ -130,8 +113,6 @@ const MedicalTab = () => {
       setSaving(false);
     }
   };
-
-
 
   const handleVisitSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -173,7 +154,6 @@ const MedicalTab = () => {
       <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Constructing Health Profile...</p>
     </div>
   );
-
 
   return (
     <div className="space-y-10 animate-in fade-in duration-700 max-w-full overflow-hidden">
@@ -350,7 +330,6 @@ const MedicalTab = () => {
               </select>
             </div>
           </div>
-          </div>
         </div>
 
         {/* Responder Protocol */}
@@ -386,7 +365,7 @@ const MedicalTab = () => {
               </div>
            </div>
         </div>
-               <form onSubmit={handleVisitSubmit} className="space-y-12 relative z-10">
+        <form onSubmit={handleVisitSubmit} className="space-y-12 relative z-10">
            <div className="grid md:grid-cols-2 gap-12">
               <InputField 
                 label="Hospital/Clinic Node" 

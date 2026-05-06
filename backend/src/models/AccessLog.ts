@@ -6,9 +6,22 @@ const accessLogSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  action: {
+    type: String,
+    required: true,
+  },
+  resource: {
+    type: String,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ['success', 'failure'],
+    default: 'success'
+  },
   accessType: {
     type: String,
-    enum: ['public', 'doctor'],
+    enum: ['public', 'doctor', 'admin'],
     default: 'public',
   },
   ipAddress: {

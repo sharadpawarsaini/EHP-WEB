@@ -96,6 +96,8 @@ export const getPublicEmergencyData = async (req: Request, res: Response): Promi
     // Create Access Log
     await AccessLog.create({
       userId: link.userId,
+      action: 'EMERGENCY_ACCESS_PUBLIC',
+      resource: 'EmergencyProfile',
       accessType: 'public',
       ipAddress: req.ip,
       userAgent: req.headers['user-agent'],
@@ -153,6 +155,8 @@ export const verifyDoctorAccess = async (req: Request, res: Response): Promise<v
     // Create Access Log
     await AccessLog.create({
       userId: link.userId,
+      action: 'EMERGENCY_ACCESS_DOCTOR',
+      resource: 'EmergencyProfile',
       accessType: 'doctor',
       ipAddress: req.ip,
       userAgent: req.headers['user-agent'],

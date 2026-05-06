@@ -86,6 +86,9 @@ app.use('/api/hospitals', hospitalRoutes);
 app.use('/api/privacy', privacyRoutes);
 app.use('/api/admin', adminRoutes);
 
+// System State Check
+app.get('/api/system-state', (req, res) => res.json({ status: 'operational' }));
+
 // Health Check
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
