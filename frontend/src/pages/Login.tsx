@@ -5,6 +5,8 @@ import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import { useEffect } from 'react';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,6 +14,20 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  // Maintenance Check
+  useEffect(() => {
+    const checkStatus = async () => {
+      try {
+        await api.get('/system-state');
+      } catch (err: any) {
+        if (err.response?.status === 503) {
+          navigate('/lockdown');
+        }
+      }
+    };
+    checkStatus();
+  }, [navigate]);
 
   const handleGoogleLogin = async () => {
     setIsGoogleLoading(true);

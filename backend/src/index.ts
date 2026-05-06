@@ -87,7 +87,18 @@ app.use('/api/privacy', privacyRoutes);
 app.use('/api/admin', adminRoutes);
 
 // System State Check
-app.get('/api/system-state', (req, res) => res.json({ status: 'operational' }));
+app.get('/api/system-state', async (req, res) => {
+  try {
+    const { SystemSettings } = require('./models/SystemSettings');
+    const settings = await SystemSettings.findOne({ key: 'system_state' });
+    res.json({ 
+      status: settings?.maintenanceMode ? 'maintenance' : 'operational',
+      maintenanceMode: settings?.maintenanceMode || false
+    });
+  } catch (error) {
+    res.json({ status: 'operational', maintenanceMode: false });
+  }
+});
 
 // Health Check
 app.get('/health', (req, res) => res.json({ status: 'ok' }));

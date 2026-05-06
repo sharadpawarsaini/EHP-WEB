@@ -36,15 +36,22 @@ function App() {
   // Global Maintenance Check
   useEffect(() => {
     const checkStatus = async () => {
-      // Don't check if we are already on lockdown or admin pages
       const is_admin_route = window.location.pathname.startsWith('/admin');
       const is_lockdown_route = window.location.pathname === '/lockdown';
       
       if (!is_admin_route && !is_lockdown_route) {
         try {
-          await api.get('/system-state');
+          const response = await api.get('/system-state');
+          // If the system is in maintenance, the backend might return 503 which is caught by interceptor
+          // but we also check the response data just in case
+          if (response.data && response.data.maintenanceMode) {
+             window.location.href = '/lockdown';
+          }
         } catch (err: any) {
-          // Interceptor handles 503 redirect
+          // If interceptor didn't handle it (e.g. if status is 503 but no redirect happened)
+          if (err.response?.status === 503) {
+            window.location.href = '/lockdown';
+          }
         }
       }
     };
