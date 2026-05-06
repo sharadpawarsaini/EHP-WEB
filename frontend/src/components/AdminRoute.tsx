@@ -12,7 +12,11 @@ export const AdminRoute = ({ children }: { children: JSX.Element }) => {
     );
   }
 
-  if (!user || user.role !== 'admin') {
+  if (!user) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  if (user.role !== 'admin') {
     return <Navigate to="/dashboard" replace />;
   }
 

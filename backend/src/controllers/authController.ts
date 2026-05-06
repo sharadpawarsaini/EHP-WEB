@@ -32,12 +32,22 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
       return;
     }
 
+    const { adminToken } = req.body;
+    let role = 'user';
+
+    // Simple secret token check for admin registration
+    // In a real app, this should be in .env
+    if (adminToken === 'X-ADMIN-SECURE-KEY') {
+      role = 'admin';
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await User.create({
       email,
       password: hashedPassword,
+      role
     });
 
     if (user) {

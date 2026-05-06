@@ -184,6 +184,9 @@ const Login = () => {
         >
           New to the Registry? {' '}
           <Link to="/register" className="text-primary-600 hover:text-primary-500 transition-colors">Initialize New Passport</Link>
+          <div className="mt-4 pt-4 border-t border-gray-100 dark:border-white/5">
+            <Link to="/admin/login" className="text-[8px] font-black text-gray-300 dark:text-gray-700 hover:text-primary-500 uppercase tracking-[0.4em] transition-colors">System Administrator Access</Link>
+          </div>
         </motion.p>
       </div>
     </div>

@@ -22,6 +22,8 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import UserManagement from './pages/admin/UserManagement';
 import FeedbackManagement from './pages/admin/FeedbackManagement';
 import AuditLogs from './pages/admin/AuditLogs';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminRegister from './pages/admin/AdminRegister';
 
 function App() {
   return (
@@ -40,6 +42,10 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
+            
+            {/* Separate Admin Auth Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/register" element={<AdminRegister />} />
             
             <Route
               path="/dashboard/*"
@@ -67,6 +73,7 @@ function App() {
               <Route path="logs" element={<AuditLogs />} />
             </Route>
           </Routes>
+
         </Router>
       </ProfileProvider>
     </AuthProvider>
