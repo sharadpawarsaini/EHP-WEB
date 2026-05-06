@@ -10,7 +10,9 @@ import {
   X,
   ChevronRight,
   ShieldCheck,
-  Home
+  Home,
+  TrendingUp,
+  Clock
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 

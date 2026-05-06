@@ -139,10 +139,10 @@ const Analytics = () => {
                     <BarChart data={data?.bloodGroupStats || []} layout="vertical">
                         <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" horizontal={false} />
                         <XAxis type="number" stroke="#475569" fontSize={10} hide />
-                        <YAxis dataKey="_id" type="category" stroke="#ffffff" fontSize={12} fontBold width={40} tickLine={false} axisLine={false} />
+                        <YAxis dataKey="_id" type="category" stroke="#ffffff" fontSize={12} width={40} tickLine={false} axisLine={false} />
                         <Tooltip cursor={{fill: 'transparent'}} contentStyle={{ backgroundColor: '#0F0F0F', border: '1px solid #ffffff10', borderRadius: '16px' }} />
                         <Bar dataKey="count" radius={[0, 10, 10, 0]} barSize={30}>
-                            {data?.bloodGroupStats?.map((entry: any, index: number) => (
+                            {data?.bloodGroupStats?.map((_entry: any, index: number) => (
                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                         </Bar>
