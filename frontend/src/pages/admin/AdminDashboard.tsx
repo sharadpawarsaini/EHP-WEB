@@ -39,6 +39,8 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [showBroadcastModal, setShowBroadcastModal] = useState(false);
+  const [broadcastForm, setBroadcastForm] = useState({ title: '', message: '', type: 'info' });
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -70,9 +72,6 @@ const AdminDashboard = () => {
   ];
 
   const COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
-
-  const [showBroadcastModal, setShowBroadcastModal] = useState(false);
-  const [broadcastForm, setBroadcastForm] = useState({ title: '', message: '', type: 'info' });
 
   const handleSendBroadcast = async (e: React.FormEvent) => {
     e.preventDefault();
