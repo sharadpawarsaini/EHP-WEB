@@ -127,39 +127,43 @@ const NotificationSystem = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-zinc-950/95 backdrop-blur-xl flex items-center justify-center p-6"
+            className="fixed inset-0 z-[1000] bg-zinc-950/98 backdrop-blur-2xl flex items-center justify-center p-4 sm:p-8"
           >
+            {/* Background click to close option (optional, but good for UX) */}
+            <div className="absolute inset-0 cursor-pointer" onClick={markAsSeen}></div>
+
             <motion.div 
-              initial={{ scale: 0.9, y: 40, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.9, y: 40, opacity: 0 }}
-              className={`max-w-lg w-full bg-zinc-900 border-2 rounded-[3.5rem] p-12 relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] ${getTypeStyles(currentPopup.type).border}`}
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className={`max-w-lg w-full bg-zinc-900 border-2 rounded-[3.5rem] p-10 sm:p-14 relative overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] ${getTypeStyles(currentPopup.type).border} max-h-[95vh] overflow-y-auto custom-scrollbar`}
             >
                 {/* Decorative background glow */}
-                <div className={`absolute -top-24 -right-24 w-64 h-64 ${getTypeStyles(currentPopup.type).bg} blur-[80px] rounded-full opacity-50`}></div>
+                <div className={`absolute -top-32 -right-32 w-80 h-80 ${getTypeStyles(currentPopup.type).bg} blur-[100px] rounded-full opacity-40 pointer-events-none`}></div>
                 
-                <div className={`w-20 h-20 rounded-3xl ${getTypeStyles(currentPopup.type).bg} flex items-center justify-center mb-10 relative z-10 border border-white/5 shadow-2xl`}>
+                <div className={`w-20 h-20 rounded-3xl ${getTypeStyles(currentPopup.type).bg} flex items-center justify-center mb-10 relative z-10 border border-white/5 shadow-2xl mx-auto sm:mx-0`}>
                     {(() => {
                         const IconComponent = getTypeStyles(currentPopup.type).icon;
                         return <IconComponent className={`w-10 h-10 ${getTypeStyles(currentPopup.type).color}`} />;
                     })()}
                 </div>
 
-                <div className="relative z-10 space-y-8">
+                <div className="relative z-10 space-y-8 text-center sm:text-left">
                     <div>
-                        <h2 className="text-3xl font-black text-white uppercase tracking-tighter mb-3 leading-none">{currentPopup.title}</h2>
-                        <p className="text-[11px] font-black text-zinc-500 uppercase tracking-[0.5em]">Inbound System Transmission</p>
+                        <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tighter mb-4 leading-[1.1]">{currentPopup.title}</h2>
+                        <p className="text-[11px] font-black text-zinc-500 uppercase tracking-[0.5em] mb-2">Inbound System Transmission</p>
+                        <div className="h-1 w-12 bg-emerald-500 rounded-full mx-auto sm:mx-0"></div>
                     </div>
                     
-                    <div className="bg-white/5 rounded-[2rem] p-8 border border-white/5 shadow-inner">
-                        <p className="text-lg text-zinc-300 leading-relaxed font-medium italic">
-                            "{currentPopup.message}"
+                    <div className="bg-zinc-950/50 rounded-[2.5rem] p-8 sm:p-10 border border-white/5 shadow-inner backdrop-blur-md">
+                        <p className="text-xl sm:text-2xl text-zinc-200 leading-relaxed font-black uppercase tracking-tight">
+                            {currentPopup.message}
                         </p>
                     </div>
                     
                     <button 
                         onClick={markAsSeen}
-                        className="w-full py-6 bg-white hover:bg-emerald-500 text-zinc-950 hover:text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] transition-all shadow-2xl hover:scale-[1.02] active:scale-95"
+                        className="w-full py-7 bg-white hover:bg-emerald-500 text-zinc-950 hover:text-white rounded-[2rem] font-black text-[12px] uppercase tracking-[0.4em] transition-all shadow-2xl hover:scale-[1.02] active:scale-95 border border-white/10"
                     >
                         Acknowledge & Close
                     </button>
