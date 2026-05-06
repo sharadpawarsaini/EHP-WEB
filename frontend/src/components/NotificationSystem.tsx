@@ -123,7 +123,10 @@ const NotificationSystem = () => {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-3xl -mr-16 -mt-16 rounded-full"></div>
                 
                 <div className={`w-16 h-16 rounded-3xl ${getTypeStyles(currentPopup.type).bg} flex items-center justify-center mb-8 relative z-10`}>
-                    {React.createElement(getTypeStyles(currentPopup.type).icon, { className: `w-8 h-8 ${getTypeStyles(currentPopup.type).color}` })}
+                    {(() => {
+                        const IconComponent = getTypeStyles(currentPopup.type).icon;
+                        return <IconComponent className={`w-8 h-8 ${getTypeStyles(currentPopup.type).color}`} />;
+                    })()}
                 </div>
 
                 <div className="relative z-10">
