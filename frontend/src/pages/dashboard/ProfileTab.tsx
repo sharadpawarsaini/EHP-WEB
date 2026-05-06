@@ -96,7 +96,14 @@ const ProfileTab = () => {
     e.preventDefault();
     setSaving(true);
     try {
-      await api.post('/profile', profile);
+      const payload = {
+        fullName: profile.fullName,
+        dob: profile.dob,
+        gender: profile.gender,
+        bloodGroup: profile.bloodGroup,
+        photoUrl: profile.photoUrl
+      };
+      await api.post('/profile', payload);
       await refreshProfile();
       setMessage('Clinical identity synchronized');
       setTimeout(() => setMessage(''), 3000);

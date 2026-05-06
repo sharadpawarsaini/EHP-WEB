@@ -28,8 +28,8 @@ export const getProfile = async (req: AuthRequest, res: Response): Promise<void>
         isNewUser: true
       });
     }
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -61,8 +61,8 @@ export const updateProfile = async (req: AuthRequest, res: Response): Promise<vo
       });
       res.status(201).json(profile);
     }
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 export const updateProfilePhoto = async (req: AuthRequest, res: Response): Promise<void> => {
@@ -96,7 +96,7 @@ export const updateProfilePhoto = async (req: AuthRequest, res: Response): Promi
     }
 
     res.json({ photoUrl });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
