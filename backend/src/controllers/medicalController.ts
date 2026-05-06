@@ -37,7 +37,8 @@ export const updateMedicalDetails = async (req: AuthRequest, res: Response): Pro
       });
       res.status(201).json(details);
     }
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+  } catch (error: any) {
+    console.error('Medical Sync Error:', error);
+    res.status(500).json({ message: error.message || 'Clinical telemetry sync failed.' });
   }
 };

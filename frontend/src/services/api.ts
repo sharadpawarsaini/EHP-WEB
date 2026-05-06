@@ -25,4 +25,21 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Add a response interceptor to handle 503 maintenance mode
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 503 && error.response.data?.isMaintenance) {
+      const is_admin = localStorage.getItem('role') === 'admin';
+      const is_admin_route = window.location.pathname.startsWith('/admin');
+      
+      // If system is in lockdown, redirect non-admins to lockdown page
+      if (!is_admin && !is_admin_route && window.location.pathname !== '/lockdown') {
+        window.location.href = '/lockdown';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default api;

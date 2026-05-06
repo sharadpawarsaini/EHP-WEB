@@ -27,6 +27,7 @@ import AdminRegister from './pages/admin/AdminRegister';
 import Analytics from './pages/admin/Analytics';
 import SOSMonitor from './pages/admin/SOSMonitor';
 import CommunicationCenter from './pages/admin/CommunicationCenter';
+import LockdownPage from './pages/LockdownPage';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/lockdown" element={<LockdownPage />} />
             
             {/* Separate Admin Auth Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />

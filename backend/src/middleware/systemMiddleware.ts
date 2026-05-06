@@ -1,16 +1,37 @@
 import { Request, Response, NextFunction } from 'express';
 import { SystemSettings } from '../models/SystemSettings';
+import jwt from 'jsonwebtoken';
 
 export const checkSystemStatus = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // We don't block admin routes or login so admin can always log in and turn it off
-    if (req.originalUrl.startsWith('/api/admin') || req.originalUrl === '/api/auth/login') {
+    // 1. Always allow Admin routes, Login, Health, and Emergency checks
+    const exemptedPaths = [
+      '/api/admin',
+      '/api/auth/login',
+      '/api/health',
+      '/api/emergency/public'
+    ];
+
+    if (exemptedPaths.some(path => req.originalUrl.startsWith(path))) {
       return next();
+    }
+
+    // 2. Check for Admin token to allow full bypass
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as any;
+        if (decoded && decoded.role === 'admin') {
+          return next();
+        }
+      } catch (e) {
+        // Token invalid, continue to maintenance check
+      }
     }
 
     let settings = await SystemSettings.findOne({ key: 'system_state' });
     
-    // If settings don't exist yet, just continue
     if (!settings) {
       return next();
     }
@@ -23,7 +44,7 @@ export const checkSystemStatus = async (req: Request, res: Response, next: NextF
       return;
     }
 
-    if (settings.registrationLocked && req.originalUrl === '/api/auth/register' && req.method === 'POST') {
+    if (settings.registrationLocked && req.originalUrl.startsWith('/api/auth/register') && req.method === 'POST') {
       res.status(403).json({
         message: 'New user registrations are temporarily locked.'
       });

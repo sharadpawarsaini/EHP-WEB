@@ -103,15 +103,29 @@ const MedicalTab = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isStealthMode) return; // prevent saving in ghost mode
+    if (isStealthMode) return;
     setSaving(true);
+    setMessage('');
+    
     try {
-      // Encrypt the record with user passphrase (Zero‑Knowledge)
-      const encrypted = await encryptMedicalRecord(details, passphrase);
-      await api.post('/medical', encrypted);
-      setMessage('Medical record saved securely.');
+      // Parse the comma-separated strings back into arrays for the backend
+      const payload = {
+        allergies: details.allergies.split(',').map(s => s.trim()).filter(s => s),
+        conditions: details.conditions.split(',').map(s => s.trim()).filter(s => s),
+        medications: details.medications.split(',').map(s => s.trim()).filter(s => s),
+        surgeries: details.surgeries.split(',').map(s => s.trim()).filter(s => s),
+        vaccinations: details.vaccinations.split(',').map(s => s.trim()).filter(s => s),
+        familyHistory: details.familyHistory.split(',').map(s => s.trim()).filter(s => s),
+        lifestyle: details.lifestyle,
+        notes: details.notes
+      };
+
+      await api.post('/medical', payload);
+      setMessage('Clinical telemetry synchronized successfully.');
+      setTimeout(() => setMessage(''), 3000);
     } catch (err: any) {
-      setMessage(err.response?.data?.message || 'Failed to save.');
+      console.error('Update Failed:', err);
+      setMessage(err.response?.data?.message || 'Identity sync failed. Please verify network.');
     } finally {
       setSaving(false);
     }
@@ -335,6 +349,7 @@ const MedicalTab = () => {
                 <option value="Active">Level: Active (5+/wk)</option>
               </select>
             </div>
+          </div>
           </div>
         </div>
 
