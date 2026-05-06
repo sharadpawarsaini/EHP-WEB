@@ -23,12 +23,12 @@ const LockdownPage = () => {
           </div>
         </motion.div>
 
-        <div className="space-y-10">
+        <div className="space-y-6">
           <motion.h1 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-7xl sm:text-9xl font-black text-white tracking-tighter uppercase leading-none"
+            className="text-5xl sm:text-7xl font-black text-white tracking-tighter uppercase leading-none"
           >
             System <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500">Lockdown</span>
@@ -37,10 +37,10 @@ const LockdownPage = () => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-4xl sm:text-[36pt] text-zinc-400 font-black uppercase tracking-tight max-w-3xl mx-auto leading-tight"
+            className="text-xl sm:text-2xl text-zinc-500 font-medium italic max-w-lg mx-auto"
           >
             The EHP Neural Grid is currently under administrative maintenance. <br/>
-            <span className="text-rose-500">All clinical nodes are offline.</span>
+            <span className="text-rose-500 font-bold">All non-essential clinical nodes are offline.</span>
           </motion.p>
         </div>
 
@@ -48,7 +48,7 @@ const LockdownPage = () => {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-6"
+          className="grid grid-cols-2 sm:grid-cols-4 gap-4"
         >
           {[
             { label: 'Neural Sync', status: 'Offline', color: 'text-rose-500' },
@@ -56,9 +56,9 @@ const LockdownPage = () => {
             { label: 'Admin Port', status: 'Active', color: 'text-emerald-500' },
             { label: 'Emergency', status: 'Bypass', color: 'text-cyan-500' },
           ].map((item, i) => (
-            <div key={i} className="p-8 bg-white/5 border border-white/5 rounded-[2rem] backdrop-blur-xl shadow-2xl">
-              <p className="text-xs font-black text-zinc-600 uppercase tracking-widest mb-3">{item.label}</p>
-              <p className={`text-2xl font-black uppercase tracking-tighter ${item.color}`}>{item.status}</p>
+            <div key={i} className="p-4 bg-white/5 border border-white/5 rounded-2xl backdrop-blur-xl">
+              <p className="text-[8px] font-black text-zinc-600 uppercase tracking-widest mb-1">{item.label}</p>
+              <p className={`text-xs font-black uppercase tracking-tighter ${item.color}`}>{item.status}</p>
             </div>
           ))}
         </motion.div>
@@ -67,15 +67,15 @@ const LockdownPage = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="pt-16 border-t border-white/5 flex flex-col items-center gap-10"
+          className="pt-12 border-t border-white/5 flex flex-col items-center gap-6"
         >
-          <div className="flex items-center gap-5 text-zinc-500">
-            <Activity className="w-8 h-8 text-rose-500" />
-            <span className="text-xl font-black uppercase tracking-[0.5em]">Protocol: NEXUS_MAINTENANCE_v2</span>
+          <div className="flex items-center gap-3 text-zinc-600">
+            <Activity className="w-4 h-4" />
+            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Protocol: NEXUS_MAINTENANCE_v2</span>
           </div>
           <button 
             onClick={() => window.location.href = '/admin/login'}
-            className="px-16 py-8 bg-white/5 hover:bg-white text-white hover:text-zinc-950 border border-white/10 rounded-[2.5rem] text-xl font-black uppercase tracking-[0.4em] transition-all shadow-2xl hover:scale-105"
+            className="px-10 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-[10px] font-black text-white uppercase tracking-[0.4em] transition-all"
           >
             Administrator Entry
           </button>
