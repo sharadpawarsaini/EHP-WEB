@@ -90,16 +90,16 @@ const UserManagement = () => {
   }
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
+    <div className="space-y-6 animate-in fade-in duration-500 relative z-10">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white flex items-center gap-3">
-            <div className="p-2.5 bg-primary-50 dark:bg-primary-900/20 rounded-xl">
-               <Users className="w-6 h-6 text-primary-600" />
+        <div className="bg-zinc-950/50 backdrop-blur-xl border border-white/10 p-5 rounded-2xl shadow-2xl inline-block">
+          <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-2 flex items-center gap-3 tracking-tight">
+            <div className="p-2.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20 glow-border">
+               <Users className="w-7 h-7 text-emerald-400" />
             </div>
-            User Management
+            USER REGISTRY
           </h1>
-          <p className="text-zinc-500 mt-2 font-medium">Manage and monitor all platform members.</p>
+          <p className="text-zinc-400 font-medium text-sm tracking-widest uppercase">Manage and monitor all platform members.</p>
         </div>
         
         <div className="relative">
@@ -107,7 +107,7 @@ const UserManagement = () => {
           <input 
             type="text" 
             placeholder="Search by name or email..."
-            className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white pl-11 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 w-full md:w-80 shadow-sm transition-all text-sm font-medium"
+            className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 text-white pl-11 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 w-full md:w-80 shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all text-sm font-medium placeholder:text-zinc-500"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -140,56 +140,57 @@ const UserManagement = () => {
         </div>
       )}
 
-      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
+      <div className="bg-white/80 dark:bg-zinc-950/60 backdrop-blur-xl border border-zinc-200/50 dark:border-white/10 rounded-2xl shadow-xl overflow-hidden relative group hover:shadow-[0_0_30px_rgba(16,185,129,0.05)] transition-all">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+        <div className="overflow-x-auto relative z-10">
           <table className="w-full text-left">
             <thead>
-              <tr className="border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50">
+              <tr className="border-b border-zinc-200/50 dark:border-white/10 bg-zinc-50/50 dark:bg-zinc-900/50 backdrop-blur-md">
                 <th className="px-6 py-4 text-left w-12">
                   <input 
                     type="checkbox" 
                     onChange={handleSelectAll}
                     checked={selectedUsers.length === filteredUsers.length && filteredUsers.length > 0}
-                    className="w-4 h-4 text-primary-600 rounded border-zinc-300 focus:ring-primary-500"
+                    className="w-4 h-4 text-emerald-500 rounded border-white/20 bg-zinc-900 focus:ring-emerald-500 focus:ring-offset-zinc-900"
                   />
                 </th>
-                <th className="px-6 py-4 text-zinc-500 font-semibold text-xs uppercase tracking-wider">User</th>
-                <th className="px-6 py-4 text-zinc-500 font-semibold text-xs uppercase tracking-wider">Role</th>
-                <th className="px-6 py-4 text-zinc-500 font-semibold text-xs uppercase tracking-wider">Status</th>
-                <th className="px-6 py-4 text-zinc-500 font-semibold text-xs uppercase tracking-wider">Joined</th>
-                <th className="px-6 py-4 text-zinc-500 font-semibold text-xs uppercase tracking-wider text-right">Actions</th>
+                <th className="px-6 py-4 text-zinc-400 font-bold text-xs uppercase tracking-widest">User</th>
+                <th className="px-6 py-4 text-zinc-400 font-bold text-xs uppercase tracking-widest">Role</th>
+                <th className="px-6 py-4 text-zinc-400 font-bold text-xs uppercase tracking-widest">Status</th>
+                <th className="px-6 py-4 text-zinc-400 font-bold text-xs uppercase tracking-widest">Joined</th>
+                <th className="px-6 py-4 text-zinc-400 font-bold text-xs uppercase tracking-widest text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+            <tbody className="divide-y divide-zinc-200/50 dark:divide-white/5">
               {filteredUsers.map((user) => (
-                <tr key={user._id} className={`transition-colors ${selectedUsers.includes(user._id) ? 'bg-primary-50/50 dark:bg-primary-900/10' : 'hover:bg-zinc-50 dark:hover:bg-zinc-800/50'}`}>
+                <tr key={user._id} className={`transition-all duration-300 ${selectedUsers.includes(user._id) ? 'bg-emerald-500/10' : 'hover:bg-white/5'}`}>
                   <td className="px-6 py-4">
                     <input 
                       type="checkbox"
                       checked={selectedUsers.includes(user._id)}
                       onChange={() => handleSelectUser(user._id)}
-                      className="w-4 h-4 text-primary-600 rounded border-zinc-300 focus:ring-primary-500"
+                      className="w-4 h-4 text-emerald-500 rounded border-white/20 bg-zinc-900 focus:ring-emerald-500 focus:ring-offset-zinc-900"
                     />
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center text-primary-600 font-bold shadow-sm border border-primary-100 dark:border-primary-800/30">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-black shadow-[0_0_15px_rgba(16,185,129,0.15)] border border-emerald-500/20">
                         {user.profile?.fullName?.[0] || user.email[0].toUpperCase()}
                       </div>
                       <div>
-                        <div className="text-zinc-900 dark:text-white font-bold text-sm">{user.profile?.fullName || 'No Name'}</div>
-                        <div className="text-zinc-500 text-xs font-medium flex items-center gap-1.5 mt-0.5">
-                          <Mail className="w-3 h-3" />
+                        <div className="text-zinc-900 dark:text-white font-bold text-sm tracking-wide">{user.profile?.fullName || 'No Name'}</div>
+                        <div className="text-zinc-500 dark:text-zinc-400 text-xs font-medium flex items-center gap-1.5 mt-0.5">
+                          <Mail className="w-3 h-3 text-cyan-500" />
                           {user.email}
                         </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-2.5 py-1 rounded-lg text-xs font-bold border ${
+                    <span className={`px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider border shadow-sm ${
                       user.role === 'admin' 
-                        ? 'bg-primary-50 text-primary-700 border-primary-200 dark:bg-primary-900/20 dark:text-primary-400 dark:border-primary-800/30' 
-                        : 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700'
+                        ? 'bg-amber-500/10 text-amber-400 border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.2)]' 
+                        : 'bg-zinc-100 dark:bg-white/5 text-zinc-600 dark:text-zinc-300 border-zinc-200 dark:border-white/10'
                     }`}>
                       {user.role?.toUpperCase() || 'USER'}
                     </span>
@@ -210,12 +211,12 @@ const UserManagement = () => {
                     <div className="flex items-center justify-end gap-2">
                       <button 
                         onClick={() => handleDeleteUser(user._id)}
-                        className="p-2 hover:bg-rose-50 dark:hover:bg-rose-900/20 text-zinc-400 hover:text-rose-600 rounded-lg transition-colors"
+                        className="p-2.5 hover:bg-rose-500/20 text-zinc-500 hover:text-rose-400 rounded-xl transition-all border border-transparent hover:border-rose-500/30"
                         title="Delete User"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
-                      <button className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-white rounded-lg transition-colors">
+                      <button className="p-2.5 hover:bg-white/10 text-zinc-500 hover:text-white rounded-xl transition-all border border-transparent hover:border-white/10">
                         <MoreVertical className="w-4 h-4" />
                       </button>
                     </div>

@@ -53,10 +53,10 @@ const AdminLogin = () => {
             className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-2xl flex flex-col items-center justify-center"
           >
             <div className="relative">
-                <div className="w-24 h-24 border-2 border-amber-500/20 border-t-amber-500 rounded-full animate-spin"></div>
-                <Shield className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-amber-500 animate-pulse" />
+                <div className="w-24 h-24 border-2 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin"></div>
+                <Shield className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-emerald-500 animate-pulse" />
             </div>
-            <p className="mt-8 text-[10px] font-black uppercase tracking-[0.5em] text-amber-500">Authenticating System Administrator...</p>
+            <p className="mt-8 text-[10px] font-black uppercase tracking-[0.5em] text-emerald-500">Authenticating System Administrator...</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -67,19 +67,23 @@ const AdminLogin = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-3 bg-amber-500 p-4 rounded-2xl shadow-2xl shadow-amber-500/20 mb-8 mx-auto border border-amber-400/50">
-            <Database className="h-8 w-8 text-black" />
+          <div className="inline-flex items-center gap-3 bg-zinc-950/50 backdrop-blur-xl p-5 rounded-[2rem] border border-white/10 shadow-2xl mb-8 mx-auto group hover:-translate-y-1 transition-all">
+            <div className="p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20 glow-border">
+               <Shield className="h-8 w-8 text-emerald-400" />
+            </div>
           </div>
-          <h2 className="text-4xl font-black text-white tracking-tighter mb-4 leading-none uppercase">EHP <span className="text-amber-500">Admin</span> Portal</h2>
-          <p className="text-[10px] font-bold text-amber-500/50 uppercase tracking-[0.4em]">Core Infrastructure Management</p>
+          <h2 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 tracking-tighter mb-4 leading-none uppercase">NEXUS <span className="text-white">COMMAND</span></h2>
+          <p className="text-[10px] font-black text-emerald-500/50 uppercase tracking-[0.4em]">Core Infrastructure Management</p>
         </motion.div>
 
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
-          className="bg-[#0A0A0A] border border-white/5 p-10 sm:p-12 rounded-[2.5rem] shadow-3xl shadow-amber-500/5"
+          className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-2xl border border-white/10 p-10 sm:p-12 rounded-[3rem] shadow-[0_0_50px_rgba(0,0,0,0.5)] relative overflow-hidden group"
         >
+          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 blur-[100px] -mr-32 -mt-32 rounded-full"></div>
           <form className="space-y-8" onSubmit={handleSubmit}>
             {error && (
               <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-[10px] font-black uppercase tracking-widest text-center text-amber-500 bg-amber-500/5 p-4 rounded-xl border border-amber-500/20">
@@ -87,9 +91,9 @@ const AdminLogin = () => {
               </motion.div>
             )}
             
-            <div className="space-y-6">
+            <div className="space-y-6 relative z-10">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] ml-2">Admin Identity</label>
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">Admin Identity</label>
                 <div className="relative group">
                    <input
                     type="email"
@@ -97,13 +101,13 @@ const AdminLogin = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="admin@ehp.global"
-                    className="relative w-full px-6 py-5 bg-white/5 border border-white/10 rounded-2xl font-bold text-white outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all placeholder:text-white/10"
+                    className="relative w-full px-6 py-5 bg-white/5 border border-white/10 rounded-2xl font-black text-white outline-none focus:border-emerald-500 transition-all placeholder:text-zinc-700 shadow-inner"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] ml-2">Root Passphrase</label>
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">Root Passphrase</label>
                 <div className="relative group">
                    <input
                     type="password"
@@ -111,7 +115,7 @@ const AdminLogin = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="relative w-full px-6 py-5 bg-white/5 border border-white/10 rounded-2xl font-bold text-white outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all placeholder:text-white/10"
+                    className="relative w-full px-6 py-5 bg-white/5 border border-white/10 rounded-2xl font-black text-white outline-none focus:border-emerald-500 transition-all placeholder:text-zinc-700 shadow-inner"
                   />
                 </div>
               </div>
@@ -119,7 +123,7 @@ const AdminLogin = () => {
 
             <button
               type="submit"
-              className="w-full bg-amber-500 hover:bg-amber-400 text-black py-6 rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] shadow-2xl shadow-amber-500/20 flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-95"
+              className="w-full bg-emerald-500 hover:bg-emerald-400 text-black py-6 rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] shadow-2xl shadow-emerald-500/20 flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-95 relative z-10"
             >
               Access Command Center <ChevronRight className="h-4 w-4" />
             </button>

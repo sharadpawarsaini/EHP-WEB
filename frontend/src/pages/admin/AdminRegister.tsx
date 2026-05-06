@@ -63,10 +63,10 @@ const AdminRegister = () => {
             className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-2xl flex flex-col items-center justify-center"
           >
             <div className="relative">
-                <div className="w-24 h-24 border-2 border-amber-500/20 border-t-amber-500 rounded-full animate-spin"></div>
-                <Cpu className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-amber-500 animate-pulse" />
+                <div className="w-24 h-24 border-2 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin"></div>
+                <Cpu className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-emerald-500 animate-pulse" />
             </div>
-            <p className="mt-8 text-[10px] font-black uppercase tracking-[0.5em] text-amber-500">Initializing Admin Node...</p>
+            <p className="mt-8 text-[10px] font-black uppercase tracking-[0.5em] text-emerald-500">Initializing Admin Node...</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -77,20 +77,24 @@ const AdminRegister = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <div className="inline-flex items-center gap-3 bg-amber-500/10 p-4 rounded-2xl border border-amber-500/20 mb-6 mx-auto">
-            <UserPlus className="h-8 w-8 text-amber-500" />
+          <div className="inline-flex items-center gap-3 bg-zinc-950/50 backdrop-blur-xl p-5 rounded-[2rem] border border-white/10 shadow-2xl mb-6 mx-auto group hover:-translate-y-1 transition-all">
+            <div className="p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20 glow-border">
+               <UserPlus className="h-8 w-8 text-emerald-400" />
+            </div>
           </div>
-          <h2 className="text-3xl font-black text-white tracking-tighter mb-2 uppercase">Official <span className="text-amber-500">Node</span> Enrollment</h2>
-          <p className="text-[10px] font-bold text-amber-500/50 uppercase tracking-[0.4em]">Administrative Level Clearance</p>
+          <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 tracking-tighter mb-2 uppercase">Official <span className="text-white">Node</span> Enrollment</h2>
+          <p className="text-[10px] font-black text-emerald-500/50 uppercase tracking-[0.4em]">Administrative Level Clearance</p>
         </motion.div>
 
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
-          className="bg-[#0A0A0A] border border-white/5 p-8 sm:p-10 rounded-[2.5rem] shadow-3xl shadow-amber-500/5"
+          className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-2xl border border-white/10 p-8 sm:p-10 rounded-[3rem] shadow-[0_0_50px_rgba(0,0,0,0.5)] relative overflow-hidden group"
         >
-          <form className="space-y-5" onSubmit={handleSubmit}>
+          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 blur-[100px] -mr-32 -mt-32 rounded-full pointer-events-none"></div>
+          <form className="space-y-5 relative z-10" onSubmit={handleSubmit}>
             {error && (
               <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-[10px] font-black uppercase tracking-widest text-center text-amber-500 bg-amber-500/5 p-4 rounded-xl border border-amber-500/20">
                 {error}
@@ -99,61 +103,61 @@ const AdminRegister = () => {
             
             <div className="grid grid-cols-1 gap-5">
               <div className="space-y-1">
-                <label className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] ml-2">Full Designation</label>
+                <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">Full Designation</label>
                 <input
                   type="text"
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl font-bold text-white outline-none focus:ring-2 focus:ring-amber-500/50 transition-all text-xs"
+                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl font-black text-white outline-none focus:border-emerald-500 transition-all text-xs shadow-inner placeholder:text-zinc-700"
                   placeholder="System Admin 01"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] ml-2">Admin Email</label>
+                <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">Admin Email</label>
                 <input
                   type="email"
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl font-bold text-white outline-none focus:ring-2 focus:ring-amber-500/50 transition-all text-xs"
+                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl font-black text-white outline-none focus:border-emerald-500 transition-all text-xs shadow-inner placeholder:text-zinc-700"
                   placeholder="admin@ehp.global"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] ml-2">Passphrase</label>
+                  <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">Passphrase</label>
                   <input
                     type="password"
                     required
                     value={formData.password}
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
-                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl font-bold text-white outline-none focus:ring-2 focus:ring-amber-500/50 transition-all text-xs"
+                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl font-black text-white outline-none focus:border-emerald-500 transition-all text-xs shadow-inner placeholder:text-zinc-700"
                     placeholder="••••••••"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] ml-2">Verify</label>
+                  <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">Verify</label>
                   <input
                     type="password"
                     required
                     value={formData.confirmPassword}
                     onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl font-bold text-white outline-none focus:ring-2 focus:ring-amber-500/50 transition-all text-xs"
+                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl font-black text-white outline-none focus:border-emerald-500 transition-all text-xs shadow-inner placeholder:text-zinc-700"
                     placeholder="••••••••"
                   />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <label className="text-[9px] font-black text-amber-500/50 uppercase tracking-[0.2em] ml-2">Clearance Token (Optional)</label>
+                <label className="text-[9px] font-black text-emerald-500/50 uppercase tracking-[0.2em] ml-2">Clearance Token (Optional)</label>
                 <input
                   type="text"
                   value={formData.adminToken}
                   onChange={(e) => setFormData({...formData, adminToken: e.target.value})}
-                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl font-bold text-amber-500 outline-none focus:ring-2 focus:ring-amber-500/50 transition-all text-xs"
+                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl font-black text-emerald-500 outline-none focus:border-emerald-500 transition-all text-xs shadow-inner placeholder:text-zinc-700"
                   placeholder="X-ADMIN-SECURE-KEY"
                 />
               </div>
@@ -161,7 +165,7 @@ const AdminRegister = () => {
 
             <button
               type="submit"
-              className="w-full bg-amber-500 hover:bg-amber-400 text-black py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] shadow-2xl shadow-amber-500/20 flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-95 mt-4"
+              className="w-full bg-emerald-500 hover:bg-emerald-400 text-black py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] shadow-2xl shadow-emerald-500/20 flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-95 mt-4"
             >
               Finalize Enrollment <ChevronRight className="h-4 w-4" />
             </button>

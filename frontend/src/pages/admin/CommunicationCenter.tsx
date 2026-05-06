@@ -81,20 +81,25 @@ const CommunicationCenter = () => {
       <div className="absolute inset-0 cyber-grid pointer-events-none opacity-20"></div>
       
       <header className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div>
-          <h1 className="text-4xl font-black text-white mb-2 uppercase tracking-tight">Communication Hub</h1>
-          <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.4em]">Unified System-Wide Messaging Matrix</p>
+        <div className="bg-zinc-950/50 backdrop-blur-xl border border-white/10 p-5 rounded-2xl shadow-2xl inline-block">
+          <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-2 flex items-center gap-3 tracking-tight">
+            <div className="p-2.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20 glow-border">
+               <Send className="w-7 h-7 text-emerald-400" />
+            </div>
+            COMMUNICATION HUB
+          </h1>
+          <p className="text-zinc-400 font-medium text-sm tracking-widest uppercase">Unified System-Wide Messaging Matrix</p>
         </div>
-        <div className="flex bg-[#0A0A0A] p-1.5 rounded-2xl border border-white/5">
+        <div className="flex bg-zinc-950/60 backdrop-blur-xl p-1.5 rounded-2xl border border-white/10 shadow-xl">
           <button 
             onClick={() => setActiveTab('broadcast')}
-            className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'broadcast' ? 'bg-emerald-500 text-black shadow-2xl shadow-emerald-500/20' : 'text-slate-500 hover:text-white'}`}
+            className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${activeTab === 'broadcast' ? 'bg-gradient-to-r from-emerald-500 to-emerald-400 text-black shadow-[0_0_20px_rgba(16,185,129,0.4)]' : 'text-slate-500 hover:text-white'}`}
           >
             Global Broadcast
           </button>
           <button 
             onClick={() => setActiveTab('direct')}
-            className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'direct' ? 'bg-blue-500 text-white shadow-2xl shadow-blue-500/20' : 'text-slate-500 hover:text-white'}`}
+            className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${activeTab === 'direct' ? 'bg-gradient-to-r from-blue-500 to-blue-400 text-white shadow-[0_0_20px_rgba(59,130,246,0.4)]' : 'text-slate-500 hover:text-white'}`}
           >
             Direct Transmission
           </button>
@@ -112,7 +117,7 @@ const CommunicationCenter = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                className="bg-[#0A0A0A] border border-emerald-500/20 p-10 rounded-[3rem] relative overflow-hidden group"
+                className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-emerald-500/20 p-10 rounded-[3rem] relative overflow-hidden group shadow-2xl"
               >
                 <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 blur-[80px] -mr-32 -mt-32 rounded-full"></div>
                 <div className="flex items-center gap-4 mb-10">
@@ -133,7 +138,7 @@ const CommunicationCenter = () => {
                       value={broadcastForm.title}
                       onChange={(e) => setBroadcastForm({...broadcastForm, title: e.target.value})}
                       placeholder="e.g. Scheduled Maintenance Notice"
-                      className="w-full bg-white/[0.02] border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:border-emerald-500 transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:border-emerald-500 transition-all placeholder:text-zinc-600 shadow-inner"
                     />
                   </div>
                   <div className="space-y-2">
@@ -144,7 +149,7 @@ const CommunicationCenter = () => {
                       value={broadcastForm.message}
                       onChange={(e) => setBroadcastForm({...broadcastForm, message: e.target.value})}
                       placeholder="Specify the full details of the system-wide message..."
-                      className="w-full bg-white/[0.02] border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:border-emerald-500 transition-all resize-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:border-emerald-500 transition-all resize-none placeholder:text-zinc-600 shadow-inner"
                     />
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -182,7 +187,7 @@ const CommunicationCenter = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                className="bg-[#0A0A0A] border border-blue-500/20 p-10 rounded-[3rem] relative overflow-hidden group"
+                className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-blue-500/20 p-10 rounded-[3rem] relative overflow-hidden group shadow-2xl"
               >
                 <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 blur-[80px] -mr-32 -mt-32 rounded-full"></div>
                 <div className="flex items-center gap-4 mb-10">
@@ -222,7 +227,7 @@ const CommunicationCenter = () => {
                         value={messageForm.title}
                         onChange={(e) => setMessageForm({...messageForm, title: e.target.value})}
                         placeholder="e.g. Action Required: Document Verification"
-                        className="w-full bg-white/[0.02] border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:border-blue-500 transition-all"
+                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:border-blue-500 transition-all placeholder:text-zinc-600 shadow-inner"
                       />
                     </div>
                     <div className="space-y-2">
@@ -233,7 +238,7 @@ const CommunicationCenter = () => {
                         value={messageForm.content}
                         onChange={(e) => setMessageForm({...messageForm, content: e.target.value})}
                         placeholder="Enter the private message content..."
-                        className="w-full bg-white/[0.02] border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:border-blue-500 transition-all resize-none"
+                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white outline-none focus:border-blue-500 transition-all resize-none placeholder:text-zinc-600 shadow-inner"
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -270,7 +275,7 @@ const CommunicationCenter = () => {
         </div>
 
         {/* Right Column: User Registry (for DM targeting) */}
-        <div className="bg-[#0A0A0A] border border-white/5 p-8 rounded-[3rem] h-[calc(100vh-250px)] flex flex-col">
+        <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] h-[calc(100vh-250px)] flex flex-col shadow-2xl">
           <div className="mb-6">
             <h3 className="text-lg font-black text-white uppercase tracking-tight mb-2 flex items-center gap-2">
               <Search className="w-4 h-4 text-slate-500" /> Registry Search
@@ -279,7 +284,7 @@ const CommunicationCenter = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Filter by name or email..."
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-blue-500/50"
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-blue-500/50 shadow-inner placeholder:text-zinc-600"
             />
           </div>
 

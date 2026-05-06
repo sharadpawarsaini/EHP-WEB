@@ -71,16 +71,16 @@ const FeedbackManagement = () => {
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
-        <div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-3">
-             <div className="p-2.5 bg-primary-50 dark:bg-primary-900/20 rounded-xl">
-                 <MessageSquare className="w-6 h-6 text-primary-600" />
-             </div>
-             User Feedback
+        <div className="bg-zinc-950/50 backdrop-blur-xl border border-white/10 p-5 rounded-2xl shadow-2xl inline-block">
+          <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-2 flex items-center gap-3 tracking-tight">
+            <div className="p-2.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20 glow-border">
+               <MessageSquare className="w-7 h-7 text-emerald-400" />
+            </div>
+            USER FEEDBACK
           </h1>
-          <p className="text-zinc-500 font-medium">Review and respond to platform experiences</p>
+          <p className="text-zinc-400 font-medium text-sm tracking-widest uppercase">Review and respond to platform experiences</p>
         </div>
-        <button onClick={fetchFeedback} className="px-4 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 hover:border-primary-300 dark:hover:border-primary-700 rounded-xl transition-all shadow-sm flex items-center gap-2 group text-sm font-bold text-zinc-700 dark:text-zinc-300">
+        <button onClick={fetchFeedback} className="px-6 py-4 bg-white/5 hover:bg-emerald-500 text-white hover:text-black border border-white/10 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] flex items-center gap-3 transition-all shadow-2xl hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] backdrop-blur-md">
           <Zap className="w-4 h-4 text-amber-500" />
           Refresh Feed
         </button>
@@ -88,19 +88,20 @@ const FeedbackManagement = () => {
 
       {/* AI Summary Box */}
       {summary && (
-        <div className="bg-primary-50 dark:bg-primary-900/10 border border-primary-200 dark:border-primary-800/30 p-6 sm:p-8 rounded-2xl relative overflow-hidden group shadow-sm z-10">
+        <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-emerald-500/20 p-6 sm:p-8 rounded-[2.5rem] relative overflow-hidden group shadow-2xl z-10">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none"></div>
             <div className="flex flex-col sm:flex-row items-start gap-6 relative z-10">
-                <div className="w-14 h-14 bg-white dark:bg-zinc-800 border border-primary-100 dark:border-primary-800 rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
-                    <Zap className="w-6 h-6 text-primary-600" />
+                <div className="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                    <Zap className="w-6 h-6 text-emerald-400" />
                 </div>
                 <div className="space-y-3">
                     <div>
-                        <h3 className="text-lg font-bold text-zinc-900 dark:text-white">AI Executive Summary</h3>
-                        <p className="text-primary-600 dark:text-primary-400 text-xs font-bold uppercase tracking-wider mt-0.5">Automated Analysis</p>
+                        <h2 className="text-xl font-black text-white uppercase tracking-tight">AI Executive Summary</h2>
+                        <p className="text-emerald-500/50 text-[10px] font-black uppercase tracking-widest mt-0.5">Automated Analysis</p>
                     </div>
-                    <p className="text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed font-medium max-w-3xl">{summary.overall}</p>
+                    <p className="text-zinc-300 text-sm leading-relaxed font-medium max-w-3xl">{summary.overall}</p>
                     <div className="flex items-center gap-3 pt-2">
-                        <span className="px-3 py-1.5 bg-white dark:bg-zinc-800 text-primary-700 dark:text-primary-400 text-xs font-bold rounded-lg border border-primary-100 dark:border-primary-800/50 shadow-sm">
+                        <span className="px-4 py-2 bg-emerald-500/10 text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-xl border border-emerald-500/20 shadow-inner">
                            Top Request: {summary.keyRequest}
                         </span>
                     </div>
@@ -113,8 +114,9 @@ const FeedbackManagement = () => {
         {feedback.map((item) => (
           <div 
             key={item._id} 
-            className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl hover:border-primary-200 dark:hover:border-primary-800 transition-all shadow-sm"
+            className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] hover:border-emerald-500/30 transition-all duration-500 shadow-2xl relative overflow-hidden group"
           >
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-5">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 flex items-center justify-center overflow-hidden">

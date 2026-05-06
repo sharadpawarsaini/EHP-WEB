@@ -60,28 +60,34 @@ const Analytics = () => {
 
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div>
-          <h1 className="text-4xl font-black text-white mb-2 uppercase tracking-tight">System Analytics</h1>
-          <p className="text-slate-500 text-xs font-black uppercase tracking-[0.4em]">Business Intelligence & Data Insights</p>
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+        <div className="bg-zinc-950/50 backdrop-blur-xl border border-white/10 p-5 rounded-2xl shadow-2xl inline-block">
+          <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-2 flex items-center gap-3 tracking-tight">
+            <div className="p-2.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20 glow-border">
+               <TrendingUp className="w-7 h-7 text-emerald-400" />
+            </div>
+            SYSTEM ANALYTICS
+          </h1>
+          <p className="text-zinc-400 font-medium text-sm tracking-widest uppercase">Business Intelligence & Data Insights</p>
         </div>
-        <button className="px-6 py-3 bg-white text-black rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] flex items-center gap-3 hover:bg-emerald-500 hover:text-white transition-all shadow-2xl shadow-white/5">
+        <button className="px-6 py-4 bg-white/5 hover:bg-emerald-500 text-white hover:text-black border border-white/10 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] flex items-center gap-3 transition-all shadow-2xl hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] backdrop-blur-md">
           <Download className="w-4 h-4" />
           Export Intelligence Report
         </button>
       </header>
 
       {/* Primary Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
         {[
             { label: 'Retention Rate', value: '94.2%', trend: '+2.1%', up: true },
             { label: 'Avg. Session', value: '12m 45s', trend: '+14s', up: true },
             { label: 'Active SOS Rate', value: '0.04%', trend: '-0.01%', up: false },
             { label: 'Data Latency', value: '38ms', trend: '-2ms', up: false },
         ].map((item, i) => (
-            <div key={i} className="bg-[#0A0A0A] border border-white/5 p-6 rounded-[2rem]">
-                <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">{item.label}</p>
-                <div className="flex items-baseline gap-3">
+            <div key={i} className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-6 rounded-[2rem] shadow-2xl group hover:-translate-y-1 transition-all">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2 relative z-10">{item.label}</p>
+                <div className="flex items-baseline gap-3 relative z-10">
                     <h3 className="text-2xl font-black text-white">{item.value}</h3>
                     <span className={`text-[10px] font-black flex items-center gap-1 ${item.up ? 'text-emerald-500' : 'text-rose-500'}`}>
                         {item.up ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
@@ -92,10 +98,11 @@ const Analytics = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 relative z-10">
         {/* User Engagement Area Chart */}
-        <section className="bg-[#0A0A0A] border border-white/5 p-10 rounded-[3rem] space-y-8">
-            <div className="flex items-center justify-between">
+        <section className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3rem] space-y-8 shadow-2xl relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <div className="flex items-center justify-between relative z-10">
                 <div>
                     <h2 className="text-2xl font-black text-white uppercase tracking-tight">User Engagement</h2>
                     <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest">Active nodes vs Passive nodes</p>
@@ -124,8 +131,9 @@ const Analytics = () => {
         </section>
 
         {/* Blood Group Distribution Bar Chart */}
-        <section className="bg-[#0A0A0A] border border-white/5 p-10 rounded-[3rem] space-y-8">
-            <div className="flex items-center justify-between">
+        <section className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3rem] space-y-8 shadow-2xl relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <div className="flex items-center justify-between relative z-10">
                 <div>
                     <h2 className="text-2xl font-black text-white uppercase tracking-tight">Medical Demographics</h2>
                     <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest">Blood group inventory distribution</p>
@@ -152,8 +160,9 @@ const Analytics = () => {
         </section>
 
         {/* System Activity Line Chart */}
-        <section className="bg-[#0A0A0A] border border-white/5 p-10 rounded-[3rem] space-y-8">
-            <div className="flex items-center justify-between">
+        <section className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3rem] space-y-8 shadow-2xl relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <div className="flex items-center justify-between relative z-10">
                 <div>
                     <h2 className="text-2xl font-black text-white uppercase tracking-tight">System Throughput</h2>
                     <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest">Real-time API request frequency</p>
@@ -174,8 +183,9 @@ const Analytics = () => {
         </section>
 
         {/* Regional Distribution (Simulated) */}
-        <section className="bg-[#0A0A0A] border border-white/5 p-10 rounded-[3rem] space-y-8">
-            <div className="flex items-center justify-between">
+        <section className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3rem] space-y-8 shadow-2xl relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <div className="flex items-center justify-between relative z-10">
                 <div>
                     <h2 className="text-2xl font-black text-white uppercase tracking-tight">Regional Nodes</h2>
                     <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest">Global distribution of active users</p>
@@ -204,13 +214,14 @@ const Analytics = () => {
       </div>
 
       {/* Footer Insight */}
-      <div className="bg-emerald-500/10 border border-emerald-500/20 p-8 rounded-[2.5rem] flex items-center gap-6">
-          <div className="p-4 bg-emerald-500 rounded-3xl">
+      <div className="bg-emerald-500/10 backdrop-blur-xl border border-emerald-500/20 p-8 rounded-[2.5rem] flex items-center gap-6 shadow-2xl relative z-10 overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="p-4 bg-emerald-500 rounded-3xl relative z-10 shadow-[0_0_30px_rgba(16,185,129,0.3)] transition-transform group-hover:scale-110">
               <TrendingUp className="w-8 h-8 text-black" />
           </div>
-          <div>
+          <div className="relative z-10">
               <h3 className="text-xl font-black text-white uppercase tracking-tight">Intelligence Brief</h3>
-              <p className="text-slate-400 text-sm mt-1">Overall system performance is **optimal**. User retention has increased by **4.2%** this quarter. Recommend scaling the Singapore node for better Asia-Pacific latency.</p>
+              <p className="text-slate-400 text-sm mt-1 leading-relaxed">Overall system performance is <span className="text-emerald-400 font-bold">optimal</span>. User retention has increased by <span className="text-emerald-400 font-bold">4.2%</span> this quarter. Recommend scaling the Singapore node for better Asia-Pacific latency.</p>
           </div>
       </div>
     </div>

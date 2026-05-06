@@ -136,7 +136,7 @@ const AdminDashboard = () => {
 
       {/* Header */}
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
-        <div className="bg-zinc-950/50 backdrop-blur-xl border border-white/10 p-5 rounded-2xl shadow-2xl">
+        <div className="bg-zinc-950/50 backdrop-blur-xl border border-white/10 p-5 rounded-2xl shadow-2xl inline-block">
           <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-2 flex items-center gap-3 tracking-tight">
             <div className="p-2.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20 glow-border">
                <ShieldCheck className="w-7 h-7 text-emerald-400" />
@@ -165,9 +165,10 @@ const AdminDashboard = () => {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-8 rounded-2xl w-full max-w-lg shadow-xl relative"
+              className="bg-zinc-950/80 backdrop-blur-2xl border border-white/10 p-8 rounded-[2.5rem] w-full max-w-lg shadow-[0_0_50px_rgba(0,0,0,0.5)] relative overflow-hidden"
             >
-              <h2 className="text-xl font-bold text-zinc-900 dark:text-white mb-6">Send Global Alert</h2>
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
+              <h2 className="text-xl font-black text-white mb-6 uppercase tracking-tight relative z-10">Send Global Alert</h2>
               <form onSubmit={handleSendBroadcast} className="space-y-5">
                 <div className="space-y-1.5">
                   <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 ml-1">Title</label>
@@ -196,26 +197,26 @@ const AdminDashboard = () => {
                     <select 
                       value={broadcastForm.type}
                       onChange={(e) => setBroadcastForm({...broadcastForm, type: e.target.value})}
-                      className="w-full bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl px-4 py-3 text-zinc-900 dark:text-white outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all font-medium"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-emerald-500 transition-all font-bold text-xs uppercase tracking-widest shadow-inner"
                     >
-                      <option value="info">Information</option>
-                      <option value="warning">Warning</option>
-                      <option value="emergency">Emergency</option>
-                      <option value="update">Update</option>
+                      <option value="info" className="bg-zinc-900 text-white">Information</option>
+                      <option value="warning" className="bg-zinc-900 text-white">Warning</option>
+                      <option value="emergency" className="bg-zinc-900 text-white">Emergency</option>
+                      <option value="update" className="bg-zinc-900 text-white">Update</option>
                     </select>
                   </div>
                 </div>
-                <div className="pt-4 flex gap-4">
+                <div className="pt-4 flex gap-4 relative z-10">
                   <button 
                     type="button" 
                     onClick={() => setShowBroadcastModal(false)}
-                    className="flex-1 py-3 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white rounded-xl font-bold text-sm transition-colors"
+                    className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all"
                   >
                     Cancel
                   </button>
                   <button 
                     type="submit"
-                    className="flex-1 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold text-sm shadow-sm transition-colors"
+                    className="flex-1 py-3 bg-emerald-500 hover:bg-emerald-400 text-black rounded-xl font-black text-[10px] uppercase tracking-widest shadow-2xl shadow-emerald-500/20 transition-all"
                   >
                     Send Alert
                   </button>
@@ -231,8 +232,8 @@ const AdminDashboard = () => {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
         {statCards.map((stat, index) => (
-          <div key={index} className="bg-white/80 dark:bg-zinc-950/60 backdrop-blur-xl border border-zinc-200/50 dark:border-white/10 p-6 rounded-2xl hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition-all duration-300 shadow-xl group relative overflow-hidden hover:shadow-[0_0_30px_rgba(16,185,129,0.1)]">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div key={index} className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-6 rounded-[2rem] hover:border-emerald-500/30 transition-all duration-500 shadow-2xl group relative overflow-hidden hover:-translate-y-2">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex items-start justify-between mb-4 relative z-10">
               <div className={`${stat.bg} ${stat.color} p-3.5 rounded-xl border border-white/5 shadow-inner`}>
                 <stat.icon className="w-6 h-6" />
@@ -251,8 +252,8 @@ const AdminDashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
         {/* User Growth Chart */}
-        <div className="lg:col-span-2 bg-white/80 dark:bg-zinc-950/60 backdrop-blur-xl border border-zinc-200/50 dark:border-white/10 p-6 sm:p-8 rounded-2xl shadow-xl relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500/5 rounded-full blur-3xl"></div>
+        <div className="lg:col-span-2 bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-6 sm:p-8 rounded-[2rem] shadow-2xl relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[100px]"></div>
           <div className="flex items-center justify-between mb-8 relative z-10">
             <div>
                 <h2 className="text-xl font-black text-zinc-900 dark:text-white mb-1 uppercase tracking-wide">Adoption Matrix</h2>
@@ -286,7 +287,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Database Health Matrix */}
-        <div className="bg-white/80 dark:bg-zinc-950/60 backdrop-blur-xl border border-zinc-200/50 dark:border-white/10 p-6 sm:p-8 rounded-2xl shadow-xl relative overflow-hidden group">
+        <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-6 sm:p-8 rounded-[2rem] shadow-2xl relative overflow-hidden group">
             <h2 className="text-xl font-black text-zinc-900 dark:text-white mb-2 uppercase tracking-wide flex items-center gap-2">
               <Database className="w-5 h-5 text-cyan-400" /> Core Nodes
             </h2>
@@ -294,8 +295,8 @@ const AdminDashboard = () => {
             
             <div className="grid grid-cols-3 gap-3 mb-8">
                 {stats?.systemHealth?.nodes?.map((node: any) => (
-                    <div key={node.id} className="bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-white/5 p-3 rounded-xl flex flex-col items-center gap-2 hover:border-cyan-500/30 transition-colors shadow-inner">
-                        <div className={`w-3 h-3 rounded-full shadow-[0_0_10px_currentColor] ${
+                    <div key={node.id} className="bg-white/5 dark:bg-zinc-900/40 border border-white/5 p-3 rounded-2xl flex flex-col items-center gap-2 hover:border-cyan-500/30 transition-all shadow-inner group/node">
+                        <div className={`w-3 h-3 rounded-full shadow-[0_0_15px_currentColor] transition-all group-hover/node:scale-125 ${
                             node.status === 'online' ? 'bg-emerald-400 text-emerald-400' : 
                             node.status === 'warning' ? 'bg-amber-400 text-amber-400' : 
                             'bg-rose-500 text-rose-500'
@@ -331,7 +332,7 @@ const AdminDashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
         {/* API Latency Monitor */}
-        <div className="bg-white/80 dark:bg-zinc-950/60 backdrop-blur-xl border border-zinc-200/50 dark:border-white/10 p-6 sm:p-8 rounded-2xl shadow-xl relative overflow-hidden group">
+        <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-6 sm:p-8 rounded-[2rem] shadow-2xl relative overflow-hidden group">
             <div className="flex items-center justify-between mb-6 relative z-10">
                 <div>
                     <h2 className="text-xl font-black text-zinc-900 dark:text-white mb-1 uppercase tracking-wide">Ping Matrix</h2>
@@ -355,7 +356,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Global Controls */}
-        <div className="bg-white/80 dark:bg-zinc-950/60 backdrop-blur-xl border border-zinc-200/50 dark:border-white/10 p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col justify-between relative z-10 overflow-hidden">
+        <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-6 sm:p-8 rounded-[2.5rem] shadow-2xl flex flex-col justify-between relative z-10 overflow-hidden group">
             <div className="absolute top-[-50px] right-[-50px] w-32 h-32 bg-primary-500/10 rounded-full blur-3xl"></div>
             <div className="mb-8 relative z-10">
                 <h2 className="text-xl font-black text-zinc-900 dark:text-white mb-1 uppercase tracking-wide">Command Utilities</h2>
