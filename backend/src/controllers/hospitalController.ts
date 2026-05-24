@@ -2,9 +2,8 @@ import { Request, Response } from 'express';
 import axios from 'axios';
 
 export const getNearbyFacilities = async (req: Request, res: Response): Promise<void> => {
+  const { lat, lng, type = 'hospital' } = req.query;
   try {
-    const { lat, lng, type = 'hospital' } = req.query;
-
     if (!lat || !lng) {
       res.status(400).json({ message: 'Latitude and Longitude are required' });
       return;
