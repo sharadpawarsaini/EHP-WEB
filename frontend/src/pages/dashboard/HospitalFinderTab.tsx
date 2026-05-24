@@ -295,7 +295,7 @@ const HospitalFinderTab = () => {
             </div>
           </div>
         </div>
-      )
+      )}
 
       {loading && (
          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
