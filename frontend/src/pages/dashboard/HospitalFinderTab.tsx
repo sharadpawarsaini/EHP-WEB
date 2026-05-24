@@ -25,6 +25,19 @@ const HospitalFinderTab = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [activeType, setActiveType] = useState('hospital');
+  
+  // Custom manual search and preset state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [activePreset, setActivePreset] = useState<string | null>(null);
+
+  const PRESET_CITIES = [
+    { name: 'Bangalore', lat: 12.9716, lng: 77.5946 },
+    { name: 'New Delhi', lat: 28.6139, lng: 77.2090 },
+    { name: 'Mumbai', lat: 19.0760, lng: 72.8777 },
+    { name: 'New York', lat: 40.7128, lng: -74.0060 },
+    { name: 'London', lat: 51.5074, lng: -0.1278 }
+  ];
 
   const finderTypes = [
     { id: 'hospital', label: 'Hospitals', icon: Hospital, color: 'text-primary-600 bg-primary-50 border-primary-100', dark: 'dark:bg-primary-900/20 dark:border-primary-800/30' },
@@ -66,8 +79,9 @@ const HospitalFinderTab = () => {
   const getMyLocation = (typeOverride?: string) => {
     const typeToSearch = typeOverride || activeType;
     setLoading(true);
+    setError('');
     if (!navigator.geolocation) {
-      setError('Neural positioning not supported.');
+      setError('Neural positioning not supported. Please select a city manually below.');
       setLoading(false);
       return;
     }
@@ -76,13 +90,54 @@ const HospitalFinderTab = () => {
       (position) => {
         const { latitude, longitude } = position.coords;
         setLocation({ lat: latitude, lng: longitude });
+        setActivePreset(null);
         findNearby(latitude, longitude, typeToSearch);
       },
       () => {
-        setError('Location link denied. Enable GPS to continue.');
+        setError('Location link denied. Enable GPS or select a city manually below.');
         setLoading(false);
       }
     );
+  };
+
+  const handleManualSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+    
+    setSearchLoading(true);
+    setError('');
+    try {
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&limit=1`, {
+        headers: {
+          'Accept-Language': 'en',
+          'User-Agent': 'EHP-Health-Passport-App'
+        }
+      });
+      const data = await response.json();
+      
+      if (data && data.length > 0) {
+        const lat = parseFloat(data[0].lat);
+        const lng = parseFloat(data[0].lon);
+        const displayName = data[0].display_name.split(',')[0];
+        
+        setLocation({ lat, lng });
+        setActivePreset(displayName);
+        findNearby(lat, lng, activeType);
+      } else {
+        setError(`Could not locate "${searchQuery}". Try searching for a major city.`);
+      }
+    } catch (err) {
+      setError('Failed to contact geocoding node. Try a preset city instead.');
+    } finally {
+      setSearchLoading(false);
+    }
+  };
+
+  const handleSelectPreset = (city: typeof PRESET_CITIES[0]) => {
+    setLocation({ lat: city.lat, lng: city.lng });
+    setActivePreset(city.name);
+    setError('');
+    findNearby(city.lat, city.lng, activeType);
   };
 
   const handleTypeChange = (typeId: string) => {
@@ -102,61 +157,145 @@ const HospitalFinderTab = () => {
                <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-[10px] font-black uppercase tracking-widest rounded-full">Live Proximity</span>
             </div>
             <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Facility Radar</h2>
-            <p className="text-gray-500 dark:text-gray-400 font-medium">Scanning local area for medical infrastructure and emergency services</p>
+            <p className="text-gray-500 dark:text-gray-400 font-medium">
+              {location ? (
+                <>Scanning 10km grid around <span className="text-primary-600 dark:text-primary-400 font-black">{activePreset || 'GPS Telemetry'}</span> (lat: {location.lat.toFixed(4)}, lng: {location.lng.toFixed(4)})</>
+              ) : (
+                'Scanning local area for medical infrastructure and emergency services'
+              )}
+            </p>
          </div>
-         <button 
-           onClick={() => getMyLocation()}
-           disabled={loading}
-           className="w-full lg:w-auto flex items-center justify-center gap-3 px-8 py-5 bg-primary-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-2xl shadow-primary-600/30 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
-         >
-           {loading ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Crosshair className="h-5 w-5" />}
-           {loading ? 'Scanning Neural Net...' : 'Recalibrate Position'}
-         </button>
+         <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+           {location && (
+             <button 
+               onClick={() => { setLocation(null); setFacilities([]); setError(''); setActivePreset(null); }}
+               className="w-full sm:w-auto flex items-center justify-center gap-3 px-6 py-5 bg-gray-200 dark:bg-slate-800 text-gray-700 dark:text-gray-200 font-black rounded-2xl text-xs uppercase tracking-widest hover:bg-gray-300 dark:hover:bg-slate-700 transition-all active:scale-95"
+             >
+               Change Grid
+             </button>
+           )}
+           <button 
+             onClick={() => getMyLocation()}
+             disabled={loading}
+             className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-5 bg-primary-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest shadow-2xl shadow-primary-600/30 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+           >
+             {loading ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Crosshair className="h-5 w-5" />}
+             {loading ? 'Scanning Neural Net...' : 'Recalibrate GPS'}
+           </button>
+         </div>
       </div>
 
       {/* Modern Radar Filter */}
       <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-3 rounded-[2.5rem] border border-white dark:border-slate-700 shadow-xl inline-flex flex-wrap gap-2">
          {finderTypes.map((type) => {
-           const Icon = type.icon;
-           const isActive = activeType === type.id;
-           return (
-             <button
-               key={type.id}
-               onClick={() => handleTypeChange(type.id)}
-               className={`flex items-center gap-3 px-8 py-4 rounded-[1.8rem] font-black text-xs uppercase tracking-widest transition-all ${
-                 isActive 
-                 ? 'bg-gray-900 text-white shadow-xl scale-105' 
-                 : 'bg-transparent text-gray-500 hover:bg-gray-100 dark:hover:bg-slate-700'
-               }`}
-             >
-               <Icon className={`h-5 w-5 ${isActive ? 'text-primary-400' : 'text-gray-400'}`} />
-               {type.label}
-             </button>
-           );
+            const Icon = type.icon;
+            const isActive = activeType === type.id;
+            return (
+              <button
+                key={type.id}
+                onClick={() => handleTypeChange(type.id)}
+                className={`flex items-center gap-3 px-8 py-4 rounded-[1.8rem] font-black text-xs uppercase tracking-widest transition-all ${
+                  isActive 
+                  ? 'bg-gray-900 text-white shadow-xl scale-105' 
+                  : 'bg-transparent text-gray-500 hover:bg-gray-100 dark:hover:bg-slate-700'
+                }`}
+              >
+                <Icon className={`h-5 w-5 ${isActive ? 'text-primary-400' : 'text-gray-400'}`} />
+                {type.label}
+              </button>
+            );
          })}
       </div>
 
       <AnimatePresence>
          {error && (
-           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="p-6 bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-800/50 rounded-3xl text-rose-800 dark:text-rose-400 font-black text-xs uppercase tracking-widest flex items-center gap-3">
-             <Zap className="h-5 w-5" /> {error}
-           </motion.div>
+            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="p-6 bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-800/50 rounded-3xl text-rose-800 dark:text-rose-400 font-black text-xs uppercase tracking-widest flex items-center gap-3">
+              <Zap className="h-5 w-5" /> {error}
+            </motion.div>
          )}
       </AnimatePresence>
 
       {!location && !loading && (
-        <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-16 text-center border-2 border-dashed border-gray-200 dark:border-slate-700 shadow-sm">
-          <div className="w-24 h-24 bg-primary-50 dark:bg-primary-900/30 rounded-[2.5rem] flex items-center justify-center mx-auto mb-8 relative">
-             <MapIcon className="h-10 w-10 text-primary-600" />
-             <div className="absolute inset-0 border-2 border-primary-600 rounded-[2.5rem] animate-ping opacity-20"></div>
+        <div className="bg-white/85 dark:bg-slate-800/80 backdrop-blur-xl rounded-[3rem] p-10 md:p-16 border border-white dark:border-slate-700 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-8 opacity-5">
+             <MapIcon className="h-64 w-64" />
           </div>
-          <h3 className="text-3xl font-black text-gray-900 dark:text-white mb-3">Initialize Radar</h3>
-          <p className="text-gray-500 font-medium max-w-sm mx-auto mb-10">Allow location permissions to scan for medical infrastructure within your 10km safe zone.</p>
-          <button onClick={() => getMyLocation()} className="px-10 py-5 bg-primary-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl shadow-primary-500/30 hover:scale-105 transition-all">
-             Start Local Scan
-          </button>
+          
+          <div className="max-w-xl mx-auto text-center space-y-8 relative z-10">
+            <div>
+              <div className="w-20 h-20 bg-primary-50 dark:bg-primary-900/30 rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 relative">
+                 <MapIcon className="h-9 w-9 text-primary-600 dark:text-primary-400" />
+                 <div className="absolute inset-0 border-2 border-primary-600 rounded-[2.5rem] animate-ping opacity-20"></div>
+              </div>
+              <h3 className="text-3xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">Initialize Facility Radar</h3>
+              <p className="text-gray-500 dark:text-gray-400 font-medium text-sm">Scan for medical infrastructure and emergency services within a 10km grid.</p>
+            </div>
+
+            {/* Selection Options */}
+            <div className="grid md:grid-cols-2 gap-6 pt-4">
+              {/* Option A: GPS Auto-Scan */}
+              <div className="bg-gray-50/50 dark:bg-slate-900/40 p-6 rounded-3xl border border-gray-100 dark:border-slate-800 flex flex-col justify-between items-center text-center group hover:border-primary-500/30 transition-all shadow-sm">
+                <div className="mb-6">
+                  <div className="w-12 h-12 bg-primary-100/60 dark:bg-primary-900/20 rounded-2xl flex items-center justify-center mx-auto mb-3 text-primary-600">
+                    <Crosshair className="h-6 w-6" />
+                  </div>
+                  <h4 className="font-black text-gray-900 dark:text-white text-sm">Satellite GPS Scan</h4>
+                  <p className="text-xs text-gray-400 mt-1">Automatic location pinpointing via device browser telemetry.</p>
+                </div>
+                <button 
+                  onClick={() => getMyLocation()} 
+                  className="w-full py-4 bg-primary-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-primary-500/20 hover:scale-[1.02] active:scale-95 transition-all"
+                >
+                  Acquire GPS Signal
+                </button>
+              </div>
+
+              {/* Option B: Manual grid / Preset Scan */}
+              <form onSubmit={handleManualSearch} className="bg-gray-50/50 dark:bg-slate-900/40 p-6 rounded-3xl border border-gray-100 dark:border-slate-800 flex flex-col justify-between items-center text-center group hover:border-emerald-500/30 transition-all shadow-sm">
+                <div className="w-full mb-4">
+                  <div className="w-12 h-12 bg-emerald-100/60 dark:bg-emerald-900/20 rounded-2xl flex items-center justify-center mx-auto mb-3 text-emerald-600">
+                    <Search className="h-6 w-6" />
+                  </div>
+                  <h4 className="font-black text-gray-900 dark:text-white text-sm">Grid Search Fallback</h4>
+                  <p className="text-xs text-gray-400 mt-1">Input a city name to search OSM medical databases manually.</p>
+                </div>
+                <div className="w-full flex gap-2 relative">
+                  <input 
+                    type="text" 
+                    placeholder="Enter city..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full px-4 py-3 bg-white dark:bg-slate-800 text-xs font-bold rounded-xl border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all"
+                  />
+                  <button 
+                    type="submit"
+                    disabled={searchLoading}
+                    className="px-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-black text-xs transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center"
+                  >
+                    {searchLoading ? <RefreshCcw className="h-4 w-4 animate-spin" /> : 'Go'}
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            {/* Preset City Hubs */}
+            <div className="pt-4 border-t border-gray-100 dark:border-slate-800">
+               <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Instant Global Healthcare Presets</p>
+               <div className="flex flex-wrap justify-center gap-2">
+                  {PRESET_CITIES.map((city) => (
+                    <button
+                      key={city.name}
+                      onClick={() => handleSelectPreset(city)}
+                      className="px-5 py-2.5 bg-white dark:bg-slate-800 hover:bg-primary-50 dark:hover:bg-primary-950/20 text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 rounded-full font-black text-[10px] uppercase tracking-widest border border-gray-200 dark:border-slate-700 hover:border-primary-200 dark:hover:border-primary-900/50 shadow-sm transition-all"
+                    >
+                      {city.name}
+                    </button>
+                  ))}
+               </div>
+            </div>
+          </div>
         </div>
-      )}
+      )
 
       {loading && (
          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
