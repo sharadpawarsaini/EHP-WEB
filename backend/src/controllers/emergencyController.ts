@@ -5,6 +5,7 @@ import { Profile } from '../models/Profile';
 import { MedicalDetails } from '../models/MedicalDetails';
 import { MedicalReport } from '../models/MedicalReport';
 import { AccessLog } from '../models/AccessLog';
+import { recordSecurityEvent, getClientIp } from '../middleware/securityLogger';
 import { AuthRequest } from '../middleware/authMiddleware';
 import { Medicine } from '../models/Medicine';
 import { Vaccination } from '../models/Vaccination';
@@ -101,6 +102,18 @@ export const getPublicEmergencyData = async (req: Request, res: Response): Promi
       accessType: 'public',
       ipAddress: req.ip,
       userAgent: req.headers['user-agent'],
+    });
+
+    recordSecurityEvent({
+      eventType: 'EMERGENCY_ACCESS',
+      severity: 'INFO',
+      ipAddress: getClientIp(req),
+      userAgent: req.headers['user-agent'] || 'Unknown',
+      endpoint: `/api/emergency/public/${slug}`,
+      method: 'GET',
+      statusCode: 200,
+      userId: link.userId,
+      metadata: { slug, accessType: 'public' }
     });
 
     const profile = await Profile.findOne({ 

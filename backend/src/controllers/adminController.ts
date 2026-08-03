@@ -5,6 +5,8 @@ import { MedicalReport } from '../models/MedicalReport';
 import { EmergencyLink } from '../models/EmergencyLink';
 import { AccessLog } from '../models/AccessLog';
 import { Profile } from '../models/Profile';
+import { SecurityLog } from '../models/SecurityLog';
+import { IPBlocklist } from '../models/IPBlocklist';
 
 export const getStats = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -277,3 +279,139 @@ export const bulkUserActions = async (req: Request, res: Response): Promise<void
     res.status(500).json({ message: 'Error performing bulk action' });
   }
 };
+
+export const getCyberSecurityStats = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const last24h = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+    const totalLogs24h = await SecurityLog.countDocuments({ createdAt: { $gte: last24h } });
+    const failedLogins24h = await SecurityLog.countDocuments({
+      eventType: 'LOGIN_FAILED',
+      createdAt: { $gte: last24h }
+    });
+    const criticalEvents24h = await SecurityLog.countDocuments({
+      severity: 'CRITICAL',
+      createdAt: { $gte: last24h }
+    });
+    const blockedIPsCount = await IPBlocklist.countDocuments();
+
+    // Event type distribution
+    const eventBreakdown = await SecurityLog.aggregate([
+      { $match: { createdAt: { $gte: last24h } } },
+      { $group: { _id: '$eventType', count: { $sum: 1 } } }
+    ]);
+
+    // Severity breakdown
+    const severityBreakdown = await SecurityLog.aggregate([
+      { $match: { createdAt: { $gte: last24h } } },
+      { $group: { _id: '$severity', count: { $sum: 1 } } }
+    ]);
+
+    // Top active IPs
+    const topIPs = await SecurityLog.aggregate([
+      { $match: { createdAt: { $gte: last24h } } },
+      { $group: { _id: '$ipAddress', count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 5 }
+    ]);
+
+    // Threat level logic
+    let threatLevel = 'LOW';
+    if (criticalEvents24h > 10 || failedLogins24h > 25) {
+      threatLevel = 'CRITICAL';
+    } else if (criticalEvents24h > 3 || failedLogins24h > 10) {
+      threatLevel = 'ELEVATED';
+    } else if (failedLogins24h > 3) {
+      threatLevel = 'MEDIUM';
+    }
+
+    res.json({
+      threatLevel,
+      totalLogs24h,
+      failedLogins24h,
+      criticalEvents24h,
+      blockedIPsCount,
+      eventBreakdown,
+      severityBreakdown,
+      topIPs
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching cyber security stats' });
+  }
+};
+
+export const getSecurityLogsFeed = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { severity, eventType, search } = req.query;
+    const filter: any = {};
+
+    if (severity && severity !== 'ALL') {
+      filter.severity = severity;
+    }
+    if (eventType && eventType !== 'ALL') {
+      filter.eventType = eventType;
+    }
+    if (search) {
+      filter.$or = [
+        { ipAddress: { $regex: search, $options: 'i' } },
+        { endpoint: { $regex: search, $options: 'i' } },
+        { userAgent: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    const logs = await SecurityLog.find(filter)
+      .populate('userId', 'email role')
+      .sort({ createdAt: -1 })
+      .limit(150);
+
+    res.json(logs);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching security logs feed' });
+  }
+};
+
+export const getBlockedIPs = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const blocked = await IPBlocklist.find().sort({ createdAt: -1 });
+    res.json(blocked);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching blocked IPs' });
+  }
+};
+
+export const blockIP = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { ipAddress, reason } = req.body;
+    if (!ipAddress) {
+      res.status(400).json({ message: 'IP address is required' });
+      return;
+    }
+
+    const existing = await IPBlocklist.findOne({ ipAddress });
+    if (existing) {
+      res.status(400).json({ message: 'IP address is already blocked' });
+      return;
+    }
+
+    const blocked = await IPBlocklist.create({
+      ipAddress,
+      reason: reason || 'Blocked by Admin via SOC Dashboard',
+      blockedBy: (req as any).user.userId || 'ADMIN'
+    });
+
+    res.status(201).json(blocked);
+  } catch (error) {
+    res.status(500).json({ message: 'Error blocking IP' });
+  }
+};
+
+export const unblockIP = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { ip } = req.params;
+    await IPBlocklist.deleteOne({ ipAddress: ip });
+    res.json({ message: `IP ${ip} unblocked successfully` });
+  } catch (error) {
+    res.status(500).json({ message: 'Error unblocking IP' });
+  }
+};
+

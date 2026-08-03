@@ -25,6 +25,7 @@ import familyRoutes from './routes/familyRoutes';
 import hospitalRoutes from './routes/hospitalRoutes';
 import privacyRoutes from './routes/privacyRoutes';
 import adminRoutes from './routes/adminRoutes';
+import { ipBlocklistCheck } from './middleware/securityLogger';
 
 const app = express();
 
@@ -61,6 +62,7 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
+app.use(ipBlocklistCheck);
 
 // Robust Static File Serving
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));

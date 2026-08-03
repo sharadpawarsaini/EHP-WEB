@@ -10,7 +10,12 @@ import {
   sendDirectMessage,
   getSystemSettings,
   updateSystemSettings,
-  bulkUserActions
+  bulkUserActions,
+  getCyberSecurityStats,
+  getSecurityLogsFeed,
+  getBlockedIPs,
+  blockIP,
+  unblockIP
 } from '../controllers/adminController';
 import { protect } from '../middleware/authMiddleware';
 import { admin } from '../middleware/adminMiddleware';
@@ -32,5 +37,12 @@ router.post('/broadcast', createBroadcast);
 router.post('/message', sendDirectMessage);
 router.get('/system-settings', getSystemSettings);
 router.put('/system-settings', updateSystemSettings);
+
+// Cyber Security Operations Center (SOC) Routes
+router.get('/cyber/stats', getCyberSecurityStats);
+router.get('/cyber/logs', getSecurityLogsFeed);
+router.get('/cyber/blocked-ips', getBlockedIPs);
+router.post('/cyber/block-ip', blockIP);
+router.delete('/cyber/unblock-ip/:ip', unblockIP);
 
 export default router;

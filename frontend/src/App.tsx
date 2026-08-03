@@ -27,6 +27,7 @@ import AdminRegister from './pages/admin/AdminRegister';
 import Analytics from './pages/admin/Analytics';
 import SOSMonitor from './pages/admin/SOSMonitor';
 import CommunicationCenter from './pages/admin/CommunicationCenter';
+import CyberActivityDashboard from './pages/admin/CyberActivityDashboard';
 import LockdownPage from './pages/LockdownPage';
 
 import { useEffect } from 'react';
@@ -101,6 +102,7 @@ function App() {
               }
             >
               <Route index element={<AdminDashboard />} />
+              <Route path="cyber-activity" element={<CyberActivityDashboard />} />
               <Route path="users" element={<UserManagement />} />
               <Route path="analytics" element={<Analytics />} />
               <Route path="feedback" element={<FeedbackManagement />} />

@@ -13,7 +13,8 @@ import {
   Home,
   TrendingUp,
   Clock,
-  Send
+  Send,
+  Radio
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -24,6 +25,7 @@ const AdminLayout = () => {
 
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/admin' },
+    { icon: Radio, label: 'Cyber Security', path: '/admin/cyber-activity' },
     { icon: Users, label: 'Users', path: '/admin/users' },
     { icon: TrendingUp, label: 'Analytics', path: '/admin/analytics' },
     { icon: MessageSquare, label: 'Feedback', path: '/admin/feedback' },

@@ -3,6 +3,7 @@ import { User } from '../models/User';
 import { Profile } from '../models/Profile';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { recordSecurityEvent, getClientIp } from '../middleware/securityLogger';
 
 const generateToken = (res: Response, userId: any, role: string): string => {
   const token = jwt.sign({ userId, role }, process.env.JWT_SECRET as string, {
@@ -78,12 +79,27 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
 
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
+  const ipAddress = getClientIp(req);
+  const userAgent = req.headers['user-agent'] || 'Unknown';
 
   try {
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const token = generateToken(res, user._id, (user as any).role);
+
+      recordSecurityEvent({
+        eventType: 'LOGIN_SUCCESS',
+        severity: 'INFO',
+        ipAddress,
+        userAgent,
+        endpoint: '/api/auth/login',
+        method: 'POST',
+        statusCode: 200,
+        userId: user._id,
+        metadata: { email, role: (user as any).role }
+      });
+
       res.json({
         _id: user._id,
         email: user.email,
@@ -91,6 +107,17 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         token,
       });
     } else {
+      recordSecurityEvent({
+        eventType: 'LOGIN_FAILED',
+        severity: 'WARNING',
+        ipAddress,
+        userAgent,
+        endpoint: '/api/auth/login',
+        method: 'POST',
+        statusCode: 401,
+        metadata: { emailAttempted: email }
+      });
+
       res.status(401).json({ message: 'Invalid email or password' });
     }
   } catch (error) {
