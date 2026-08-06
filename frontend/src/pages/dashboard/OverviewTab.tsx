@@ -214,22 +214,52 @@ const OverviewTab = () => {
           <div className="absolute top-0 right-0 p-8 opacity-5 text-teal-500">
              <PulseIcon className="h-64 w-64 animate-pulse" />
           </div>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative z-10">
-            <div className="flex items-center gap-6 md:gap-8">
-              <div className="w-24 h-24 bg-white dark:bg-zinc-900 rounded-[2rem] flex items-center justify-center flex-shrink-0 border-2 border-teal-500/20 shadow-xl overflow-hidden ring-4 ring-teal-500/10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
+            <div className="flex items-center gap-6">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-white dark:bg-zinc-900 rounded-[2rem] flex items-center justify-center flex-shrink-0 border-2 border-teal-500/20 shadow-xl overflow-hidden ring-4 ring-teal-500/10">
                  {photoUrl ? (
                    <img src={getFullPhotoUrl(photoUrl)!} alt="Profile" className="w-full h-full object-cover scale-110" />
                  ) : (
                    <UserCircle className="h-12 w-12 text-teal-500" />
                  )}
               </div>
-               <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 glow-border group-hover/score:scale-110 transition-transform">
-                 <ShieldCheck className="h-6 w-6 text-emerald-500" />
+              <div className="space-y-1">
+                 <div className="flex items-center gap-2">
+                    <span className="px-3 py-1 bg-teal-500/10 text-teal-700 dark:text-teal-300 font-mono font-black text-[10px] uppercase rounded-full tracking-widest border border-teal-500/20">
+                      Passport Active
+                    </span>
+                    {data?.profile?.bloodGroup && (
+                       <span className="px-3 py-1 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-black text-[10px] uppercase rounded-full tracking-widest border border-rose-500/20">
+                          {data.profile.bloodGroup} Blood Group
+                       </span>
+                    )}
+                 </div>
+                 <h2 className="text-2xl md:text-3xl font-black text-zinc-900 dark:text-white tracking-tight">
+                    {data?.profile?.fullName || 'Health Passport'}
+                 </h2>
+                 <p className="text-zinc-500 dark:text-zinc-400 font-medium text-xs flex items-center gap-1.5">
+                    <ShieldCheck className="h-4 w-4 text-teal-500" /> Health Readiness Score: <span className="font-bold text-teal-600 dark:text-teal-400">{safetyScore}%</span>
+                 </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+               <div className="flex items-center gap-3 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md p-3.5 rounded-2xl border border-teal-100 dark:border-zinc-800 shadow-sm cursor-pointer" onClick={() => navigate('/dashboard/profile')}>
+                 <div className="w-10 h-10 bg-teal-500/10 rounded-xl flex items-center justify-center border border-teal-500/20">
+                   <ShieldCheck className="h-5 w-5 text-teal-500" />
+                 </div>
+                 <div className="text-left pr-2">
+                   <p className="text-[9px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-widest leading-none mb-1">Safety Index</p>
+                   <p className="text-xl font-black text-zinc-900 dark:text-white leading-none">{safetyScore}%</p>
+                 </div>
                </div>
-               <div className="text-left pr-2">
-                 <p className="text-[9px] font-black text-emerald-500/50 uppercase tracking-widest mb-1 leading-none">Safety Index</p>
-                 <p className="text-3xl font-black text-white leading-none">{safetyScore}%</p>
-               </div>
+
+               <button 
+                  onClick={() => navigate('/dashboard/emergency')}
+                  className="btn-accent px-5 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-rose-600/20 hover:scale-105 active:scale-95 transition-all"
+               >
+                  <Phone className="h-4 w-4 animate-bounce" /> SOS
+               </button>
             </div>
           </div>
           
