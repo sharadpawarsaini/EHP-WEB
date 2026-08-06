@@ -151,20 +151,23 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         {/* Sidebar Header */}
         <div className="p-6 pb-4">
           <div className="flex items-center justify-between mb-8">
-            <Link to="/" className="flex items-center gap-2 group">
-              <div className="bg-primary-600 p-2 rounded-xl shadow-primary transition-all duration-300">
-                <Activity className="h-5 w-5 text-white" />
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="bg-gradient-to-br from-teal-500 to-emerald-600 p-2.5 rounded-2xl shadow-lg shadow-teal-500/20 group-hover:scale-105 transition-all duration-300">
+                <Activity className="h-6 w-6 text-white" />
               </div>
-              <span className="text-xl font-extrabold tracking-tight text-zinc-900 dark:text-white">EHP</span>
+              <div>
+                <span className="text-2xl font-black tracking-tight text-zinc-900 dark:text-white block leading-none">EHP</span>
+                <span className="text-[9px] font-mono font-bold text-teal-600 dark:text-teal-400 uppercase tracking-widest block">Health Passport</span>
+              </div>
             </Link>
             <ThemeToggle />
           </div>
 
           <div className="relative group">
-             <div className="relative flex items-center gap-4 p-4 bg-white/50 dark:bg-white/5 backdrop-blur-md rounded-2xl border border-zinc-100 dark:border-white/10 shadow-sm mb-4 group-hover:border-primary-500/30 transition-all">
-                <ProfileAvatar className="h-11 w-11 flex-shrink-0 rounded-xl glow-border" />
+             <div className="relative flex items-center gap-4 p-4 bg-gradient-to-br from-teal-50/40 via-white to-sky-50/20 dark:from-zinc-900 dark:via-zinc-900/80 dark:to-zinc-950 backdrop-blur-md rounded-2xl border border-teal-100/80 dark:border-white/10 shadow-sm mb-4 group-hover:border-teal-500/30 transition-all">
+                <ProfileAvatar className="h-11 w-11 flex-shrink-0 rounded-2xl ring-2 ring-teal-500/20 shadow-md" />
                 <div className="min-w-0">
-                  <p className="text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-widest leading-none mb-1">Authenticated</p>
+                  <p className="text-[10px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-widest leading-none mb-1">Authenticated</p>
                   <p className="text-sm font-black text-zinc-900 dark:text-white truncate" title={managedMemberName}>{managedMemberName}</p>
                   {isStealthMode && (
                     <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 bg-amber-500/10 text-amber-500 text-[10px] font-black uppercase rounded-full border border-amber-500/20">

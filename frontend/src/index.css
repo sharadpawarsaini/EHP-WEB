@@ -21,77 +21,82 @@
 }
 
 @layer components {
-  /* Healthcare Card */
+  /* Healthcare Card - Modern Clinical Design */
   .health-card {
-    @apply bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-card rounded-2xl transition-all duration-300 hover:shadow-card-hover;
+    @apply bg-white dark:bg-zinc-900/90 border border-teal-100 dark:border-zinc-800/80 shadow-sm hover:shadow-md rounded-[1.8rem] transition-all duration-300 backdrop-blur-md hover:border-teal-500/30;
+  }
+
+  /* Clinical Glowing Card */
+  .clinical-card {
+    @apply bg-gradient-to-br from-teal-50/50 via-white to-sky-50/30 dark:from-zinc-900 dark:via-zinc-950 dark:to-teal-950/20 border border-teal-200/60 dark:border-teal-900/30 rounded-[2rem] p-6 shadow-xl relative overflow-hidden backdrop-blur-xl;
   }
 
   /* Section Heading */
   .section-heading {
-    @apply text-3xl md:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white;
+    @apply text-3xl md:text-4xl font-black tracking-tight text-zinc-900 dark:text-white font-sans;
   }
 
   .section-subtext {
-    @apply text-zinc-500 dark:text-zinc-400 text-lg leading-relaxed max-w-2xl;
+    @apply text-zinc-500 dark:text-zinc-400 text-base md:text-lg leading-relaxed max-w-2xl font-medium;
   }
 
-  /* Primary CTA */
+  /* Primary CTA - Modern Healthcare Teal Gradient */
   .btn-primary {
-    @apply px-8 py-3.5 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl shadow-sm transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2;
+    @apply px-7 py-3.5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-bold rounded-2xl shadow-lg shadow-teal-600/20 hover:shadow-teal-600/30 transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2 text-sm tracking-wide;
   }
 
   .btn-secondary {
-    @apply px-8 py-3.5 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-white font-semibold rounded-xl shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2;
+    @apply px-7 py-3.5 bg-white/80 dark:bg-zinc-800/80 backdrop-blur-md border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-white font-bold rounded-2xl shadow-sm hover:bg-teal-50/50 dark:hover:bg-zinc-700/80 transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2 text-sm;
   }
 
   .btn-accent {
-    @apply px-8 py-3.5 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-xl shadow-sm transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2;
+    @apply px-7 py-3.5 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold rounded-2xl shadow-lg shadow-rose-600/20 hover:shadow-rose-600/30 transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2 text-sm tracking-wide;
   }
 
   /* Badge */
   .health-badge {
-    @apply px-3 py-1 text-xs font-semibold rounded-full;
+    @apply px-3 py-1 text-xs font-bold rounded-full tracking-wide uppercase;
   }
 
   /* Input */
   .health-input {
-    @apply w-full px-4 py-3 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-800 dark:text-white outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-500;
+    @apply w-full px-4.5 py-3.5 bg-zinc-50/80 dark:bg-zinc-800/80 border border-zinc-200/80 dark:border-zinc-700/80 rounded-2xl text-zinc-800 dark:text-white outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-500 text-sm font-medium;
   }
 
   /* Step Number */
   .step-number {
-    @apply w-12 h-12 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-xl flex items-center justify-center text-lg font-bold;
+    @apply w-12 h-12 bg-teal-500/10 dark:bg-teal-400/10 text-teal-600 dark:text-teal-400 rounded-2xl flex items-center justify-center text-lg font-black border border-teal-500/20;
   }
 
   /* Feature Icon Box */
   .feature-icon {
-    @apply w-14 h-14 rounded-2xl flex items-center justify-center;
+    @apply w-14 h-14 rounded-2xl flex items-center justify-center shadow-md;
   }
 
   /* Stat Card */
   .stat-card {
-    @apply text-center p-6;
+    @apply text-center p-6 bg-white dark:bg-zinc-900 rounded-[1.8rem] border border-teal-100/60 dark:border-zinc-800 shadow-sm;
   }
 
   .stat-number {
-    @apply text-3xl md:text-4xl font-extrabold text-primary-600;
+    @apply text-3xl md:text-4xl font-black text-teal-600 dark:text-teal-400 tracking-tight;
   }
 
   .stat-label {
-    @apply text-sm text-zinc-500 mt-1 font-medium;
+    @apply text-xs uppercase tracking-widest text-zinc-400 font-bold mt-2;
   }
 
   /* Nav Link */
   .nav-link {
-    @apply flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200;
+    @apply flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-200;
   }
 
   .nav-link-active {
-    @apply bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 font-semibold;
+    @apply bg-teal-500/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 font-bold border border-teal-500/20 shadow-sm;
   }
 
   .nav-link-inactive {
-    @apply text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:text-zinc-800 dark:hover:text-white;
+    @apply text-zinc-600 dark:text-zinc-400 hover:bg-teal-50/50 dark:hover:bg-zinc-800/60 hover:text-zinc-900 dark:hover:text-white;
   }
 }
 

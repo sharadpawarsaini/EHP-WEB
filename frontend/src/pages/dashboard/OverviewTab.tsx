@@ -209,27 +209,20 @@ const OverviewTab = () => {
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20 no-scrollbar">
       <div className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-          <div className="absolute top-0 right-0 p-8 opacity-5 text-emerald-500">
-             <PulseIcon className="h-64 w-64" />
+        <div className="lg:col-span-2 bg-gradient-to-br from-teal-500/10 via-white to-sky-50/20 dark:from-zinc-900 dark:via-zinc-950 dark:to-teal-950/20 border border-teal-200/50 dark:border-teal-900/30 p-8 md:p-10 rounded-[3rem] shadow-xl relative overflow-hidden group backdrop-blur-xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-teal-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div className="absolute top-0 right-0 p-8 opacity-5 text-teal-500">
+             <PulseIcon className="h-64 w-64 animate-pulse" />
           </div>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative z-10">
-            <div className="flex items-center gap-8">
-              <div className="w-24 h-24 bg-zinc-900 rounded-[2rem] flex items-center justify-center flex-shrink-0 border border-white/10 shadow-2xl overflow-hidden glow-border">
+            <div className="flex items-center gap-6 md:gap-8">
+              <div className="w-24 h-24 bg-white dark:bg-zinc-900 rounded-[2rem] flex items-center justify-center flex-shrink-0 border-2 border-teal-500/20 shadow-xl overflow-hidden ring-4 ring-teal-500/10">
                  {photoUrl ? (
                    <img src={getFullPhotoUrl(photoUrl)!} alt="Profile" className="w-full h-full object-cover scale-110" />
                  ) : (
-                   <UserCircle className="w-14 h-14 text-zinc-700" />
+                   <UserCircle className="h-12 w-12 text-teal-500" />
                  )}
               </div>
-              <div>
-                <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em] mb-2">Authenticated Node</p>
-                <h1 className="text-4xl font-black text-zinc-900 dark:text-white mb-2 uppercase tracking-tighter">GOOD DAY, <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">{data?.profile?.fullName?.split(' ')[0] || 'USER'}</span></h1>
-                <p className="text-sm text-zinc-500 font-medium">System status: <span className="text-emerald-500 font-bold">READY</span>. Health integrity at {safetyScore}%.</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4 bg-zinc-950 dark:bg-zinc-950 border border-white/10 p-5 rounded-[2rem] shadow-2xl hover:shadow-emerald-500/10 transition-all cursor-pointer group/score" onClick={() => navigate('/dashboard/profile')}>
                <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 glow-border group-hover/score:scale-110 transition-transform">
                  <ShieldCheck className="h-6 w-6 text-emerald-500" />
                </div>
