@@ -181,8 +181,8 @@ const OverviewTab = () => {
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
-      <div className="w-12 h-12 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin" />
-      <p className="text-gray-500 dark:text-gray-400 font-bold tracking-widest uppercase text-[10px]">Syncing Health Intelligence...</p>
+      <div className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
+      <p className="text-slate-500 font-bold tracking-widest uppercase text-[10px]">Syncing Health Intelligence...</p>
     </div>
   );
 
@@ -194,69 +194,70 @@ const OverviewTab = () => {
   };
 
   const vitalCards = [
-    { label: 'Heart Rate', icon: Heart, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-900/20', data: isWearableConnected ? { value: livePulse, unit: 'BPM' } : getLatestVital('Heart Rate'), path: '/dashboard/vitals' },
-    { label: 'Blood Pressure', icon: Activity, color: 'text-red-500', bg: 'bg-red-50 dark:bg-red-900/20', data: getLatestVital('Blood Pressure'), path: '/dashboard/vitals' },
-    { label: 'Blood Glucose', icon: Droplet, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20', data: getLatestVital('Blood Glucose'), path: '/dashboard/vitals' },
-    { label: 'Temperature', icon: Thermometer, color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-900/20', data: getLatestVital('Temperature'), path: '/dashboard/vitals' },
+    { label: 'Heart Rate', icon: Heart, color: 'text-rose-500', bg: 'bg-rose-50', data: isWearableConnected ? { value: livePulse, unit: 'BPM' } : getLatestVital('Heart Rate'), path: '/dashboard/vitals' },
+    { label: 'Blood Pressure', icon: Activity, color: 'text-red-500', bg: 'bg-red-50', data: getLatestVital('Blood Pressure'), path: '/dashboard/vitals' },
+    { label: 'Blood Glucose', icon: Droplet, color: 'text-blue-500', bg: 'bg-blue-50', data: getLatestVital('Blood Glucose'), path: '/dashboard/vitals' },
+    { label: 'Temperature', icon: Thermometer, color: 'text-amber-500', bg: 'bg-amber-50', data: getLatestVital('Temperature'), path: '/dashboard/vitals' },
   ];
 
   const activityFeed = [
-    ...(data?.reports || []).map((r: any) => ({ type: 'report', date: r.createdAt, title: `Report uploaded: ${r.title}`, icon: FileText, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' })),
-    ...(data?.vitals || []).map((v: any) => ({ type: 'vital', date: v.date, title: `Vital tracked: ${v.type}`, icon: Activity, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-900/20' })),
-    ...(data?.visits || []).map((v: any) => ({ type: 'visit', date: v.visitDate, title: `Hospital Visit: ${v.hospitalName}`, icon: Hospital, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' }))
+    ...(data?.reports || []).map((r: any) => ({ type: 'report', date: r.createdAt, title: `Report uploaded: ${r.title}`, icon: FileText, color: 'text-blue-600', bg: 'bg-blue-50' })),
+    ...(data?.vitals || []).map((v: any) => ({ type: 'vital', date: v.date, title: `Vital tracked: ${v.type}`, icon: Activity, color: 'text-rose-500', bg: 'bg-rose-50' })),
+    ...(data?.visits || []).map((v: any) => ({ type: 'visit', date: v.visitDate, title: `Hospital Visit: ${v.hospitalName}`, icon: Hospital, color: 'text-blue-600', bg: 'bg-blue-50' }))
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20 no-scrollbar">
       <div className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 bg-gradient-to-br from-teal-500/10 via-white to-sky-50/20 dark:from-zinc-900 dark:via-zinc-950 dark:to-teal-950/20 border border-teal-200/50 dark:border-teal-900/30 p-8 md:p-10 rounded-[3rem] shadow-xl relative overflow-hidden group backdrop-blur-xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-teal-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-          <div className="absolute top-0 right-0 p-8 opacity-5 text-teal-500">
+        {/* Hero / Health Passport Card */}
+        <div className="lg:col-span-2 bg-gradient-to-br from-teal-500/10 via-white to-sky-50/20 border border-teal-200/50 p-8 md:p-10 rounded-[3rem] shadow-xl relative overflow-hidden group backdrop-blur-xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div className="absolute top-0 right-0 p-8 opacity-5 text-blue-500">
              <PulseIcon className="h-64 w-64 animate-pulse" />
           </div>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
             <div className="flex items-center gap-6">
-              <div className="w-20 h-20 md:w-24 md:h-24 bg-white dark:bg-zinc-900 rounded-[2rem] flex items-center justify-center flex-shrink-0 border-2 border-teal-500/20 shadow-xl overflow-hidden ring-4 ring-teal-500/10">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-white rounded-[2rem] flex items-center justify-center flex-shrink-0 border-2 border-blue-500/20 shadow-xl overflow-hidden ring-4 ring-blue-500/10">
                  {photoUrl ? (
                    <img src={getFullPhotoUrl(photoUrl)!} alt="Profile" className="w-full h-full object-cover scale-110" />
                  ) : (
-                   <UserCircle className="h-12 w-12 text-teal-500" />
+                   <UserCircle className="h-12 w-12 text-blue-500" />
                  )}
               </div>
               <div className="space-y-1">
                  <div className="flex items-center gap-2">
-                    <span className="px-3 py-1 bg-teal-500/10 text-teal-700 dark:text-teal-300 font-mono font-black text-[10px] uppercase rounded-full tracking-widest border border-teal-500/20">
+                    <span className="px-3 py-1 bg-blue-500/10 text-blue-700 font-mono font-black text-[10px] uppercase rounded-full tracking-widest border border-blue-500/20">
                       Passport Active
                     </span>
                     {data?.profile?.bloodGroup && (
-                       <span className="px-3 py-1 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-black text-[10px] uppercase rounded-full tracking-widest border border-rose-500/20">
+                       <span className="px-3 py-1 bg-rose-500/10 text-rose-600 font-mono font-black text-[10px] uppercase rounded-full tracking-widest border border-rose-500/20">
                           {data.profile.bloodGroup} Blood Group
                        </span>
                     )}
                  </div>
-                 <h2 className="text-2xl md:text-3xl font-black text-zinc-900 dark:text-white tracking-tight">
+                 <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
                     {data?.profile?.fullName || 'Health Passport'}
                  </h2>
-                 <p className="text-zinc-500 dark:text-zinc-400 font-medium text-xs flex items-center gap-1.5">
-                    <ShieldCheck className="h-4 w-4 text-teal-500" /> Health Readiness Score: <span className="font-bold text-teal-600 dark:text-teal-400">{safetyScore}%</span>
+                 <p className="text-slate-500 font-medium text-xs flex items-center gap-1.5">
+                    <ShieldCheck className="h-4 w-4 text-blue-500" /> Health Readiness Score: <span className="font-bold text-blue-600">{safetyScore}%</span>
                  </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
-               <div className="flex items-center gap-3 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md p-3.5 rounded-2xl border border-teal-100 dark:border-zinc-800 shadow-sm cursor-pointer" onClick={() => navigate('/dashboard/profile')}>
-                 <div className="w-10 h-10 bg-teal-500/10 rounded-xl flex items-center justify-center border border-teal-500/20">
-                   <ShieldCheck className="h-5 w-5 text-teal-500" />
+               <div className="flex items-center gap-3 bg-white/80 backdrop-blur-md p-3.5 rounded-2xl border border-blue-100 shadow-sm cursor-pointer" onClick={() => navigate('/dashboard/profile')}>
+                 <div className="w-10 h-10 bg-blue-500/10 rounded-xl flex items-center justify-center border border-blue-500/20">
+                   <ShieldCheck className="h-5 w-5 text-blue-500" />
                  </div>
                  <div className="text-left pr-2">
-                   <p className="text-[9px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-widest leading-none mb-1">Safety Index</p>
-                   <p className="text-xl font-black text-zinc-900 dark:text-white leading-none">{safetyScore}%</p>
+                   <p className="text-[9px] font-black text-blue-600 uppercase tracking-widest leading-none mb-1">Safety Index</p>
+                   <p className="text-xl font-black text-slate-900 leading-none">{safetyScore}%</p>
                  </div>
                </div>
 
                <button 
                   onClick={() => navigate('/dashboard/emergency')}
-                  className="btn-accent px-5 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-rose-600/20 hover:scale-105 active:scale-95 transition-all"
+                  className="bg-gradient-to-r from-rose-600 to-rose-500 text-white hover:from-rose-700 hover:to-rose-600 px-5 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-rose-600/20 hover:scale-105 active:scale-95 transition-all"
                >
                   <Phone className="h-4 w-4 animate-bounce" /> SOS
                </button>
@@ -268,337 +269,349 @@ const OverviewTab = () => {
               <div 
                 key={i} 
                 onClick={() => navigate(v.path)}
-                className="p-6 bg-white/5 backdrop-blur-xl rounded-[2rem] border border-white/5 shadow-inner hover:border-emerald-500/20 transition-all cursor-pointer group/vital"
+                className="p-6 bg-white/90 backdrop-blur-xl rounded-[2rem] border border-blue-100 shadow-sm hover:border-blue-300 transition-all cursor-pointer group/vital"
               >
                 <div className="flex justify-between items-start mb-4">
-                   <div className={`p-3 rounded-2xl ${v.bg} border border-white/5 group-hover/vital:scale-110 transition-transform`}>
+                   <div className={`p-3 rounded-2xl ${v.bg} border border-blue-100 group-hover/vital:scale-110 transition-transform`}>
                       <v.icon className={`h-5 w-5 ${v.color}`} />
                    </div>
                 </div>
-                <p className="text-[10px] font-black text-zinc-500 mb-2 uppercase tracking-widest">{v.label}</p>
-                <p className="text-2xl font-black text-zinc-900 dark:text-white flex items-baseline gap-1">
+                <p className="text-[10px] font-black text-slate-500 mb-2 uppercase tracking-widest">{v.label}</p>
+                <p className="text-2xl font-black text-slate-900 flex items-baseline gap-1">
                    {v.data ? v.data.value : '--'}
-                   <span className="text-[10px] text-zinc-500 font-black uppercase tracking-widest">{v.data?.unit}</span>
+                   <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest">{v.data?.unit}</span>
                 </p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-zinc-950/90 dark:bg-zinc-950/80 backdrop-blur-xl p-10 flex flex-col justify-between rounded-[3.5rem] relative overflow-hidden shadow-2xl border border-white/5">
-           <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 mix-blend-overlay"></div>
+        {/* Vulnerability Audit Card */}
+        <div className="bg-white/90 backdrop-blur-xl p-10 flex flex-col justify-between rounded-[3.5rem] relative overflow-hidden shadow-lg border border-blue-100">
+           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-sky-500/5 mix-blend-overlay"></div>
            <div className="relative z-10">
-            <div className="w-16 h-16 bg-white/5 rounded-[1.5rem] flex items-center justify-center mb-8 border border-white/10 glow-border">
-              <Shield className="h-8 w-8 text-white" />
+            <div className="w-16 h-16 bg-blue-50 rounded-[1.5rem] flex items-center justify-center mb-8 border border-blue-200">
+              <Shield className="h-8 w-8 text-blue-600" />
             </div>
-            <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.5em] mb-4">Security Protocol</p>
-            <h3 className="text-2xl font-black text-white mb-4 tracking-tighter uppercase leading-none">Vulnerability <br/> Audit</h3>
-            <p className="text-zinc-400 text-sm font-medium leading-relaxed italic">{getInsight()}</p>
+            <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.5em] mb-4">Security Protocol</p>
+            <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tighter uppercase leading-none">Vulnerability <br/> Audit</h3>
+            <p className="text-slate-600 text-sm font-medium leading-relaxed italic">{getInsight()}</p>
           </div>
           <button 
             onClick={() => navigate('/dashboard/profile')}
-            className="mt-10 w-full py-5 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all flex items-center justify-center gap-3 relative z-10 shadow-2xl hover:scale-105 active:scale-95"
+            className="mt-10 w-full py-5 bg-gradient-to-r from-blue-600 to-sky-500 text-white hover:from-blue-700 hover:to-sky-600 rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all flex items-center justify-center gap-3 relative z-10 shadow-lg shadow-blue-500/25 hover:scale-105 active:scale-95"
           >
             Run Deep Audit <ArrowRight className="h-4 w-4" />
           </button>
         </div>
       </div>
 
+      {/* Quick Action Buttons */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-         <button onClick={() => navigate('/dashboard/vitals')} className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex items-center justify-between group cursor-pointer hover:border-emerald-500/30 transition-all shadow-2xl relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+         <button onClick={() => navigate('/dashboard/vitals')} className="bg-white/90 backdrop-blur-xl border border-blue-100 p-8 rounded-[2.5rem] flex items-center justify-between group cursor-pointer hover:border-blue-300 transition-all shadow-sm relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex items-center gap-6 relative z-10">
-               <div className="p-4 bg-emerald-500/10 rounded-2xl text-emerald-500 border border-emerald-500/20 glow-border group-hover:scale-110 transition-transform">
+               <div className="p-4 bg-blue-500/10 rounded-2xl text-blue-600 border border-blue-500/20 group-hover:scale-110 transition-transform">
                   <PulseIcon className="h-6 w-6" />
                </div>
                <div className="text-left">
-                  <p className="text-base font-black text-zinc-900 dark:text-white mb-1 uppercase tracking-tighter">Log Vital</p>
-                  <p className="text-[10px] text-zinc-500 font-black uppercase tracking-widest">New Protocol Reading</p>
+                  <p className="text-base font-black text-slate-900 mb-1 uppercase tracking-tighter">Log Vital</p>
+                  <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">New Protocol Reading</p>
                </div>
             </div>
-            <ChevronRight className="h-6 w-6 text-zinc-700 group-hover:text-emerald-500 transition-all relative z-10" />
+            <ChevronRight className="h-6 w-6 text-slate-400 group-hover:text-blue-500 transition-all relative z-10" />
          </button>
-         <button onClick={() => navigate('/dashboard/reports')} className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex items-center justify-between group cursor-pointer hover:border-emerald-500/30 transition-all shadow-2xl relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+         <button onClick={() => navigate('/dashboard/reports')} className="bg-white/90 backdrop-blur-xl border border-blue-100 p-8 rounded-[2.5rem] flex items-center justify-between group cursor-pointer hover:border-blue-300 transition-all shadow-sm relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex items-center gap-6 relative z-10">
-               <div className="p-4 bg-cyan-500/10 rounded-2xl text-cyan-500 border border-cyan-500/20 glow-border group-hover:scale-110 transition-transform">
+               <div className="p-4 bg-sky-500/10 rounded-2xl text-sky-600 border border-sky-500/20 group-hover:scale-110 transition-transform">
                   <FileText className="h-6 w-6" />
                </div>
                <div className="text-left">
-                  <p className="text-base font-black text-zinc-900 dark:text-white mb-1 uppercase tracking-tighter">Upload Report</p>
-                  <p className="text-[10px] text-zinc-500 font-black uppercase tracking-widest">Binary Data Sync</p>
+                  <p className="text-base font-black text-slate-900 mb-1 uppercase tracking-tighter">Upload Report</p>
+                  <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Binary Data Sync</p>
                </div>
             </div>
-            <ChevronRight className="h-6 w-6 text-zinc-700 group-hover:text-cyan-500 transition-all relative z-10" />
+            <ChevronRight className="h-6 w-6 text-slate-400 group-hover:text-sky-500 transition-all relative z-10" />
          </button>
-         <button onClick={() => navigate('/dashboard/appointments')} className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex items-center justify-between group cursor-pointer hover:border-emerald-500/30 transition-all shadow-2xl relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+         <button onClick={() => navigate('/dashboard/appointments')} className="bg-white/90 backdrop-blur-xl border border-blue-100 p-8 rounded-[2.5rem] flex items-center justify-between group cursor-pointer hover:border-blue-300 transition-all shadow-sm relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex items-center gap-6 relative z-10">
-               <div className="p-4 bg-amber-500/10 rounded-2xl text-amber-500 border border-amber-500/20 glow-border group-hover:scale-110 transition-transform">
+               <div className="p-4 bg-amber-500/10 rounded-2xl text-amber-600 border border-amber-500/20 group-hover:scale-110 transition-transform">
                   <Calendar className="h-6 w-6" />
                </div>
                <div className="text-left">
-                  <p className="text-base font-black text-zinc-900 dark:text-white mb-1 uppercase tracking-tighter">Schedule</p>
-                  <p className="text-[10px] text-zinc-500 font-black uppercase tracking-widest">Clinical Engagement</p>
+                  <p className="text-base font-black text-slate-900 mb-1 uppercase tracking-tighter">Schedule</p>
+                  <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Clinical Engagement</p>
                </div>
             </div>
-            <ChevronRight className="h-6 w-6 text-zinc-700 group-hover:text-amber-500 transition-all relative z-10" />
+            <ChevronRight className="h-6 w-6 text-slate-400 group-hover:text-amber-500 transition-all relative z-10" />
          </button>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          {/* Upcoming Visits */}
+          <div className="bg-white/90 backdrop-blur-xl border border-blue-100 p-10 rounded-[3.5rem] shadow-sm relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
             <div className="flex justify-between items-center mb-10 relative z-10">
-               <h3 className="text-2xl font-black text-zinc-900 dark:text-white flex items-center gap-5 uppercase tracking-tighter">
-                  <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 glow-border">
-                    <Calendar className="h-6 w-6 text-emerald-500" />
+               <h3 className="text-2xl font-black text-slate-900 flex items-center gap-5 uppercase tracking-tighter">
+                  <div className="p-3 bg-blue-500/10 rounded-2xl border border-blue-500/20">
+                    <Calendar className="h-6 w-6 text-blue-600" />
                   </div>
                   Upcoming Visits
                </h3>
-               <button onClick={() => navigate('/dashboard/appointments')} className="text-[10px] font-black text-emerald-500 hover:text-emerald-400 transition-colors uppercase tracking-[0.2em]">Full Schedule</button>
+               <button onClick={() => navigate('/dashboard/appointments')} className="text-[10px] font-black text-blue-600 hover:text-blue-500 transition-colors uppercase tracking-[0.2em]">Full Schedule</button>
             </div>
             
             {upcomingAppointments && upcomingAppointments.length > 0 ? (
               <div className="grid sm:grid-cols-2 gap-6 relative z-10">
                 {upcomingAppointments.slice(0, 2).map((app: any) => (
-                  <div key={app._id} className="p-8 bg-zinc-950/50 dark:bg-zinc-950/50 backdrop-blur-xl border border-white/5 rounded-[2.5rem] group/card hover:border-emerald-500/30 transition-all cursor-pointer shadow-inner" onClick={() => navigate('/dashboard/appointments')}>
+                  <div key={app._id} className="p-8 bg-slate-50 backdrop-blur-xl border border-blue-100 rounded-[2.5rem] group/card hover:border-blue-300 transition-all cursor-pointer shadow-sm" onClick={() => navigate('/dashboard/appointments')}>
                      <div className="flex justify-between items-start mb-6">
-                        <div className="p-4 bg-zinc-900 rounded-2xl border border-white/5 shadow-2xl group-hover/card:scale-110 transition-transform">
-                           <Stethoscope className="h-6 w-6 text-emerald-500" />
+                        <div className="p-4 bg-white rounded-2xl border border-blue-100 shadow-sm group-hover/card:scale-110 transition-transform">
+                           <Stethoscope className="h-6 w-6 text-blue-600" />
                         </div>
                         <div className="text-right">
-                           <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.3em] mb-1">{format(new Date(app.appointmentDate), 'MMM dd')}</p>
-                           <p className="text-2xl font-black text-white leading-none tracking-tighter">{format(new Date(app.appointmentDate), 'HH:mm')}</p>
+                           <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-1">{format(new Date(app.appointmentDate), 'MMM dd')}</p>
+                           <p className="text-2xl font-black text-slate-900 leading-none tracking-tighter">{format(new Date(app.appointmentDate), 'HH:mm')}</p>
                         </div>
                      </div>
-                     <h4 className="text-lg font-black text-white mb-1 truncate uppercase tracking-tight">{app.doctorName}</h4>
-                     <p className="text-[10px] text-zinc-500 font-black uppercase tracking-widest mb-6">{app.specialty}</p>
-                     <div className="flex items-center text-[10px] text-zinc-400 font-black uppercase tracking-widest gap-2.5 bg-white/5 px-4 py-3 rounded-xl border border-white/5 w-fit">
-                        <MapPin className="h-4 w-4 text-emerald-500" />
+                     <h4 className="text-lg font-black text-slate-900 mb-1 truncate uppercase tracking-tight">{app.doctorName}</h4>
+                     <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-6">{app.specialty}</p>
+                     <div className="flex items-center text-[10px] text-slate-500 font-black uppercase tracking-widest gap-2.5 bg-blue-50 px-4 py-3 rounded-xl border border-blue-100 w-fit">
+                        <MapPin className="h-4 w-4 text-blue-500" />
                         <span className="truncate">{app.hospitalName}</span>
                      </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="py-20 text-center bg-white/5 rounded-[2.5rem] border border-dashed border-white/10 relative z-10">
-                 <p className="text-zinc-500 font-black uppercase tracking-widest text-[10px]">No upcoming clinical engagements.</p>
-                 <button onClick={() => navigate('/dashboard/appointments')} className="mt-4 text-emerald-500 font-black uppercase tracking-[0.3em] text-[10px] hover:text-emerald-400 transition-colors">+ Initialize Protocol</button>
+              <div className="py-20 text-center bg-slate-50 rounded-[2.5rem] border border-dashed border-blue-200 relative z-10">
+                 <p className="text-slate-500 font-black uppercase tracking-widest text-[10px]">No upcoming clinical engagements.</p>
+                 <button onClick={() => navigate('/dashboard/appointments')} className="mt-4 text-blue-600 font-black uppercase tracking-[0.3em] text-[10px] hover:text-blue-500 transition-colors">+ Initialize Protocol</button>
               </div>
             )}
           </div>
 
-          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-10 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
-             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          {/* Recent Visits */}
+          <div className="bg-white/90 backdrop-blur-xl border border-blue-100 p-10 rounded-[3.5rem] shadow-sm relative overflow-hidden group">
+             <div className="absolute inset-0 bg-gradient-to-br from-sky-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
              <div className="flex justify-between items-center mb-10 relative z-10">
-               <h3 className="text-2xl font-black text-zinc-900 dark:text-white flex items-center gap-5 uppercase tracking-tighter">
-                  <div className="p-3 bg-cyan-500/10 rounded-2xl border border-cyan-500/20 glow-border">
-                     <Hospital className="h-6 w-6 text-cyan-500" />
+               <h3 className="text-2xl font-black text-slate-900 flex items-center gap-5 uppercase tracking-tighter">
+                  <div className="p-3 bg-sky-500/10 rounded-2xl border border-sky-500/20">
+                     <Hospital className="h-6 w-6 text-sky-600" />
                   </div>
                   Recent Visits
                </h3>
-               <button onClick={() => navigate('/dashboard/visits')} className="text-[10px] font-black text-cyan-500 hover:text-cyan-400 transition-colors uppercase tracking-[0.2em]">View History</button>
+               <button onClick={() => navigate('/dashboard/visits')} className="text-[10px] font-black text-sky-600 hover:text-sky-500 transition-colors uppercase tracking-[0.2em]">View History</button>
             </div>
 
             <div className="space-y-4 relative z-10">
                {recentVisits && recentVisits.length > 0 ? (
                  recentVisits.map((visit: any) => (
-                   <div key={visit._id} onClick={() => navigate(`/dashboard/visits`)} className="flex items-center justify-between p-6 bg-zinc-950/50 dark:bg-zinc-950/50 backdrop-blur-xl border border-white/5 rounded-[2rem] group/visit hover:border-cyan-500/30 transition-all cursor-pointer shadow-inner">
+                   <div key={visit._id} onClick={() => navigate(`/dashboard/visits`)} className="flex items-center justify-between p-6 bg-slate-50 backdrop-blur-xl border border-blue-100 rounded-[2rem] group/visit hover:border-sky-300 transition-all cursor-pointer shadow-sm">
                       <div className="flex items-center gap-6">
-                         <div className="w-14 h-14 bg-zinc-900 rounded-2xl flex items-center justify-center shadow-2xl border border-white/5 group-hover/visit:scale-110 transition-transform">
-                            <Hospital className="h-6 w-6 text-zinc-500 group-hover/visit:text-cyan-500 transition-colors" />
+                         <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm border border-blue-100 group-hover/visit:scale-110 transition-transform">
+                            <Hospital className="h-6 w-6 text-slate-400 group-hover/visit:text-sky-500 transition-colors" />
                          </div>
                          <div>
-                            <p className="text-lg font-black text-white mb-1 uppercase tracking-tight">{visit.hospitalName}</p>
+                            <p className="text-lg font-black text-slate-900 mb-1 uppercase tracking-tight">{visit.hospitalName}</p>
                             <div className="flex items-center gap-4">
-                               <span className="flex items-center gap-2 text-[10px] text-zinc-500 font-black uppercase tracking-widest"><Clock className="h-4 w-4 text-zinc-700" /> {format(new Date(visit.visitDate), 'MMM dd, yyyy')}</span>
-                               <span className="px-3 py-1 bg-cyan-500/10 text-cyan-500 text-[9px] font-black uppercase rounded-lg tracking-widest border border-cyan-500/20">Archived</span>
+                               <span className="flex items-center gap-2 text-[10px] text-slate-500 font-black uppercase tracking-widest"><Clock className="h-4 w-4 text-slate-400" /> {format(new Date(visit.visitDate), 'MMM dd, yyyy')}</span>
+                               <span className="px-3 py-1 bg-sky-500/10 text-sky-600 text-[9px] font-black uppercase rounded-lg tracking-widest border border-sky-500/20">Archived</span>
                             </div>
                          </div>
                       </div>
-                      <ChevronRight className="h-6 w-6 text-zinc-700 group-hover/visit:text-cyan-500 transition-all" />
+                      <ChevronRight className="h-6 w-6 text-slate-400 group-hover/visit:text-sky-500 transition-all" />
                    </div>
                  ))
                ) : (
-                 <div className="py-12 text-center bg-white/5 rounded-[2.5rem] border border-dashed border-white/10">
-                    <p className="text-zinc-500 font-black uppercase tracking-widest text-[10px]">No historical data found.</p>
+                 <div className="py-12 text-center bg-slate-50 rounded-[2.5rem] border border-dashed border-blue-200">
+                    <p className="text-slate-500 font-black uppercase tracking-widest text-[10px]">No historical data found.</p>
                  </div>
                )}
             </div>
           </div>
 
+          {/* Stats Row */}
           <div className="grid sm:grid-cols-3 gap-6">
-            <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex flex-col justify-center text-center shadow-2xl">
+            <div className="bg-white/90 backdrop-blur-xl border border-blue-100 p-8 rounded-[2.5rem] flex flex-col justify-center text-center shadow-sm">
                <Shield className="h-8 w-8 text-emerald-500 mx-auto mb-4" />
-               <p className="text-3xl font-black text-white mb-1 tracking-tighter">99.9%</p>
-               <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Uptime & Security</p>
+               <p className="text-3xl font-black text-slate-900 mb-1 tracking-tighter">99.9%</p>
+               <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Uptime &amp; Security</p>
             </div>
-            <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex flex-col justify-center text-center shadow-2xl">
-               <Eye className="h-8 w-8 text-cyan-500 mx-auto mb-4" />
-               <p className="text-3xl font-black text-white mb-1 tracking-tighter">50k+</p>
-               <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Global Nodes</p>
+            <div className="bg-white/90 backdrop-blur-xl border border-blue-100 p-8 rounded-[2.5rem] flex flex-col justify-center text-center shadow-sm">
+               <Eye className="h-8 w-8 text-blue-500 mx-auto mb-4" />
+               <p className="text-3xl font-black text-slate-900 mb-1 tracking-tighter">50k+</p>
+               <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Global Nodes</p>
             </div>
-            <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] flex flex-col justify-center text-center shadow-2xl">
+            <div className="bg-white/90 backdrop-blur-xl border border-blue-100 p-8 rounded-[2.5rem] flex flex-col justify-center text-center shadow-sm">
                <Zap className="h-8 w-8 text-amber-500 mx-auto mb-4" />
-               <p className="text-3xl font-black text-white mb-1 tracking-tighter">Instant</p>
-               <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">SOS Protocol</p>
+               <p className="text-3xl font-black text-slate-900 mb-1 tracking-tighter">Instant</p>
+               <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">SOS Protocol</p>
             </div>
           </div>
         </div>
 
+        {/* Right Sidebar */}
         <div className="space-y-6">
-          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl">
+          {/* SOS Points / Nearby Hospitals */}
+          <div className="bg-white/90 backdrop-blur-xl border border-blue-100 p-8 rounded-[3rem] shadow-sm">
             <div className="flex justify-between items-center mb-8">
-               <h3 className="text-[10px] font-black text-white flex items-center uppercase tracking-[0.4em]">
-                 <MapPin className="mr-3 h-4 w-4 text-emerald-500" />
+               <h3 className="text-[10px] font-black text-slate-900 flex items-center uppercase tracking-[0.4em]">
+                 <MapPin className="mr-3 h-4 w-4 text-blue-500" />
                  SOS Points
                </h3>
-               {locLoading && <div className="animate-spin h-3 w-3 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full" />}
+               {locLoading && <div className="animate-spin h-3 w-3 border-2 border-blue-500/30 border-t-blue-500 rounded-full" />}
             </div>
             
             <div className="space-y-6">
                {nearbyFacilities && nearbyFacilities.length > 0 ? (
                  nearbyFacilities.map((hosp, idx) => (
-                   <div key={idx} className="relative pl-6 border-l-2 border-white/5 hover:border-emerald-500/50 transition-colors">
-                     <div className="absolute -left-[5px] top-1 w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
-                     <p className="font-black text-[13px] text-white mb-1 uppercase tracking-tight truncate">{hosp.name}</p>
-                     <div className="flex items-center text-[9px] font-black text-zinc-500 uppercase tracking-widest">
+                   <div key={idx} className="relative pl-6 border-l-2 border-blue-100 hover:border-blue-400 transition-colors">
+                     <div className="absolute -left-[5px] top-1 w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.4)]"></div>
+                     <p className="font-black text-[13px] text-slate-900 mb-1 uppercase tracking-tight truncate">{hosp.name}</p>
+                     <div className="flex items-center text-[9px] font-black text-slate-500 uppercase tracking-widest">
                        <span>{hosp.distance} km</span>
-                       <span className="mx-3 opacity-20">•</span>
-                       <a href={`tel:${hosp.phone}`} className="text-emerald-500 hover:text-emerald-400 transition-colors">Emergency Line</a>
+                       <span className="mx-3 opacity-40">•</span>
+                       <a href={`tel:${hosp.phone}`} className="text-blue-600 hover:text-blue-500 transition-colors">Emergency Line</a>
                      </div>
                    </div>
                  ))
                ) : (
                  <div className="text-center py-6">
-                    <Search className="h-8 w-8 text-zinc-800 mx-auto mb-3" />
-                    <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest">Scanning Grid...</p>
+                    <Search className="h-8 w-8 text-slate-300 mx-auto mb-3" />
+                    <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">Scanning Grid...</p>
                  </div>
                )}
             </div>
             <button 
               onClick={() => navigate('/dashboard/hospitals')}
-              className="mt-10 w-full py-4 bg-white/5 border border-white/10 text-white rounded-2xl font-black text-[9px] uppercase tracking-[0.4em] flex items-center justify-center gap-3 transition-all hover:bg-emerald-600 hover:border-emerald-500"
+              className="mt-10 w-full py-4 bg-gradient-to-r from-blue-600 to-sky-500 text-white hover:from-blue-700 hover:to-sky-600 rounded-2xl font-black text-[9px] uppercase tracking-[0.4em] flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-500/25"
             >
               <Navigation className="h-3.5 w-3.5" />
               <span>SOS Navigator</span>
             </button>
           </div>
 
-          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl">
+          {/* Family Protocol */}
+          <div className="bg-white/90 backdrop-blur-xl border border-blue-100 p-8 rounded-[3rem] shadow-sm">
              <div className="flex justify-between items-center mb-8">
-               <h3 className="text-[10px] font-black text-white flex items-center gap-3 uppercase tracking-[0.4em]">
-                 <Users className="h-4 w-4 text-emerald-500" />
+               <h3 className="text-[10px] font-black text-slate-900 flex items-center gap-3 uppercase tracking-[0.4em]">
+                 <Users className="h-4 w-4 text-blue-500" />
                  Family Protocol
                </h3>
-               <Plus className="h-5 w-5 text-zinc-600 cursor-pointer hover:text-emerald-500 transition-colors" onClick={() => navigate('/dashboard/family')} />
+               <Plus className="h-5 w-5 text-slate-400 cursor-pointer hover:text-blue-500 transition-colors" onClick={() => navigate('/dashboard/family')} />
             </div>
             <div className="flex items-center gap-5 mb-8">
                <div className="flex -space-x-4">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="w-10 h-10 rounded-2xl border-4 border-zinc-950 bg-zinc-900 flex items-center justify-center overflow-hidden glow-border">
-                       <UserCircle className="h-6 w-6 text-zinc-700" />
+                    <div key={i} className="w-10 h-10 rounded-2xl border-4 border-white bg-slate-100 flex items-center justify-center overflow-hidden">
+                       <UserCircle className="h-6 w-6 text-slate-400" />
                     </div>
                   ))}
                </div>
                <div className="text-left">
-                  <p className="text-sm font-black text-white uppercase tracking-tighter">{data?.family?.length || 0} Managed Nodes</p>
+                  <p className="text-sm font-black text-slate-900 uppercase tracking-tighter">{data?.family?.length || 0} Managed Nodes</p>
                </div>
             </div>
-            <button onClick={() => navigate('/dashboard/family')} className="w-full py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-2xl font-black text-[9px] uppercase tracking-[0.4em] transition-all">Switch Node</button>
+            <button onClick={() => navigate('/dashboard/family')} className="w-full py-4 bg-slate-50 border border-blue-100 hover:bg-blue-50 hover:border-blue-300 text-slate-700 rounded-2xl font-black text-[9px] uppercase tracking-[0.4em] transition-all">Switch Node</button>
           </div>
 
-          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl relative overflow-hidden group">
-            <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <h3 className="text-[10px] font-black text-white mb-8 flex items-center uppercase tracking-[0.4em]">
-              <ShieldCheck className="mr-3 h-4 w-4 text-emerald-500" />
+          {/* Reputation Index */}
+          <div className="bg-white/90 backdrop-blur-xl border border-blue-100 p-8 rounded-[3rem] shadow-sm relative overflow-hidden group">
+            <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <h3 className="text-[10px] font-black text-slate-900 mb-8 flex items-center uppercase tracking-[0.4em]">
+              <ShieldCheck className="mr-3 h-4 w-4 text-blue-500" />
               Reputation Index
             </h3>
             <div className="flex items-center space-x-5 mb-8">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 glow-border group-hover:scale-110 transition-transform">
-                 <Trophy className="h-6 w-6 text-emerald-500" />
+              <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20 group-hover:scale-110 transition-transform">
+                 <Trophy className="h-6 w-6 text-blue-600" />
               </div>
               <div>
-                <p className="font-black text-sm text-white uppercase tracking-tight">Level: {safetyScore > 90 ? 'Guardian' : 'Elite'}</p>
-                <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest">{safetyScore}% Data Integrity</p>
+                <p className="font-black text-sm text-slate-900 uppercase tracking-tight">Level: {safetyScore > 90 ? 'Guardian' : 'Elite'}</p>
+                <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest">{safetyScore}% Data Integrity</p>
               </div>
             </div>
-            <div className="h-3 w-full bg-white/5 rounded-full overflow-hidden border border-white/5 shadow-inner">
+            <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden border border-blue-100 shadow-inner">
               <motion.div 
                 initial={{ width: 0 }}
                 animate={{ width: `${safetyScore}%` }}
                 transition={{ duration: 1.5, ease: "easeOut" }}
-                className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.3)]" 
+                className="h-full bg-gradient-to-r from-blue-600 to-sky-400 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.3)]" 
               />
             </div>
           </div>
 
-          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl group">
+          {/* Binary Archives / Reports */}
+          <div className="bg-white/90 backdrop-blur-xl border border-blue-100 p-8 rounded-[3rem] shadow-sm group">
             <div className="flex justify-between items-center mb-8">
-               <h3 className="text-[10px] font-black text-white flex items-center gap-3 uppercase tracking-[0.4em]">
-                  <FileText className="h-4 w-4 text-cyan-500" />
+               <h3 className="text-[10px] font-black text-slate-900 flex items-center gap-3 uppercase tracking-[0.4em]">
+                  <FileText className="h-4 w-4 text-sky-600" />
                   Binary Archives
                </h3>
-               <button onClick={() => navigate('/dashboard/reports')} className="text-[9px] font-black text-cyan-500 hover:text-cyan-400 transition-colors uppercase tracking-widest">Full Access</button>
+               <button onClick={() => navigate('/dashboard/reports')} className="text-[9px] font-black text-sky-600 hover:text-sky-500 transition-colors uppercase tracking-widest">Full Access</button>
             </div>
             <div className="space-y-4">
                {data?.reports?.slice(0, 3).map((report: any) => (
-                 <div key={report._id} onClick={() => navigate('/dashboard/reports')} className="flex items-center justify-between p-5 bg-zinc-950/50 dark:bg-zinc-950/50 backdrop-blur-xl border border-white/5 rounded-2xl group/doc hover:border-cyan-500/30 transition-all cursor-pointer shadow-inner">
+                 <div key={report._id} onClick={() => navigate('/dashboard/reports')} className="flex items-center justify-between p-5 bg-slate-50 backdrop-blur-xl border border-blue-100 rounded-2xl group/doc hover:border-sky-300 transition-all cursor-pointer shadow-sm">
                     <div className="min-w-0">
-                       <p className="text-[13px] font-black text-white truncate uppercase tracking-tight mb-1">{report.title}</p>
-                       <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest">{format(new Date(report.createdAt), 'MMM dd, yyyy')}</p>
+                       <p className="text-[13px] font-black text-slate-900 truncate uppercase tracking-tight mb-1">{report.title}</p>
+                       <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest">{format(new Date(report.createdAt), 'MMM dd, yyyy')}</p>
                     </div>
-                    <ArrowRight className="h-4 w-4 text-zinc-800 group-hover/doc:text-cyan-500 transition-colors" />
+                    <ArrowRight className="h-4 w-4 text-slate-300 group-hover/doc:text-sky-500 transition-colors" />
                  </div>
                ))}
                {(!data?.reports || data.reports.length === 0) && (
-                 <p className="text-[10px] text-zinc-600 font-black uppercase tracking-widest text-center py-6 border border-dashed border-white/5 rounded-2xl">No archives detected.</p>
+                 <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest text-center py-6 border border-dashed border-blue-200 rounded-2xl">No archives detected.</p>
                )}
             </div>
           </div>
 
-          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl">
+          {/* Biometric Link */}
+          <div className="bg-white/90 backdrop-blur-xl border border-blue-100 p-8 rounded-[3rem] shadow-sm">
              <div className="flex justify-between items-center mb-8">
-                <h3 className="text-[10px] font-black text-white uppercase tracking-[0.4em]">Biometric Link</h3>
-                <span className={`flex items-center gap-2 px-3 py-1.5 ${isWearableConnected ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' : 'bg-zinc-900 text-zinc-600 border border-white/5'} text-[8px] font-black uppercase rounded-lg tracking-[0.2em] shadow-2xl`}>
-                   {isWearableConnected && <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />}
+                <h3 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.4em]">Biometric Link</h3>
+                <span className={`flex items-center gap-2 px-3 py-1.5 ${isWearableConnected ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-slate-100 text-slate-400 border border-slate-200'} text-[8px] font-black uppercase rounded-lg tracking-[0.2em] shadow-sm`}>
+                   {isWearableConnected && <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />}
                    {isWearableConnected ? 'Active' : 'Offline'}
                 </span>
              </div>
              <div 
-               className={`flex items-center gap-5 p-5 rounded-2xl border transition-all cursor-pointer shadow-inner ${isWearableConnected ? 'bg-zinc-950/50 border-emerald-500/20 hover:border-emerald-500/50' : 'bg-zinc-950/50 border-dashed border-white/5 opacity-50'}`} 
+               className={`flex items-center gap-5 p-5 rounded-2xl border transition-all cursor-pointer shadow-sm ${isWearableConnected ? 'bg-emerald-50 border-emerald-200 hover:border-emerald-300' : 'bg-slate-50 border-dashed border-slate-200 opacity-50'}`} 
                onClick={() => navigate('/dashboard/integrations')}
              >
-                <div className="p-4 bg-zinc-900 rounded-2xl border border-white/5 shadow-2xl">
-                   <PulseIcon className={`h-5 w-5 ${isWearableConnected ? 'text-emerald-500' : 'text-zinc-700'}`} />
+                <div className="p-4 bg-white rounded-2xl border border-blue-100 shadow-sm">
+                   <PulseIcon className={`h-5 w-5 ${isWearableConnected ? 'text-emerald-500' : 'text-slate-400'}`} />
                 </div>
                 <div>
-                   <p className="text-[13px] font-black text-white mb-1 uppercase tracking-tight">{isWearableConnected ? 'DEVICE SYNCED' : 'NO BIOMETRICS'}</p>
-                   <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest leading-none">{isWearableConnected ? 'STREAMING DATA' : 'SYNC REQUIRED'}</p>
+                   <p className="text-[13px] font-black text-slate-900 mb-1 uppercase tracking-tight">{isWearableConnected ? 'DEVICE SYNCED' : 'NO BIOMETRICS'}</p>
+                   <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest leading-none">{isWearableConnected ? 'STREAMING DATA' : 'SYNC REQUIRED'}</p>
                 </div>
              </div>
-             <button onClick={() => navigate('/dashboard/integrations')} className="mt-6 w-full py-2 text-emerald-500 font-black text-[9px] uppercase tracking-[0.3em] hover:text-emerald-400 transition-colors">Manage Link</button>
+             <button onClick={() => navigate('/dashboard/integrations')} className="mt-6 w-full py-2 text-blue-600 font-black text-[9px] uppercase tracking-[0.3em] hover:text-blue-500 transition-colors">Manage Link</button>
           </div>
 
-          <div className="bg-white/5 dark:bg-zinc-950/60 backdrop-blur-xl border border-white/10 p-8 rounded-[3rem] shadow-2xl">
-             <h3 className="text-[10px] font-black text-white mb-10 uppercase tracking-[0.4em]">Protocol Feed</h3>
+          {/* Protocol Feed / Activity */}
+          <div className="bg-white/90 backdrop-blur-xl border border-blue-100 p-8 rounded-[3rem] shadow-sm">
+             <h3 className="text-[10px] font-black text-slate-900 mb-10 uppercase tracking-[0.4em]">Protocol Feed</h3>
              <div className="space-y-6">
                 {activityFeed.map((act, i) => (
                   <div key={i} className="flex gap-5 relative group/item">
-                     {i !== activityFeed.length - 1 && <div className="absolute left-[15px] top-8 w-0.5 h-full bg-white/5 group-hover/item:bg-emerald-500/20 transition-colors" />}
-                     <div className={`w-8 h-8 rounded-xl ${act.bg} border border-white/5 flex items-center justify-center relative z-10 shadow-2xl group-hover/item:scale-110 transition-transform`}>
+                     {i !== activityFeed.length - 1 && <div className="absolute left-[15px] top-8 w-0.5 h-full bg-blue-100 group-hover/item:bg-blue-300 transition-colors" />}
+                     <div className={`w-8 h-8 rounded-xl ${act.bg} border border-blue-100 flex items-center justify-center relative z-10 shadow-sm group-hover/item:scale-110 transition-transform`}>
                         <act.icon className={`h-4 w-4 ${act.color}`} />
                      </div>
                      <div className="flex-1 pb-4">
-                        <p className="text-[13px] font-black text-white mb-1 uppercase tracking-tight leading-none">{act.title}</p>
-                        <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest">{format(new Date(act.date), 'MMM dd, HH:mm')}</p>
+                        <p className="text-[13px] font-black text-slate-900 mb-1 uppercase tracking-tight leading-none">{act.title}</p>
+                        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{format(new Date(act.date), 'MMM dd, HH:mm')}</p>
                      </div>
                   </div>
                 ))}
                 {activityFeed.length === 0 && (
-                  <p className="text-[10px] text-zinc-600 font-black uppercase tracking-widest text-center py-6 border border-dashed border-white/5 rounded-2xl">Signal silence.</p>
+                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest text-center py-6 border border-dashed border-blue-200 rounded-2xl">Signal silence.</p>
                 )}
              </div>
           </div>

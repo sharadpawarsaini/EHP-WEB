@@ -227,8 +227,8 @@ const EmergencyTab = () => {
     canvas.height = 2688;
 
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, '#0f172a'); 
-    gradient.addColorStop(1, '#020617'); 
+    gradient.addColorStop(0, '#f0f9ff'); 
+    gradient.addColorStop(1, '#e0f2fe'); 
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -240,7 +240,7 @@ const EmergencyTab = () => {
     ctx.textAlign = 'center';
     ctx.fillText('EMERGENCY MEDICAL INFO', canvas.width / 2, 180);
 
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = '#0f172a';
     ctx.font = 'bold 100px sans-serif';
     ctx.fillText(profile.fullName.toUpperCase(), canvas.width / 2, 550);
 
@@ -249,7 +249,7 @@ const EmergencyTab = () => {
     ctx.fillText(profile.bloodGroup || '??', canvas.width / 2, 850);
     
     if (contacts && contacts.length > 0) {
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.8)';
       ctx.font = 'bold 60px sans-serif';
       ctx.fillText(`${contacts[0].name}: ${contacts[0].phone}`, canvas.width / 2, 1050);
     }
@@ -276,7 +276,7 @@ const EmergencyTab = () => {
   };
 
   const WalletCardPreview = () => (
-    <div className="relative w-full max-w-[400px] aspect-[1.586/1] bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 group transition-all duration-500">
+    <div className="relative w-full max-w-[400px] aspect-[1.586/1] bg-white rounded-2xl shadow-2xl overflow-hidden border border-blue-100 group transition-all duration-500">
       {/* Header */}
       <div className="h-[22%] flex items-center px-4 transition-colors duration-500" style={{ backgroundColor: cardColor }}>
         <h4 className="text-[10px] sm:text-xs font-black text-white uppercase tracking-tighter">Emergency Health Passport</h4>
@@ -286,51 +286,51 @@ const EmergencyTab = () => {
       <div className="p-4 flex gap-4 h-[68%]">
         <div className="flex flex-col gap-2 flex-1">
           <div className="flex gap-3 items-start">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg bg-gray-100 border border-gray-200 overflow-hidden flex-shrink-0">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg bg-slate-50 border border-blue-100 overflow-hidden flex-shrink-0">
               {getFullPhotoUrl(profile?.photoUrl || photoUrl) ? (
                 <img src={getFullPhotoUrl(profile?.photoUrl || photoUrl)!} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
-                <User className="w-full h-full p-2 text-gray-300" />
+                <User className="w-full h-full p-2 text-slate-300" />
               )}
             </div>
             <div className="min-w-0">
-              <h5 className="text-xs sm:text-sm font-black text-gray-900 uppercase truncate leading-tight">{profile?.fullName}</h5>
-              <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mt-1">Blood Group</p>
+              <h5 className="text-xs sm:text-sm font-black text-slate-900 uppercase truncate leading-tight">{profile?.fullName}</h5>
+              <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest mt-1">Blood Group</p>
               <p className="text-sm sm:text-lg font-black leading-none transition-colors duration-500" style={{ color: cardColor }}>{profile?.bloodGroup || '??'}</p>
             </div>
           </div>
 
           <div className="mt-auto">
-            <p className="text-[7px] font-bold text-gray-400 uppercase tracking-widest">Emergency Contact</p>
+            <p className="text-[7px] font-bold text-slate-400 uppercase tracking-widest">Emergency Contact</p>
             {contacts.length > 0 ? (
               <div className="min-w-0">
-                <p className="text-[9px] font-black text-gray-800 truncate">{contacts[0].name} ({contacts[0].relation})</p>
+                <p className="text-[9px] font-black text-slate-700 truncate">{contacts[0].name} ({contacts[0].relation})</p>
                 <p className="text-[10px] font-black transition-colors duration-500" style={{ color: cardColor }}>{contacts[0].phone}</p>
               </div>
             ) : (
-              <p className="text-[9px] font-bold text-gray-300 italic">No contact added</p>
+              <p className="text-[9px] font-bold text-slate-300 italic">No contact added</p>
             )}
           </div>
         </div>
 
         <div className="flex flex-col items-center justify-center">
-          <div className="w-20 h-20 sm:w-28 sm:h-28 bg-white p-1 border border-gray-100 rounded-lg shadow-sm">
+          <div className="w-20 h-20 sm:w-28 sm:h-28 bg-white p-1 border border-blue-100 rounded-lg shadow-sm">
             <img src={linkData?.qrDataUrl} alt="QR" className="w-full h-full" />
           </div>
-          <p className="text-[6px] font-black text-gray-400 uppercase mt-1">Scan for Info</p>
+          <p className="text-[6px] font-black text-slate-400 uppercase mt-1">Scan for Info</p>
         </div>
       </div>
 
-      <div className="bg-gray-50 h-[10%] flex items-center justify-center border-t border-gray-100">
-        <p className="text-[7px] font-black text-gray-400 uppercase tracking-[0.2em]">EHP • Securing Lives Through One Scan</p>
+      <div className="bg-slate-50 h-[10%] flex items-center justify-center border-t border-blue-100">
+        <p className="text-[7px] font-black text-slate-400 uppercase tracking-[0.2em]">EHP • Securing Lives Through One Scan</p>
       </div>
     </div>
   );
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-      <div className="w-10 h-10 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin" />
-      <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Loading SOS Command...</p>
+      <div className="w-10 h-10 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
+      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Loading SOS Command...</p>
     </div>
   );
 
@@ -338,23 +338,23 @@ const EmergencyTab = () => {
     <div className="space-y-8 animate-in fade-in duration-700 max-w-full overflow-hidden">
       
       {/* Header Widget */}
-      <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-xl border border-white dark:border-slate-700">
+      <div className="bg-white/90 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-sm border border-blue-100">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
            <div className="flex items-center gap-5">
-              <div className="p-4 bg-primary-600 rounded-2xl shadow-lg shadow-primary-600/20">
+              <div className="p-4 bg-gradient-to-r from-blue-600 to-sky-500 rounded-2xl shadow-lg shadow-blue-500/25">
                  <LinkIcon className="h-8 w-8 text-white" />
               </div>
               <div>
-                 <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Emergency Command</h2>
-                 <p className="text-gray-500 dark:text-gray-400 font-medium">Configure your public-facing SOS identity</p>
+                 <h2 className="text-3xl font-black text-slate-900 tracking-tight">Emergency Command</h2>
+                 <p className="text-slate-500 font-medium">Configure your public-facing SOS identity</p>
               </div>
            </div>
            <div className="flex flex-wrap gap-4 w-full sm:w-auto">
-              <button onClick={() => setShowPreview(!showPreview)} className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-4 bg-gray-50 dark:bg-slate-900 border border-gray-100 dark:border-slate-700 rounded-2xl font-black text-[10px] uppercase tracking-widest text-gray-600 dark:text-gray-200 hover:bg-gray-100 transition-all">
+              <button onClick={() => setShowPreview(!showPreview)} className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-4 bg-slate-50 border border-blue-100 rounded-2xl font-black text-[10px] uppercase tracking-widest text-slate-600 hover:bg-slate-100 transition-all">
                  <Eye className="h-4 w-4" /> Responder Preview
               </button>
               {linkData && (
-                <button onClick={downloadEmergencyCard} className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all">
+                <button onClick={downloadEmergencyCard} className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-blue-600 to-sky-500 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-500/25 hover:scale-105 active:scale-95 transition-all">
                   <Printer className="h-4 w-4" /> Print Card
                 </button>
               )}
@@ -362,11 +362,11 @@ const EmergencyTab = () => {
         </div>
 
         {!linkData ? (
-          <div className="mt-10 p-12 text-center bg-gray-50/50 dark:bg-slate-900/50 rounded-[3rem] border-2 border-dashed border-gray-200 dark:border-slate-700">
-             <QrIcon className="h-20 w-20 text-gray-200 mx-auto mb-6" />
-             <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-3">Passport Offline</h3>
-             <p className="text-gray-500 max-w-sm mx-auto mb-10">Your public emergency profile is currently inactive. Generate your secure link to enable SOS features.</p>
-             <button onClick={generateLink} disabled={generating} className="px-10 py-5 bg-primary-600 text-white font-black rounded-2xl text-sm uppercase tracking-widest shadow-2xl shadow-primary-600/30 hover:scale-105 transition-all">
+          <div className="mt-10 p-12 text-center bg-slate-50/50 rounded-[3rem] border-2 border-dashed border-blue-200">
+             <QrIcon className="h-20 w-20 text-blue-200 mx-auto mb-6" />
+             <h3 className="text-2xl font-black text-slate-900 mb-3">Passport Offline</h3>
+             <p className="text-slate-500 max-w-sm mx-auto mb-10">Your public emergency profile is currently inactive. Generate your secure link to enable SOS features.</p>
+             <button onClick={generateLink} disabled={generating} className="px-10 py-5 bg-gradient-to-r from-blue-600 to-sky-500 text-white font-black rounded-2xl text-sm uppercase tracking-widest shadow-lg shadow-blue-500/25 hover:scale-105 transition-all">
                 {generating ? 'Encrypting...' : 'Initialize SOS Link'}
              </button>
           </div>
@@ -375,20 +375,20 @@ const EmergencyTab = () => {
              <div className="lg:col-span-2 space-y-8">
                 
                 {/* QR Customizer */}
-                <div className="p-8 bg-gray-50/50 dark:bg-slate-900/50 rounded-[2.5rem] border border-gray-100 dark:border-slate-700">
+                <div className="p-8 bg-slate-50/50 rounded-[2.5rem] border border-blue-100">
                    <div className="flex justify-between items-center mb-6">
-                      <h4 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest flex items-center gap-2">
-                         <Palette className="h-4 w-4 text-primary-600" />
+                      <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                         <Palette className="h-4 w-4 text-blue-600" />
                          Identity Themes
                       </h4>
-                      <p className="text-[10px] font-bold text-gray-400">Card Color</p>
+                      <p className="text-[10px] font-bold text-slate-400">Card Color</p>
                    </div>
                    <div className="flex gap-4">
                       {['#ef4444', '#059669', '#10b981', '#f59e0b', '#7c3aed', '#111827'].map(c => (
                          <button 
                            key={c} 
                            onClick={() => setCardColor(c)}
-                           className={`w-10 h-10 rounded-full border-4 transition-all ${cardColor === c ? 'border-white dark:border-slate-700 scale-125 shadow-lg' : 'border-transparent'}`} 
+                           className={`w-10 h-10 rounded-full border-4 transition-all ${cardColor === c ? 'border-blue-200 scale-125 shadow-lg' : 'border-transparent'}`} 
                            style={{ backgroundColor: c }}
                          />
                       ))}
@@ -396,55 +396,54 @@ const EmergencyTab = () => {
                 </div>
 
                 {/* Public Emergency Link */}
-                <div className="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] border border-gray-100 dark:border-slate-700 shadow-sm relative overflow-hidden">
-                   <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] block mb-4">Public Emergency URL</label>
-                   <div className="flex items-center gap-4 bg-gray-50 dark:bg-slate-900 p-4 rounded-2xl border border-gray-100 dark:border-slate-700">
-                      <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
-                         <LinkIcon className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+                <div className="bg-white p-8 rounded-[2.5rem] border border-blue-100 shadow-sm relative overflow-hidden">
+                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] block mb-4">Public Emergency URL</label>
+                   <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl border border-blue-100">
+                      <div className="w-10 h-10 bg-blue-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                         <LinkIcon className="h-5 w-5 text-blue-600" />
                       </div>
                       <div className="min-w-0 flex-1">
                           <a 
                             href={`${window.location.origin}/e/${linkData.link.publicSlug}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm font-bold text-primary-600 dark:text-primary-400 hover:underline truncate block"
+                            className="text-sm font-bold text-blue-600 hover:underline truncate block"
                           >
                             {window.location.origin}/e/{linkData.link.publicSlug}
                           </a>
                       </div>
-                      <button onClick={() => { navigator.clipboard.writeText(`${window.location.origin}/e/${linkData.link.publicSlug}`); alert('Link Copied!'); }} className="p-3 bg-white dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-600 dark:text-gray-300 rounded-xl border border-gray-200 dark:border-slate-600 transition-all shadow-sm flex-shrink-0">
+                      <button onClick={() => { navigator.clipboard.writeText(`${window.location.origin}/e/${linkData.link.publicSlug}`); alert('Link Copied!'); }} className="p-3 bg-white hover:bg-slate-100 text-slate-600 rounded-xl border border-blue-100 transition-all shadow-sm flex-shrink-0">
                          <Copy className="h-4 w-4" />
                       </button>
                    </div>
                 </div>
 
-                <div className="bg-gray-900 p-8 rounded-[2.5rem] relative overflow-hidden group">
+                <div className="bg-slate-800 p-8 rounded-[2.5rem] relative overflow-hidden group">
                    <div className="absolute top-0 right-0 p-8 opacity-20 group-hover:scale-110 transition-transform">
-                      <Zap className="h-24 w-24 text-primary-400" />
+                      <Zap className="h-24 w-24 text-blue-400" />
                    </div>
-                   <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] block mb-4">Doctor Decryption Key</label>
+                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block mb-4">Doctor Decryption Key</label>
                    <div className="flex items-center gap-6">
                       <span className="text-4xl sm:text-6xl font-black text-white tracking-[0.3em] font-mono">{linkData.link.accessCode}</span>
                       <button onClick={() => { navigator.clipboard.writeText(linkData.link.accessCode); alert('Key Copied!'); }} className="p-4 bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all">
                          <Copy className="h-6 w-6" />
                       </button>
                    </div>
-                   <div className="mt-8 flex items-start gap-4 p-4 bg-primary-500/10 rounded-2xl border border-primary-500/20">
-                      <AlertCircle className="h-5 w-5 text-primary-400" />
-                      <p className="text-xs text-primary-100 font-medium leading-relaxed italic">Provide this key to medical professionals to unlock your full history. Do not share publicly.</p>
+                   <div className="mt-8 flex items-start gap-4 p-4 bg-blue-500/10 rounded-2xl border border-blue-500/20">
+                      <AlertCircle className="h-5 w-5 text-blue-400" />
+                      <p className="text-xs text-blue-200 font-medium leading-relaxed italic">Provide this key to medical professionals to unlock your full history. Do not share publicly.</p>
                    </div>
                 </div>
 
                 <div className="pt-4">
-                   <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6 ml-2">Digital Wallet Preview</h4>
+                   <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 ml-2">Digital Wallet Preview</h4>
                    <WalletCardPreview />
                 </div>
              </div>
 
              <div className="space-y-8">
 
-
-                <div className="flex flex-col items-center justify-center p-8 bg-white dark:bg-slate-900/50 border border-gray-100 dark:border-slate-700 rounded-[2.5rem] shadow-sm relative">
+                <div className="flex flex-col items-center justify-center p-8 bg-white border border-blue-100 rounded-[2.5rem] shadow-sm relative">
                    <div className="absolute top-6 right-6">
                       <div className={`p-2 rounded-xl ${linkData.link.isLocked ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-600'}`}>
                          {linkData.link.isLocked ? <Lock className="h-5 w-5" /> : <Unlock className="h-5 w-5" />}
@@ -452,14 +451,14 @@ const EmergencyTab = () => {
                    </div>
                    
                    <div className="text-center mb-10 pt-4">
-                      <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Global Link Status</p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Global Link Status</p>
                       <div className="flex items-center justify-center gap-2">
                          <div className={`w-2 h-2 rounded-full animate-pulse ${linkData.link.isLocked ? 'bg-rose-500' : 'bg-emerald-500'}`}></div>
-                         <span className="text-xs font-black text-gray-900 dark:text-white">{linkData.link.isLocked ? 'OFFLINE' : 'LIVE'}</span>
+                         <span className="text-xs font-black text-slate-900">{linkData.link.isLocked ? 'OFFLINE' : 'LIVE'}</span>
                       </div>
                    </div>
 
-                   <div className={`bg-white p-6 rounded-[2.5rem] shadow-2xl mb-10 border border-gray-100 transition-all duration-700 ${linkData.link.isLocked ? 'opacity-20 blur-sm scale-90' : 'opacity-100'}`}>
+                   <div className={`bg-white p-6 rounded-[2.5rem] shadow-sm mb-10 border border-blue-100 transition-all duration-700 ${linkData.link.isLocked ? 'opacity-20 blur-sm scale-90' : 'opacity-100'}`}>
                      <img src={linkData.qrDataUrl} alt="QR" className="w-48 h-48 sm:w-56 sm:h-56" />
                    </div>
 
@@ -477,7 +476,7 @@ const EmergencyTab = () => {
                    <a 
                      href={linkData.qrDataUrl} 
                      download="EHP_QR_CODE.png"
-                     className="w-full flex items-center justify-center gap-2 py-4 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-200 hover:bg-gray-100 transition-all"
+                     className="w-full flex items-center justify-center gap-2 py-4 bg-slate-50 border border-blue-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-500 hover:bg-slate-100 transition-all"
                    >
                      <Download className="h-4 w-4" /> Save High-Res PNG
                    </a>
@@ -489,7 +488,7 @@ const EmergencyTab = () => {
 
       <AnimatePresence>
         {showPreview && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl flex items-center justify-center p-4">
              <motion.div 
                initial={{ scale: 0.9, y: 50 }}
                animate={{ scale: 1, y: 0 }}
@@ -514,7 +513,7 @@ const EmergencyTab = () => {
 
                 <div className="h-[750px] overflow-y-auto p-8 pt-28 custom-scrollbar space-y-8 pb-32">
                    
-                   {/* Emergency Banner */}
+                   {/* Emergency Banner — keep rose/red for safety */}
                    <div className="bg-rose-600/90 backdrop-blur-md p-5 rounded-[2rem] flex items-center gap-4 border border-rose-500/50">
                       <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
                          <ShieldAlert className="h-6 w-6 text-white animate-pulse" />
@@ -539,7 +538,7 @@ const EmergencyTab = () => {
                       </div>
                       <div>
                          <h5 className="font-black text-3xl text-white tracking-tight">{profile?.fullName}</h5>
-                         <p className="text-rose-500 font-black text-lg tracking-widest mt-1">{profile?.bloodGroup || 'UNK'} POSITIVE</p>
+                         <p className="text-rose-400 font-black text-lg tracking-widest mt-1">{profile?.bloodGroup || 'UNK'} POSITIVE</p>
                       </div>
                    </div>
 
@@ -547,14 +546,14 @@ const EmergencyTab = () => {
                    <div className="grid grid-cols-2 gap-4">
                       <div className="p-5 bg-white/5 rounded-3xl border border-white/10">
                          <Droplets className="h-5 w-5 text-rose-500 mb-3" />
-                         <p className="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">Allergies</p>
+                         <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Allergies</p>
                          <p className="text-xs font-bold text-white leading-relaxed">
                             {medicalData?.allergies?.length > 0 ? medicalData.allergies.join(', ') : 'No known allergies'}
                          </p>
                       </div>
                       <div className="p-5 bg-white/5 rounded-3xl border border-white/10">
-                         <Stethoscope className="h-5 w-5 text-primary-500 mb-3" />
-                         <p className="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">Conditions</p>
+                         <Stethoscope className="h-5 w-5 text-blue-400 mb-3" />
+                         <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Conditions</p>
                          <p className="text-xs font-bold text-white leading-relaxed">
                             {medicalData?.conditions?.length > 0 ? medicalData.conditions.join(', ') : 'No chronic conditions'}
                          </p>
@@ -565,29 +564,29 @@ const EmergencyTab = () => {
                    <div className="p-6 bg-white/5 rounded-[2.5rem] border border-white/10 group active:scale-95 transition-all">
                       <div className="flex justify-between items-start mb-6">
                          <div>
-                            <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">Emergency Contact</p>
+                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Emergency Contact</p>
                             <p className="font-black text-xl text-white">{contacts[0]?.name || 'Not Configured'}</p>
-                            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{contacts[0]?.relation || 'Guardian'}</p>
+                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{contacts[0]?.relation || 'Guardian'}</p>
                          </div>
                          <div className="p-4 bg-emerald-500/20 rounded-2xl">
-                            <Phone className="h-6 w-6 text-emerald-500" />
+                            <Phone className="h-6 w-6 text-emerald-400" />
                          </div>
                       </div>
                       <div className="py-4 bg-white/5 rounded-2xl text-center border border-white/5">
-                         <span className="text-2xl font-black text-emerald-500 tracking-wider">{contacts[0]?.phone || '---'}</span>
+                         <span className="text-2xl font-black text-emerald-400 tracking-wider">{contacts[0]?.phone || '---'}</span>
                       </div>
                    </div>
 
                    {/* Locked History */}
                    <div className="p-8 bg-gradient-to-b from-white/5 to-transparent rounded-[2.5rem] border border-white/10 text-center">
                       <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                         <Lock className="h-6 w-6 text-gray-400" />
+                         <Lock className="h-6 w-6 text-slate-400" />
                       </div>
                       <h6 className="text-sm font-black text-white mb-2">Clinical History Locked</h6>
-                      <p className="text-[10px] text-gray-500 font-medium leading-relaxed">
+                      <p className="text-[10px] text-slate-500 font-medium leading-relaxed">
                          Full medical archive (Surgeries, Medications, Vaccinations) requires Doctor Decryption Key.
                       </p>
-                      <button className="mt-6 flex items-center gap-2 mx-auto text-[9px] font-black text-primary-400 uppercase tracking-widest hover:text-white transition-all">
+                      <button className="mt-6 flex items-center gap-2 mx-auto text-[9px] font-black text-blue-400 uppercase tracking-widest hover:text-white transition-all">
                          Enter Access Key <ChevronRight className="h-3 w-3" />
                       </button>
                    </div>
@@ -603,7 +602,7 @@ const EmergencyTab = () => {
                 <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[110] pointer-events-auto">
                    <button 
                      onClick={() => setShowPreview(false)}
-                     className="px-10 py-4 bg-white text-black font-black uppercase tracking-widest text-[10px] rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all"
+                     className="px-10 py-4 bg-white text-slate-900 font-black uppercase tracking-widest text-[10px] rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all"
                    >
                       Exit Preview
                    </button>
@@ -613,14 +612,14 @@ const EmergencyTab = () => {
         )}
       </AnimatePresence>
 
-      <div className="bg-gradient-to-br from-emerald-600 to-primary-700 rounded-[2.5rem] p-10 text-white shadow-2xl shadow-emerald-600/20 overflow-hidden relative group">
+      <div className="bg-gradient-to-br from-blue-600 to-sky-500 rounded-[2.5rem] p-10 text-white shadow-2xl shadow-blue-500/20 overflow-hidden relative group">
          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl group-hover:bg-white/20 transition-all duration-700"></div>
          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="max-w-md text-center md:text-left">
                <h3 className="text-3xl font-black mb-4 tracking-tighter">Physical SOS Bridge</h3>
-               <p className="text-emerald-100 font-medium leading-relaxed">Combine your digital passport with a physical lock screen wallpaper or a printable wallet card for 100% emergency coverage.</p>
+               <p className="text-sky-100 font-medium leading-relaxed">Combine your digital passport with a physical lock screen wallpaper or a printable wallet card for 100% emergency coverage.</p>
             </div>
-            <button onClick={generateLockScreenWallpaper} className="w-full md:w-auto bg-white text-emerald-600 px-10 py-5 rounded-2xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
+            <button onClick={generateLockScreenWallpaper} className="w-full md:w-auto bg-white text-blue-600 px-10 py-5 rounded-2xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
                <Smartphone className="h-6 w-6" /> {isWallpaperGenerating ? 'Processing...' : 'Create SOS Wallpaper'}
             </button>
          </div>
