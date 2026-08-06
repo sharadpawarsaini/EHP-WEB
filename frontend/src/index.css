@@ -11,12 +11,14 @@
   }
   
   body {
-    @apply bg-slate-50 text-slate-900 antialiased;
+    @apply bg-slate-50 text-slate-900 antialiased min-h-screen;
+    background: linear-gradient(135deg, #f8fafc 0%, #f0f9ff 50%, #e0f2fe 100%);
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
   
   .dark body {
-    @apply bg-slate-950 text-slate-100;
+    @apply text-slate-100 antialiased min-h-screen;
+    background: linear-gradient(135deg, #0b1329 0%, #0f172a 40%, #0c4a6e 100%);
   }
 }
 

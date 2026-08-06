@@ -210,7 +210,7 @@ const OverviewTab = () => {
     <div className="space-y-8 animate-in fade-in duration-500 pb-20 no-scrollbar">
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Hero / Health Passport Card */}
-        <div className="lg:col-span-2 bg-gradient-to-br from-teal-500/10 via-white to-sky-50/20 border border-teal-200/50 p-8 md:p-10 rounded-[3rem] shadow-xl relative overflow-hidden group backdrop-blur-xl">
+        <div className="lg:col-span-2 bg-gradient-to-br from-blue-500/10 via-white to-sky-100/40 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/60 border border-blue-200/60 dark:border-blue-900/40 p-8 md:p-10 rounded-[3rem] shadow-sm relative overflow-hidden group backdrop-blur-xl">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
           <div className="absolute top-0 right-0 p-8 opacity-5 text-blue-500">
              <PulseIcon className="h-64 w-64 animate-pulse" />
