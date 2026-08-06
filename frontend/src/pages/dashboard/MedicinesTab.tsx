@@ -13,7 +13,9 @@ import {
   Info,
   X,
   ShieldCheck,
-  Zap
+  Zap,
+  Flame,
+  Check
 } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -21,6 +23,8 @@ const MedicinesTab = () => {
   const [medicines, setMedicines] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
+  const [takenDoses, setTakenDoses] = useState<Record<string, boolean>>({});
+  const [streakCount, setStreakCount] = useState(7);
   const [formData, setFormData] = useState({
     name: '',
     dosage: '',
@@ -66,201 +70,196 @@ const MedicinesTab = () => {
     }
   };
 
-  const handleToggle = async (id: string) => {
-    try {
-      const { data } = await api.patch(`/medicines/${id}/toggle`);
-      setMedicines(medicines.map(m => m._id === id ? data : m));
-    } catch (err) {
-      alert('Failed to toggle status');
+  const toggleTakeDose = (id: string) => {
+    const nextState = !takenDoses[id];
+    setTakenDoses(prev => ({ ...prev, [id]: nextState }));
+    if (nextState) {
+      setStreakCount(prev => prev + 1);
     }
   };
 
-  if (loading) return <div className="p-8 text-gray-500">Loading your medicines...</div>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="w-10 h-10 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div>
-          <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Medicine Reminders</h2>
-          <p className="text-gray-500 dark:text-gray-400 font-medium">Track your daily medications and never miss a dose.</p>
-        </div>
-        <button 
-          onClick={() => setShowAdd(true)}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-emerald-500/30 transition-all hover:scale-105 active:scale-95"
-        >
-          <Plus className="h-5 w-5" /> Add Medicine
-        </button>
-      </div>
-
-      {/* Interaction Checker - STAND OUT FEATURE */}
-      <div className="bg-gradient-to-br from-gray-900 to-slate-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-2xl">
-         <div className="absolute top-0 right-0 p-8 opacity-20">
-            <ShieldCheck className="h-32 w-32 text-primary-400" />
-         </div>
-         <div className="relative z-10">
-            <h3 className="text-xl font-black mb-2 flex items-center gap-3">
-               <Zap className="h-6 w-6 text-amber-400" />
-               Smart Interaction Checker
-            </h3>
-            <p className="text-gray-400 text-sm font-medium mb-8 max-w-lg">Check for potential complications between two medications before you take them.</p>
-            
-            <div className="grid sm:grid-cols-2 gap-4 max-w-3xl">
-               <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Medication A</label>
-                  <select className="w-full p-4 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-primary-500/50">
-                     <option className="text-black">Select Primary...</option>
-                     <option className="text-black">Aspirin</option>
-                     <option className="text-black">Warfarin</option>
-                     <option className="text-black">Ibuprofen</option>
-                  </select>
-               </div>
-               <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Medication B</label>
-                  <select className="w-full p-4 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-primary-500/50">
-                     <option className="text-black">Select Secondary...</option>
-                     <option className="text-black">Blood Thinners</option>
-                     <option className="text-black">Alcohol</option>
-                     <option className="text-black">Vitamins</option>
-                  </select>
-               </div>
-            </div>
-            <div className="mt-6 flex items-center gap-4 p-4 bg-amber-400/10 rounded-2xl border border-amber-400/20 max-w-3xl">
-               <AlertCircle className="h-5 w-5 text-amber-400" />
-               <p className="text-xs font-bold text-amber-200">Simulation: Combining Blood Thinners with Aspirin may increase bleeding risk. Consult your physician.</p>
-            </div>
-         </div>
-      </div>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {medicines.map((m) => (
-          <div key={m._id} className={`group bg-white dark:bg-slate-800 p-6 rounded-[2rem] border transition-all duration-300 ${m.active ? 'border-gray-100 dark:border-slate-700 shadow-sm' : 'border-dashed border-gray-200 dark:border-slate-800 opacity-60'}`}>
-            <div className="flex justify-between items-start mb-4">
-              <div className={`p-3 rounded-2xl ${m.active ? 'bg-emerald-50 dark:bg-emerald-900/30' : 'bg-gray-50 dark:bg-slate-900'}`}>
-                <Pill className={`h-6 w-6 ${m.active ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-400'}`} />
-              </div>
-              <div className="flex gap-2">
-                <button onClick={() => handleToggle(m._id)} className="p-2 hover:bg-gray-50 dark:hover:bg-slate-700 rounded-xl transition-colors">
-                  {m.active ? <ToggleRight className="h-6 w-6 text-emerald-600" /> : <ToggleLeft className="h-6 w-6 text-gray-400" />}
-                </button>
-                <button onClick={() => handleDelete(m._id)} className="p-2 hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-400 hover:text-red-500 rounded-xl transition-colors">
-                  <Trash2 className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
-
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{m.name}</h3>
-            <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 mb-4">{m.dosage}</p>
-
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-slate-900/50 p-3 rounded-xl">
-                <Clock className="h-4 w-4 text-emerald-500" />
-                <span>{m.frequency} • {m.times.join(', ')}</span>
-              </div>
-              {m.notes && (
-                <div className="flex items-start gap-2 text-xs text-gray-500 bg-amber-50/50 dark:bg-amber-900/10 p-3 rounded-xl border border-amber-100/50 dark:border-amber-900/20">
-                  <Info className="h-3.5 w-3.5 text-amber-500 mt-0.5" />
-                  <span>{m.notes}</span>
-                </div>
-              )}
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-gray-50 dark:border-slate-700 flex items-center justify-between">
-              <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400">
-                <Calendar className="h-3 w-3" /> Started {format(new Date(m.createdAt), 'MMM dd')}
-              </div>
-              {m.active ? (
-                <span className="flex items-center gap-1 text-[10px] font-bold text-green-600 uppercase bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded-full">
-                  <CheckCircle2 className="h-3 w-3" /> Active
-                </span>
-              ) : (
-                <span className="flex items-center gap-1 text-[10px] font-bold text-gray-400 uppercase bg-gray-100 dark:bg-slate-900 px-2 py-1 rounded-full">
-                  <AlertCircle className="h-3 w-3" /> Paused
-                </span>
-              )}
-            </div>
+    <div className="space-y-8 animate-in fade-in duration-500 pb-16">
+      {/* Header Bar */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl border border-blue-100 dark:border-slate-800 p-6 md:p-8 rounded-[2.5rem] shadow-sm">
+        <div className="flex items-center gap-4">
+          <div className="p-3.5 bg-blue-500/10 rounded-2xl border border-blue-500/20 text-blue-600">
+            <Pill className="w-8 h-8" />
           </div>
-        ))}
+          <div>
+            <h1 className="text-2xl font-black text-slate-900 dark:text-white">Prescription & Dose Tracker</h1>
+            <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide">Daily Medication Adherence & Schedules</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <div className="px-4 py-2 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-2xl flex items-center gap-2 text-xs font-bold text-amber-700">
+            <Flame className="w-4 h-4 text-amber-500 fill-amber-500" />
+            <span>{streakCount}-Day Adherence Streak!</span>
+          </div>
+
+          <button
+            onClick={() => setShowAdd(true)}
+            className="btn-primary text-xs py-3 px-5"
+          >
+            <Plus className="w-4 h-4" /> Add Medicine
+          </button>
+        </div>
+      </div>
+
+      {/* Medicines Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {medicines.map((m) => {
+          const isTaken = takenDoses[m._id];
+          return (
+            <div key={m._id} className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 rounded-[2.5rem] border border-blue-100 dark:border-slate-800 shadow-sm flex flex-col justify-between space-y-6">
+              <div>
+                <div className="flex justify-between items-start mb-4">
+                  <div className="p-3 bg-blue-50 dark:bg-slate-800 rounded-2xl text-blue-600 border border-blue-100 dark:border-slate-700">
+                    <Pill className="w-6 h-6" />
+                  </div>
+                  <button
+                    onClick={() => handleDelete(m._id)}
+                    className="p-2 text-slate-400 hover:text-rose-500 transition-colors"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">{m.name}</h3>
+                <p className="text-xs font-bold text-blue-600 mb-3">{m.dosage}</p>
+
+                <div className="space-y-2 text-xs">
+                  <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 p-3 rounded-xl">
+                    <Clock className="w-4 h-4 text-blue-600" />
+                    <span>{m.frequency} • {m.times.join(', ')}</span>
+                  </div>
+                  {m.notes && (
+                    <div className="flex items-start gap-2 text-slate-500 bg-amber-50 dark:bg-amber-950/30 p-3 rounded-xl border border-amber-100">
+                      <Info className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
+                      <span>{m.notes}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <button
+                  onClick={() => toggleTakeDose(m._id)}
+                  className={`w-full py-3 rounded-2xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
+                    isTaken 
+                      ? 'bg-emerald-600 text-white shadow-md' 
+                      : 'btn-primary'
+                  }`}
+                >
+                  {isTaken ? <CheckCircle2 className="w-4 h-4" /> : <Check className="w-4 h-4" />}
+                  {isTaken ? "Today's Dose Completed ✓" : "Mark Dose as Taken"}
+                </button>
+              </div>
+            </div>
+          );
+        })}
 
         {medicines.length === 0 && (
-          <div className="col-span-full py-20 text-center bg-gray-50 dark:bg-slate-900/50 rounded-[3rem] border-2 border-dashed border-gray-200 dark:border-slate-800">
-            <div className="bg-white dark:bg-slate-800 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl shadow-gray-200/50 dark:shadow-none">
-              <Pill className="h-10 w-10 text-gray-300" />
+          <div className="col-span-full py-20 text-center bg-white/90 dark:bg-slate-900/90 rounded-[3rem] border border-blue-100 dark:border-slate-800 shadow-sm">
+            <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600">
+              <Pill className="w-8 h-8" />
             </div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">No medicines listed</h3>
-            <p className="text-gray-500 max-w-xs mx-auto">Click the button above to add your first medicine reminder.</p>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">No Medicines Added Yet</h3>
+            <p className="text-xs text-slate-500 max-w-xs mx-auto mb-6">Track your daily prescriptions and dose schedules seamlessly.</p>
+            <button onClick={() => setShowAdd(true)} className="btn-primary text-xs py-3 px-6 mx-auto">
+              + Add First Medicine
+            </button>
           </div>
         )}
       </div>
 
+      {/* Add Modal */}
       {showAdd && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] p-8 max-w-lg w-full shadow-2xl animate-in zoom-in-95 duration-300">
-            <div className="flex justify-between items-center mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">New Medicine</h3>
-              <button onClick={() => setShowAdd(false)} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-full">
-                <X className="h-6 w-6 text-gray-400" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md">
+          <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 max-w-lg w-full shadow-2xl border border-blue-100 dark:border-slate-800 space-y-6">
+            <div className="flex justify-between items-center">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Add Medicine Prescription</h3>
+              <button onClick={() => setShowAdd(false)} className="text-slate-400 hover:text-slate-600">
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleAddMedicine} className="grid grid-cols-2 gap-4">
-              <div className="col-span-2">
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Medicine Name</label>
+            <form onSubmit={handleAddMedicine} className="space-y-4 text-xs font-medium">
+              <div>
+                <label className="block text-slate-600 mb-1">Medicine Name</label>
                 <input 
                   required 
                   value={formData.name} 
                   onChange={e => setFormData({...formData, name: e.target.value})}
-                  className="w-full p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 transition-all outline-none"
-                  placeholder="e.g. Paracetamol"
+                  className="health-input"
+                  placeholder="e.g. Paracetamol / Amoxicillin"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Dosage</label>
-                <input 
-                  required 
-                  value={formData.dosage} 
-                  onChange={e => setFormData({...formData, dosage: e.target.value})}
-                  className="w-full p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none"
-                  placeholder="e.g. 500mg"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Frequency</label>
-                <select 
-                  value={formData.frequency} 
-                  onChange={e => setFormData({...formData, frequency: e.target.value})}
-                  className="w-full p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none"
-                >
-                  <option>Once a day</option>
-                  <option>Twice a day</option>
-                  <option>Three times a day</option>
-                  <option>Four times a day</option>
-                  <option>As needed</option>
-                </select>
-              </div>
-              <div className="col-span-2">
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Time(s)</label>
-                <div className="flex gap-2">
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-slate-600 mb-1">Dosage</label>
                   <input 
-                    type="time"
-                    required
-                    value={formData.times[0]}
-                    onChange={e => setFormData({...formData, times: [e.target.value]})}
-                    className="flex-1 p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none"
+                    required 
+                    value={formData.dosage} 
+                    onChange={e => setFormData({...formData, dosage: e.target.value})}
+                    className="health-input"
+                    placeholder="e.g. 500mg"
                   />
                 </div>
+                <div>
+                  <label className="block text-slate-600 mb-1">Frequency</label>
+                  <select 
+                    value={formData.frequency} 
+                    onChange={e => setFormData({...formData, frequency: e.target.value})}
+                    className="health-input"
+                  >
+                    <option>Once a day</option>
+                    <option>Twice a day</option>
+                    <option>Three times a day</option>
+                    <option>Four times a day</option>
+                    <option>As needed</option>
+                  </select>
+                </div>
               </div>
-              <div className="col-span-2">
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Notes (Optional)</label>
-                <textarea 
-                  value={formData.notes} 
-                  onChange={e => setFormData({...formData, notes: e.target.value})}
-                  className="w-full p-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none h-24 resize-none"
-                  placeholder="Take after food..."
+
+              <div>
+                <label className="block text-slate-600 mb-1">Scheduled Time</label>
+                <input 
+                  type="time"
+                  required
+                  value={formData.times[0]}
+                  onChange={e => setFormData({...formData, times: [e.target.value]})}
+                  className="health-input"
                 />
               </div>
-              <div className="col-span-2 flex gap-4 pt-4">
-                <button type="button" onClick={() => setShowAdd(false)} className="flex-1 py-4 rounded-2xl font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Cancel</button>
-                <button type="submit" className="flex-1 py-4 rounded-2xl font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-xl shadow-emerald-500/20 transition-all active:scale-95">Schedule</button>
+
+              <div>
+                <label className="block text-slate-600 mb-1">Instructions / Notes (Optional)</label>
+                <input 
+                  value={formData.notes}
+                  onChange={e => setFormData({...formData, notes: e.target.value})}
+                  className="health-input"
+                  placeholder="e.g. Take after meals with water"
+                />
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button type="button" onClick={() => setShowAdd(false)} className="btn-secondary flex-1 py-3">
+                  Cancel
+                </button>
+                <button type="submit" className="btn-primary flex-1 py-3">
+                  Save Medicine
+                </button>
               </div>
             </form>
           </div>
