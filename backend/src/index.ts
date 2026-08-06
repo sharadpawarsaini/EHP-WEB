@@ -3,10 +3,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import cors from 'cors';
+import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './config/db';
 import path from 'path';
 import fs from 'fs';
+import { authLimiter, generalLimiter, aiLimiter } from './middleware/rateLimiter';
 
 // Route Imports
 import authRoutes from './routes/authRoutes';
@@ -59,10 +62,34 @@ app.use(cors({
   credentials: true 
 }));
 
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+// Security Headers (OWASP recommended)
+app.use(helmet({
+  crossOriginEmbedderPolicy: false, // Allow embedded content (PDFs, images)
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com'],
+      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+      imgSrc: ["'self'", 'data:', 'https://res.cloudinary.com'],
+      connectSrc: ["'self'", 'https://ehp-web.onrender.com'],
+      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+    }
+  }
+}));
+
+// Body Parsers
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser());
+
+// NoSQL Injection Prevention - sanitize all incoming req.body/query/params
+app.use(mongoSanitize({ replaceWith: '_' }));
+
+// Global IP Blocklist Check
 app.use(ipBlocklistCheck);
+
+// General Rate Limiting on all /api routes
+app.use('/api', generalLimiter);
 
 // Robust Static File Serving
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
@@ -71,11 +98,11 @@ import { checkSystemStatus } from './middleware/systemMiddleware';
 app.use('/api', checkSystemStatus);
 
 // API Routes
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authLimiter, authRoutes); // Strict rate limiting on auth
 app.use('/api/profile', profileRoutes);
 app.use('/api/medical', medicalRoutes);
 app.use('/api/feedback', feedbackRoutes);
-app.use('/api/ai', aiRoutes);
+app.use('/api/ai', aiLimiter, aiRoutes); // AI cost-protection rate limiting
 app.use('/api/emergency', emergencyRoutes);
 app.use('/api/medicines', medicineRoutes);
 app.use('/api/vaccinations', vaccinationRoutes);

@@ -36,9 +36,9 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
     const { adminToken } = req.body;
     let role = 'user';
 
-    // Simple secret token check for admin registration
-    // In a real app, this should be in .env
-    if (adminToken === 'X-ADMIN-SECURE-KEY') {
+    // Admin token read from environment variable — never hardcoded
+    const adminSecret = process.env.ADMIN_REGISTRATION_SECRET;
+    if (adminSecret && adminToken && adminToken === adminSecret) {
       role = 'admin';
     }
 

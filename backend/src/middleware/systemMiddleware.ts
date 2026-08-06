@@ -21,7 +21,9 @@ export const checkSystemStatus = async (req: Request, res: Response, next: NextF
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.split(' ')[1];
       try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as any;
+        const jwtSecret = process.env.JWT_SECRET;
+        if (!jwtSecret) return next();
+        const decoded = jwt.verify(token, jwtSecret) as any;
         if (decoded && decoded.role === 'admin') {
           return next();
         }
