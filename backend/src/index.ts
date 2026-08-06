@@ -32,6 +32,9 @@ import { ipBlocklistCheck } from './middleware/securityLogger';
 
 const app = express();
 
+// Trust proxy for deployment behind Render / Vercel / Cloudflare reverse proxies
+app.set('trust proxy', 1);
+
 // Connect to Database
 connectDB();
 
@@ -42,7 +45,7 @@ const uploadRoot = path.join(__dirname, '../uploads');
   if (!fs.existsSync(fullPath)) fs.mkdirSync(fullPath, { recursive: true });
 });
 
-// CORS Configuration
+// CORS Configuration - Robust & Safe for Production & Dev
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
@@ -57,21 +60,22 @@ app.use(cors({
     if (allowedOrigins.includes(origin) || isVercel || (process.env.NODE_ENV !== 'production' && isLocal)) {
       return callback(null, true);
     }
-    callback(new Error('Not allowed by CORS'));
+    // Return null, false instead of throwing Error to prevent 500 crashes
+    callback(null, false);
   },
   credentials: true 
 }));
 
 // Security Headers (OWASP recommended)
 app.use(helmet({
-  crossOriginEmbedderPolicy: false, // Allow embedded content (PDFs, images)
+  crossOriginEmbedderPolicy: false,
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com'],
       styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
       imgSrc: ["'self'", 'data:', 'https://res.cloudinary.com'],
-      connectSrc: ["'self'", 'https://ehp-web.onrender.com'],
+      connectSrc: ["'self'", 'https://ehp-web.onrender.com', 'https://ehp-tan-eight.vercel.app'],
       fontSrc: ["'self'", 'https://fonts.gstatic.com'],
     }
   }
@@ -98,11 +102,11 @@ import { checkSystemStatus } from './middleware/systemMiddleware';
 app.use('/api', checkSystemStatus);
 
 // API Routes
-app.use('/api/auth', authLimiter, authRoutes); // Strict rate limiting on auth
+app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/medical', medicalRoutes);
 app.use('/api/feedback', feedbackRoutes);
-app.use('/api/ai', aiLimiter, aiRoutes); // AI cost-protection rate limiting
+app.use('/api/ai', aiLimiter, aiRoutes);
 app.use('/api/emergency', emergencyRoutes);
 app.use('/api/medicines', medicineRoutes);
 app.use('/api/vaccinations', vaccinationRoutes);
@@ -134,6 +138,16 @@ app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 app.use((req, res) => {
   res.status(404).json({ message: `Route ${req.originalUrl} not found` });
+});
+
+// Global Error Handler to catch all unhandled errors cleanly
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('💥 Global Backend Exception:', err);
+  const statusCode = err.status || err.statusCode || 500;
+  res.status(statusCode).json({
+    message: err.message || 'Internal Server Error',
+    code: err.code || 'SERVER_ERROR'
+  });
 });
 
 const PORT = process.env.PORT || 5000;
