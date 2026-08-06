@@ -220,8 +220,8 @@ const EmergencyPage = () => {
 
   if (data.isLocked) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#0A0A0A] flex items-center justify-center px-4">
-        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="bg-white dark:bg-slate-800 backdrop-blur-2xl p-12 rounded-[3rem] text-center max-w-md w-full border border-gray-100 dark:border-white/10 shadow-2xl">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/50 to-sky-100/60 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950 flex items-center justify-center px-4">
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl p-12 rounded-[3rem] text-center max-w-md w-full border border-blue-100 dark:border-slate-800 shadow-sm">
           <div className="w-24 h-24 bg-rose-500/20 rounded-[2rem] flex items-center justify-center mx-auto mb-8 border border-rose-500/30">
             <Lock className="h-10 w-10 text-rose-500" />
           </div>
