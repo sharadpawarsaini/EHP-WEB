@@ -11,42 +11,42 @@
   }
   
   body {
-    @apply bg-white text-zinc-800 antialiased;
+    @apply bg-slate-50 text-slate-900 antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
   
   .dark body {
-    @apply bg-zinc-950 text-zinc-200;
+    @apply bg-slate-950 text-slate-100;
   }
 }
 
 @layer components {
-  /* Healthcare Card - Modern Clinical Design */
+  /* White & Royal Blue Healthcare Card */
   .health-card {
-    @apply bg-white dark:bg-zinc-900/90 border border-teal-100 dark:border-zinc-800/80 shadow-sm hover:shadow-md rounded-[1.8rem] transition-all duration-300 backdrop-blur-md hover:border-teal-500/30;
+    @apply bg-white dark:bg-slate-900/90 border border-blue-100/80 dark:border-slate-800 shadow-sm hover:shadow-md rounded-[1.8rem] transition-all duration-300 backdrop-blur-md hover:border-blue-400/40;
   }
 
-  /* Clinical Glowing Card */
+  /* White & Blue Gradient Card */
   .clinical-card {
-    @apply bg-gradient-to-br from-teal-50/50 via-white to-sky-50/30 dark:from-zinc-900 dark:via-zinc-950 dark:to-teal-950/20 border border-teal-200/60 dark:border-teal-900/30 rounded-[2rem] p-6 shadow-xl relative overflow-hidden backdrop-blur-xl;
+    @apply bg-gradient-to-br from-blue-50/70 via-sky-50/40 to-white dark:from-slate-900 dark:via-blue-950/40 dark:to-slate-900 border border-blue-200/60 dark:border-blue-900/40 rounded-[2rem] p-6 shadow-xl relative overflow-hidden backdrop-blur-xl;
   }
 
   /* Section Heading */
   .section-heading {
-    @apply text-3xl md:text-4xl font-black tracking-tight text-zinc-900 dark:text-white font-sans;
+    @apply text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white font-sans;
   }
 
   .section-subtext {
-    @apply text-zinc-500 dark:text-zinc-400 text-base md:text-lg leading-relaxed max-w-2xl font-medium;
+    @apply text-slate-600 dark:text-slate-400 text-base md:text-lg leading-relaxed max-w-2xl font-medium;
   }
 
-  /* Primary CTA - Modern Healthcare Teal Gradient */
+  /* Primary CTA - Royal Blue to Sky Blue Gradient */
   .btn-primary {
-    @apply px-7 py-3.5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-bold rounded-2xl shadow-lg shadow-teal-600/20 hover:shadow-teal-600/30 transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2 text-sm tracking-wide;
+    @apply px-7 py-3.5 bg-gradient-to-r from-blue-600 via-blue-500 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/25 hover:shadow-blue-500/35 transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2 text-sm tracking-wide;
   }
 
   .btn-secondary {
-    @apply px-7 py-3.5 bg-white/80 dark:bg-zinc-800/80 backdrop-blur-md border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-white font-bold rounded-2xl shadow-sm hover:bg-teal-50/50 dark:hover:bg-zinc-700/80 transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2 text-sm;
+    @apply px-7 py-3.5 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border border-blue-200 dark:border-slate-700 text-blue-900 dark:text-white font-bold rounded-2xl shadow-sm hover:bg-blue-50/60 dark:hover:bg-slate-700/80 transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2 text-sm;
   }
 
   .btn-accent {
@@ -55,35 +55,36 @@
 
   /* Badge */
   .health-badge {
-    @apply px-3 py-1 text-xs font-bold rounded-full tracking-wide uppercase;
+    @apply px-3.5 py-1.5 text-xs font-bold rounded-full tracking-wide uppercase bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800;
   }
 
   /* Input */
   .health-input {
-    @apply w-full px-4.5 py-3.5 bg-zinc-50/80 dark:bg-zinc-800/80 border border-zinc-200/80 dark:border-zinc-700/80 rounded-2xl text-zinc-800 dark:text-white outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-500 text-sm font-medium;
+    @apply w-full px-5 py-3 bg-slate-50/90 dark:bg-slate-800/90 border border-blue-200/80 dark:border-slate-700 rounded-2xl text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm font-medium;
   }
+
 
   /* Step Number */
   .step-number {
-    @apply w-12 h-12 bg-teal-500/10 dark:bg-teal-400/10 text-teal-600 dark:text-teal-400 rounded-2xl flex items-center justify-center text-lg font-black border border-teal-500/20;
+    @apply w-12 h-12 bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-lg font-black border border-blue-500/20;
   }
 
   /* Feature Icon Box */
   .feature-icon {
-    @apply w-14 h-14 rounded-2xl flex items-center justify-center shadow-md;
+    @apply w-14 h-14 rounded-2xl flex items-center justify-center shadow-md bg-gradient-to-br from-blue-500 to-sky-400 text-white;
   }
 
   /* Stat Card */
   .stat-card {
-    @apply text-center p-6 bg-white dark:bg-zinc-900 rounded-[1.8rem] border border-teal-100/60 dark:border-zinc-800 shadow-sm;
+    @apply text-center p-6 bg-white dark:bg-slate-900 rounded-[1.8rem] border border-blue-100 dark:border-slate-800 shadow-sm;
   }
 
   .stat-number {
-    @apply text-3xl md:text-4xl font-black text-teal-600 dark:text-teal-400 tracking-tight;
+    @apply text-3xl md:text-4xl font-black text-blue-600 dark:text-blue-400 tracking-tight;
   }
 
   .stat-label {
-    @apply text-xs uppercase tracking-widest text-zinc-400 font-bold mt-2;
+    @apply text-xs uppercase tracking-widest text-slate-500 font-bold mt-2;
   }
 
   /* Nav Link */
@@ -92,72 +93,24 @@
   }
 
   .nav-link-active {
-    @apply bg-teal-500/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 font-bold border border-teal-500/20 shadow-sm;
+    @apply bg-blue-500/10 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 font-bold border border-blue-500/20 shadow-sm;
   }
 
   .nav-link-inactive {
-    @apply text-zinc-600 dark:text-zinc-400 hover:bg-teal-50/50 dark:hover:bg-zinc-800/60 hover:text-zinc-900 dark:hover:text-white;
+    @apply text-slate-600 dark:text-slate-400 hover:bg-blue-50/60 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white;
   }
 }
 
 @layer utilities {
-  /* Admin utilities - kept for admin panel */
-  .cyber-grid {
-    background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-  
-  .glow-border {
-    box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+  .blue-gradient-bg {
+    background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 50%, #bae6fd 100%);
   }
 
-  .glow-text-emerald {
-    text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  .dark .blue-gradient-bg {
+    background: linear-gradient(135deg, #0f172a 0%, #0369a1 50%, #0c4a6e 100%);
   }
 
-  .glow-text-rose {
-    text-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
+  .blue-glow-text {
+    text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
   }
-
-  .scanline {
-    width: 100%;
-    height: 100px;
-    z-index: 10;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(0, 0, 0, 0) 100%);
-    opacity: 0.1;
-    position: absolute;
-    bottom: 100%;
-    animation: scanline 8s linear infinite;
-  }
-
-  @keyframes scanline {
-    0% { bottom: 100%; }
-    100% { bottom: -100%; }
-  }
-}
-
-/* Minimal Scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  @apply bg-zinc-200 dark:bg-zinc-700 rounded-full;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-/* Scrollbar hide utility */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }

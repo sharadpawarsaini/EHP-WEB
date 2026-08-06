@@ -1,29 +1,27 @@
 import { motion } from 'framer-motion';
-import { FileText, Scale, AlertCircle, CheckCircle, ArrowLeft, Activity, Gavel, Zap } from 'lucide-react';
+import { Shield, FileText, ArrowLeft, Activity } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Terms = () => {
   return (
-    <div className="min-h-screen bg-zinc-950 transition-colors duration-500 overflow-x-hidden selection:bg-emerald-500/30 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/50 to-sky-100/60 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950 transition-colors duration-500 overflow-x-hidden text-slate-900 dark:text-white">
       
-      {/* Background Infrastructure */}
+      {/* Background Accents */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[50%] bg-emerald-500/10 blur-[150px] rounded-full animate-pulse"></div>
-        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-cyan-500/10 blur-[150px] rounded-full animate-pulse delay-700"></div>
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5"></div>
-        <div className="absolute inset-0 cyber-grid opacity-[0.05]"></div>
+        <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[50%] bg-blue-500/10 blur-[150px] rounded-full animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-sky-400/10 blur-[150px] rounded-full animate-pulse delay-700"></div>
       </div>
 
-      <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-2xl border-b border-white/5 bg-zinc-950/80">
+      <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-2xl border-b border-blue-100 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80">
         <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="bg-emerald-600 p-2.5 rounded-xl shadow-[0_0_30px_rgba(16,185,129,0.4)] group-hover:scale-110 transition-transform">
+            <div className="bg-gradient-to-br from-blue-500 to-sky-400 p-2.5 rounded-2xl shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
               <Activity className="h-6 w-6 text-white" />
             </div>
-            <span className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">NEXUS EHP</span>
+            <span className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">EHP</span>
           </Link>
-          <Link to="/" className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 hover:text-white transition-all">
-            <ArrowLeft className="h-4 w-4" /> Abort Session
+          <Link to="/" className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-blue-600 transition-all">
+            <ArrowLeft className="h-4 w-4" /> Go to Home
           </Link>
         </div>
       </nav>
@@ -31,126 +29,49 @@ const Terms = () => {
       <main className="relative pt-40 pb-32">
         <div className="max-w-4xl mx-auto px-6">
           
-          {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-24"
+            className="text-center mb-16"
           >
-            <div className="inline-flex items-center gap-4 bg-emerald-500/10 px-8 py-3 rounded-full border border-emerald-500/20 mb-10">
-               <Scale className="h-4 w-4 text-emerald-500 animate-pulse" />
-               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-500">Legal Protocol v1.0</span>
+            <div className="inline-flex items-center gap-3 bg-blue-500/10 px-6 py-2.5 rounded-full border border-blue-500/20 mb-8">
+               <FileText className="h-4 w-4 text-blue-600 dark:text-blue-400 animate-pulse" />
+               <span className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">Terms of Service</span>
             </div>
-            <h1 className="text-5xl sm:text-8xl font-black text-white mb-10 tracking-tighter leading-[0.9] uppercase">
-              Operational <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Framework.</span>
-            </h1>
-            <p className="text-xl text-zinc-400 leading-relaxed max-w-2xl mx-auto font-medium italic">
-              "By deploying your clinical node, you authorize the following operational synchronization protocols."
+            <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white mb-6">Terms of Service</h1>
+            <p className="text-lg text-slate-600 dark:text-slate-400 font-medium leading-relaxed max-w-xl mx-auto">
+              Please read these simple terms before using the Electronic Health Passport platform.
             </p>
           </motion.div>
 
-          {/* Content Sections */}
-          <div className="space-y-16">
-            
-            {/* Section 1 */}
-            <motion.section 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-white/5 backdrop-blur-3xl p-12 rounded-[4rem] border border-white/10 shadow-3xl"
-            >
-              <div className="flex items-center gap-6 mb-10">
-                <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20">
-                  <Gavel className="h-8 w-8 text-emerald-500" />
-                </div>
-                <h2 className="text-3xl font-black text-white tracking-tighter uppercase">Signal Acceptance</h2>
-              </div>
-              <p className="text-zinc-400 font-medium leading-relaxed italic">
-                By accessing or using Nexus EHP, you agree to be bound by these operational protocols. If you do not agree with any part of these terms, you must abort use and incinerate your medical passport profile.
+          <div className="space-y-8">
+            <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl p-8 sm:p-10 rounded-[2.5rem] border border-blue-100 dark:border-slate-800 shadow-sm space-y-4">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">1. Acceptance of Terms</h3>
+              <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed text-sm">
+                By creating an account or using EHP, you agree to these terms. If you do not agree, you may delete your account at any time.
               </p>
-            </motion.section>
+            </div>
 
-            {/* Section 2: Responsibility */}
-            <motion.section 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-zinc-950 border border-white/10 p-12 rounded-[4rem] shadow-3xl"
-            >
-              <div className="flex items-center gap-6 mb-10">
-                <div className="w-16 h-16 bg-cyan-500/10 rounded-2xl flex items-center justify-center border border-cyan-500/20">
-                  <AlertCircle className="h-8 w-8 text-cyan-500" />
-                </div>
-                <h2 className="text-3xl font-black text-white tracking-tighter uppercase">Node Duty</h2>
-              </div>
-              <div className="space-y-8 text-zinc-400 font-medium leading-relaxed italic">
-                <p>
-                  Clinical accuracy is survival-critical. Nodes are solely responsible for:
-                </p>
-                <div className="grid sm:grid-cols-2 gap-6">
-                  {[
-                    "Accurate telemetry input",
-                    "Regular record synchronization",
-                    "Credential encryption security",
-                    "Guardian node authorization"
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-4 bg-white/5 p-6 rounded-2xl border border-white/5">
-                      <CheckCircle className="h-5 w-5 text-emerald-500" />
-                      <span className="text-sm font-black text-white uppercase tracking-widest">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.section>
-
-            {/* Section 3: Disclaimer */}
-            <motion.section 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-rose-500/10 backdrop-blur-3xl p-12 rounded-[4rem] border border-rose-500/20 shadow-3xl relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 p-10 opacity-5">
-                 <AlertCircle className="h-64 w-64 text-rose-500" />
-              </div>
-              <div className="relative z-10">
-                <div className="flex items-center gap-6 mb-10">
-                  <div className="w-16 h-16 bg-rose-500/20 rounded-2xl flex items-center justify-center border border-rose-500/30">
-                    <Activity className="h-8 w-8 text-rose-500" />
-                  </div>
-                  <h2 className="text-3xl font-black text-white tracking-tighter uppercase">Medical Warning</h2>
-                </div>
-                <p className="text-rose-500 font-black leading-relaxed text-sm uppercase tracking-widest">
-                  NEXUS EHP IS A DATA FACILITATION RELAY. IT IS NOT A SUBSTITUTE FOR CLINICAL INTERVENTION. WE DO NOT GUARANTEE THAT MEDICAL RESPONDERS WILL BE ABLE TO SYNCHRONIZE WITH YOUR NODE IN ALL OPERATIONAL ENVIRONMENTS.
-                </p>
-              </div>
-            </motion.section>
-
-            {/* Section 4: Liability */}
-            <motion.section 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-white/5 backdrop-blur-3xl p-12 rounded-[4rem] border border-white/10 shadow-3xl"
-            >
-              <div className="flex items-center gap-6 mb-10">
-                <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10">
-                  <FileText className="h-8 w-8 text-zinc-500" />
-                </div>
-                <h2 className="text-3xl font-black text-white tracking-tighter uppercase">Liability Limits</h2>
-              </div>
-              <p className="text-zinc-400 font-medium leading-relaxed italic">
-                To the maximum extent permitted by protocol, Nexus EHP and its administrative nodes shall not be liable for any incidental or consequential damages arising from node failure or clinical synchronization issues.
+            <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl p-8 sm:p-10 rounded-[2.5rem] border border-blue-100 dark:border-slate-800 shadow-sm space-y-4">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">2. Medical Disclaimer</h3>
+              <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed text-sm">
+                EHP is an emergency health record manager and informational platform. EHP does not provide direct medical treatment or replace professional medical advice. Always call emergency services (like 911/112) in life-threatening situations.
               </p>
-            </motion.section>
+            </div>
 
+            <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl p-8 sm:p-10 rounded-[2.5rem] border border-blue-100 dark:border-slate-800 shadow-sm space-y-4">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">3. User Responsibility</h3>
+              <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed text-sm">
+                You are responsible for keeping your emergency profile details (blood group, allergies, emergency contacts) accurate and up-to-date.
+              </p>
+            </div>
           </div>
+
         </div>
       </main>
 
-      <footer className="bg-zinc-950 border-t border-white/5 py-16 text-center">
-         <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.6em]">&copy; {new Date().getFullYear()} NEXUS EHP GLOBAL REGISTRY • LEGAL COMPLIANCE</p>
+      <footer className="bg-white dark:bg-slate-950 border-t border-blue-100 dark:border-slate-800 py-12 text-center">
+         <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">&copy; {new Date().getFullYear()} EHP ELECTRONIC HEALTH PASSPORT</p>
       </footer>
     </div>
   );

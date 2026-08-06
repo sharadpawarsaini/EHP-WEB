@@ -72,18 +72,18 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   const navGroups = [
     {
-      title: "Core Protocol",
+      title: "My Health",
       items: [
         { name: t('nav_overview'), path: '/dashboard', icon: HomeIcon },
-        ...(user?.role === 'admin' ? [{ name: 'Admin Console', path: '/admin', icon: ShieldCheck }] : []),
+        ...(user?.role === 'admin' ? [{ name: 'Admin Panel', path: '/admin', icon: ShieldCheck }] : []),
         { name: t('nav_vitals'), path: '/dashboard/vitals', icon: Activity },
         { name: t('nav_emergency'), path: '/dashboard/emergency', icon: QrCode },
         { name: t('nav_medical'), path: '/dashboard/medical', icon: ClipboardList },
-        { name: 'NFC Bridge', path: '/dashboard/nfc', icon: Rss },
+        { name: 'NFC Card', path: '/dashboard/nfc', icon: Rss },
       ]
     },
     {
-      title: "Clinical History",
+      title: "Medical Records",
       items: [
         { name: 'Medicines', path: '/dashboard/medicines', icon: Pill },
         { name: 'Vaccinations', path: '/dashboard/vaccinations', icon: Syringe },
@@ -93,7 +93,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       ]
     },
     {
-      title: "Network & Management",
+      title: "People & Places",
       items: [
         { name: 'Appointments', path: '/dashboard/appointments', icon: CalendarIcon },
         { name: t('nav_contacts'), path: '/dashboard/contacts', icon: ShieldAlert },
@@ -103,9 +103,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       ]
     },
     {
-      title: "System",
+      title: "Account",
       items: [
-        { name: 'Privacy Vault', path: '/dashboard/vault', icon: Lock },
+        { name: 'Private Vault', path: '/dashboard/vault', icon: Lock },
         { name: t('nav_logs'), path: '/dashboard/logs', icon: HistoryIcon },
         { name: 'Feedback', path: '/dashboard/feedback', icon: MessageSquareHeart },
         { name: 'Settings', path: '/dashboard/settings', icon: Settings },

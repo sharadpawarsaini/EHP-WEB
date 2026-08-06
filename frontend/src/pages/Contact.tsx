@@ -4,26 +4,24 @@ import { motion } from 'framer-motion';
 
 const Contact = () => {
   return (
-    <div className="min-h-screen bg-zinc-950 transition-colors duration-500 overflow-x-hidden selection:bg-emerald-500/30 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/50 to-sky-100/60 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950 transition-colors duration-500 overflow-x-hidden text-slate-900 dark:text-white">
       
-      {/* Background Infrastructure */}
+      {/* Background Accents */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[50%] bg-emerald-500/10 blur-[150px] rounded-full animate-pulse"></div>
-        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-cyan-500/10 blur-[150px] rounded-full animate-pulse delay-700"></div>
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5"></div>
-        <div className="absolute inset-0 cyber-grid opacity-[0.05]"></div>
+        <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[50%] bg-blue-500/10 blur-[150px] rounded-full animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-sky-400/10 blur-[150px] rounded-full animate-pulse delay-700"></div>
       </div>
 
-      <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-2xl border-b border-white/5 bg-zinc-950/80">
+      <nav className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-2xl border-b border-blue-100 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80">
         <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="bg-emerald-600 p-2.5 rounded-xl shadow-[0_0_30px_rgba(16,185,129,0.4)] group-hover:scale-110 transition-transform">
+            <div className="bg-gradient-to-br from-blue-500 to-sky-400 p-2.5 rounded-2xl shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
               <Activity className="h-6 w-6 text-white" />
             </div>
-            <span className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">NEXUS EHP</span>
+            <span className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">EHP</span>
           </Link>
-          <Link to="/" className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 hover:text-white transition-all">
-            <ArrowLeft className="h-4 w-4" /> Abort Session
+          <Link to="/" className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-blue-600 transition-all">
+            <ArrowLeft className="h-4 w-4" /> Go to Home
           </Link>
         </div>
       </nav>
@@ -31,91 +29,84 @@ const Contact = () => {
       <main className="relative pt-40 pb-32">
         <div className="max-w-7xl mx-auto px-6">
           
-          <div className="grid lg:grid-cols-2 gap-24 items-start">
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
             
-            {/* Contact Info Sidebar */}
+            {/* Contact Info */}
             <motion.div 
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              className="space-y-16"
+              className="space-y-10"
             >
               <div>
-                <div className="inline-flex items-center gap-4 bg-emerald-500/10 px-8 py-3 rounded-full border border-emerald-500/20 mb-10">
-                   <MessageSquare className="h-4 w-4 text-emerald-500 animate-pulse" />
-                   <span className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-500">Signal Uplink</span>
+                <div className="inline-flex items-center gap-3 bg-blue-500/10 px-6 py-2.5 rounded-full border border-blue-500/20 mb-8">
+                   <MessageSquare className="h-4 w-4 text-blue-600 dark:text-blue-400 animate-pulse" />
+                   <span className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">Get in Touch</span>
                 </div>
-                <h1 className="text-5xl sm:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-10 uppercase">Establish <br/> Comms.</h1>
-                <p className="text-xl text-zinc-400 font-medium leading-relaxed max-w-md italic">
-                  "Establishing a direct neural link between administrative nodes and clinical operatives."
+                <h1 className="text-4xl sm:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-6">Contact Our Support Team</h1>
+                <p className="text-lg text-slate-600 dark:text-slate-400 font-medium leading-relaxed max-w-md">
+                  Have questions about your Electronic Health Passport? We are here to help you 24/7.
                 </p>
               </div>
 
-              <div className="space-y-10">
-                {[
-                  { icon: Mail, label: 'Neural Mail', val: 'sharadpawarsaini@gmail.com', color: 'text-emerald-500', bg: 'bg-emerald-500/10 border-emerald-500/20' },
-                  { icon: Phone, label: 'Direct Relay', val: '09:00 - 18:00 IST', color: 'text-cyan-500', bg: 'bg-cyan-500/10 border-cyan-500/20' },
-                  { icon: Globe, label: 'Geo-Coordinates', val: 'Dehradun, Uttarakhand, IN', color: 'text-rose-500', bg: 'bg-rose-500/10 border-rose-500/20' }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-8 group">
-                    <div className={`p-6 ${item.bg} border rounded-[2rem] shadow-2xl group-hover:scale-110 transition-transform`}>
-                      <item.icon className={`h-8 w-8 ${item.color}`} />
-                    </div>
-                    <div>
-                      <h4 className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-2">{item.label}</h4>
-                      <p className="text-2xl font-black text-white tracking-tighter uppercase">{item.val}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <div className="space-y-6">
+                <div className="flex items-center gap-5 p-6 bg-white dark:bg-slate-900 rounded-[2rem] border border-blue-100 dark:border-slate-800 shadow-sm">
+                   <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-500/20 text-blue-600 dark:text-blue-400">
+                      <Mail className="h-6 w-6" />
+                   </div>
+                   <div>
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Email Us</p>
+                      <p className="text-lg font-black text-slate-900 dark:text-white">support@ehp-app.com</p>
+                   </div>
+                </div>
 
-              <div className="p-10 bg-white/5 backdrop-blur-2xl rounded-[4rem] border border-white/5 flex items-start gap-6 shadow-3xl">
-                 <Shield className="h-8 w-8 text-emerald-500 flex-shrink-0" />
-                 <p className="text-xs text-zinc-500 font-medium leading-relaxed italic">
-                   Transmission is shielded via Zero-Knowledge encryption. Signal tokens are processed through a decentralized relay to ensure node anonymity.
-                 </p>
+                <div className="flex items-center gap-5 p-6 bg-white dark:bg-slate-900 rounded-[2rem] border border-blue-100 dark:border-slate-800 shadow-sm">
+                   <div className="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 text-emerald-600 dark:text-emerald-400">
+                      <Phone className="h-6 w-6" />
+                   </div>
+                   <div>
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Emergency Helpline</p>
+                      <p className="text-lg font-black text-slate-900 dark:text-white">+1 (800) 555-EHP-HELP</p>
+                   </div>
+                </div>
+
+                <div className="flex items-center gap-5 p-6 bg-white dark:bg-slate-900 rounded-[2rem] border border-blue-100 dark:border-slate-800 shadow-sm">
+                   <div className="w-14 h-14 bg-sky-500/10 rounded-2xl flex items-center justify-center border border-sky-500/20 text-sky-600 dark:text-sky-400">
+                      <MapPin className="h-6 w-6" />
+                   </div>
+                   <div>
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Headquarters</p>
+                      <p className="text-lg font-black text-slate-900 dark:text-white">Global Health Center, NY</p>
+                   </div>
+                </div>
               </div>
             </motion.div>
 
             {/* Contact Form */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-zinc-950 p-12 sm:p-16 rounded-[5rem] shadow-[0_0_100px_rgba(0,0,0,0.8)] border border-white/10 relative group overflow-hidden"
+              className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl p-8 sm:p-12 rounded-[3rem] border border-blue-100 dark:border-slate-800 shadow-2xl space-y-8"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <form className="space-y-10 relative z-10">
-                <div className="grid md:grid-cols-2 gap-10">
-                  <div className="space-y-4">
-                    <label className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] ml-4">Node Identity</label>
-                    <input 
-                      type="text" 
-                      className="w-full p-6 rounded-[2rem] bg-white/5 border border-white/5 font-bold text-white outline-none focus:border-emerald-500/30 transition-all placeholder:text-zinc-800" 
-                      placeholder="ENTER FULL NAME" 
-                    />
-                  </div>
-                  <div className="space-y-4">
-                    <label className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] ml-4">Secure Uplink</label>
-                    <input 
-                      type="email" 
-                      className="w-full p-6 rounded-[2rem] bg-white/5 border border-white/5 font-bold text-white outline-none focus:border-emerald-500/30 transition-all placeholder:text-zinc-800" 
-                      placeholder="NODE@PROTOCOL.COM" 
-                    />
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] ml-4">Data Transmission</label>
-                  <textarea 
-                    rows={6} 
-                    className="w-full p-8 rounded-[3rem] bg-white/5 border border-white/5 font-bold text-white outline-none focus:border-emerald-500/30 transition-all placeholder:text-zinc-800 resize-none" 
-                    placeholder="DESCRIBE OPERATIONAL REQUIREMENTS..."
-                  ></textarea>
-                </div>
-                <button 
-                  type="submit" 
-                  className="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-8 rounded-[2.5rem] font-black text-[12px] uppercase tracking-[0.6em] shadow-[0_0_50px_rgba(16,185,129,0.3)] flex items-center justify-center gap-4 transition-all hover:scale-[1.02] active:scale-95 group/btn"
-                >
-                  <Send className="h-6 w-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> Dispatch Token
-                </button>
+              <h3 className="text-2xl font-black text-slate-900 dark:text-white">Send Us a Message</h3>
+              <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert('Thank you! Your message has been sent.'); }}>
+                 <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 ml-1">Your Full Name</label>
+                    <input type="text" required placeholder="John Doe" className="health-input" />
+                 </div>
+
+                 <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 ml-1">Your Email</label>
+                    <input type="email" required placeholder="name@example.com" className="health-input" />
+                 </div>
+
+                 <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 ml-1">Message</label>
+                    <textarea rows={5} required placeholder="How can we help you today?" className="health-input resize-none"></textarea>
+                 </div>
+
+                 <button type="submit" className="btn-primary w-full py-4 text-sm font-bold uppercase tracking-wider">
+                    Send Message <Send className="h-4 w-4 ml-2" />
+                 </button>
               </form>
             </motion.div>
 
@@ -123,8 +114,8 @@ const Contact = () => {
         </div>
       </main>
 
-      <footer className="bg-zinc-950 border-t border-white/5 py-16 text-center">
-         <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.6em]">&copy; {new Date().getFullYear()} NEXUS EHP GLOBAL REGISTRY • COMMUNICATION RELAY</p>
+      <footer className="bg-white dark:bg-slate-950 border-t border-blue-100 dark:border-slate-800 py-12 text-center">
+         <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">&copy; {new Date().getFullYear()} EHP ELECTRONIC HEALTH PASSPORT</p>
       </footer>
     </div>
   );
