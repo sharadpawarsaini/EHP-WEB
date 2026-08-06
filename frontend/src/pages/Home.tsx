@@ -110,7 +110,7 @@ const Home = () => {
             <div className="bg-emerald-600 p-2.5 rounded-xl shadow-[0_0_30px_rgba(16,185,129,0.4)] group-hover:scale-110 transition-transform">
               <Activity className="h-6 w-6 text-white" />
             </div>
-            <span className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">NEXUS EHP</span>
+            <span className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">EHP</span>
           </Link>
           <div className="hidden md:flex items-center gap-10">
             {['About', 'FAQ', 'Contact'].map((item) => (
@@ -353,53 +353,53 @@ const Home = () => {
                  <Sparkles className="h-[40rem] w-[40rem] text-white" />
               </div>
               <div className="grid lg:grid-cols-2 gap-24 items-center relative z-10">
-                 <div className="space-y-10">
-                    <span className="text-[10px] font-black text-emerald-100 uppercase tracking-[0.6em]">Nexus Neural Core</span>
-                    <h2 className="text-5xl sm:text-7xl font-black text-white tracking-tighter leading-none uppercase">
-                      Neural <br/>
-                      Triage AI.
-                    </h2>
-                    <p className="text-2xl text-emerald-100 font-medium leading-relaxed italic">
-                      Experience the world's most advanced clinical-contextual assistant. Voice-guided life-saving instructions powered by zero-latency neural nodes.
-                    </p>
-                    <div className="flex gap-8">
-                       <button 
-                         onClick={() => setShowAIDemo(true)}
-                         className="bg-zinc-950 text-white px-12 py-6 rounded-[2.5rem] font-black text-[12px] uppercase tracking-[0.4em] hover:scale-105 active:scale-95 transition-all shadow-3xl flex items-center gap-4 group"
-                       >
-                         <Sparkles className="h-5 w-5 text-emerald-500 group-hover:animate-pulse" /> Initialize Neural Link
-                       </button>
-                    </div>
-                 </div>
-                 <div className="relative group">
-                    <div className="absolute -inset-10 bg-white/20 blur-[100px] opacity-0 group-hover:opacity-40 transition-opacity"></div>
-                    <div className="bg-zinc-950/90 backdrop-blur-3xl rounded-[4rem] p-12 border border-white/10 shadow-3xl relative overflow-hidden">
-                       <div className="absolute top-0 right-0 p-8 opacity-5"><Activity className="h-48 w-48 text-emerald-500" /></div>
-                       <div className="flex items-center gap-6 mb-12">
-                          <div className="w-16 h-16 bg-emerald-500 rounded-2xl flex items-center justify-center shadow-2xl">
-                             <Mic className="h-8 w-8 text-white" />
-                          </div>
-                          <div>
-                             <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em] leading-none mb-2">Neural Input Detected</p>
-                             <p className="text-2xl font-black text-white tracking-tighter">PATIENT_IDENTIFIED</p>
-                          </div>
-                       </div>
-                       <div className="space-y-6">
-                          <div className="p-6 bg-white/5 rounded-3xl border border-white/5">
-                             <p className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] mb-2">Subject Query</p>
-                             <p className="text-lg font-bold text-white italic leading-tight">"Swelling detected after ingestion. Provide triage protocol."</p>
-                          </div>
-                          <div className="p-8 bg-emerald-500/20 rounded-[2.5rem] border border-emerald-500/30 shadow-inner">
-                             <p className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.4em] mb-2">Neural Response</p>
-                             <p className="text-base font-black text-white leading-relaxed">
-                                <span className="text-emerald-500">PROTOCOL ALPHA:</span> Sever Peanut Allergy identified. Deploy **Epinephrine Auto-Injector** immediately. Target: Outer Thigh.
-                             </p>
-                          </div>
-                       </div>
-                    </div>
-                 </div>
-              </div>
-           </div>
+                  <div className="space-y-10">
+                     <span className="text-[10px] font-black text-emerald-100 uppercase tracking-[0.6em]">EHP Health AI</span>
+                     <h2 className="text-5xl sm:text-7xl font-black text-white tracking-tighter leading-none uppercase">
+                       Smart <br/>
+                       Health AI.
+                     </h2>
+                     <p className="text-2xl text-emerald-100 font-medium leading-relaxed italic">
+                       Experience an intelligent clinical assistant. Get instant guidance and emergency medical insights tailored to your personal record.
+                     </p>
+                     <div className="flex gap-8">
+                        <button 
+                          onClick={() => setShowAIDemo(true)}
+                          className="bg-zinc-950 text-white px-12 py-6 rounded-[2.5rem] font-black text-[12px] uppercase tracking-[0.4em] hover:scale-105 active:scale-95 transition-all shadow-3xl flex items-center gap-4 group"
+                        >
+                          <Sparkles className="h-5 w-5 text-emerald-500 group-hover:animate-pulse" /> Try AI Assistant
+                        </button>
+                     </div>
+                  </div>
+                  <div className="relative group">
+                     <div className="absolute -inset-10 bg-white/20 blur-[100px] opacity-0 group-hover:opacity-40 transition-opacity"></div>
+                     <div className="bg-zinc-950/90 backdrop-blur-3xl rounded-[4rem] p-12 border border-white/10 shadow-3xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-8 opacity-5"><Activity className="h-48 w-48 text-emerald-500" /></div>
+                        <div className="flex items-center gap-6 mb-12">
+                           <div className="w-16 h-16 bg-emerald-500 rounded-2xl flex items-center justify-center shadow-2xl">
+                              <Mic className="h-8 w-8 text-white" />
+                           </div>
+                           <div>
+                              <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em] leading-none mb-2">Voice Assistance Ready</p>
+                              <p className="text-2xl font-black text-white tracking-tighter">PATIENT_ASSIST</p>
+                           </div>
+                        </div>
+                        <div className="space-y-6">
+                           <div className="p-6 bg-white/5 rounded-3xl border border-white/5">
+                              <p className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] mb-2">Patient Question</p>
+                              <p className="text-lg font-bold text-white italic leading-tight">"Swelling detected after food ingestion. What should I do?"</p>
+                           </div>
+                           <div className="p-8 bg-emerald-500/20 rounded-[2.5rem] border border-emerald-500/30 shadow-inner">
+                              <p className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.4em] mb-2">AI Guidance</p>
+                              <p className="text-base font-black text-white leading-relaxed">
+                                 <span className="text-emerald-500">RECOMMENDATION:</span> Severe Peanut Allergy detected in profile. Administer **Epinephrine Auto-Injector** immediately and call emergency services.
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
         </section>
 
         {/* Global Uplink CTA */}
@@ -409,19 +409,19 @@ const Home = () => {
               <div className="absolute top-[-50%] left-[-20%] w-[100%] h-[100%] bg-emerald-500/5 blur-[200px] rounded-full"></div>
               <div className="relative z-10 max-w-4xl mx-auto">
                  <h2 className="text-6xl sm:text-8xl font-black text-white tracking-[1px] mb-12 leading-[0.85] uppercase">
-                   Secure Your <br/> 
-                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Survival Node.</span>
+                   Create Your <br/> 
+                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Health Passport.</span>
                  </h2>
-                 <p className="text-2xl text-zinc-500 mb-16 font-medium italic">Join the elite network of high-trust clinical identifiers.</p>
+                 <p className="text-2xl text-zinc-500 mb-16 font-medium italic">Join thousands of patients securing their medical records worldwide.</p>
                  <Link to="/register" className="inline-flex items-center gap-6 bg-white text-zinc-950 hover:bg-emerald-500 hover:text-white px-16 py-8 rounded-[2.5rem] font-black text-[14px] uppercase tracking-[0.5em] transition-all shadow-3xl hover:scale-105 active:scale-95 group">
-                    Initialize Enrollment <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform" />
+                    Get Started <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform" />
                  </Link>
               </div>
            </div>
         </section>
       </main>
 
-      {/* Matrix Footer */}
+      {/* Footer */}
       <footer className="bg-zinc-950 border-t border-white/5 py-32 relative overflow-hidden">
          <div className="absolute bottom-0 right-0 p-40 opacity-[0.02]">
             <Activity className="h-[60rem] w-[60rem] text-white" />
@@ -432,25 +432,25 @@ const Home = () => {
                   <div className="bg-emerald-600 p-3 rounded-xl">
                     <Activity className="h-6 w-6 text-white" />
                   </div>
-                  <span className="text-3xl font-black tracking-tighter text-white">NEXUS EHP</span>
+                  <span className="text-3xl font-black tracking-tighter text-white">EHP</span>
                </div>
-               <p className="text-zinc-500 max-w-md text-base leading-relaxed italic">The global cryptographic standard for emergency medical identification. Securing the human node through advanced synchronization.</p>
+               <p className="text-zinc-500 max-w-md text-base leading-relaxed italic">The secure standard for emergency medical identification and personal health records.</p>
             </div>
-            {['Protocol', 'Registry'].map((title, i) => (
+            {['Platform', 'Legal'].map((title, i) => (
               <div key={i}>
                  <h4 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.6em] mb-10">{title}</h4>
                  <ul className="space-y-6">
-                    {title === 'Protocol' ? (
+                    {title === 'Platform' ? (
                       <>
-                        <li><Link to="/register" className="text-sm font-black text-zinc-500 hover:text-emerald-500 transition-all uppercase tracking-widest">Enrollment</Link></li>
-                        <li><Link to="/faq" className="text-sm font-black text-zinc-500 hover:text-emerald-500 transition-all uppercase tracking-widest">Manual</Link></li>
-                        <li><Link to="/about" className="text-sm font-black text-zinc-500 hover:text-emerald-500 transition-all uppercase tracking-widest">Architecture</Link></li>
+                        <li><Link to="/register" className="text-sm font-black text-zinc-500 hover:text-emerald-500 transition-all uppercase tracking-widest">Register</Link></li>
+                        <li><Link to="/faq" className="text-sm font-black text-zinc-500 hover:text-emerald-500 transition-all uppercase tracking-widest">FAQ</Link></li>
+                        <li><Link to="/about" className="text-sm font-black text-zinc-500 hover:text-emerald-500 transition-all uppercase tracking-widest">About Us</Link></li>
                       </>
                     ) : (
                       <>
-                        <li><Link to="/contact" className="text-sm font-black text-zinc-500 hover:text-emerald-500 transition-all uppercase tracking-widest">Signal Link</Link></li>
-                        <li><Link to="/faq" className="text-sm font-black text-zinc-500 hover:text-emerald-500 transition-all uppercase tracking-widest">Archive</Link></li>
-                        <li><Link to="/privacy" className="text-sm font-black text-zinc-500 hover:text-emerald-500 transition-all uppercase tracking-widest">Encryption Policy</Link></li>
+                        <li><Link to="/contact" className="text-sm font-black text-zinc-500 hover:text-emerald-500 transition-all uppercase tracking-widest">Contact Us</Link></li>
+                        <li><Link to="/privacy" className="text-sm font-black text-zinc-500 hover:text-emerald-500 transition-all uppercase tracking-widest">Privacy Policy</Link></li>
+                        <li><Link to="/terms" className="text-sm font-black text-zinc-500 hover:text-emerald-500 transition-all uppercase tracking-widest">Terms of Service</Link></li>
                       </>
                     )}
                  </ul>
@@ -458,7 +458,7 @@ const Home = () => {
             ))}
          </div>
          <div className="max-w-7xl mx-auto px-6 mt-32 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-            <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em]">&copy; {new Date().getFullYear()} NEXUS EHP GLOBAL REGISTRY. ALL RIGHTS RESERVED.</p>
+            <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em]">&copy; {new Date().getFullYear()} EHP ELECTRONIC HEALTH PASSPORT. ALL RIGHTS RESERVED.</p>
             <div className="flex gap-10">
                <Link to="/privacy" className="text-[10px] font-black text-zinc-600 hover:text-emerald-500 transition-all uppercase tracking-[0.4em]">Privacy</Link>
                <Link to="/terms" className="text-[10px] font-black text-zinc-600 hover:text-emerald-500 transition-all uppercase tracking-[0.4em]">Terms</Link>

@@ -20,10 +20,10 @@ const About = () => {
             <div className="bg-emerald-600 p-2.5 rounded-xl shadow-[0_0_30px_rgba(16,185,129,0.4)] group-hover:scale-110 transition-transform">
               <Activity className="h-6 w-6 text-white" />
             </div>
-            <span className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">NEXUS EHP</span>
+            <span className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">EHP</span>
           </Link>
           <Link to="/" className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 hover:text-white transition-all">
-            <ArrowLeft className="h-4 w-4" /> Abort View
+            <ArrowLeft className="h-4 w-4" /> Back to Home
           </Link>
         </div>
       </nav>
@@ -39,14 +39,14 @@ const About = () => {
           >
             <div className="inline-flex items-center gap-4 bg-emerald-500/10 px-8 py-3 rounded-full border border-emerald-500/20 mb-10">
                <Zap className="h-4 w-4 text-emerald-500 animate-pulse" />
-               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-500">The Nexus Protocol</span>
+               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-500">The EHP Standard</span>
             </div>
             <h1 className="text-5xl sm:text-8xl font-black text-white mb-10 tracking-[1px] leading-[0.9] uppercase">
-              Securing Humanity <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">At Any Depth.</span>
+              Securing Lives <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">When Seconds Count.</span>
             </h1>
             <p className="text-xl sm:text-2xl text-zinc-400 leading-relaxed max-w-3xl mx-auto font-medium italic">
-              "EHP is a mission-critical synchronization platform designed to preserve clinical identity when seconds define survival."
+              "EHP is a mission-critical platform designed to preserve your medical identity and critical health data when seconds define emergency response."
             </p>
           </motion.div>
 
@@ -59,9 +59,9 @@ const About = () => {
               <div className="w-20 h-20 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-10 border border-emerald-500/20 group-hover:scale-110 transition-transform">
                  <Users className="h-10 w-10 text-emerald-500" />
               </div>
-              <h3 className="text-4xl font-black text-white mb-6 uppercase tracking-tighter">Family Nodes</h3>
+              <h3 className="text-4xl font-black text-white mb-6 uppercase tracking-tighter">Family Health</h3>
               <p className="text-zinc-500 font-medium leading-relaxed italic">
-                Guardians can initialize and manage the clinical designation of their entire lineage within one high-trust administrative dashboard.
+                Guardians can manage and view the medical records of their entire family within one secure dashboard.
               </p>
             </motion.div>
             
@@ -72,9 +72,9 @@ const About = () => {
               <div className="w-20 h-20 bg-rose-500/10 rounded-2xl flex items-center justify-center mb-10 border border-rose-500/20 group-hover:scale-110 transition-transform">
                  <Heart className="h-10 w-10 text-rose-500" />
               </div>
-              <h3 className="text-4xl font-black text-white mb-6 uppercase tracking-tighter">Responder Uplink</h3>
+              <h3 className="text-4xl font-black text-white mb-6 uppercase tracking-tighter">First Responder Access</h3>
               <p className="text-zinc-500 font-medium leading-relaxed italic">
-                By providing sub-second access to blood groups and allergies, we empower first responders with instant, life-critical telemetry.
+                By providing instant access to blood groups, allergies, and emergency contacts, we empower paramedics with life-saving details.
               </p>
             </motion.div>
           </div>
@@ -85,12 +85,12 @@ const About = () => {
                 <ShieldCheck className="h-[30rem] w-[30rem] text-white" />
              </div>
              <div className="relative z-10">
-                <h2 className="text-5xl font-black text-white text-center mb-24 tracking-[1px] uppercase">Nexus Architecture</h2>
+                <h2 className="text-5xl font-black text-white text-center mb-24 tracking-[1px] uppercase">EHP Platform Architecture</h2>
                 <div className="grid sm:grid-cols-3 gap-16">
                   {[
-                    { icon: Lock, title: "Sovereign Privacy", desc: "Data is shielded using MIL-spec protocols. You maintain absolute control over clinical visibility." },
-                    { icon: Activity, title: "Neural Analysis", desc: "Advanced summarization of complex clinical telemetry into clear, actionable responder intel." },
-                    { icon: Globe, title: "Grid Synergy", desc: "Your clinical identity works across all borders, unified through a single secure node." }
+                    { icon: Lock, title: "Data Security", desc: "Your data is protected with enterprise encryption. You retain complete control over access permissions." },
+                    { icon: Activity, title: "AI Analysis", desc: "Instant AI summarization of complex medical reports into clear, actionable emergency insights." },
+                    { icon: Globe, title: "Global Accessibility", desc: "Your health passport is accessible worldwide via QR codes, Web NFC, or secure links." }
                   ].map((item, i) => {
                     const Icon = item.icon as any;
                     return (
@@ -110,14 +110,14 @@ const About = () => {
           {/* Operational Standard */}
           <div className="mt-40 space-y-16">
              <div className="text-center space-y-6">
-                <h2 className="text-5xl font-black text-white uppercase tracking-[1px]">Clinical Protocols</h2>
-                <p className="text-emerald-500 font-black uppercase text-[10px] tracking-[0.8em]">Operational Stack: Integrated</p>
+                <h2 className="text-5xl font-black text-white uppercase tracking-[1px]">Healthcare Features</h2>
+                <p className="text-emerald-500 font-black uppercase text-[10px] tracking-[0.8em]">System Overview</p>
              </div>
              <div className="grid gap-8">
                 {[
-                  { title: "Immutable Registry", desc: "Ensuring all clinical records are verified and audit-trailed for absolute integrity." },
-                  { title: "SOS Bridge Protocol", desc: "Direct node connection between patient QR scans and emergency guardian alert systems." },
-                  { title: "Global Compliance", desc: "Adhering to high-trust clinical data standards for seamless institutional integration." }
+                  { title: "Verified Health Records", desc: "Organized medical records, vitals history, and vaccination tracking in one place." },
+                  { title: "Instant SOS Alerts", desc: "Direct connection between patient QR scans and emergency WhatsApp alert triggers." },
+                  { title: "Regulatory Compliance", desc: "Built according to healthcare security standards for high privacy and reliability." }
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-10 p-10 bg-white/5 backdrop-blur-2xl rounded-[3rem] border border-white/5 hover:border-emerald-500/30 transition-all group shadow-2xl">
                      <div className="w-16 h-16 bg-zinc-950 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform border border-white/10">
@@ -135,7 +135,7 @@ const About = () => {
       </main>
 
       <footer className="bg-zinc-950 border-t border-white/5 py-16 text-center">
-         <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.6em]">&copy; {new Date().getFullYear()} NEXUS EHP GLOBAL REGISTRY • MISSION CONTROL</p>
+         <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.6em]">&copy; {new Date().getFullYear()} EHP ELECTRONIC HEALTH PASSPORT</p>
       </footer>
     </div>
   );
