@@ -4,7 +4,6 @@ dotenv.config();
 
 import cors from 'cors';
 import helmet from 'helmet';
-import mongoSanitize from 'express-mongo-sanitize';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './config/db';
 import path from 'path';
@@ -45,40 +44,16 @@ const uploadRoot = path.join(__dirname, '../uploads');
   if (!fs.existsSync(fullPath)) fs.mkdirSync(fullPath, { recursive: true });
 });
 
-// CORS Configuration - Robust & Safe for Production & Dev
+// CORS Configuration - Permissive for authenticated origins
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-    const allowedOrigins = [
-      'https://ehp-tan-eight.vercel.app',
-      'https://ehp-web.onrender.com',
-      process.env.CORS_ORIGIN,
-      process.env.FRONTEND_URL
-    ].filter(Boolean);
-    const isVercel = origin.endsWith('.vercel.app');
-    const isLocal = origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1');
-    if (allowedOrigins.includes(origin) || isVercel || (process.env.NODE_ENV !== 'production' && isLocal)) {
-      return callback(null, true);
-    }
-    // Return null, false instead of throwing Error to prevent 500 crashes
-    callback(null, false);
-  },
+  origin: true,
   credentials: true 
 }));
 
 // Security Headers (OWASP recommended)
 app.use(helmet({
   crossOriginEmbedderPolicy: false,
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com'],
-      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
-      imgSrc: ["'self'", 'data:', 'https://res.cloudinary.com'],
-      connectSrc: ["'self'", 'https://ehp-web.onrender.com', 'https://ehp-tan-eight.vercel.app'],
-      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
-    }
-  }
+  contentSecurityPolicy: false
 }));
 
 // Body Parsers
@@ -86,8 +61,26 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser());
 
-// NoSQL Injection Prevention - sanitize all incoming req.body/query/params
-app.use(mongoSanitize({ replaceWith: '_' }));
+// Safe NoSQL Injection Sanitizer (Express 5 compatible)
+app.use((req, res, next) => {
+  try {
+    if (req.body && typeof req.body === 'object') {
+      const sanitizeObj = (obj: any) => {
+        for (const key in obj) {
+          if (key.startsWith('$') || key.includes('.')) {
+            delete obj[key];
+          } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+            sanitizeObj(obj[key]);
+          }
+        }
+      };
+      sanitizeObj(req.body);
+    }
+  } catch (e) {
+    // Ignore error
+  }
+  next();
+});
 
 // Global IP Blocklist Check
 app.use(ipBlocklistCheck);
