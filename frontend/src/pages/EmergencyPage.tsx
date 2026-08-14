@@ -199,9 +199,9 @@ const EmergencyPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center text-white space-y-6">
-        <div className="w-16 h-16 border-4 border-primary-600/20 border-t-primary-600 rounded-full animate-spin" />
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-500">Decrypting Life-Link...</p>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/40 to-sky-100/50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950 flex flex-col items-center justify-center space-y-6">
+        <div className="w-16 h-16 border-4 border-blue-500/20 border-t-blue-600 rounded-full animate-spin" />
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Decrypting Life-Link Protocol...</p>
       </div>
     );
   }
@@ -266,43 +266,43 @@ const EmergencyPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0A0A0A] text-gray-900 dark:text-gray-100 font-sans pb-24 selection:bg-primary-500/30">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/40 to-sky-100/50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950 text-slate-900 dark:text-slate-100 font-sans pb-24 selection:bg-blue-500/30">
       <AnimatePresence>
         {isOffline && (
           <motion.div 
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="bg-amber-500 text-white py-3 px-4 text-center text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2"
+            className="bg-amber-500 text-white py-3 px-4 text-center text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 shadow-md"
           >
             <WifiOff className="h-4 w-4" /> Offline Cache Active
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Modern Header */}
-      <header className={`sticky top-0 z-[100] backdrop-blur-2xl border-b transition-all duration-500 ${isFullAccess ? 'bg-primary-600/90 border-primary-500/20' : 'bg-rose-600/90 border-rose-500/20'}`}>
+      {/* Modern Healthcare Header */}
+      <header className={`sticky top-0 z-[100] backdrop-blur-2xl border-b transition-all duration-500 ${isFullAccess ? 'bg-gradient-to-r from-blue-700 via-blue-600 to-sky-500 border-blue-400/30 shadow-lg shadow-blue-500/10' : 'bg-gradient-to-r from-rose-600 to-rose-500 border-rose-400/30 shadow-lg shadow-rose-500/10'}`}>
         <div className="max-w-4xl mx-auto px-6 h-20 flex justify-between items-center text-white">
           <div className="flex items-center gap-3">
-             <div className="p-2 bg-white/20 rounded-xl">
-                <Activity className="h-6 w-6" />
+             <div className="p-2.5 bg-white/20 rounded-2xl border border-white/20 shadow-inner">
+                <Activity className="h-6 w-6 text-white animate-pulse" />
              </div>
              <div>
-                <span className="text-lg font-black tracking-tighter block leading-none">EHP</span>
-                <span className="text-[9px] font-black uppercase tracking-widest opacity-60">Life-Link Protocol</span>
+                <span className="text-xl font-black tracking-tight block leading-none">EHP EMERGENCY</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-blue-100">Life-Link Protocol</span>
              </div>
           </div>
           
           <div className="flex items-center gap-4">
              {isFullAccess && timeLeft !== null && (
-               <div className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-colors ${timeLeft <= 60 ? 'bg-rose-500/20 border-rose-500/50 text-rose-100 animate-pulse' : 'bg-white/20 border-white/20 text-white'}`}>
+               <div className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border transition-colors ${timeLeft <= 60 ? 'bg-rose-500/30 border-rose-400/50 text-rose-100 animate-pulse' : 'bg-white/20 border-white/20 text-white'}`}>
                  <Clock className="h-4 w-4" />
                  <span>Expires: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</span>
                </div>
              )}
-             <div className="flex bg-white/10 p-1 rounded-xl border border-white/20">
-               <button onClick={() => i18n.changeLanguage('en')} className={`px-4 py-2 rounded-lg text-[10px] font-black tracking-widest transition-all ${i18n.language.startsWith('en') ? 'bg-white text-gray-900 shadow-xl' : 'text-white hover:bg-white/10'}`}>EN</button>
-               <button onClick={() => i18n.changeLanguage('hi')} className={`px-4 py-2 rounded-lg text-[10px] font-black tracking-widest transition-all ${i18n.language === 'hi' ? 'bg-white text-gray-900 shadow-xl' : 'text-white hover:bg-white/10'}`}>हिं</button>
+             <div className="flex bg-white/15 p-1 rounded-xl border border-white/20">
+               <button onClick={() => i18n.changeLanguage('en')} className={`px-4 py-2 rounded-lg text-xs font-black tracking-widest transition-all ${i18n.language.startsWith('en') ? 'bg-white text-blue-900 shadow-lg' : 'text-white hover:bg-white/10'}`}>EN</button>
+               <button onClick={() => i18n.changeLanguage('hi')} className={`px-4 py-2 rounded-lg text-xs font-black tracking-widest transition-all ${i18n.language === 'hi' ? 'bg-white text-blue-900 shadow-lg' : 'text-white hover:bg-white/10'}`}>हिं</button>
              </div>
           </div>
         </div>
@@ -354,21 +354,21 @@ const EmergencyPage = () => {
           <motion.div 
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
-            className="bg-gradient-to-br from-primary-900 to-slate-900 border border-primary-500/30 rounded-[3rem] p-10 backdrop-blur-3xl flex flex-col md:flex-row items-center justify-between gap-8 shadow-3xl shadow-primary-900/30 relative overflow-hidden group"
+            className="bg-gradient-to-br from-blue-900 via-blue-800 to-sky-900 border border-blue-400/30 rounded-[3rem] p-8 md:p-10 backdrop-blur-3xl flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl shadow-blue-900/30 relative overflow-hidden group"
           >
-            <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl group-hover:bg-primary-500/20 transition-all duration-700"></div>
+            <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-sky-400/10 rounded-full blur-3xl group-hover:bg-sky-400/20 transition-all duration-700"></div>
             <div className="flex items-center gap-6 text-white relative z-10">
-              <div className="p-5 bg-white/10 rounded-[2rem] border border-white/10 shadow-inner">
-                 <Lock className="h-10 w-10 text-primary-400" />
+              <div className="p-5 bg-white/10 rounded-[2rem] border border-white/20 shadow-inner">
+                 <Lock className="h-10 w-10 text-sky-300" />
               </div>
               <div>
                 <h3 className="font-black text-2xl text-white tracking-tight">{t('doctor_access')}</h3>
-                <p className="text-primary-300 font-medium">Decrypt full clinical records using the Medical Key.</p>
+                <p className="text-blue-100 font-medium text-sm">Decrypt full clinical records using the Medical Key.</p>
               </div>
             </div>
             <button 
               onClick={() => setShowDoctorModal(true)} 
-              className="w-full md:w-auto bg-primary-600 hover:bg-primary-500 text-white px-10 py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl shadow-primary-600/40 transition-all active:scale-95 flex items-center justify-center gap-3 relative z-10"
+              className="w-full md:w-auto bg-gradient-to-r from-blue-500 to-sky-400 hover:from-blue-400 hover:to-sky-300 text-white px-10 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-blue-500/40 transition-all active:scale-95 flex items-center justify-center gap-3 relative z-10"
             >
               {t('unlock')} <ChevronRight className="h-5 w-5" />
             </button>

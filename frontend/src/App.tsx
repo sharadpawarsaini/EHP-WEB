@@ -28,6 +28,7 @@ import Analytics from './pages/admin/Analytics';
 import SOSMonitor from './pages/admin/SOSMonitor';
 import CommunicationCenter from './pages/admin/CommunicationCenter';
 import CyberActivityDashboard from './pages/admin/CyberActivityDashboard';
+import UserProfilesHub from './pages/admin/UserProfilesHub';
 import LockdownPage from './pages/LockdownPage';
 
 import { useEffect } from 'react';
@@ -109,6 +110,7 @@ function App() {
               <Route path="sos" element={<SOSMonitor />} />
               <Route path="communication" element={<CommunicationCenter />} />
               <Route path="logs" element={<AuditLogs />} />
+              <Route path="user-profiles" element={<UserProfilesHub />} />
             </Route>
 
           </Routes>

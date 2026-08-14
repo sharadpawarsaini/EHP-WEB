@@ -14,7 +14,8 @@ import {
   TrendingUp,
   Clock,
   Send,
-  Radio
+  Radio,
+  UserCircle
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -27,6 +28,7 @@ const AdminLayout = () => {
     { icon: LayoutDashboard, label: 'Dashboard', path: '/admin' },
     { icon: Radio, label: 'Cyber Security SOC', path: '/admin/cyber-activity' },
     { icon: Users, label: 'User Directory', path: '/admin/users' },
+    { icon: UserCircle, label: 'User Profiles Hub', path: '/admin/user-profiles' },
     { icon: TrendingUp, label: 'Analytics', path: '/admin/analytics' },
     { icon: MessageSquare, label: 'Feedback', path: '/admin/feedback' },
     { icon: Send, label: 'Communications', path: '/admin/communication' },
