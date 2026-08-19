@@ -34,6 +34,12 @@ import EmergencyBeaconStrobeScreen from '../screens/emergency/EmergencyBeaconStr
 import ContactsScreen from '../screens/dashboard/ContactsScreen';
 import FeedbackScreen from '../screens/dashboard/FeedbackScreen';
 import IntegrationsScreen from '../screens/dashboard/IntegrationsScreen';
+import LockdownScreen from '../screens/dashboard/LockdownScreen';
+import PrivacyVaultScreen from '../screens/dashboard/PrivacyVaultScreen';
+import NotificationsCenterScreen from '../screens/dashboard/NotificationsCenterScreen';
+import FAQHelpScreen from '../screens/dashboard/FAQHelpScreen';
+import EmergencyContactSupportScreen from '../screens/dashboard/EmergencyContactSupportScreen';
+import SOSLiveRadarScreen from '../screens/dashboard/SOSLiveRadarScreen';
 
 // 10 Advanced Mobile Health Features
 import AISymptomCheckerScreen from '../screens/dashboard/AISymptomCheckerScreen';
@@ -90,7 +96,13 @@ function HomeStack() {
       <Stack.Screen name="Insurance" component={InsuranceScreen} options={{ title: 'Health Insurance' }} />
       <Stack.Screen name="Contacts" component={ContactsScreen} options={{ title: 'Emergency Contacts' }} />
       <Stack.Screen name="Feedback" component={FeedbackScreen} options={{ title: 'Send Feedback' }} />
-      <Stack.Screen name="Integrations" component={IntegrationsScreen} options={{ title: 'Integrations & Vault' }} />
+      <Stack.Screen name="Integrations" component={IntegrationsScreen} options={{ title: 'Integrations' }} />
+      <Stack.Screen name="Lockdown" component={LockdownScreen} options={{ title: 'System Defense Lockdown' }} />
+      <Stack.Screen name="PrivacyVault" component={PrivacyVaultScreen} options={{ title: 'Zero-Knowledge Privacy Vault' }} />
+      <Stack.Screen name="NotificationsCenter" component={NotificationsCenterScreen} options={{ title: 'Notification Center' }} />
+      <Stack.Screen name="FAQHelp" component={FAQHelpScreen} options={{ title: 'Help & FAQ' }} />
+      <Stack.Screen name="EmergencyContactSupport" component={EmergencyContactSupportScreen} options={{ title: 'Helplines & Support' }} />
+      <Stack.Screen name="SOSLiveRadar" component={SOSLiveRadarScreen} options={{ title: 'Paramedic Live Radar' }} />
       <Stack.Screen name="AccessLogs" component={AccessLogsScreen} options={{ title: 'Emergency Scan Logs' }} />
       <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: 'Settings & Security' }} />
     </Stack.Navigator>
