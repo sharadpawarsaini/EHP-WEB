@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#0a0f1d"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ehp.emergency",
@@ -32,7 +34,11 @@
         "USE_FINGERPRINT",
         "RECEIVE_BOOT_COMPLETED",
         "VIBRATE",
-        "POST_NOTIFICATIONS"
+        "POST_NOTIFICATIONS",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT"
       ]
     },
     "web": {
@@ -43,11 +49,15 @@
       "expo-secure-store",
       [
         "expo-camera",
-        { "cameraPermission": "Allow EHP to use your camera to scan emergency QR codes." }
+        {
+          "cameraPermission": "Allow EHP to use your camera to scan emergency QR codes."
+        }
       ],
       [
         "expo-local-authentication",
-        { "faceIDPermission": "Allow EHP to use Face ID for biometric login." }
+        {
+          "faceIDPermission": "Allow EHP to use Face ID for biometric login."
+        }
       ],
       "expo-font",
       [
@@ -59,6 +69,11 @@
         }
       ]
     ],
-    "scheme": "ehp"
+    "scheme": "ehp",
+    "extra": {
+      "eas": {
+        "projectId": "b03a1cf2-ddb2-4f7e-9f60-fb342298f38e"
+      }
+    }
   }
 }

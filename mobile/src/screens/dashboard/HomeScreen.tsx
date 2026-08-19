@@ -14,7 +14,7 @@ import api from '../../api/api';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { Card, SectionHeader, StatCard, Badge, PrimaryButton, ThemeToggle } from '../../components/ui';
-import { fontSize, fontWeight, radius, spacing } from '../../utils/theme';
+import { fontSize, fontWeight, radius, spacing, shadows } from '../../utils/theme';
 
 export default function HomeScreen({ navigation }: any) {
   const { user } = useAuth();
@@ -76,18 +76,31 @@ export default function HomeScreen({ navigation }: any) {
       showsVerticalScrollIndicator={false}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primary]} />}
     >
-      {/* Top Welcome Bar with Dark/Light Switcher */}
+      {/* ── TOP WELCOME BAR ── */}
       <View style={styles.topBar}>
-        {/* Tappable greeting → Profile */}
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => navigation.navigate('ProfileTab')} activeOpacity={0.75}>
+        <TouchableOpacity
+          style={{ flex: 1 }}
+          onPress={() => navigation.navigate('ProfileTab')}
+          activeOpacity={0.75}
+        >
           <Text style={[styles.greetingText, { color: theme.muted }]}>Welcome Back 👋</Text>
           <Text style={[styles.userName, { color: theme.heading }]} numberOfLines={1}>
-            {profile?.fullName || user?.email || 'Valued Patient'}
+            {profile?.fullName || user?.email?.split('@')[0] || 'Valued Patient'}
           </Text>
         </TouchableOpacity>
 
-        {/* Quick Theme Switcher */}
-        <ThemeToggle style={{ marginRight: spacing.xs }} />
+        {/* Notification Bell */}
+        <TouchableOpacity
+          style={[styles.topIconBtn, { backgroundColor: theme.bgSecondary, borderColor: theme.border }]}
+          onPress={() => navigation.navigate('NotificationsCenter')}
+          activeOpacity={0.8}
+        >
+          <Ionicons name="notifications-outline" size={19} color={theme.heading} />
+          <View style={styles.notifBadge} />
+        </TouchableOpacity>
+
+        {/* Theme Switcher */}
+        <ThemeToggle style={{ marginHorizontal: 2 }} />
 
         {/* Settings Gear */}
         <TouchableOpacity
@@ -98,7 +111,7 @@ export default function HomeScreen({ navigation }: any) {
           <MaterialCommunityIcons name="cog-outline" size={20} color={theme.heading} />
         </TouchableOpacity>
 
-        {/* SOS Quick Beacon Icon */}
+        {/* SOS Beacon Icon */}
         <TouchableOpacity
           style={styles.sosQuickBtn}
           onPress={() => navigation.navigate('SOSBeacon')}
@@ -108,7 +121,7 @@ export default function HomeScreen({ navigation }: any) {
         </TouchableOpacity>
       </View>
 
-      {/* Emergency Hero Banner */}
+      {/* ── EMERGENCY HERO BANNER ── */}
       <LinearGradient
         colors={isDark ? ['#0369a1', '#0284c7'] : ['#2563eb', '#0284c7']}
         start={[0, 0]}
@@ -123,10 +136,10 @@ export default function HomeScreen({ navigation }: any) {
             </View>
             <Text style={styles.heroTitle}>Paramedic Fast-Path Active</Text>
             <Text style={styles.heroSubtitle}>
-              First responders can scan your QR or NFC tag to immediately view blood type, allergies, and contacts.
+              First responders can scan your QR or NFC tag to immediately view blood type, allergies, and emergency contacts.
             </Text>
           </View>
-          
+
           <View style={styles.heroActionRow}>
             <TouchableOpacity
               style={styles.viewQrBtn}
@@ -152,20 +165,29 @@ export default function HomeScreen({ navigation }: any) {
               activeOpacity={0.85}
             >
               <MaterialCommunityIcons name="qrcode" size={16} color="#ffffff" />
-              <Text style={styles.nfcHeroBtnText}>QR</Text>
+              <Text style={styles.nfcHeroBtnText}>QR Code</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.nfcHeroBtn}
+              onPress={() => navigation.navigate('SOSLiveRadar')}
+              activeOpacity={0.85}
+            >
+              <MaterialCommunityIcons name="radar" size={16} color="#ffffff" />
+              <Text style={styles.nfcHeroBtnText}>Radar</Text>
             </TouchableOpacity>
           </View>
         </View>
       </LinearGradient>
 
-      {/* Health Score & Quick Metrics */}
+      {/* ── HEALTH STATS ROW ── */}
       <View style={styles.statsRow}>
         <StatCard
           label="Profile Score"
           value={`${healthScore}%`}
           icon={<MaterialCommunityIcons name="shield-check" size={22} color={theme.primary} />}
           color={theme.primary}
-          onPress={() => navigation.navigate('Profile')}
+          onPress={() => navigation.navigate('ProfileTab')}
         />
         <StatCard
           label="Blood Type"
@@ -173,7 +195,7 @@ export default function HomeScreen({ navigation }: any) {
           icon={<MaterialCommunityIcons name="water" size={22} color={theme.danger} />}
           color={theme.danger}
           bg={theme.dangerBg}
-          onPress={() => navigation.navigate('Medical')}
+          onPress={() => navigation.navigate('MedicalTab')}
         />
         <StatCard
           label="Active Meds"
@@ -181,33 +203,24 @@ export default function HomeScreen({ navigation }: any) {
           icon={<MaterialCommunityIcons name="pill" size={22} color={theme.success} />}
           color={theme.success}
           bg={theme.successBg}
-          onPress={() => navigation.navigate('Medicines')}
+          onPress={() => navigation.navigate('MedicinesTab')}
         />
       </View>
 
-      {/* Comprehensive 10-Feature Quick Actions Hub */}
-      <SectionHeader title="Mobile Health & Safety Hub" subtitle="10+ Specialized tools & emergency features" />
+      {/* ── 1. 🚨 EMERGENCY & SAFETY PROTOCOLS (6 tools) ── */}
+      <SectionHeader title="Emergency & Safety Suite" subtitle="Critical lifesaving tools & dispatch" />
       <View style={styles.shortcutsGrid}>
         {[
-          { label: 'AI Symptom', icon: 'robot', color: '#38bdf8', bg: isDark ? '#0c2738' : '#eff6ff', screen: 'AISymptomChecker' },
-          { label: 'Drug Safety', icon: 'pill-multiple', color: '#10b981', bg: isDark ? '#09251e' : '#ecfdf5', screen: 'DrugInteraction' },
-          { label: 'CPR & First Aid', icon: 'heart-pulse', color: '#e11d48', bg: isDark ? '#2a1215' : '#fff1f2', screen: 'FirstAidGuides' },
-          { label: 'Voice Notes', icon: 'microphone', color: '#a855f7', bg: isDark ? '#24103a' : '#f5f3ff', screen: 'VoiceNotes' },
-          { label: 'Clinical PDF', icon: 'file-certificate', color: '#2563eb', bg: isDark ? '#0c2738' : '#eff6ff', screen: 'ClinicalExport' },
-          { label: 'Doc Scanner', icon: 'camera-document', color: '#0284c7', bg: isDark ? '#0c2738' : '#eff6ff', screen: 'MedicalDocScanner' },
-          { label: 'Hydration', icon: 'water', color: '#06b6d4', bg: isDark ? '#082f49' : '#ecfeff', screen: 'HydrationTracker' },
-          { label: 'Vaccine Pass', icon: 'needle', color: '#f59e0b', bg: isDark ? '#261b0c' : '#fffbeb', screen: 'VaccinePass' },
-          { label: 'Family Hub', icon: 'account-group', color: '#10b981', bg: isDark ? '#09251e' : '#ecfdf5', screen: 'FamilyEmergencyHub' },
-          { label: 'Silent SOS', icon: 'shield-alert', color: '#f43f5e', bg: isDark ? '#2a1215' : '#fff1f2', screen: 'CovertSOS' },
-          { label: 'Night Strobe', icon: 'car-emergency', color: '#e11d48', bg: isDark ? '#2a1215' : '#fff1f2', screen: 'EmergencyStrobe' },
-          { label: 'Face ID Lock', icon: 'face-recognition', color: '#38bdf8', bg: isDark ? '#0c2738' : '#eff6ff', screen: 'FaceIDEnrollment' },
+          { label: 'SOS Beacon', icon: 'broadcast', color: '#e11d48', bg: isDark ? '#2a1215' : '#ffe4e6', screen: 'SOSBeacon' },
+          { label: 'Live Radar', icon: 'radar', color: '#0284c7', bg: isDark ? '#0c2738' : '#eff6ff', screen: 'SOSLiveRadar' },
+          { label: 'Night Strobe', icon: 'car-emergency', color: '#f43f5e', bg: isDark ? '#2a1215' : '#ffe4e6', screen: 'EmergencyStrobe' },
+          { label: 'Silent SOS', icon: 'shield-alert', color: '#f59e0b', bg: isDark ? '#261b0c' : '#fef3c7', screen: 'CovertSOS' },
+          { label: 'CPR & First Aid', icon: 'heart-pulse', color: '#10b981', bg: isDark ? '#09251e' : '#ecfdf5', screen: 'FirstAidGuides' },
+          { label: 'Lockdown', icon: 'lock-alert', color: '#dc2626', bg: isDark ? '#2a1215' : '#fee2e2', screen: 'Lockdown' },
         ].map((item, index) => (
           <TouchableOpacity
             key={index}
-            style={[
-              styles.shortcutItem,
-              { backgroundColor: theme.bgCard, borderColor: theme.border },
-            ]}
+            style={[styles.shortcutItem, { backgroundColor: theme.bgCard, borderColor: theme.border }]}
             onPress={() => navigation.navigate(item.screen)}
             activeOpacity={0.7}
           >
@@ -219,16 +232,43 @@ export default function HomeScreen({ navigation }: any) {
         ))}
       </View>
 
-      {/* ── RECORDS HUB (navigates to full screens) ── */}
-      <SectionHeader title="Health Records Hub" subtitle="Full history & clinical data" />
+      {/* ── 2. 🤖 AI & ADVANCED CLINICAL TOOLS (6 tools) ── */}
+      <SectionHeader title="AI & Health Intelligence" subtitle="Diagnostics, contraindications & voice notes" />
+      <View style={styles.shortcutsGrid}>
+        {[
+          { label: 'AI Symptom', icon: 'robot', color: '#38bdf8', bg: isDark ? '#0c2738' : '#eff6ff', screen: 'AISymptomChecker' },
+          { label: 'Drug Safety', icon: 'pill-multiple', color: '#10b981', bg: isDark ? '#09251e' : '#ecfdf5', screen: 'DrugInteraction' },
+          { label: 'Voice Notes', icon: 'microphone', color: '#a855f7', bg: isDark ? '#24103a' : '#f5f3ff', screen: 'VoiceNotes' },
+          { label: 'Clinical PDF', icon: 'file-certificate', color: '#2563eb', bg: isDark ? '#0c2738' : '#eff6ff', screen: 'ClinicalExport' },
+          { label: 'Doc Scanner', icon: 'camera-document', color: '#0284c7', bg: isDark ? '#0c2738' : '#eff6ff', screen: 'MedicalDocScanner' },
+          { label: 'Hydration', icon: 'water', color: '#06b6d4', bg: isDark ? '#082f49' : '#ecfeff', screen: 'HydrationTracker' },
+        ].map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.shortcutItem, { backgroundColor: theme.bgCard, borderColor: theme.border }]}
+            onPress={() => navigation.navigate(item.screen)}
+            activeOpacity={0.7}
+          >
+            <View style={[styles.shortcutIconBox, { backgroundColor: item.bg }]}>
+              <MaterialCommunityIcons name={item.icon as any} size={24} color={item.color} />
+            </View>
+            <Text style={[styles.shortcutLabel, { color: theme.heading }]}>{item.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* ── 3. 📋 HEALTH RECORDS & ADMISSIONS HUB ── */}
+      <SectionHeader title="Health Records & Admissions" subtitle="Hospital visits, doctor visits & lab reports" />
       <View style={styles.recordsGrid}>
         {[
-          { label: 'Hospital Visits', icon: 'hospital-building', color: '#2563eb', bg: isDark ? '#0c2738' : '#dbeafe', screen: 'HospitalVisits', desc: 'Admissions & ER logs' },
-          { label: 'Appointments', icon: 'calendar-clock', color: '#7c3aed', bg: isDark ? '#2e1065' : '#f3e8ff', screen: 'Appointments', desc: 'Scheduled doctor visits' },
-          { label: 'Lab Reports', icon: 'test-tube', color: '#0891b2', bg: isDark ? '#082f49' : '#cffafe', screen: 'Reports', desc: 'Blood tests & scans' },
-          { label: 'Vaccinations', icon: 'needle', color: '#d97706', bg: isDark ? '#261b0c' : '#fef3c7', screen: 'Vaccinations', desc: 'Immunisation records' },
-          { label: 'Insurance', icon: 'shield-check', color: '#059669', bg: isDark ? '#09251e' : '#d1fae5', screen: 'Insurance', desc: 'Policy & claims' },
-          { label: 'Family', icon: 'account-group', color: '#c026d3', bg: isDark ? '#2e0e4a' : '#fae8ff', screen: 'Family', desc: 'Dependants & members' },
+          { label: 'Hospital Visits', icon: 'hospital-building', color: '#2563eb', bg: isDark ? '#0c2738' : '#dbeafe', screen: 'HospitalVisits', desc: 'Admissions, ER & Doctor logs' },
+          { label: 'Doctor Appointments', icon: 'calendar-clock', color: '#7c3aed', bg: isDark ? '#2e1065' : '#f3e8ff', screen: 'Appointments', desc: 'Upcoming scheduled checkups' },
+          { label: 'Lab Reports Vault', icon: 'test-tube', color: '#0891b2', bg: isDark ? '#082f49' : '#cffafe', screen: 'Reports', desc: 'Blood panels, ECG & scans' },
+          { label: 'Vaccine Passport', icon: 'needle', color: '#d97706', bg: isDark ? '#261b0c' : '#fef3c7', screen: 'VaccinePass', desc: 'Immunization certificates' },
+          { label: 'Health Insurance', icon: 'shield-check', color: '#059669', bg: isDark ? '#09251e' : '#d1fae5', screen: 'Insurance', desc: 'Policy numbers & claims' },
+          { label: 'Emergency Contacts', icon: 'contacts', color: '#ea580c', bg: isDark ? '#2e1409' : '#ffedd5', screen: 'Contacts', desc: 'Family, doctor & work speed-dial' },
+          { label: 'Family Hub', icon: 'account-group', color: '#c026d3', bg: isDark ? '#2e0e4a' : '#fae8ff', screen: 'FamilyEmergencyHub', desc: 'Kids & elderly parent cards' },
+          { label: 'Zero-Knowledge Vault', icon: 'safe', color: '#10b981', bg: isDark ? '#09251e' : '#d1fae5', screen: 'PrivacyVault', desc: 'AES-256 client-encrypted files' },
         ].map((item) => (
           <TouchableOpacity
             key={item.screen}
@@ -248,11 +288,53 @@ export default function HomeScreen({ navigation }: any) {
         ))}
       </View>
 
-      {/* Critical Medical Summary Card */}
+      {/* ── 4. ⚙️ UTILITIES, HELP & CONNECTIVITY (4 tools) ── */}
+      <SectionHeader title="Connectivity & Support" subtitle="Biometrics, integrations & helplines" />
+      <View style={styles.shortcutsGrid}>
+        {[
+          { label: 'Face ID Lock', icon: 'face-recognition', color: '#38bdf8', bg: isDark ? '#0c2738' : '#eff6ff', screen: 'FaceIDEnrollment' },
+          { label: 'Helpline 108', icon: 'phone-classic', color: '#e11d48', bg: isDark ? '#2a1215' : '#ffe4e6', screen: 'EmergencyContactSupport' },
+          { label: 'Integrations', icon: 'connection', color: '#10b981', bg: isDark ? '#09251e' : '#ecfdf5', screen: 'Integrations' },
+          { label: 'Help & FAQ', icon: 'help-circle-outline', color: '#6366f1', bg: isDark ? '#1e1b4b' : '#ede9fe', screen: 'FAQHelp' },
+          { label: 'Feedback', icon: 'message-star', color: '#f59e0b', bg: isDark ? '#261b0c' : '#fffbeb', screen: 'Feedback' },
+          { label: 'Scan Logs', icon: 'history', color: '#64748b', bg: isDark ? '#1e293b' : '#f1f5f9', screen: 'AccessLogs' },
+        ].map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.shortcutItem, { backgroundColor: theme.bgCard, borderColor: theme.border }]}
+            onPress={() => navigation.navigate(item.screen)}
+            activeOpacity={0.7}
+          >
+            <View style={[styles.shortcutIconBox, { backgroundColor: item.bg }]}>
+              <MaterialCommunityIcons name={item.icon as any} size={24} color={item.color} />
+            </View>
+            <Text style={[styles.shortcutLabel, { color: theme.heading }]}>{item.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* ── HOSPITAL FINDER BANNER ── */}
+      <TouchableOpacity
+        style={[
+          styles.finderCta,
+          { backgroundColor: isDark ? '#0c2738' : '#dbeafe', borderColor: isDark ? '#1e3a5f' : '#bfdbfe' },
+        ]}
+        onPress={() => navigation.navigate('HospitalFinder')}
+        activeOpacity={0.8}
+      >
+        <MaterialCommunityIcons name="map-marker-plus" size={26} color="#0284c7" />
+        <View style={{ flex: 1 }}>
+          <Text style={[styles.finderCtaTitle, { color: theme.heading }]}>Find Nearest Hospital & ER</Text>
+          <Text style={[styles.finderCtaSub, { color: theme.muted }]}>Live ICU/ER bed availability & 1-tap route</Text>
+        </View>
+        <Ionicons name="chevron-forward" size={18} color="#0284c7" />
+      </TouchableOpacity>
+
+      {/* ── CRITICAL MEDICAL SUMMARY CARD ── */}
       <Card style={styles.medicalOverviewCard}>
         <View style={styles.cardTopRow}>
           <Text style={[styles.cardHeaderTitle, { color: theme.heading }]}>Medical Quick Sheet</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Medical')}>
+          <TouchableOpacity onPress={() => navigation.navigate('MedicalTab')}>
             <Text style={[styles.editLink, { color: theme.primary }]}>Edit All</Text>
           </TouchableOpacity>
         </View>
@@ -286,7 +368,7 @@ export default function HomeScreen({ navigation }: any) {
         </View>
       </Card>
 
-      {/* Daily Dose Adherence Card */}
+      {/* ── DAILY DOSE ADHERENCE CARD ── */}
       <Card style={styles.adherenceCard}>
         <View style={styles.adherenceTop}>
           <View style={[styles.adherenceIcon, { backgroundColor: theme.successBg }]}>
@@ -300,24 +382,10 @@ export default function HomeScreen({ navigation }: any) {
         </View>
         <PrimaryButton
           title="Manage Prescriptions"
-          onPress={() => navigation.navigate('Medicines')}
+          onPress={() => navigation.navigate('MedicinesTab')}
           style={{ marginTop: spacing.md }}
         />
       </Card>
-
-      {/* Hospital Finder CTA */}
-      <TouchableOpacity
-        style={[styles.finderCta, { backgroundColor: isDark ? '#0c2738' : '#dbeafe', borderColor: isDark ? '#1e3a5f' : '#bfdbfe' }]}
-        onPress={() => navigation.navigate('HospitalFinder')}
-        activeOpacity={0.8}
-      >
-        <MaterialCommunityIcons name="map-marker-plus" size={26} color="#0284c7" />
-        <View style={{ flex: 1 }}>
-          <Text style={[styles.finderCtaTitle, { color: theme.heading }]}>Find Nearest Hospital</Text>
-          <Text style={[styles.finderCtaSub, { color: theme.muted }]}>ER bed tracker & real-time distance</Text>
-        </View>
-        <Ionicons name="chevron-forward" size={18} color="#0284c7" />
-      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -335,7 +403,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: spacing.lg,
-    gap: spacing.xs,
+    gap: 6,
   },
   greetingText: {
     fontSize: fontSize.xs,
@@ -346,6 +414,24 @@ const styles = StyleSheet.create({
     fontSize: fontSize.xl,
     fontWeight: fontWeight.bold,
   },
+  topIconBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: radius.full,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  notifBadge: {
+    position: 'absolute',
+    top: 7,
+    right: 8,
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+    backgroundColor: '#ef4444',
+  },
   sosQuickBtn: {
     width: 38,
     height: 38,
@@ -354,14 +440,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 3,
-  },
-  topIconBtn: {
-    width: 38,
-    height: 38,
-    borderRadius: radius.full,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   emergencyHero: {
     borderRadius: radius['3xl'],
@@ -477,62 +555,6 @@ const styles = StyleSheet.create({
     fontWeight: fontWeight.bold,
     textAlign: 'center',
   },
-  medicalOverviewCard: {
-    padding: spacing.lg,
-  },
-  cardTopRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.md,
-  },
-  cardHeaderTitle: {
-    fontSize: fontSize.md,
-    fontWeight: fontWeight.bold,
-  },
-  editLink: {
-    fontSize: fontSize.xs,
-    fontWeight: fontWeight.bold,
-  },
-  infoSection: {
-    gap: 6,
-  },
-  infoLabel: {
-    fontSize: fontSize.xs,
-    fontWeight: fontWeight.bold,
-    textTransform: 'uppercase',
-  },
-  tagContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
-  },
-  emptyText: {
-    fontSize: fontSize.xs,
-    fontStyle: 'italic',
-  },
-  adherenceCard: {
-    padding: spacing.lg,
-  },
-  adherenceTop: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-  },
-  adherenceIcon: {
-    width: 44,
-    height: 44,
-    borderRadius: radius.xl,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  adherenceTitle: {
-    fontSize: fontSize.md,
-    fontWeight: fontWeight.bold,
-  },
-  adherenceSub: {
-    fontSize: fontSize.xs,
-  },
   recordsGrid: {
     marginBottom: spacing.lg,
     gap: spacing.sm,
@@ -577,5 +599,62 @@ const styles = StyleSheet.create({
     fontSize: fontSize.xs,
     marginTop: 2,
   },
+  medicalOverviewCard: {
+    padding: spacing.lg,
+    marginBottom: spacing.lg,
+  },
+  cardTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.md,
+  },
+  cardHeaderTitle: {
+    fontSize: fontSize.md,
+    fontWeight: fontWeight.bold,
+  },
+  editLink: {
+    fontSize: fontSize.xs,
+    fontWeight: fontWeight.bold,
+  },
+  infoSection: {
+    gap: 6,
+  },
+  infoLabel: {
+    fontSize: fontSize.xs,
+    fontWeight: fontWeight.bold,
+    textTransform: 'uppercase',
+  },
+  tagContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+  },
+  emptyText: {
+    fontSize: fontSize.xs,
+    fontStyle: 'italic',
+  },
+  adherenceCard: {
+    padding: spacing.lg,
+    marginBottom: spacing.lg,
+  },
+  adherenceTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+  },
+  adherenceIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.xl,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  adherenceTitle: {
+    fontSize: fontSize.md,
+    fontWeight: fontWeight.bold,
+  },
+  adherenceSub: {
+    fontSize: fontSize.xs,
+  },
 });
-
