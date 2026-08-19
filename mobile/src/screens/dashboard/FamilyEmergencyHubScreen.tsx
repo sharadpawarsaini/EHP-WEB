@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,73 +6,109 @@ import {
   ScrollView,
   TouchableOpacity,
   Platform,
+  ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import api from '../../api/api';
+import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
-import { Card, SectionHeader, Badge, PrimaryButton } from '../../components/ui';
+import { Card, SectionHeader, Badge, PrimaryButton, SecondaryButton } from '../../components/ui';
 import { radius, spacing, fontSize, fontWeight } from '../../utils/theme';
 
 export default function FamilyEmergencyHubScreen({ navigation }: any) {
+  const { user } = useAuth();
   const { theme, isDark } = useTheme();
-  const [activeMember, setActiveMember] = useState('1');
+  const [profile, setProfile] = useState<any>(null);
+  const [medical, setMedical] = useState<any>(null);
+  const [medicines, setMedicines] = useState<any[]>([]);
+  const [familyMembers, setFamilyMembers] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<string>('primary');
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const [members] = useState([
+  const fetchRealData = async () => {
+    try {
+      const [profRes, medRes, pillsRes, famRes] = await Promise.allSettled([
+        api.get('/profile'),
+        api.get('/medical'),
+        api.get('/medicines'),
+        api.get('/family'),
+      ]);
+
+      if (profRes.status === 'fulfilled') setProfile(profRes.value.data);
+      if (medRes.status === 'fulfilled') setMedical(medRes.value.data);
+      if (pillsRes.status === 'fulfilled') setMedicines(pillsRes.value.data || []);
+      if (famRes.status === 'fulfilled') setFamilyMembers(famRes.value.data || []);
+    } catch (e) {
+      console.log('Error fetching family hub telemetry:', e);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRealData();
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchRealData();
+  };
+
+  if (loading) {
+    return (
+      <View style={[styles.loader, { backgroundColor: theme.bg }]}>
+        <ActivityIndicator size="large" color={theme.primary} />
+      </View>
+    );
+  }
+
+  // Combine primary profile with real family members
+  const allProfiles = [
     {
-      id: '1',
-      name: 'Myself (Primary)',
-      relation: 'Self',
-      blood: 'O+ Positive',
-      allergies: ['Penicillin'],
-      conditions: ['Hypertension'],
-      meds: 2,
+      id: 'primary',
+      name: profile?.fullName || user?.email?.split('@')[0] || 'Primary Account',
+      relation: 'Self (Primary)',
+      blood: profile?.bloodGroup || 'Not Set',
+      allergies: medical?.allergies || [],
+      conditions: medical?.conditions || [],
+      meds: medicines.filter((m) => m.active !== false).length,
+      emergencyContact: profile?.emergencyContact || 'Not Set',
     },
-    {
-      id: '2',
-      name: 'Sarah (Spouse)',
-      relation: 'Spouse',
-      blood: 'A+ Positive',
-      allergies: ['Sulfa Drugs'],
-      conditions: ['Asthma'],
-      meds: 1,
-    },
-    {
-      id: '3',
-      name: 'Leo (Child - 8 yrs)',
-      relation: 'Child',
-      blood: 'O+ Positive',
-      allergies: ['Peanuts'],
-      conditions: ['None'],
+    ...familyMembers.map((fm) => ({
+      id: fm._id,
+      name: fm.name || fm.fullName,
+      relation: fm.relationship || 'Dependent',
+      blood: fm.bloodGroup || 'UNK',
+      allergies: fm.allergies || [],
+      conditions: fm.conditions || [],
       meds: 0,
-    },
-    {
-      id: '4',
-      name: 'Robert (Father - 68 yrs)',
-      relation: 'Elderly Parent',
-      blood: 'B+ Positive',
-      allergies: ['Aspirin'],
-      conditions: ['Type 2 Diabetes', 'Coronary Artery Disease'],
-      meds: 4,
-    },
-  ]);
+      emergencyContact: fm.emergencyContact || 'Inherited',
+    })),
+  ];
 
-  const selected = members.find((m) => m.id === activeMember) || members[0];
+  const selected = allProfiles.find((p) => p.id === activeTab) || allProfiles[0];
 
   return (
     <ScrollView
       style={[styles.container, { backgroundColor: theme.bg }]}
       contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primary]} />}
     >
       <SectionHeader
         title="Family Emergency Hub"
-        subtitle="Manage dependent emergency profiles"
+        subtitle="Real-time multi-profile dependent switcher"
         icon={<MaterialCommunityIcons name="account-group" size={24} color={theme.primary} />}
       />
 
       {/* Member Selector Horizontal Pills */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.memberPillsScroll}>
         <View style={styles.memberPills}>
-          {members.map((m) => {
-            const isSel = m.id === activeMember;
+          {allProfiles.map((m) => {
+            const isSel = m.id === activeTab;
             return (
               <TouchableOpacity
                 key={m.id}
@@ -83,7 +119,8 @@ export default function FamilyEmergencyHubScreen({ navigation }: any) {
                     borderColor: isSel ? theme.primary : theme.border,
                   },
                 ]}
-                onPress={() => setActiveMember(m.id)}
+                onPress={() => setActiveTab(m.id)}
+                activeOpacity={0.75}
               >
                 <Text style={[styles.memberPillText, { color: isSel ? '#ffffff' : theme.heading }]}>
                   {m.relation}
@@ -97,8 +134,8 @@ export default function FamilyEmergencyHubScreen({ navigation }: any) {
       {/* Active Selected Member Emergency Profile Card */}
       <Card style={styles.profileCard}>
         <View style={styles.profileHeader}>
-          <View style={styles.avatarCircle}>
-            <Text style={styles.avatarText}>{selected.name[0]}</Text>
+          <View style={[styles.avatarCircle, { backgroundColor: theme.primary }]}>
+            <Text style={styles.avatarText}>{selected.name[0]?.toUpperCase() || 'P'}</Text>
           </View>
           <View style={{ flex: 1 }}>
             <Text style={[styles.profileName, { color: theme.heading }]}>{selected.name}</Text>
@@ -111,15 +148,15 @@ export default function FamilyEmergencyHubScreen({ navigation }: any) {
 
         <View style={styles.detailRow}>
           <Text style={[styles.detailLabel, { color: theme.muted }]}>Severe Allergies:</Text>
-          <Text style={[styles.detailVal, { color: '#e11d48', fontWeight: fontWeight.bold }]}>
-            {selected.allergies.join(', ')}
+          <Text style={[styles.detailVal, { color: selected.allergies.length > 0 ? '#e11d48' : theme.muted, fontWeight: fontWeight.bold }]}>
+            {selected.allergies.length > 0 ? selected.allergies.join(', ') : 'None Documented'}
           </Text>
         </View>
 
         <View style={styles.detailRow}>
           <Text style={[styles.detailLabel, { color: theme.muted }]}>Chronic Conditions:</Text>
           <Text style={[styles.detailVal, { color: theme.heading }]}>
-            {selected.conditions.join(', ')}
+            {selected.conditions.length > 0 ? selected.conditions.join(', ') : 'None Reported'}
           </Text>
         </View>
 
@@ -130,10 +167,23 @@ export default function FamilyEmergencyHubScreen({ navigation }: any) {
           </Text>
         </View>
 
+        <View style={styles.detailRow}>
+          <Text style={[styles.detailLabel, { color: theme.muted }]}>Emergency Contact:</Text>
+          <Text style={[styles.detailVal, { color: theme.primary, fontWeight: fontWeight.bold }]}>
+            {selected.emergencyContact}
+          </Text>
+        </View>
+
         <PrimaryButton
-          title={`View ${selected.relation}'s Emergency QR Card`}
+          title={`View ${selected.name}'s Digital Emergency Card`}
           onPress={() => navigation.navigate('DigitalWalletCard')}
           style={{ marginTop: spacing.md }}
+        />
+
+        <SecondaryButton
+          title="+ Add Another Family Member"
+          onPress={() => navigation.navigate('Family')}
+          style={{ marginTop: spacing.sm }}
         />
       </Card>
     </ScrollView>
@@ -143,6 +193,11 @@ export default function FamilyEmergencyHubScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  loader: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   content: {
     padding: spacing.md,
@@ -178,7 +233,6 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: '#2563eb',
     alignItems: 'center',
     justifyContent: 'center',
   },

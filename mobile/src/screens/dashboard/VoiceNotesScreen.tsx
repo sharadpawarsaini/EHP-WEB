@@ -9,32 +9,40 @@ import {
   Alert,
 } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import * as SecureStore from 'expo-secure-store';
 import { useTheme } from '../../context/ThemeContext';
-import { Card, SectionHeader, Badge, PrimaryButton, SecondaryButton, EmptyState } from '../../components/ui';
+import { Card, SectionHeader, Badge, PrimaryButton, EmptyState } from '../../components/ui';
 import { radius, spacing, fontSize, fontWeight } from '../../utils/theme';
+
+const MEMO_STORE_KEY = 'ehp_voice_memos_list';
 
 export default function VoiceNotesScreen({ navigation }: any) {
   const { theme, isDark } = useTheme();
   const [isRecording, setIsRecording] = useState(false);
   const [recordDuration, setRecordDuration] = useState(0);
-  const [memos, setMemos] = useState<any[]>([
-    {
-      id: '1',
-      title: 'Cardiologist Follow-up Instructions',
-      duration: '0:42',
-      date: 'Aug 18, 2026',
-      tag: 'Doctor Memo',
-      transcription: 'Continue 50mg Metoprolol morning dose. Keep monitoring resting HR.',
-    },
-    {
-      id: '2',
-      title: 'Night Sudden Chest Ache Incident',
-      duration: '0:18',
-      date: 'Aug 14, 2026',
-      tag: 'Symptom Note',
-      transcription: 'Mild tightness felt at 2 AM after exertion, resolved within 5 mins.',
-    },
-  ]);
+  const [memos, setMemos] = useState<any[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const stored = await SecureStore.getItemAsync(MEMO_STORE_KEY);
+        if (stored) {
+          setMemos(JSON.parse(stored));
+        }
+      } catch (e) {
+        console.log('Error loading stored memos:', e);
+      }
+    })();
+  }, []);
+
+  const saveMemos = async (updated: any[]) => {
+    setMemos(updated);
+    try {
+      await SecureStore.setItemAsync(MEMO_STORE_KEY, JSON.stringify(updated));
+    } catch (e) {
+      console.log('Error saving memos:', e);
+    }
+  };
 
   useEffect(() => {
     let timer: any;
@@ -48,26 +56,28 @@ export default function VoiceNotesScreen({ navigation }: any) {
     return () => clearInterval(timer);
   }, [isRecording]);
 
-  const toggleRecording = () => {
+  const toggleRecording = async () => {
     if (!isRecording) {
       setIsRecording(true);
     } else {
       setIsRecording(false);
       const newMemo = {
         id: Date.now().toString(),
-        title: `Audio Memo #${memos.length + 1}`,
+        title: `Health Memo #${memos.length + 1}`,
         duration: `0:${recordDuration < 10 ? '0' : ''}${recordDuration}`,
-        date: 'Today',
+        date: new Date().toLocaleDateString(),
         tag: 'Patient Audio',
-        transcription: 'Voice recording saved locally in encrypted audio storage.',
+        transcription: 'Voice memo recorded and securely stored in encrypted device memory.',
       };
-      setMemos([newMemo, ...memos]);
-      Alert.alert('Saved', 'Encrypted voice memo recorded and saved to vault.');
+      const updated = [newMemo, ...memos];
+      await saveMemos(updated);
+      Alert.alert('Saved 🎙️', 'Voice memo captured and saved.');
     }
   };
 
-  const deleteMemo = (id: string) => {
-    setMemos(memos.filter((m) => m.id !== id));
+  const deleteMemo = async (id: string) => {
+    const updated = memos.filter((m) => m.id !== id);
+    await saveMemos(updated);
   };
 
   return (
@@ -110,36 +120,47 @@ export default function VoiceNotesScreen({ navigation }: any) {
       </Card>
 
       {/* Saved Voice Memos List */}
-      <SectionHeader title="Saved Memos" subtitle="Encrypted audio logs" style={{ marginTop: spacing.lg }} />
+      <SectionHeader title="Saved Memos" subtitle={`Encrypted audio logs (${memos.length})`} style={{ marginTop: spacing.lg }} />
 
-      {memos.map((memo) => (
-        <Card key={memo.id} style={styles.memoCard}>
-          <View style={styles.memoTop}>
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.memoTitle, { color: theme.heading }]}>{memo.title}</Text>
-              <Text style={[styles.memoDate, { color: theme.muted }]}>
-                📅 {memo.date} • ⏱️ {memo.duration}
-              </Text>
+      {memos.length === 0 ? (
+        <EmptyState
+          icon={<MaterialCommunityIcons name="microphone-outline" size={56} color={theme.border} />}
+          title="No Voice Memos Recorded"
+          subtitle="Tap the microphone icon above to record symptoms, doctor verbal advice, or personal health notes."
+        />
+      ) : (
+        memos.map((memo) => (
+          <Card key={memo.id} style={styles.memoCard}>
+            <View style={styles.memoTop}>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.memoTitle, { color: theme.heading }]}>{memo.title}</Text>
+                <Text style={[styles.memoDate, { color: theme.muted }]}>
+                  📅 {memo.date} • ⏱️ {memo.duration}
+                </Text>
+              </View>
+              <Badge label={memo.tag} color="blue" />
             </View>
-            <Badge label={memo.tag} color="blue" />
-          </View>
 
-          <Text style={[styles.transcriptionText, { color: theme.body }]}>
-            "{memo.transcription}"
-          </Text>
+            <Text style={[styles.transcriptionText, { color: theme.body }]}>
+              "{memo.transcription}"
+            </Text>
 
-          <View style={styles.memoActionRow}>
-            <TouchableOpacity style={styles.playBtn}>
-              <Ionicons name="play" size={16} color={theme.primary} />
-              <Text style={[styles.playBtnText, { color: theme.primary }]}>Play Audio</Text>
-            </TouchableOpacity>
+            <View style={styles.memoActionRow}>
+              <TouchableOpacity
+                style={styles.playBtn}
+                onPress={() => Alert.alert('Playing Memo', 'Audio playback simulated from encrypted vault.')}
+              >
+                <Ionicons name="play" size={16} color={theme.primary} />
+                <Text style={[styles.playBtnText, { color: theme.primary }]}>Play Audio</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => deleteMemo(memo.id)}>
-              <Ionicons name="trash-outline" size={18} color={theme.danger} />
-            </TouchableOpacity>
-          </View>
-        </Card>
-      ))}
+              <TouchableOpacity onPress={() => deleteMemo(memo.id)}>
+                <Ionicons name="trash-outline" size={18} color={theme.danger} />
+              </TouchableOpacity>
+            </View>
+          </Card>
+        ))
+      )}
     </ScrollView>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,20 +10,41 @@ import {
 } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as SecureStore from 'expo-secure-store';
 import * as ImagePicker from 'expo-image-picker';
 import { useTheme } from '../../context/ThemeContext';
-import { Card, Badge, HealthInput, PrimaryButton, SecondaryButton } from '../../components/ui';
+import { Card, Badge, HealthInput, PrimaryButton, SecondaryButton, EmptyState } from '../../components/ui';
 import { radius, spacing, fontSize, fontWeight } from '../../utils/theme';
+
+const VAULT_STORE_KEY = 'ehp_encrypted_vault_files';
 
 export default function PrivacyVaultScreen({ navigation }: any) {
   const { theme, isDark } = useTheme();
   const [passphrase, setPassphrase] = useState('');
   const [vaultUnlocked, setVaultUnlocked] = useState(false);
-  const [vaultFiles, setVaultFiles] = useState([
-    { id: '1', name: 'Blood_Test_CBC_Lipid_Profile.pdf', size: '1.8 MB', date: 'Aug 15, 2026', encrypted: true },
-    { id: '2', name: 'Cardiology_ECG_Echocardiogram.png', size: '3.4 MB', date: 'Jul 22, 2026', encrypted: true },
-    { id: '3', name: 'Star_Health_Policy_Document.pdf', size: '2.1 MB', date: 'Jun 10, 2026', encrypted: true },
-  ]);
+  const [vaultFiles, setVaultFiles] = useState<any[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const stored = await SecureStore.getItemAsync(VAULT_STORE_KEY);
+        if (stored) {
+          setVaultFiles(JSON.parse(stored));
+        }
+      } catch (e) {
+        console.log('Error reading vault files:', e);
+      }
+    })();
+  }, []);
+
+  const saveVault = async (files: any[]) => {
+    setVaultFiles(files);
+    try {
+      await SecureStore.setItemAsync(VAULT_STORE_KEY, JSON.stringify(files));
+    } catch (e) {
+      console.log('Error writing vault files:', e);
+    }
+  };
 
   const handleUnlock = () => {
     if (!passphrase || passphrase.length < 4) {
@@ -49,12 +70,27 @@ export default function PrivacyVaultScreen({ navigation }: any) {
         id: Date.now().toString(),
         name: `Encrypted_Scan_${vaultFiles.length + 1}.jpg`,
         size: '2.4 MB',
-        date: 'Today',
+        date: new Date().toLocaleDateString(),
         encrypted: true,
       };
-      setVaultFiles([newFile, ...vaultFiles]);
+      const updated = [newFile, ...vaultFiles];
+      await saveVault(updated);
       Alert.alert('Encrypted & Stored 🛡️', 'File encrypted on-device and saved into zero-knowledge vault.');
     }
+  };
+
+  const deleteFile = (id: string, name: string) => {
+    Alert.alert('Delete File', `Remove ${name}?`, [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: async () => {
+          const filtered = vaultFiles.filter((f) => f.id !== id);
+          await saveVault(filtered);
+        },
+      },
+    ]);
   };
 
   return (
@@ -121,28 +157,41 @@ export default function PrivacyVaultScreen({ navigation }: any) {
         ENCRYPTED VAULT ARCHIVE ({vaultFiles.length})
       </Text>
 
-      {vaultFiles.map((file) => (
-        <Card key={file.id} style={styles.fileCard}>
-          <View style={styles.fileRow}>
-            <View style={[styles.fileIconBox, { backgroundColor: theme.bgSecondary }]}>
-              <MaterialCommunityIcons
-                name={vaultUnlocked ? 'file-document-outline' : 'file-lock-outline'}
-                size={24}
-                color={vaultUnlocked ? theme.primary : theme.danger}
-              />
+      {vaultFiles.length === 0 ? (
+        <EmptyState
+          icon={<MaterialCommunityIcons name="safe" size={56} color={theme.border} />}
+          title="Vault Is Empty"
+          subtitle="No private encrypted files stored. Unlock your vault and tap Upload to add sensitive medical records."
+        />
+      ) : (
+        vaultFiles.map((file) => (
+          <Card key={file.id} style={styles.fileCard}>
+            <View style={styles.fileRow}>
+              <View style={[styles.fileIconBox, { backgroundColor: theme.bgSecondary }]}>
+                <MaterialCommunityIcons
+                  name={vaultUnlocked ? 'file-document-outline' : 'file-lock-outline'}
+                  size={24}
+                  color={vaultUnlocked ? theme.primary : theme.danger}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.fileName, { color: theme.heading }]} numberOfLines={1}>
+                  {vaultUnlocked ? file.name : '••••••••••••••••••••.enc'}
+                </Text>
+                <Text style={[styles.fileMeta, { color: theme.muted }]}>
+                  {file.size} • {file.date}
+                </Text>
+              </View>
+              <Badge label={vaultUnlocked ? 'Decrypted' : 'Encrypted'} color={vaultUnlocked ? 'green' : 'blue'} />
+              {vaultUnlocked && (
+                <TouchableOpacity onPress={() => deleteFile(file.id, file.name)} style={{ padding: 4, marginLeft: 4 }}>
+                  <MaterialCommunityIcons name="trash-can-outline" size={18} color={theme.danger} />
+                </TouchableOpacity>
+              )}
             </View>
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.fileName, { color: theme.heading }]} numberOfLines={1}>
-                {vaultUnlocked ? file.name : '••••••••••••••••••••.enc'}
-              </Text>
-              <Text style={[styles.fileMeta, { color: theme.muted }]}>
-                {file.size} • {file.date}
-              </Text>
-            </View>
-            <Badge label={vaultUnlocked ? 'Decrypted' : 'Encrypted'} color={vaultUnlocked ? 'green' : 'blue'} />
-          </View>
-        </Card>
-      ))}
+          </Card>
+        ))
+      )}
     </ScrollView>
   );
 }

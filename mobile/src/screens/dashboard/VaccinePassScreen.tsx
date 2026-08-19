@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,58 +6,56 @@ import {
   ScrollView,
   TouchableOpacity,
   Platform,
+  ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import api from '../../api/api';
 import { useTheme } from '../../context/ThemeContext';
-import { Card, SectionHeader, Badge, PrimaryButton } from '../../components/ui';
+import { Card, SectionHeader, Badge, PrimaryButton, EmptyState } from '../../components/ui';
 import { radius, spacing, fontSize, fontWeight } from '../../utils/theme';
 
 export default function VaccinePassScreen({ navigation }: any) {
   const { theme, isDark } = useTheme();
+  const [vaccines, setVaccines] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const [vaccines] = useState([
-    {
-      name: 'COVID-19 mRNA Booster',
-      manufacturer: 'Pfizer-BioNTech',
-      date: 'Feb 12, 2025',
-      dose: '3rd Dose (Booster)',
-      batch: 'PFZ-99812A',
-      status: 'Valid Immunity',
-      validColor: 'green',
-    },
-    {
-      name: 'Tetanus Toxoid (TT)',
-      manufacturer: 'Serum Institute',
-      date: 'Jun 20, 2023',
-      dose: '1st Booster',
-      batch: 'TT-44109',
-      status: 'Valid until 2033',
-      validColor: 'green',
-    },
-    {
-      name: 'Hepatitis B Recombinant',
-      manufacturer: 'Bharat Biotech',
-      date: 'Nov 15, 2021',
-      dose: 'Complete Series',
-      batch: 'HBV-1200',
-      status: 'Lifelong Immunity',
-      validColor: 'blue',
-    },
-    {
-      name: 'Seasonal Influenza (Flu)',
-      manufacturer: 'Sanofi Pasteur',
-      date: 'Oct 10, 2024',
-      dose: 'Annual Dose',
-      batch: 'FLU-2024X',
-      status: 'Booster Due Soon',
-      validColor: 'amber',
-    },
-  ]);
+  const fetchVaccines = async () => {
+    try {
+      const res = await api.get('/vaccinations');
+      setVaccines(res.data || []);
+    } catch (e) {
+      console.log('Error fetching vaccinations for vaccine pass:', e);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchVaccines();
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchVaccines();
+  };
+
+  if (loading) {
+    return (
+      <View style={[styles.loader, { backgroundColor: theme.bg }]}>
+        <ActivityIndicator size="large" color={theme.primary} />
+      </View>
+    );
+  }
 
   return (
     <ScrollView
       style={[styles.container, { backgroundColor: theme.bg }]}
       contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primary]} />}
     >
       <SectionHeader
         title="Immunity Passport"
@@ -65,31 +63,50 @@ export default function VaccinePassScreen({ navigation }: any) {
         icon={<MaterialCommunityIcons name="needle" size={24} color={theme.primary} />}
       />
 
-      {/* Vaccine Pass Card */}
-      {vaccines.map((v, i) => (
-        <Card key={i} style={styles.vaccineCard}>
-          <View style={styles.vaxTop}>
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.vaxName, { color: theme.heading }]}>{v.name}</Text>
-              <Text style={[styles.vaxMfg, { color: theme.muted }]}>
-                {v.manufacturer} • Batch #{v.batch}
-              </Text>
+      {vaccines.length === 0 ? (
+        <View style={styles.emptyBox}>
+          <EmptyState
+            icon={<MaterialCommunityIcons name="needle" size={56} color={theme.border} />}
+            title="No Vaccinations Logged"
+            subtitle="You have not added any vaccination or booster records to your health pass yet."
+          />
+          <PrimaryButton
+            title="Log Your First Vaccination"
+            onPress={() => navigation.navigate('Vaccinations')}
+            icon={<MaterialCommunityIcons name="plus" size={18} color="#ffffff" />}
+            style={{ marginTop: spacing.md }}
+          />
+        </View>
+      ) : (
+        vaccines.map((v, i) => (
+          <Card key={v._id || i} style={styles.vaccineCard}>
+            <View style={styles.vaxTop}>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.vaxName, { color: theme.heading }]}>{v.vaccineName || v.name}</Text>
+                <Text style={[styles.vaxMfg, { color: theme.muted }]}>
+                  {v.provider || v.hospitalName || 'Verified Provider'} • Dose #{v.doseNumber || 1}
+                </Text>
+              </View>
+              <Badge label={v.nextDueDate ? `Due ${new Date(v.nextDueDate).toLocaleDateString()}` : 'Administered'} color="green" />
             </View>
-            <Badge label={v.status} color={v.validColor as any} />
-          </View>
 
-          <View style={[styles.vaxDetails, { backgroundColor: theme.bgSecondary }]}>
-            <View style={styles.detailCol}>
-              <Text style={[styles.detailLabel, { color: theme.muted }]}>DOSE</Text>
-              <Text style={[styles.detailVal, { color: theme.heading }]}>{v.dose}</Text>
+            <View style={[styles.vaxDetails, { backgroundColor: theme.bgSecondary }]}>
+              <View style={styles.detailCol}>
+                <Text style={[styles.detailLabel, { color: theme.muted }]}>DATE ADMINISTERED</Text>
+                <Text style={[styles.detailVal, { color: theme.heading }]}>
+                  {v.dateAdministered ? new Date(v.dateAdministered).toLocaleDateString() : 'Recorded'}
+                </Text>
+              </View>
+              {v.batchNumber ? (
+                <View style={styles.detailCol}>
+                  <Text style={[styles.detailLabel, { color: theme.muted }]}>BATCH NUMBER</Text>
+                  <Text style={[styles.detailVal, { color: theme.heading }]}>{v.batchNumber}</Text>
+                </View>
+              ) : null}
             </View>
-            <View style={styles.detailCol}>
-              <Text style={[styles.detailLabel, { color: theme.muted }]}>ADMINISTERED</Text>
-              <Text style={[styles.detailVal, { color: theme.heading }]}>{v.date}</Text>
-            </View>
-          </View>
-        </Card>
-      ))}
+          </Card>
+        ))
+      )}
     </ScrollView>
   );
 }
@@ -98,10 +115,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  loader: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   content: {
     padding: spacing.md,
     paddingTop: Platform.OS === 'ios' ? 60 : 40,
     paddingBottom: 80,
+  },
+  emptyBox: {
+    paddingVertical: spacing.xl,
   },
   vaccineCard: {
     padding: spacing.md,

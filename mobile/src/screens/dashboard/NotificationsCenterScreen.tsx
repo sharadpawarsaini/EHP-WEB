@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,49 +6,75 @@ import {
   ScrollView,
   TouchableOpacity,
   Platform,
+  ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
+import api from '../../api/api';
 import { useTheme } from '../../context/ThemeContext';
-import { Card, Badge } from '../../components/ui';
+import { Card, Badge, EmptyState } from '../../components/ui';
 import { radius, spacing, fontSize, fontWeight } from '../../utils/theme';
 
 export default function NotificationsCenterScreen({ navigation }: any) {
   const { theme, isDark } = useTheme();
-  const [notifications, setNotifications] = useState([
-    {
-      id: '1',
-      title: 'Paramedic Fast-Path QR Scanned',
-      message: 'Your emergency health pass was viewed by Apollo Hospital ER Staff.',
-      time: '12 mins ago',
-      type: 'emergency',
-      read: false,
-    },
-    {
-      id: '2',
-      title: 'Medication Dose Reminder',
-      message: 'Time to take Metformin (500mg) with your evening meal.',
-      time: '1 hour ago',
-      type: 'meds',
-      read: false,
-    },
-    {
-      id: '3',
-      title: 'Face ID Hardware Lock Updated',
-      message: 'New biometric token saved with hardware AES-256 encryption.',
-      time: 'Yesterday',
-      type: 'security',
-      read: true,
-    },
-    {
-      id: '4',
-      title: 'Vaccine Booster Due Alert',
-      message: 'Tetanus booster vaccination is recommended in 14 days.',
-      time: '3 days ago',
-      type: 'health',
-      read: true,
-    },
-  ]);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchRealNotifications = async () => {
+    try {
+      const [logsRes, medsRes] = await Promise.allSettled([
+        api.get('/access-logs'),
+        api.get('/medicines'),
+      ]);
+
+      const notifList: any[] = [];
+
+      // Add real paramedic / QR scan logs
+      if (logsRes.status === 'fulfilled' && Array.isArray(logsRes.value.data)) {
+        logsRes.value.data.forEach((log: any, i: number) => {
+          notifList.push({
+            id: log._id || `log_${i}`,
+            title: log.accessorRole ? `Emergency Access by ${log.accessorRole}` : 'Paramedic QR Scanned',
+            message: log.reason || log.location ? `Scanned at ${log.location || 'Hospital Location'}` : 'Your Emergency Health Card was viewed by emergency responders.',
+            time: log.timestamp ? new Date(log.timestamp).toLocaleString() : 'Recent Scan',
+            type: 'emergency',
+            read: false,
+          });
+        });
+      }
+
+      // Add real prescription alerts
+      if (medsRes.status === 'fulfilled' && Array.isArray(medsRes.value.data)) {
+        medsRes.value.data.filter((m: any) => m.active !== false).forEach((med: any, i: number) => {
+          notifList.push({
+            id: `med_${med._id || i}`,
+            title: `Medication Dose: ${med.name}`,
+            message: `Scheduled dosage: ${med.dosage || 'Standard dose'} (${med.frequency || 'Daily'}).`,
+            time: 'Active Schedule',
+            type: 'meds',
+            read: true,
+          });
+        });
+      }
+
+      setNotifications(notifList);
+    } catch (e) {
+      console.log('Error loading notifications:', e);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRealNotifications();
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchRealNotifications();
+  };
 
   const markAllRead = () => {
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
@@ -67,54 +93,80 @@ export default function NotificationsCenterScreen({ navigation }: any) {
     }
   };
 
+  if (loading) {
+    return (
+      <View style={[styles.loader, { backgroundColor: theme.bg }]}>
+        <ActivityIndicator size="large" color={theme.primary} />
+      </View>
+    );
+  }
+
   return (
     <ScrollView
       style={[styles.container, { backgroundColor: theme.bg }]}
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primary]} />}
     >
       <View style={styles.topBar}>
         <View>
           <Text style={[styles.pageTitle, { color: theme.heading }]}>Notification Center</Text>
-          <Text style={[styles.pageSub, { color: theme.muted }]}>Safety alerts & clinical updates</Text>
+          <Text style={[styles.pageSub, { color: theme.muted }]}>Live safety alerts & scan events</Text>
         </View>
-        <TouchableOpacity onPress={markAllRead} style={[styles.markReadBtn, { borderColor: theme.border }]}>
-          <Text style={[styles.markReadText, { color: theme.primary }]}>Mark all read</Text>
-        </TouchableOpacity>
+        {notifications.length > 0 && (
+          <TouchableOpacity onPress={markAllRead} style={[styles.markReadBtn, { borderColor: theme.border }]}>
+            <Text style={[styles.markReadText, { color: theme.primary }]}>Mark all read</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
-      {notifications.map((n) => {
-        const iconData = getIcon(n.type);
-        return (
-          <Card
-            key={n.id}
-            style={[
-              styles.notifCard,
-              !n.read && { borderColor: theme.primary, borderWidth: 1.5 },
-            ]}
-          >
-            <View style={styles.notifRow}>
-              <View style={[styles.iconBox, { backgroundColor: iconData.bg }]}>
-                <MaterialCommunityIcons name={iconData.name as any} size={22} color={iconData.color} />
-              </View>
-              <View style={{ flex: 1 }}>
-                <View style={styles.titleRow}>
-                  <Text style={[styles.notifTitle, { color: theme.heading }]}>{n.title}</Text>
-                  {!n.read && <View style={[styles.unreadDot, { backgroundColor: theme.primary }]} />}
+      {notifications.length === 0 ? (
+        <View style={styles.emptyWrap}>
+          <EmptyState
+            icon={<MaterialCommunityIcons name="bell-check-outline" size={56} color={theme.border} />}
+            title="All Caught Up!"
+            subtitle="No emergency scan alerts or pending notifications on your account."
+          />
+        </View>
+      ) : (
+        notifications.map((n) => {
+          const iconData = getIcon(n.type);
+          return (
+            <Card
+              key={n.id}
+              style={[
+                styles.notifCard,
+                !n.read && { borderColor: theme.primary, borderWidth: 1.5 },
+              ]}
+            >
+              <View style={styles.notifRow}>
+                <View style={[styles.iconBox, { backgroundColor: iconData.bg }]}>
+                  <MaterialCommunityIcons name={iconData.name as any} size={22} color={iconData.color} />
                 </View>
-                <Text style={[styles.notifMsg, { color: theme.muted }]}>{n.message}</Text>
-                <Text style={[styles.notifTime, { color: theme.muted }]}>{n.time}</Text>
+                <View style={{ flex: 1 }}>
+                  <View style={styles.titleRow}>
+                    <Text style={[styles.notifTitle, { color: theme.heading }]}>{n.title}</Text>
+                    {!n.read && <View style={[styles.unreadDot, { backgroundColor: theme.primary }]} />}
+                  </View>
+                  <Text style={[styles.notifMsg, { color: theme.muted }]}>{n.message}</Text>
+                  <Text style={[styles.notifTime, { color: theme.muted }]}>{n.time}</Text>
+                </View>
               </View>
-            </View>
-          </Card>
-        );
-      })}
+            </Card>
+          );
+        })
+      )}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  loader: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   content: {
     paddingHorizontal: 16,
     paddingTop: Platform.OS === 'ios' ? 60 : 40,
@@ -143,6 +195,9 @@ const styles = StyleSheet.create({
   markReadText: {
     fontSize: fontSize.xs,
     fontWeight: fontWeight.bold,
+  },
+  emptyWrap: {
+    paddingVertical: spacing.xl,
   },
   notifCard: {
     padding: spacing.md,

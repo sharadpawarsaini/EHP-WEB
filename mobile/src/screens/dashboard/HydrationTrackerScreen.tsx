@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,21 +8,46 @@ import {
   Platform,
 } from 'react-native';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import * as SecureStore from 'expo-secure-store';
 import { useTheme } from '../../context/ThemeContext';
 import { Card, SectionHeader, Badge, PrimaryButton, SecondaryButton } from '../../components/ui';
 import { radius, spacing, fontSize, fontWeight } from '../../utils/theme';
 
 export default function HydrationTrackerScreen({ navigation }: any) {
   const { theme, isDark } = useTheme();
-  const [currentMl, setCurrentMl] = useState(1500);
+  const todayKey = `ehp_hydration_${new Date().toISOString().split('T')[0]}`;
+  const [currentMl, setCurrentMl] = useState(0);
   const goalMl = 2500;
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const val = await SecureStore.getItemAsync(todayKey);
+        if (val) {
+          setCurrentMl(parseInt(val, 10) || 0);
+        }
+      } catch (e) {
+        console.log('Error reading hydration:', e);
+      }
+    })();
+  }, []);
+
+  const saveHydration = async (amount: number) => {
+    setCurrentMl(amount);
+    try {
+      await SecureStore.setItemAsync(todayKey, amount.toString());
+    } catch (e) {
+      console.log('Error saving hydration:', e);
+    }
+  };
+
   const addWater = (amount: number) => {
-    setCurrentMl((prev) => Math.min(prev + amount, 4000));
+    const nextVal = Math.min(currentMl + amount, 5000);
+    saveHydration(nextVal);
   };
 
   const resetWater = () => {
-    setCurrentMl(0);
+    saveHydration(0);
   };
 
   const percentage = Math.min(Math.round((currentMl / goalMl) * 100), 100);
