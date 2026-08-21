@@ -9,25 +9,42 @@ const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 export const uploadReport = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    if (!req.file) {
-      res.status(400).json({ message: 'Please upload a file' });
+    const {
+      title,
+      type,
+      aiDiagnosis,
+      aiCauses,
+      aiSummary,
+      aiUrgency,
+      aiRecommendations,
+      notes,
+    } = req.body;
+
+    if (!title && !req.file) {
+      res.status(400).json({ message: 'Please provide a title or upload a report file' });
       return;
     }
 
-    const { title } = req.body;
-    
     const report = await MedicalReport.create({
       userId: req.user.userId,
       memberId: req.user.memberId,
-      title: title || req.file.originalname,
-      fileName: req.file.filename,
-      fileUrl: `/uploads/reports/${req.file.filename}`,
-      fileType: req.file.mimetype,
-      fileSize: req.file.size,
+      title: title || req.file?.originalname || 'Diagnostic Lab Report',
+      type: type || 'Blood Test',
+      fileName: req.file ? req.file.filename : 'diagnostic_report.pdf',
+      fileUrl: req.file ? `/uploads/reports/${req.file.filename}` : '/uploads/reports/diagnostic_report.pdf',
+      fileType: req.file ? req.file.mimetype : 'application/pdf',
+      fileSize: req.file ? req.file.size : 1024,
+      aiDiagnosis: aiDiagnosis || null,
+      aiCauses: aiCauses || null,
+      aiSummary: aiSummary || null,
+      aiUrgency: aiUrgency || null,
+      aiRecommendations: Array.isArray(aiRecommendations) ? aiRecommendations : [],
+      notes: notes || '',
     });
 
     res.status(201).json(report);
   } catch (error) {
+    console.error('Error saving report:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -57,10 +74,12 @@ export const deleteReport = async (req: AuthRequest, res: Response): Promise<voi
       return;
     }
 
-    // Delete file from filesystem
-    const filePath = path.join(__dirname, '../../uploads/reports', report.fileName);
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
+    // Delete file from filesystem if present
+    if (report.fileName) {
+      const filePath = path.join(__dirname, '../../uploads/reports', report.fileName);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
     }
 
     await MedicalReport.deleteOne({ _id: req.params.id });
@@ -86,49 +105,24 @@ export const analyzeReport = async (req: AuthRequest, res: Response): Promise<vo
       return;
     }
 
-    // Build context from report metadata
-    const reportContext = `
-      Report Title: ${report.title}
-      File Type: ${report.fileType}
-      File Size: ${(report.fileSize / 1024).toFixed(1)} KB
-      Uploaded On: ${report.createdAt}
-    `;
-
-    // For text-readable files (PDFs), attempt to read content
-    let fileContent = '';
-    const filePath = path.join(__dirname, '../../uploads/reports', report.fileName);
-    
-    if (fs.existsSync(filePath) && report.fileType === 'application/pdf') {
-      // Read raw text from PDF (basic extraction)
-      const fileBuffer = fs.readFileSync(filePath);
-      const rawText = fileBuffer.toString('utf-8');
-      // Extract readable text chunks from PDF binary
-      const textMatches = rawText.match(/\(([^)]+)\)/g);
-      if (textMatches) {
-        fileContent = textMatches
-          .map(m => m.slice(1, -1))
-          .filter(t => t.length > 2 && /[a-zA-Z0-9]/.test(t))
-          .join(' ')
-          .slice(0, 3000); // Limit to 3000 chars
-      }
-    }
-
-    const prompt = fileContent 
-      ? `You are a helpful medical assistant. Analyze this medical report content and provide a summary in 3-4 simple bullet points for a non-medical person. Highlight any critical findings.\n\nReport: "${report.title}"\nContent: ${fileContent}`
-      : `You are a helpful medical assistant. Based on the report title "${report.title}", explain what this type of medical report typically contains, what key values a patient should look for, and what questions they should ask their doctor. Provide 3-4 concise bullet points.`;
-
-    console.log('Starting Groq analysis for report:', report.title);
+    const prompt = `You are a clinical diagnostic expert. Analyze this medical report title "${report.title}" and findings "${report.notes || ''}".
+    Extract:
+    1. Primary Disease / Detected Conditions
+    2. Underlying Causes and Biomarker Anomalies
+    3. Plain English Clinical Description & Summary
+    4. Actionable Next Steps and Physician Recommendations.
+    Format your response cleanly with clear section headings.`;
 
     const response = await axios.post(
       GROQ_API_URL,
       {
         model: 'llama-3.3-70b-versatile',
         messages: [
-          { role: 'system', content: 'You are a medical report analyst. Be concise, helpful, and use simple language. Always remind the patient to consult their doctor for professional advice.' },
+          { role: 'system', content: 'You are an advanced medical report diagnostic assistant. Be concise, clinical, and structured.' },
           { role: 'user', content: prompt }
         ],
-        temperature: 0.5,
-        max_tokens: 600
+        temperature: 0.4,
+        max_tokens: 700
       },
       {
         headers: {
@@ -139,9 +133,7 @@ export const analyzeReport = async (req: AuthRequest, res: Response): Promise<vo
     );
 
     const analysis = response.data.choices[0].message.content;
-    console.log('Analysis successful');
     res.json({ analysis });
-
   } catch (error: any) {
     console.error('AI Analysis Error:', error.response?.data || error.message);
     res.status(500).json({ 

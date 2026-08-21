@@ -69,14 +69,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const parsed = JSON.parse(stored);
         if (parsed.token) {
           await SecureStore.setItemAsync('token', parsed.token);
+          setUser({ _id: parsed._id, email: parsed.email, role: parsed.role || 'user' });
+          return true;
         }
-        setUser({ _id: parsed._id, email: parsed.email, role: parsed.role || 'user' });
-        return true;
       }
-      // If no stored token yet, create or use fallback active session
-      const fallbackUser = { _id: 'bio_user_1', email: 'user@ehp.health', role: 'user', token: 'bio_jwt_token' };
-      await login(fallbackUser);
-      return true;
+      // If no stored biometric enrollment exists, do NOT login as dummy user
+      return false;
     } catch (e) {
       console.log('Biometric login error:', e);
       return false;

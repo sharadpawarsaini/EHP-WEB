@@ -52,18 +52,41 @@ export default function LoginScreen({ navigation }: any) {
 
   const handleBiometricAuth = async () => {
     try {
+      // 1. Check if device has hardware support
       const hasHardware = await LocalAuthentication.hasHardwareAsync();
       const isEnrolled = await LocalAuthentication.isEnrolledAsync();
 
       if (!hasHardware || !isEnrolled) {
-        // If device has no hardware enrolled, allow simulator demo biometric unlock
-        const success = await biometricLogin();
-        if (success) {
-          Alert.alert('Face ID Verified ✓', 'Logged into your medical vault.');
-        }
+        Alert.alert(
+          'Biometrics Not Available',
+          'Your device does not have Face ID / Fingerprint configured. Would you like to create a new EHP account?',
+          [
+            { text: 'Cancel', style: 'cancel' },
+            { text: 'Sign Up', onPress: () => navigation.navigate('Register') },
+          ]
+        );
         return;
       }
 
+      // 2. Check if a biometric profile has been registered in the app
+      const storedBio = await SecureStore.getItemAsync('ehp_biometric_user_data');
+      if (!storedBio) {
+        Alert.alert(
+          'Face ID Not Registered ⚠️',
+          'No enrolled EHP account was found matching your face on this device.\n\nPlease sign up or log in with your password to enroll your Face ID.',
+          [
+            { text: 'Log In with Password', style: 'cancel' },
+            {
+              text: 'Sign Up Now ➔',
+              style: 'default',
+              onPress: () => navigation.navigate('Register'),
+            },
+          ]
+        );
+        return;
+      }
+
+      // 3. Scan biometrics
       const result = await LocalAuthentication.authenticateAsync({
         promptMessage: 'Scan Face ID to log into EHP Life-Link',
         fallbackLabel: 'Use Password',
@@ -74,13 +97,35 @@ export default function LoginScreen({ navigation }: any) {
         const success = await biometricLogin();
         if (success) {
           Alert.alert('Face ID Verified ✓', 'Welcome back! Logged in successfully.');
+        } else {
+          Alert.alert(
+            'Registration Required',
+            'Your biometric token has expired. Please sign in or register to renew your session.',
+            [
+              { text: 'Cancel', style: 'cancel' },
+              { text: 'Sign Up', onPress: () => navigation.navigate('Register') },
+            ]
+          );
         }
       } else {
-        Alert.alert('Face ID Failed', 'Biometric recognition was canceled or not matched.');
+        Alert.alert(
+          'Face ID Unrecognized ❌',
+          'Unregistered or unrecognized face detected.\n\nIf you are a new patient, please create an account with Face ID registration.',
+          [
+            { text: 'Retry', style: 'cancel' },
+            { text: 'Register Account', onPress: () => navigation.navigate('Register') },
+          ]
+        );
       }
     } catch (error) {
-      // Fallback
-      await biometricLogin();
+      Alert.alert(
+        'Authentication Error',
+        'Could not complete biometric scan. Would you like to register?',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Register', onPress: () => navigation.navigate('Register') },
+        ]
+      );
     }
   };
 

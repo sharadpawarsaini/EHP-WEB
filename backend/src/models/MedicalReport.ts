@@ -15,21 +15,49 @@ const medicalReportSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  type: {
+    type: String,
+    default: 'Blood Test',
+  },
   fileName: {
     type: String,
-    required: true,
+    default: 'diagnostic_report.pdf',
   },
   fileUrl: {
     type: String,
-    required: true,
+    default: '/uploads/reports/diagnostic_report.pdf',
   },
   fileType: {
     type: String,
-    required: true,
+    default: 'application/pdf',
   },
   fileSize: {
     type: Number,
-    required: true,
+    default: 1024,
+  },
+  aiDiagnosis: {
+    type: String,
+    default: null,
+  },
+  aiCauses: {
+    type: String,
+    default: null,
+  },
+  aiSummary: {
+    type: String,
+    default: null,
+  },
+  aiUrgency: {
+    type: String,
+    default: null,
+  },
+  aiRecommendations: {
+    type: [String],
+    default: [],
+  },
+  notes: {
+    type: String,
+    default: '',
   },
 }, {
   timestamps: true,
